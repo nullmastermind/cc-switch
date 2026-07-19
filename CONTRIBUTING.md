@@ -20,7 +20,7 @@ There are many ways to contribute:
 
 ### Prerequisites
 
-- Node.js 18+ and pnpm 8+
+- Bun 1.3+
 - Rust 1.85+ and Cargo
 - [Tauri 2.0 prerequisites](https://v2.tauri.app/start/prerequisites/)
 
@@ -28,23 +28,23 @@ There are many ways to contribute:
 
 ```bash
 # Install dependencies
-pnpm install
+bun install
 
 # Start development server with hot reload
-pnpm dev
+bun run dev
 ```
 
 ### Useful Commands
 
 | Command | Description |
 |---------|-------------|
-| `pnpm dev` | Start dev server (hot reload) |
-| `pnpm build` | Production build |
-| `pnpm typecheck` | TypeScript type checking |
-| `pnpm test:unit` | Run unit tests |
-| `pnpm lint` | ESLint check |
-| `pnpm format` | Format code (Prettier) |
-| `pnpm format:check` | Check code formatting |
+| `bun run dev` | Start dev server (hot reload) |
+| `bun run build` | Production build |
+| `bun run typecheck` | TypeScript type checking |
+| `bun run test:unit` | Run unit tests |
+| `bun run lint` | ESLint check |
+| `bun run format` | Format code (Prettier) |
+| `bun run format:check` | Check code formatting |
 
 For Rust backend:
 
@@ -57,14 +57,14 @@ cargo test       # Run tests
 
 ## Code Style
 
-- **Frontend**: Prettier for formatting, ESLint for linting, strict TypeScript (`pnpm typecheck`)
+- **Frontend**: Prettier for formatting, ESLint for linting, strict TypeScript (`bun run typecheck`)
 - **Backend**: `cargo fmt` for formatting, `cargo clippy` for linting
 - **Tauri 2.0**: Command names must use camelCase
 
 Run all checks before submitting:
 
 ```bash
-pnpm typecheck && pnpm format:check && pnpm test:unit
+bun run typecheck && bun run format:check && bun run test:unit
 cd src-tauri && cargo fmt --check && cargo clippy && cargo test
 ```
 
@@ -77,8 +77,8 @@ cd src-tauri && cargo fmt --check && cargo clippy && cargo test
 
 ### PR Checklist
 
-- [ ] `pnpm typecheck` passes
-- [ ] `pnpm format:check` passes
+- [ ] `bun run typecheck` passes
+- [ ] `bun run format:check` passes
 - [ ] `cargo clippy` passes (if Rust code changed)
 - [ ] Updated i18n files if user-facing text changed
 
@@ -148,7 +148,7 @@ CC Switch supports three languages. When modifying user-facing text:
 
 ### 前提条件
 
-- Node.js 18+ 和 pnpm 8+
+- Bun 1.3+
 - Rust 1.85+ 和 Cargo
 - [Tauri 2.0 开发环境](https://v2.tauri.app/start/prerequisites/)
 
@@ -156,23 +156,23 @@ CC Switch supports three languages. When modifying user-facing text:
 
 ```bash
 # 安装依赖
-pnpm install
+bun install
 
 # 启动开发服务器（热重载）
-pnpm dev
+bun run dev
 ```
 
 ### 常用命令
 
 | 命令 | 说明 |
 |------|------|
-| `pnpm dev` | 启动开发服务器（热重载） |
-| `pnpm build` | 构建生产版本 |
-| `pnpm typecheck` | TypeScript 类型检查 |
-| `pnpm test:unit` | 运行单元测试 |
-| `pnpm lint` | ESLint 检查 |
-| `pnpm format` | 格式化代码（Prettier） |
-| `pnpm format:check` | 检查代码格式 |
+| `bun run dev` | 启动开发服务器（热重载） |
+| `bun run build` | 构建生产版本 |
+| `bun run typecheck` | TypeScript 类型检查 |
+| `bun run test:unit` | 运行单元测试 |
+| `bun run lint` | ESLint 检查 |
+| `bun run format` | 格式化代码（Prettier） |
+| `bun run format:check` | 检查代码格式 |
 
 Rust 后端命令：
 
@@ -185,14 +185,14 @@ cargo test       # 运行测试
 
 ## 代码规范
 
-- **前端**：使用 Prettier 格式化、ESLint 检查、严格 TypeScript（`pnpm typecheck`）
+- **前端**：使用 Prettier 格式化、ESLint 检查、严格 TypeScript（`bun run typecheck`）
 - **后端**：使用 `cargo fmt` 格式化、`cargo clippy` 检查
 - **Tauri 2.0**：命令名必须使用 camelCase
 
 提交前运行所有检查：
 
 ```bash
-pnpm typecheck && pnpm format:check && pnpm test:unit
+bun run typecheck && bun run format:check && bun run test:unit
 cd src-tauri && cargo fmt --check && cargo clippy && cargo test
 ```
 
@@ -205,8 +205,8 @@ cd src-tauri && cargo fmt --check && cargo clippy && cargo test
 
 ### PR 检查清单
 
-- [ ] `pnpm typecheck` 通过
-- [ ] `pnpm format:check` 通过
+- [ ] `bun run typecheck` 通过
+- [ ] `bun run format:check` 通过
 - [ ] `cargo clippy` 通过（如修改了 Rust 代码）
 - [ ] 如修改了用户可见文本，已更新国际化文件
 

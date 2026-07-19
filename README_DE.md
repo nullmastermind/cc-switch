@@ -439,8 +439,7 @@ Laden Sie den neuesten Linux-Build von der Seite [Releases](../../releases) heru
 
 ### Umgebungsanforderungen
 
-- Node.js 18+
-- pnpm 8+
+- Bun 1.3+
 - Rust 1.85+
 - Tauri CLI 2.8+
 
@@ -448,31 +447,31 @@ Laden Sie den neuesten Linux-Build von der Seite [Releases](../../releases) heru
 
 ```bash
 # Abhängigkeiten installieren
-pnpm install
+bun install
 
 # Entwicklungsmodus (Hot Reload)
-pnpm dev
+bun run dev
 
 # Typprüfung
-pnpm typecheck
+bun run typecheck
 
 # Code formatieren
-pnpm format
+bun run format
 
 # Codeformatierung prüfen
-pnpm format:check
+bun run format:check
 
 # Frontend-Unit-Tests ausführen
-pnpm test:unit
+bun run test:unit
 
 # Tests im Watch-Modus ausführen (für die Entwicklung empfohlen)
-pnpm test:unit:watch
+bun run test:unit:watch
 
 # Anwendung bauen
-pnpm build
+bun run build
 
 # Debug-Version bauen
-pnpm tauri build --debug
+bun run tauri build --debug
 ```
 
 ### Entwicklung des Rust-Backends
@@ -508,13 +507,13 @@ cargo test --features test-hooks
 
 ```bash
 # Alle Tests ausführen
-pnpm test:unit
+bun run test:unit
 
 # Watch-Modus (automatische erneute Ausführung)
-pnpm test:unit:watch
+bun run test:unit:watch
 
 # Mit Coverage-Bericht
-pnpm test:unit --coverage
+bun run test:unit --coverage
 ```
 
 ### Tech-Stack
@@ -574,9 +573,9 @@ Issues und Vorschläge sind willkommen!
 
 Bitte stellen Sie vor dem Einreichen von PRs Folgendes sicher:
 
-- Typprüfung besteht: `pnpm typecheck`
-- Formatprüfung besteht: `pnpm format:check`
-- Unit-Tests bestehen: `pnpm test:unit`
+- Typprüfung besteht: `bun run typecheck`
+- Formatprüfung besteht: `bun run format:check`
+- Unit-Tests bestehen: `bun run test:unit`
 
 Eröffnen Sie für neue Funktionen bitte vor dem Einreichen eines PR ein Issue zur Diskussion. PRs für Funktionen, die nicht gut zum Projekt passen, können geschlossen werden.
 
