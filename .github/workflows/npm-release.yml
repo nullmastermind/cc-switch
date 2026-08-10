@@ -313,7 +313,12 @@ jobs:
               echo "$name@${{ needs.resolve.outputs.version }} is already on npm, skipping"
               continue
             fi
-            npm publish "$tarball" --access public --provenance
+            # `$PWD/` is required: given a bare relative path like
+            # `artifacts/x.tgz`, npm treats the argument as a git dependency
+            # spec and tries `git ls-remote ssh://git@github.com/artifacts/...`,
+            # failing with "Permission denied (publickey)". An absolute path (or
+            # a leading `./`) makes it read the local tarball.
+            npm publish "$PWD/$tarball" --access public --provenance
           done
 
       - name: Publish launcher
