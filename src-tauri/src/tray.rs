@@ -576,14 +576,16 @@ fn handle_auto_click(
             )));
         }
 
-        // 4) 更新托盘菜单
-        if let Ok(new_menu) = create_tray_menu(app, app_state.inner()) {
-            if let Some(tray) = app.tray_by_id(TRAY_ID) {
-                let _ = tray.set_menu(Some(new_menu));
+        // 更新托盘菜单
+        if app.tray_by_id(TRAY_ID).is_some() {
+            if let Ok(new_menu) = create_tray_menu(app, app_state.inner()) {
+                if let Some(tray) = app.tray_by_id(TRAY_ID) {
+                    let _ = tray.set_menu(Some(new_menu));
+                }
             }
         }
 
-        // 5) 发射事件到前端
+        // 发射事件到前端
         let event_data = serde_json::json!({
             "appType": app_type_str,
             "proxyEnabled": true,
@@ -620,10 +622,12 @@ fn handle_provider_click(
         // 由用户在页面/设置中手动开启。
         crate::services::ProviderService::switch(app_state.inner(), app_type.clone(), provider_id)?;
 
-        // 更新托盘菜单
-        if let Ok(new_menu) = create_tray_menu(app, app_state.inner()) {
-            if let Some(tray) = app.tray_by_id(TRAY_ID) {
-                let _ = tray.set_menu(Some(new_menu));
+        // 切換供應商後更新托盤菜單
+        if app.tray_by_id(TRAY_ID).is_some() {
+            if let Ok(new_menu) = create_tray_menu(app, app_state.inner()) {
+                if let Some(tray) = app.tray_by_id(TRAY_ID) {
+                    let _ = tray.set_menu(Some(new_menu));
+                }
             }
         }
 
@@ -920,12 +924,18 @@ fn update_tray_usage_labels(app: &tauri::AppHandle<crate::AppRuntime>) {
 pub fn refresh_tray_menu(app: &tauri::AppHandle<crate::AppRuntime>) {
     use crate::store::AppState;
 
+    // Skip the expensive menu build entirely when there is no tray to update.
+    // In npm/server mode the tray is never registered (MockRuntime), so
+    // create_tray_menu would waste ~2 min posting 100+ tasks to the mock event
+    // loop (1 task/second).
+    let Some(tray) = app.tray_by_id(TRAY_ID) else {
+        return;
+    };
+
     if let Some(state) = app.try_state::<AppState>() {
         if let Ok(new_menu) = create_tray_menu(app, state.inner()) {
-            if let Some(tray) = app.tray_by_id(TRAY_ID) {
-                if let Err(e) = tray.set_menu(Some(new_menu)) {
-                    log::error!("刷新托盘菜单失败: {e}");
-                }
+            if let Err(e) = tray.set_menu(Some(new_menu)) {
+                log::error!("刷新托盘菜单失败: {e}");
             }
         }
     }

@@ -304,14 +304,18 @@ async fn update_tray_menu(
     app: tauri::AppHandle<AppRuntime>,
     state: tauri::State<'_, AppState>,
 ) -> Result<bool, String> {
+    // Skip the expensive menu build when there is no tray (npm/server mode).
+    // MockRuntime drains one task per second, and create_tray_menu enqueues
+    // 100+ run_main_thread tasks — causing a multi-minute hang.
+    let Some(tray) = app.tray_by_id(tray::TRAY_ID) else {
+        return Ok(false);
+    };
+
     match tray::create_tray_menu(&app, state.inner()) {
         Ok(new_menu) => {
-            if let Some(tray) = app.tray_by_id(tray::TRAY_ID) {
-                tray.set_menu(Some(new_menu))
-                    .map_err(|e| format!("更新托盘菜单失败: {e}"))?;
-                return Ok(true);
-            }
-            Ok(false)
+            tray.set_menu(Some(new_menu))
+                .map_err(|e| format!("更新托盘菜单失败: {e}"))?;
+            Ok(true)
         }
         Err(err) => {
             log::error!("创建托盘菜单失败: {err}");
