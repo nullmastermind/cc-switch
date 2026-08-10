@@ -103,7 +103,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
         <Label>{t("codexOauth.authStatus", "认证状态")}</Label>
         <Badge
           variant={hasAnyAccount ? "default" : "secondary"}
-          className={hasAnyAccount ? "bg-positive hover:bg-positive" : ""}
+          className={hasAnyAccount ? "bg-green-500 hover:bg-green-600" : ""}
         >
           {hasAnyAccount
             ? t("codexOauth.accountCount", {
@@ -216,7 +216,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="h-7 w-7 text-muted-foreground hover:text-negative"
+                      className="h-7 w-7 text-muted-foreground hover:text-red-500"
                       onClick={(e) => handleRemoveAccount(account.id, e)}
                       disabled={isRemovingAccount}
                       title={t("codexOauth.removeAccount", "移除账号")}
@@ -285,7 +285,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
                 title={t("codexOauth.copyCode", "复制代码")}
               >
                 {copied ? (
-                  <Check className="h-4 w-4 text-positive" />
+                  <Check className="h-4 w-4 text-green-500" />
                 ) : (
                   <Copy className="h-4 w-4" />
                 )}
@@ -298,7 +298,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
               href={deviceCode.verification_uri}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-accent hover:underline"
+              className="inline-flex items-center gap-1 text-sm text-blue-500 hover:underline"
             >
               {deviceCode.verification_uri}
               <ExternalLink className="h-3 w-3" />
@@ -321,7 +321,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
       {/* 错误状态 */}
       {pollingState === "error" && error && (
         <div className="space-y-2">
-          <p className="text-sm text-negative">{error}</p>
+          <p className="text-sm text-red-500">{error}</p>
           <div className="flex gap-2">
             <Button
               type="button"
@@ -349,7 +349,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
           type="button"
           variant="outline"
           onClick={logout}
-          className="w-full text-negative hover:text-negative hover:bg-negative/10 dark:hover:bg-negative/10"
+          className="w-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
         >
           <LogOut className="mr-2 h-4 w-4" />
           {t("codexOauth.logoutAll", "注销所有账号")}

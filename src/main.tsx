@@ -2,9 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { DatabaseUpgrade } from "./components/DatabaseUpgrade";
-// Fonts — bundled locally (Tauri offline app, no CDN dependency)
-import "@fontsource-variable/ibm-plex-sans"; // variable weight, covers 100-700
-import "@fontsource/lilex/400.css"; // mono — regular weight sufficient
 import "./index.css";
 // 导入国际化配置
 import i18n from "./i18n";

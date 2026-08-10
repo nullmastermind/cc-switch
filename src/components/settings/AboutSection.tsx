@@ -83,21 +83,23 @@ const ENV_BADGE_CONFIG: Record<
 > = {
   wsl: {
     labelKey: "settings.envBadge.wsl",
-    className: "bg-warning/10 text-warning dark:text-warning border-warning/20",
+    className:
+      "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20",
   },
   windows: {
     labelKey: "settings.envBadge.windows",
-    className: "bg-accent/10 text-accent dark:text-accent border-accent/20",
+    className:
+      "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/20",
   },
   macos: {
     labelKey: "settings.envBadge.macos",
     className:
-      "bg-text-secondary/10 text-text-secondary dark:text-text-secondary border-border/20",
+      "bg-gray-500/10 text-gray-600 dark:text-gray-400 border-gray-500/20",
   },
   linux: {
     labelKey: "settings.envBadge.linux",
     className:
-      "bg-positive/10 text-positive dark:text-positive border-positive/20",
+      "bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20",
   },
 };
 
@@ -910,14 +912,14 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                     <Loader2 className="mt-1 h-4 w-4 animate-spin text-muted-foreground" />
                   ) : tool?.version ? (
                     isOutdated ? (
-                      <span className="mt-1 shrink-0 rounded-full border border-warning/20 bg-warning/10 px-1.5 py-0.5 text-[10px] text-warning dark:text-warning">
+                      <span className="mt-1 shrink-0 rounded-full border border-yellow-500/20 bg-yellow-500/10 px-1.5 py-0.5 text-[10px] text-yellow-600 dark:text-yellow-400">
                         {t("settings.updateAvailableShort")}
                       </span>
                     ) : (
-                      <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-positive" />
+                      <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-green-500" />
                     )
                   ) : (
-                    <AlertCircle className="mt-1 h-4 w-4 shrink-0 text-warning" />
+                    <AlertCircle className="mt-1 h-4 w-4 shrink-0 text-yellow-500" />
                   )}
                 </div>
 
@@ -999,8 +1001,8 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
 
                 {/* 多处安装冲突诊断结果：仅在懒触发后有数据时渲染。 */}
                 {conflicts && conflicts.length > 0 && (
-                  <div className="space-y-1.5 rounded-lg border border-warning/20 bg-warning/5 p-2.5">
-                    <div className="text-[11px] font-medium text-warning dark:text-warning">
+                  <div className="space-y-1.5 rounded-lg border border-yellow-500/20 bg-yellow-500/5 p-2.5">
+                    <div className="text-[11px] font-medium text-yellow-600 dark:text-yellow-400">
                       {t("settings.toolConflictTitle")}
                     </div>
                     <p className="text-[10px] leading-snug text-muted-foreground">
@@ -1023,7 +1025,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                     </span>
                   ) : installedButBroken ? (
                     // 已安装但跑不起来：重装无济于事，不给按钮，给一句指向环境的提示。
-                    <span className="text-xs text-warning dark:text-warning">
+                    <span className="text-xs text-yellow-600 dark:text-yellow-400">
                       {t("settings.toolCheckEnv")}
                     </span>
                   ) : action ? (

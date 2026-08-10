@@ -246,7 +246,7 @@ export function DeepLinkImportDialog() {
         <span
           className={`font-mono break-all ${
             risk
-              ? "text-warning dark:text-warning font-semibold"
+              ? "text-yellow-700 dark:text-yellow-500 font-semibold"
               : "text-muted-foreground"
           }`}
         >
@@ -298,7 +298,7 @@ export function DeepLinkImportDialog() {
             </DialogHeader>
 
             {/* 主体内容整体右移，略大于标题内边距，让内容看起来不贴边 */}
-            <div className="space-y-4 px-8 py-4 max-h-[60vh] overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:block [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-active dark:[&::-webkit-scrollbar-thumb]:bg-surface">
+            <div className="space-y-4 px-8 py-4 max-h-[60vh] overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:block [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-200 dark:[&::-webkit-scrollbar-thumb]:bg-gray-700">
               {request.resource === "prompt" && (
                 <PromptConfirmation request={request} />
               )}
@@ -349,7 +349,7 @@ export function DeepLinkImportDialog() {
                     <div className="font-medium text-sm text-muted-foreground">
                       {t("deeplink.homepage")}
                     </div>
-                    <div className="col-span-2 text-sm break-all text-accent dark:text-accent">
+                    <div className="col-span-2 text-sm break-all text-blue-600 dark:text-blue-400">
                       {request.homepage}
                     </div>
                   </div>
@@ -367,7 +367,7 @@ export function DeepLinkImportDialog() {
                             key={idx}
                             className={
                               endpointRisk
-                                ? "text-warning dark:text-warning font-semibold"
+                                ? "text-yellow-700 dark:text-yellow-500 font-semibold"
                                 : idx === 0
                                   ? "font-medium"
                                   : "text-muted-foreground"
@@ -483,7 +483,7 @@ export function DeepLinkImportDialog() {
                           {t("deeplink.configSource")}
                         </div>
                         <div className="col-span-2 text-sm">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-accent-subtle dark:bg-accent-subtle/30 text-accent dark:text-accent text-xs font-medium">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-medium">
                             {configSource === "base64"
                               ? t("deeplink.configEmbedded")
                               : t("deeplink.configRemote")}
@@ -620,8 +620,8 @@ export function DeepLinkImportDialog() {
                             <span
                               className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${
                                 request.usageEnabled === true
-                                  ? "bg-positive dark:bg-positive/30 text-positive dark:text-positive"
-                                  : "bg-bg-subtle dark:bg-surface text-text-secondary dark:text-text-secondary"
+                                  ? "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300"
+                                  : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400"
                               }`}
                             >
                               {request.usageEnabled === true
@@ -660,7 +660,7 @@ export function DeepLinkImportDialog() {
                         配置，用户之后在应用内一键即可开启。挂条件等于让攻击者省略参数就能
                         关掉这条警告。
                       */}
-                          <div className="text-warning dark:text-warning text-sm flex items-start gap-2">
+                          <div className="text-yellow-600 dark:text-yellow-500 text-sm flex items-start gap-2">
                             <span aria-hidden="true">⚠️</span>
                             <span>{t("deeplink.usageScriptWarning")}</span>
                           </div>
@@ -750,7 +750,7 @@ export function DeepLinkImportDialog() {
                   )}
 
                   {/* Warning */}
-                  <div className="rounded-lg bg-warning/10 dark:bg-warning/10 p-3 text-sm text-warning dark:text-warning">
+                  <div className="rounded-lg bg-yellow-50 dark:bg-yellow-900/20 p-3 text-sm text-yellow-800 dark:text-yellow-200">
                     {t("deeplink.warning")}
                   </div>
                 </>

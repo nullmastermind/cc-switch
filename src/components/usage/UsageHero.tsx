@@ -48,26 +48,26 @@ interface TitleTheme {
 const TITLE_THEMES: Record<AppType | "all", TitleTheme> = {
   all: { accent: "text-primary", iconBg: "bg-primary/10" },
   claude: {
-    accent: "text-warning dark:text-warning",
-    iconBg: "bg-warning/10",
+    accent: "text-amber-600 dark:text-amber-400",
+    iconBg: "bg-amber-500/10",
   },
   codex: {
     // OpenAI/Codex 走黑白单色调；中性灰在深浅模式都能透出方块底色，
     // 不像纯黑 bg-black/10 在深色背景下会糊掉。
-    accent: "text-text-secondary dark:dark:text-text-secondary",
-    iconBg: "bg-bg-subtle",
+    accent: "text-neutral-700 dark:text-neutral-300",
+    iconBg: "bg-neutral-500/10",
   },
   gemini: {
-    accent: "text-info dark:text-info",
-    iconBg: "bg-info/10",
+    accent: "text-sky-600 dark:text-sky-400",
+    iconBg: "bg-sky-500/10",
   },
   grokbuild: {
-    accent: "text-negative dark:text-negative",
-    iconBg: "bg-negative/10",
+    accent: "text-rose-600 dark:text-rose-400",
+    iconBg: "bg-rose-500/10",
   },
   opencode: {
-    accent: "text-accent dark:text-accent",
-    iconBg: "bg-accent/10",
+    accent: "text-purple-600 dark:text-purple-400",
+    iconBg: "bg-purple-500/10",
   },
 };
 
@@ -291,7 +291,7 @@ export function UsageHero({
                     {t("usage.totalRequests")}
                   </span>
                   <span className="font-semibold flex items-center gap-1.5 text-sm tabular-nums">
-                    <Activity className="h-3.5 w-3.5 text-accent" />
+                    <Activity className="h-3.5 w-3.5 text-blue-500" />
                     {requests.toLocaleString()}
                   </span>
                 </div>
@@ -300,7 +300,7 @@ export function UsageHero({
                   <span className="text-[10px] text-muted-foreground uppercase tracking-wider font-medium">
                     {t("usage.totalCost")}
                   </span>
-                  <span className="font-semibold text-positive text-sm tabular-nums">
+                  <span className="font-semibold text-green-500 text-sm tabular-nums">
                     {totalCost == null ? "--" : fmtUsd(totalCost, 4)}
                   </span>
                 </div>
@@ -313,19 +313,19 @@ export function UsageHero({
                 icon={<ArrowDownToLine className="h-3.5 w-3.5" />}
                 label={t("usage.freshInput", "新增输入")}
                 value={formatTokensShort(input, lang)}
-                accent="text-accent"
+                accent="text-blue-500"
               />
               <MiniStat
                 icon={<ArrowUpFromLine className="h-3.5 w-3.5" />}
                 label={t("usage.output")}
                 value={formatTokensShort(output, lang)}
-                accent="text-accent"
+                accent="text-purple-500"
               />
               <MiniStat
                 icon={<Database className="h-3.5 w-3.5" />}
                 label={t("usage.cacheWrite", "缓存写入")}
                 value={cacheWriteDisplay.value}
-                accent="text-warning"
+                accent="text-amber-500"
                 muted={cacheWriteDisplay.muted}
                 tooltip={cacheWriteDisplay.tooltip}
               />
@@ -333,7 +333,7 @@ export function UsageHero({
                 icon={<Sparkles className="h-3.5 w-3.5" />}
                 label={t("usage.cacheRead", "缓存命中")}
                 value={formatTokensShort(cacheRead, lang)}
-                accent="text-positive"
+                accent="text-emerald-500"
               />
 
               <div className="col-span-2 lg:col-span-1 flex flex-col justify-center rounded-xl border border-border/40 bg-background/40 p-3 shadow-sm">
@@ -341,13 +341,13 @@ export function UsageHero({
                   <span className="text-muted-foreground font-medium">
                     {t("usage.cacheHitRate", "缓存命中率")}
                   </span>
-                  <span className="font-bold text-positive tabular-nums">
+                  <span className="font-bold text-emerald-500 tabular-nums">
                     {hitPercentLabel}%
                   </span>
                 </div>
                 <div className="relative h-1.5 rounded-full bg-muted/60 overflow-hidden">
                   <motion.div
-                    className="absolute inset-y-0 left-0 bg-positive rounded-full"
+                    className="absolute inset-y-0 left-0 bg-emerald-500 rounded-full"
                     initial={{ width: 0 }}
                     animate={{ width: `${hitPercent}%` }}
                     transition={{ duration: 0.8, ease: "easeOut" }}

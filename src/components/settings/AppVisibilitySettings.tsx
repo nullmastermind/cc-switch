@@ -96,7 +96,7 @@ export function AppVisibilitySettings({
         })}
       </div>
       <ToggleRow
-        icon={<FolderOpen className="h-4 w-4 text-positive" />}
+        icon={<FolderOpen className="h-4 w-4 text-emerald-500" />}
         title={t("settings.appVisibility.showProfileSwitcher")}
         description={t("settings.appVisibility.showProfileSwitcherDescription")}
         checked={settings.showProfileSwitcher ?? true}

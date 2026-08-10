@@ -97,7 +97,7 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
     if (inline) {
       return (
         <div className="inline-flex items-center gap-2 text-xs rounded-lg border border-border-default bg-card px-3 py-2 shadow-sm">
-          <div className="flex items-center gap-1.5 text-negative dark:text-negative">
+          <div className="flex items-center gap-1.5 text-red-500 dark:text-red-400">
             <AlertCircle size={12} />
             <span>{t("usage.queryFailed")}</span>
           </div>
@@ -116,7 +116,7 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
     return (
       <div className="mt-3 rounded-xl border border-border-default bg-card px-4 py-3 shadow-sm">
         <div className="flex items-center justify-between gap-2 text-xs">
-          <div className="flex items-center gap-2 text-negative dark:text-negative">
+          <div className="flex items-center gap-2 text-red-500 dark:text-red-400">
             <AlertCircle size={14} />
             <span>{usage?.error || t("usage.queryFailed")}</span>
           </div>
@@ -125,7 +125,7 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
           <button
             onClick={() => refetch()}
             disabled={loading}
-            className="p-1 rounded hover:bg-bg-subtle dark:hover:bg-surface transition-colors disabled:opacity-50 flex-shrink-0"
+            className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors disabled:opacity-50 flex-shrink-0"
             title={t("usage.refreshUsage")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
@@ -223,10 +223,10 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
           {/* 已用 */}
           {firstUsage.used !== undefined && (
             <div className="flex items-center gap-0.5">
-              <span className="text-text-secondary dark:text-text-secondary">
+              <span className="text-gray-500 dark:text-gray-400">
                 {t("usage.used")}
               </span>
-              <span className="tabular-nums text-text-secondary dark:text-text-secondary font-medium">
+              <span className="tabular-nums text-gray-600 dark:text-gray-400 font-medium">
                 {firstUsage.used.toFixed(2)}
               </span>
             </div>
@@ -235,17 +235,17 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
           {/* 剩余 */}
           {firstUsage.remaining !== undefined && (
             <div className="flex items-center gap-0.5">
-              <span className="text-text-secondary dark:text-text-secondary">
+              <span className="text-gray-500 dark:text-gray-400">
                 {t("usage.remaining")}
               </span>
               <span
                 className={`font-semibold tabular-nums ${
                   isExpired
-                    ? "text-negative dark:text-negative"
+                    ? "text-red-500 dark:text-red-400"
                     : firstUsage.remaining <
                         (firstUsage.total || firstUsage.remaining) * 0.1
-                      ? "text-warning dark:text-warning"
-                      : "text-positive dark:text-positive"
+                      ? "text-orange-500 dark:text-orange-400"
+                      : "text-green-600 dark:text-green-400"
                 }`}
               >
                 {firstUsage.remaining.toFixed(2)}
@@ -255,7 +255,7 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
 
           {/* 单位 */}
           {firstUsage.unit && (
-            <span className="text-text-secondary dark:text-text-secondary">
+            <span className="text-gray-500 dark:text-gray-400">
               {firstUsage.unit}
             </span>
           )}
@@ -263,7 +263,7 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
           {/* 扩展字段 extra */}
           {firstUsage.extra && (
             <span
-              className="text-text-secondary dark:text-text-secondary truncate max-w-[150px]"
+              className="text-gray-500 dark:text-gray-400 truncate max-w-[150px]"
               title={firstUsage.extra}
             >
               {firstUsage.extra}
@@ -278,7 +278,7 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
     <div className="mt-3 rounded-xl border border-border-default bg-card px-4 py-3 shadow-sm">
       {/* 标题行：包含刷新按钮和自动查询时间 */}
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-text-secondary dark:text-text-secondary font-medium">
+        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
           {t("usage.planUsage")}
         </span>
         <div className="flex items-center gap-2">
@@ -333,12 +333,12 @@ const UsagePlanItem: React.FC<{ data: UsageData }> = ({ data }) => {
     <div className="flex items-center gap-3">
       {/* 标题部分：25% */}
       <div
-        className="text-xs text-text-secondary dark:text-text-secondary min-w-0"
+        className="text-xs text-gray-500 dark:text-gray-400 min-w-0"
         style={{ width: "25%" }}
       >
         {planName ? (
           <span
-            className={`font-medium truncate block ${isExpired ? "text-negative dark:text-negative" : ""}`}
+            className={`font-medium truncate block ${isExpired ? "text-red-500 dark:text-red-400" : ""}`}
             title={planName}
           >
             💰 {planName}
@@ -350,19 +350,19 @@ const UsagePlanItem: React.FC<{ data: UsageData }> = ({ data }) => {
 
       {/* 扩展字段：30% */}
       <div
-        className="text-xs text-text-secondary dark:text-text-secondary min-w-0 flex items-center gap-2"
+        className="text-xs text-gray-500 dark:text-gray-400 min-w-0 flex items-center gap-2"
         style={{ width: "30%" }}
       >
         {extra && (
           <span
-            className={`truncate ${isExpired ? "text-negative dark:text-negative" : ""}`}
+            className={`truncate ${isExpired ? "text-red-500 dark:text-red-400" : ""}`}
             title={extra}
           >
             {extra}
           </span>
         )}
         {isExpired && (
-          <span className="text-negative dark:text-negative font-medium text-[10px] px-1.5 py-0.5 bg-negative/10 dark:bg-negative/10/20 rounded flex-shrink-0">
+          <span className="text-red-500 dark:text-red-400 font-medium text-[10px] px-1.5 py-0.5 bg-red-50 dark:bg-red-900/20 rounded flex-shrink-0">
             {invalidMessage || t("usage.invalid")}
           </span>
         )}
@@ -376,46 +376,42 @@ const UsagePlanItem: React.FC<{ data: UsageData }> = ({ data }) => {
         {/* 总额度 */}
         {total !== undefined && (
           <>
-            <span className="text-text-secondary dark:text-text-secondary">
+            <span className="text-gray-500 dark:text-gray-400">
               {t("usage.total")}
             </span>
-            <span className="tabular-nums text-text-secondary dark:text-text-secondary">
+            <span className="tabular-nums text-gray-600 dark:text-gray-400">
               {total === -1 ? "∞" : total.toFixed(2)}
             </span>
-            <span className="text-text-secondary dark:text-text-secondary">
-              |
-            </span>
+            <span className="text-gray-400 dark:text-gray-600">|</span>
           </>
         )}
 
         {/* 已用额度 */}
         {used !== undefined && (
           <>
-            <span className="text-text-secondary dark:text-text-secondary">
+            <span className="text-gray-500 dark:text-gray-400">
               {t("usage.used")}
             </span>
-            <span className="tabular-nums text-text-secondary dark:text-text-secondary">
+            <span className="tabular-nums text-gray-600 dark:text-gray-400">
               {used.toFixed(2)}
             </span>
-            <span className="text-text-secondary dark:text-text-secondary">
-              |
-            </span>
+            <span className="text-gray-400 dark:text-gray-600">|</span>
           </>
         )}
 
         {/* 剩余额度 - 突出显示 */}
         {remaining !== undefined && (
           <>
-            <span className="text-text-secondary dark:text-text-secondary">
+            <span className="text-gray-500 dark:text-gray-400">
               {t("usage.remaining")}
             </span>
             <span
               className={`font-semibold tabular-nums ${
                 isExpired
-                  ? "text-negative dark:text-negative"
+                  ? "text-red-500 dark:text-red-400"
                   : remaining < (total || remaining) * 0.1
-                    ? "text-warning dark:text-warning"
-                    : "text-positive dark:text-positive"
+                    ? "text-orange-500 dark:text-orange-400"
+                    : "text-green-600 dark:text-green-400"
               }`}
             >
               {remaining.toFixed(2)}
@@ -424,9 +420,7 @@ const UsagePlanItem: React.FC<{ data: UsageData }> = ({ data }) => {
         )}
 
         {unit && (
-          <span className="text-text-secondary dark:text-text-secondary">
-            {unit}
-          </span>
+          <span className="text-gray-500 dark:text-gray-400">{unit}</span>
         )}
       </div>
     </div>

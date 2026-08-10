@@ -462,7 +462,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                     onClick={applyCustom}
                     className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                       selectedPreset === -1
-                        ? "bg-positive text-white dark:bg-positive"
+                        ? "bg-emerald-500 text-white dark:bg-emerald-600"
                         : "bg-accent text-muted-foreground hover:bg-accent/80"
                     }`}
                   >
@@ -477,7 +477,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                         onClick={() => applyPreset(idx)}
                         className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                           selectedPreset === idx
-                            ? "bg-positive text-white dark:bg-positive"
+                            ? "bg-emerald-500 text-white dark:bg-emerald-600"
                             : "bg-accent text-muted-foreground hover:bg-accent/80"
                         }`}
                         title={t(descriptionKey)}
@@ -494,10 +494,10 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
             <div>
               <div className="flex items-center justify-between mb-2">
                 <label className="block text-sm font-medium text-foreground">
-                  {t("mcp.form.title")} <span className="text-negative">*</span>
+                  {t("mcp.form.title")} <span className="text-red-500">*</span>
                 </label>
                 {!isEditing && idError && (
-                  <span className="text-xs text-negative dark:text-negative">
+                  <span className="text-xs text-red-500 dark:text-red-400">
                     {idError}
                   </span>
                 )}
@@ -708,7 +708,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 <button
                   type="button"
                   onClick={() => setIsWizardOpen(true)}
-                  className="text-sm text-accent dark:text-accent hover:text-accent dark:hover:text-accent transition-colors"
+                  className="text-sm text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
                 >
                   {t("mcp.form.useWizard")}
                 </button>
@@ -732,7 +732,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 />
               </div>
               {configError && (
-                <div className="flex items-center gap-2 mt-2 text-negative dark:text-negative text-sm flex-shrink-0">
+                <div className="flex items-center gap-2 mt-2 text-red-500 dark:text-red-400 text-sm flex-shrink-0">
                   <AlertCircle size={16} />
                   <span>{configError}</span>
                 </div>

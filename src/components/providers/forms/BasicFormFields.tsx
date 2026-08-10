@@ -79,7 +79,7 @@ export function BasicFormFields({
           <DialogContent
             variant="fullscreen"
             zIndex="top"
-            overlayClassName="bg-[var(--bg)] backdrop-blur-0"
+            overlayClassName="bg-[hsl(var(--background))] backdrop-blur-0"
             className="p-0 sm:rounded-none"
           >
             <div className="flex h-full flex-col">

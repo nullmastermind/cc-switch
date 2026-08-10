@@ -388,7 +388,7 @@ export function HermesFormFields({
                   <span
                     className={`text-[10px] font-medium px-1.5 py-0.5 rounded ${
                       index === 0
-                        ? "bg-accent/15 text-accent dark:text-accent"
+                        ? "bg-blue-500/15 text-blue-600 dark:text-blue-400"
                         : "bg-muted text-muted-foreground"
                     }`}
                   >

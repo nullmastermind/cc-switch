@@ -87,7 +87,7 @@ export const CodexAuthSection: React.FC<CodexAuthSectionProps> = ({
       />
 
       {error && (
-        <p className="text-xs text-negative dark:text-negative">{error}</p>
+        <p className="text-xs text-red-500 dark:text-red-400">{error}</p>
       )}
 
       {!error && (
@@ -283,7 +283,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
               type="checkbox"
               checked={goalModeEnabled}
               onChange={(e) => handleGoalModeToggle(e.target.checked)}
-              className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+              className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
             />
             {t("codexConfig.enableGoalMode")}
           </label>
@@ -297,7 +297,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
                 type="checkbox"
                 checked={remoteCompactionEnabled}
                 onChange={(e) => handleRemoteCompactionToggle(e.target.checked)}
-                className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+                className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
               />
               {t("codexConfig.enableRemoteCompaction")}
             </label>
@@ -308,7 +308,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
               type="checkbox"
               checked={useCommonConfig}
               onChange={(e) => onCommonConfigToggle(e.target.checked)}
-              className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+              className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
             />
             {t("codexConfig.writeCommonConfig")}
           </label>
@@ -319,14 +319,14 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
         <button
           type="button"
           onClick={onEditCommonConfig}
-          className="text-xs text-accent dark:text-accent hover:underline"
+          className="text-xs text-blue-500 dark:text-blue-400 hover:underline"
         >
           {t("codexConfig.editCommonConfig")}
         </button>
       </div>
 
       {commonConfigError && (
-        <p className="text-xs text-negative dark:text-negative text-right">
+        <p className="text-xs text-red-500 dark:text-red-400 text-right">
           {commonConfigError}
         </p>
       )}
@@ -339,7 +339,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
             type="checkbox"
             checked={toggleStates.contextWindow1M}
             onChange={(e) => handleContextWindowToggle(e.target.checked)}
-            className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+            className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
           />
           <span>{t("codexConfig.contextWindow1M")}</span>
         </label>
@@ -370,9 +370,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
       />
 
       {configError && (
-        <p className="text-xs text-negative dark:text-negative">
-          {configError}
-        </p>
+        <p className="text-xs text-red-500 dark:text-red-400">{configError}</p>
       )}
 
       {!configError && (

@@ -492,7 +492,7 @@ const EndpointSpeedTest: React.FC<EndpointSpeedTestProps> = ({
             {entries.length} {t("endpointTest.endpoints")}
           </div>
           <div className="flex items-center gap-3">
-            <label className="flex items-center gap-1.5 text-xs text-text-secondary dark:text-text-secondary">
+            <label className="flex items-center gap-1.5 text-xs text-gray-600 dark:text-gray-400">
               <input
                 type="checkbox"
                 checked={autoSelect}
@@ -551,7 +551,7 @@ const EndpointSpeedTest: React.FC<EndpointSpeedTestProps> = ({
             </Button>
           </div>
           {addError && (
-            <div className="flex items-center gap-1.5 text-xs text-negative dark:text-negative">
+            <div className="flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400">
               <AlertCircle className="h-3 w-3" />
               {addError}
             </div>
@@ -580,8 +580,8 @@ const EndpointSpeedTest: React.FC<EndpointSpeedTestProps> = ({
                     <div
                       className={`h-1.5 w-1.5 flex-shrink-0 rounded-full transition ${
                         isSelected
-                          ? "bg-accent dark:bg-accent"
-                          : "bg-active dark:bg-surface"
+                          ? "bg-blue-500 dark:bg-blue-400"
+                          : "bg-gray-300 dark:bg-gray-700"
                       }`}
                     />
 
@@ -600,25 +600,25 @@ const EndpointSpeedTest: React.FC<EndpointSpeedTestProps> = ({
                         <div
                           className={`font-mono text-sm font-medium ${
                             latency < 300
-                              ? "text-positive dark:text-positive"
+                              ? "text-emerald-600 dark:text-emerald-400"
                               : latency < 500
-                                ? "text-warning dark:text-warning"
+                                ? "text-yellow-600 dark:text-yellow-400"
                                 : latency < 800
-                                  ? "text-warning dark:text-warning"
-                                  : "text-negative dark:text-negative"
+                                  ? "text-orange-600 dark:text-orange-400"
+                                  : "text-red-600 dark:text-red-400"
                           }`}
                         >
                           {latency}ms
                         </div>
                       </div>
                     ) : isTesting ? (
-                      <Loader2 className="h-4 w-4 animate-spin text-text-secondary" />
+                      <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
                     ) : entry.error ? (
-                      <div className="text-xs text-text-secondary">
+                      <div className="text-xs text-gray-400">
                         {t("endpointTest.failed")}
                       </div>
                     ) : (
-                      <div className="text-xs text-text-secondary">—</div>
+                      <div className="text-xs text-gray-400">—</div>
                     )}
 
                     <button
@@ -627,7 +627,7 @@ const EndpointSpeedTest: React.FC<EndpointSpeedTestProps> = ({
                         event.stopPropagation();
                         handleRemoveEndpoint(entry);
                       }}
-                      className="opacity-0 transition hover:text-negative group-hover:opacity-100 dark:hover:text-negative"
+                      className="opacity-0 transition hover:text-red-600 group-hover:opacity-100 dark:hover:text-red-400"
                     >
                       <X className="h-4 w-4" />
                     </button>
@@ -644,7 +644,7 @@ const EndpointSpeedTest: React.FC<EndpointSpeedTestProps> = ({
 
         {/* 错误提示 */}
         {lastError && (
-          <div className="flex items-center gap-1.5 text-xs text-negative dark:text-negative">
+          <div className="flex items-center gap-1.5 text-xs text-red-600 dark:text-red-400">
             <AlertCircle className="h-3 w-3" />
             {lastError}
           </div>

@@ -65,7 +65,7 @@ const PromptListItem: React.FC<PromptListItemProps> = ({
             size="icon"
             onClick={() => onDelete(id)}
             disabled={disabled}
-            className="hover:text-negative hover:bg-negative/10 disabled:opacity-100 dark:hover:text-negative dark:hover:bg-negative/10"
+            className="hover:text-red-500 hover:bg-red-100 disabled:opacity-100 dark:hover:text-red-400 dark:hover:bg-red-500/10"
             title={t("common.delete")}
           >
             <Trash2 size={16} />

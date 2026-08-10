@@ -299,10 +299,11 @@ export function ProviderCard({
         "relative overflow-hidden rounded-xl border border-border p-4 transition-all duration-300",
         "bg-card text-card-foreground group",
         isAutoFailoverEnabled || isProxyTakeover
-          ? "hover:border-positive/50"
+          ? "hover:border-emerald-500/50"
           : "hover:border-border-active",
-        shouldUseGreen && "border-positive/60 shadow-sm shadow-emerald-500/10",
-        shouldUseBlue && "border-accent/60 shadow-sm shadow-blue-500/10",
+        shouldUseGreen &&
+          "border-emerald-500/60 shadow-sm shadow-emerald-500/10",
+        shouldUseBlue && "border-blue-500/60 shadow-sm shadow-blue-500/10",
         !(isActiveProvider || hasPersistentConfigHighlight) &&
           "hover:shadow-sm",
         dragHandleProps?.isDragging &&
@@ -356,20 +357,20 @@ export function ProviderCard({
               </h3>
 
               {isOmo && (
-                <span className="inline-flex items-center rounded-md bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-accent dark:bg-accent/40 dark:text-accent">
+                <span className="inline-flex items-center rounded-md bg-violet-100 px-1.5 py-0.5 text-[10px] font-semibold text-violet-700 dark:bg-violet-900/40 dark:text-violet-300">
                   OMO
                 </span>
               )}
 
               {isOmoSlim && (
-                <span className="inline-flex items-center rounded-md bg-accent px-1.5 py-0.5 text-[10px] font-semibold text-accent dark:bg-accent/40 dark:text-accent">
+                <span className="inline-flex items-center rounded-md bg-indigo-100 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">
                   Slim
                 </span>
               )}
 
               {appId === "claude-desktop" &&
                 providerNeedsRouting(appId, provider) && (
-                  <span className="inline-flex items-center rounded-md bg-info px-1.5 py-0.5 text-[10px] font-semibold text-info dark:bg-info/40 dark:text-info">
+                  <span className="inline-flex items-center rounded-md bg-sky-100 px-1.5 py-0.5 text-[10px] font-semibold text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">
                     {t("claudeDesktop.modeProxy", {
                       defaultValue: "需要路由",
                     })}
@@ -377,7 +378,7 @@ export function ProviderCard({
                 )}
 
               {appId === "claude" && providerNeedsRouting(appId, provider) && (
-                <span className="inline-flex items-center rounded-md bg-info px-1.5 py-0.5 text-[10px] font-semibold text-info dark:bg-info/40 dark:text-info">
+                <span className="inline-flex items-center rounded-md bg-sky-100 px-1.5 py-0.5 text-[10px] font-semibold text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">
                   {t("claudeCode.needsRouting", {
                     defaultValue: "需要路由",
                   })}
@@ -385,7 +386,7 @@ export function ProviderCard({
               )}
 
               {codexNeedsRouting && (
-                <span className="inline-flex items-center rounded-md bg-info px-1.5 py-0.5 text-[10px] font-semibold text-info dark:bg-info/40 dark:text-info">
+                <span className="inline-flex items-center rounded-md bg-sky-100 px-1.5 py-0.5 text-[10px] font-semibold text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">
                   {t("codex.needsRouting", {
                     defaultValue: "需要路由",
                   })}
@@ -393,7 +394,7 @@ export function ProviderCard({
               )}
 
               {appId === "claude" && provider.category === "official" && (
-                <span className="inline-flex items-center rounded-md bg-active px-1.5 py-0.5 text-[10px] font-semibold text-text dark:bg-surface/60 dark:text-text">
+                <span className="inline-flex items-center rounded-md bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 dark:bg-slate-700/60 dark:text-slate-200">
                   {t("claudeCode.noRoutingSupport", {
                     defaultValue: "不支持路由",
                   })}
@@ -401,7 +402,7 @@ export function ProviderCard({
               )}
 
               {appId === "codex" && supportsOfficialRouting && (
-                <span className="inline-flex items-center rounded-md bg-info px-1.5 py-0.5 text-[10px] font-semibold text-info dark:bg-info/40 dark:text-info">
+                <span className="inline-flex items-center rounded-md bg-sky-100 px-1.5 py-0.5 text-[10px] font-semibold text-sky-700 dark:bg-sky-900/40 dark:text-sky-300">
                   {isProxyTakeover
                     ? t("codex.officialRouting", {
                         defaultValue: "官方账号路由",
@@ -415,7 +416,7 @@ export function ProviderCard({
               {appId === "codex" &&
                 provider.category === "official" &&
                 !supportsOfficialRouting && (
-                  <span className="inline-flex items-center rounded-md bg-active px-1.5 py-0.5 text-[10px] font-semibold text-text dark:bg-surface/60 dark:text-text">
+                  <span className="inline-flex items-center rounded-md bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 dark:bg-slate-700/60 dark:text-slate-200">
                     {t("codex.noRoutingSupport", {
                       defaultValue: "不支持路由",
                     })}
@@ -438,7 +439,7 @@ export function ProviderCard({
               {provider.category === "third_party" &&
                 provider.meta?.isPartner && (
                   <span
-                    className="text-warning dark:text-warning"
+                    className="text-yellow-500 dark:text-yellow-400"
                     title={t("provider.officialPartner", {
                       defaultValue: "官方合作伙伴",
                     })}
@@ -449,7 +450,7 @@ export function ProviderCard({
 
               {isHermesReadOnly && (
                 <span
-                  className="inline-flex items-center rounded-md bg-active px-1.5 py-0.5 text-[10px] font-semibold text-text dark:bg-surface/60 dark:text-text"
+                  className="inline-flex items-center rounded-md bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 dark:bg-slate-700/60 dark:text-slate-200"
                   title={t("provider.managedByHermesHint", {
                     defaultValue: "由 Hermes 管理，请在 Hermes Web UI 中编辑",
                   })}
@@ -468,7 +469,7 @@ export function ProviderCard({
                 className={cn(
                   "inline-flex max-w-full items-center overflow-hidden text-left text-sm",
                   isClickableUrl
-                    ? "text-accent transition-colors hover:underline dark:text-accent cursor-pointer"
+                    ? "text-blue-500 transition-colors hover:underline dark:text-blue-400 cursor-pointer"
                     : "text-muted-foreground cursor-default",
                 )}
                 title={displayUrl}
@@ -513,7 +514,7 @@ export function ProviderCard({
                   />
                 ) : null
               ) : hasMultiplePlans ? (
-                <div className="flex items-center gap-2 text-xs text-text-secondary dark:text-text-secondary">
+                <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
                   <span className="font-medium">
                     {t("usage.multiplePlans", {
                       count: usage?.data?.length || 0,
@@ -538,7 +539,7 @@ export function ProviderCard({
                     e.stopPropagation();
                     setIsExpanded(!isExpanded);
                   }}
-                  className="p-1 rounded hover:bg-bg-subtle dark:hover:bg-surface transition-colors text-text-secondary dark:text-text-secondary flex-shrink-0"
+                  className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-500 dark:text-gray-400 flex-shrink-0"
                   title={
                     isExpanded
                       ? t("usage.collapse", { defaultValue: "收起" })

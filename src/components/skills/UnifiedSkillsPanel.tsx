@@ -792,7 +792,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
           {hasUpdate && (
             <Badge
               variant="outline"
-              className="shrink-0 text-[10px] px-1.5 py-0 h-4 border-warning text-warning dark:text-warning"
+              className="shrink-0 text-[10px] px-1.5 py-0 h-4 border-amber-500 text-amber-600 dark:text-amber-400"
             >
               {t("skills.updateAvailable")}
             </Badge>
@@ -825,7 +825,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
             variant="ghost"
             size="icon"
             className={cn(
-              "h-7 w-7 hover:text-accent hover:bg-accent-subtle dark:hover:text-accent dark:hover:bg-accent/10",
+              "h-7 w-7 hover:text-blue-500 hover:bg-blue-100 dark:hover:text-blue-400 dark:hover:bg-blue-500/10",
               actionsDisabled && !isUpdating && "disabled:opacity-100",
             )}
             onClick={onUpdate}
@@ -843,7 +843,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7 hover:text-negative hover:bg-negative/10 disabled:opacity-100 dark:hover:text-negative dark:hover:bg-negative/10"
+          className="h-7 w-7 hover:text-red-500 hover:bg-red-100 disabled:opacity-100 dark:hover:text-red-400 dark:hover:bg-red-500/10"
           onClick={onUninstall}
           disabled={actionsDisabled}
           title={t("skills.uninstall")}

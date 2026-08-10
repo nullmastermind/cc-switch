@@ -168,7 +168,7 @@ export function CommonConfigEditor({
                 id="useCommonConfig"
                 checked={useCommonConfig}
                 onChange={(e) => onCommonConfigToggle(e.target.checked)}
-                className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+                className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
               />
               <span>
                 {t("claudeConfig.writeCommonConfig", {
@@ -182,7 +182,7 @@ export function CommonConfigEditor({
           <button
             type="button"
             onClick={onEditClick}
-            className="text-xs text-accent dark:text-accent hover:text-accent dark:hover:text-accent transition-colors"
+            className="text-xs text-blue-400 dark:text-blue-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
           >
             {t("claudeConfig.editCommonConfig", {
               defaultValue: "编辑通用配置",
@@ -190,7 +190,7 @@ export function CommonConfigEditor({
           </button>
         </div>
         {commonConfigError && !isModalOpen && (
-          <p className="text-xs text-negative dark:text-negative text-right">
+          <p className="text-xs text-red-500 dark:text-red-400 text-right">
             {commonConfigError}
           </p>
         )}
@@ -202,7 +202,7 @@ export function CommonConfigEditor({
               onChange={(e) =>
                 handleToggle("hideAttribution", e.target.checked)
               }
-              className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+              className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
             />
             <span>{t("claudeConfig.hideAttribution")}</span>
           </label>
@@ -211,7 +211,7 @@ export function CommonConfigEditor({
               type="checkbox"
               checked={toggleStates.teammates}
               onChange={(e) => handleToggle("teammates", e.target.checked)}
-              className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+              className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
             />
             <span>{t("claudeConfig.enableTeammates")}</span>
           </label>
@@ -222,7 +222,7 @@ export function CommonConfigEditor({
               onChange={(e) =>
                 handleToggle("enableToolSearch", e.target.checked)
               }
-              className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+              className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
             />
             <span>{t("claudeConfig.enableToolSearch")}</span>
           </label>
@@ -231,7 +231,7 @@ export function CommonConfigEditor({
               type="checkbox"
               checked={toggleStates.effortMax}
               onChange={(e) => handleToggle("effortMax", e.target.checked)}
-              className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+              className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
             />
             <span>{t("claudeConfig.effortMax")}</span>
           </label>
@@ -242,7 +242,7 @@ export function CommonConfigEditor({
               onChange={(e) =>
                 handleToggle("disableAutoUpgrade", e.target.checked)
               }
-              className="w-4 h-4 text-accent bg-white dark:bg-surface border-border-default rounded focus:ring-accent dark:focus:ring-accent focus:ring-2"
+              className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
             />
             <span>{t("claudeConfig.disableAutoUpgrade")}</span>
           </label>
@@ -300,17 +300,17 @@ export function CommonConfigEditor({
         }
       >
         <div className="space-y-4">
-          <div className="rounded-lg border border-accent dark:border-accent bg-accent-subtle/50 dark:bg-accent-subtle/30 p-3 space-y-1.5">
-            <p className="text-sm font-medium text-accent dark:text-accent">
+          <div className="rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/30 p-3 space-y-1.5">
+            <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
               {t("commonConfig.guideTitle")}
             </p>
-            <p className="text-xs text-accent/80 dark:text-accent/80">
+            <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
               {t("commonConfig.guidePurpose")}
             </p>
-            <p className="text-xs text-accent/80 dark:text-accent/80">
+            <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
               {t("commonConfig.guideUsage")}
             </p>
-            <p className="text-xs text-accent/80 dark:text-accent/80">
+            <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
               {t("commonConfig.guideReExtract")}
             </p>
             <p className="text-xs text-muted-foreground">
@@ -342,7 +342,7 @@ export function CommonConfigEditor({
             language="json"
           />
           {commonConfigError && (
-            <p className="text-sm text-negative dark:text-negative">
+            <p className="text-sm text-red-500 dark:text-red-400">
               {commonConfigError}
             </p>
           )}

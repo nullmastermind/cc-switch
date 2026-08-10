@@ -120,7 +120,7 @@ export function RepoManagerPanel({
             />
           </div>
           {error && (
-            <p className="text-sm text-negative dark:text-negative">{error}</p>
+            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
           )}
           <Button
             onClick={handleAdd}
@@ -181,7 +181,7 @@ export function RepoManagerPanel({
                     type="button"
                     onClick={() => onRemove(repo.owner, repo.name)}
                     title={t("common.delete")}
-                    className="hover:text-negative hover:bg-negative/10 dark:hover:text-negative dark:hover:bg-negative/10"
+                    className="hover:text-red-500 hover:bg-red-100 dark:hover:text-red-400 dark:hover:bg-red-500/10"
                   >
                     <Trash2 className="h-4 w-4" />
                   </Button>

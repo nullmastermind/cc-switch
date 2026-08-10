@@ -32,7 +32,7 @@ export function RequestDetailPanel({
     return (
       <Dialog open onOpenChange={onClose}>
         <DialogContent className="max-w-2xl">
-          <div className="h-[400px] animate-pulse rounded bg-bg-subtle" />
+          <div className="h-[400px] animate-pulse rounded bg-gray-100" />
         </DialogContent>
       </Dialog>
     );
@@ -142,8 +142,8 @@ export function RequestDetailPanel({
                   <span
                     className={`inline-flex rounded-full px-2 py-1 text-xs ${
                       request.statusCode >= 200 && request.statusCode < 300
-                        ? "bg-positive text-positive"
-                        : "bg-negative/10 text-negative"
+                        ? "bg-green-100 text-green-800"
+                        : "bg-red-100 text-red-800"
                     }`}
                   >
                     {request.statusCode}
@@ -310,11 +310,11 @@ export function RequestDetailPanel({
 
           {/* 错误信息 */}
           {request.errorMessage && (
-            <div className="rounded-lg border border-negative bg-negative/10 p-4">
-              <h3 className="mb-2 font-semibold text-negative">
+            <div className="rounded-lg border border-red-200 bg-red-50 p-4">
+              <h3 className="mb-2 font-semibold text-red-800">
                 {t("usage.errorMessage", "错误信息")}
               </h3>
-              <p className="text-sm text-negative">{request.errorMessage}</p>
+              <p className="text-sm text-red-700">{request.errorMessage}</p>
             </div>
           )}
         </div>

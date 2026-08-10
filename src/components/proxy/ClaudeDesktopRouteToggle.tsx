@@ -84,7 +84,7 @@ export function ClaudeDesktopRouteToggle({
           className={cn(
             "h-4 w-4 transition-colors",
             isRunning
-              ? "text-positive status-heartbeat"
+              ? "text-emerald-500 status-heartbeat"
               : "text-muted-foreground",
           )}
         />

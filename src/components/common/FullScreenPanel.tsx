@@ -92,7 +92,7 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
           className="fixed inset-0 z-[60] flex flex-col"
-          style={{ backgroundColor: "var(--bg)" }}
+          style={{ backgroundColor: "hsl(var(--background))" }}
         >
           {/* Drag region - match App.tsx. Linux 上 DRAG_BAR_HEIGHT=0，
               直接跳过整个元素；macOS 保留 28px 拖拽占位。 */}
@@ -115,7 +115,7 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
             style={
               {
                 ...DRAG_REGION_STYLE,
-                backgroundColor: "var(--bg)",
+                backgroundColor: "hsl(var(--background))",
                 height: HEADER_HEIGHT,
               } as React.CSSProperties
             }
@@ -152,7 +152,7 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
           {footer && (
             <div
               className="flex-shrink-0 py-4 border-t border-border-default"
-              style={{ backgroundColor: "var(--bg)" }}
+              style={{ backgroundColor: "hsl(var(--background))" }}
             >
               <div className="px-6 flex items-center justify-end gap-3">
                 {footer}
