@@ -29,8 +29,9 @@ an SSH tunnel or VPN over exposing the port directly.
 
 ## Supported platforms
 
-Windows, macOS, and Linux, on x64 and arm64. The matching binary is installed
-automatically as an optional dependency of this package.
+Windows, macOS, and Linux, on x64 and arm64. Only the binary matching your
+platform is downloaded — it ships as an optional dependency, so an install
+pulls this package plus one platform package, not all six.
 
 ## Releasing (maintainers)
 
