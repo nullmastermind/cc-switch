@@ -1,10 +1,16 @@
-//! Bearer-token authentication for browser (server) mode.
+//! Optional bearer-token authentication for browser (server) mode.
 //!
-//! The headless server binds to loopback by default, but loopback alone is not
-//! a security boundary: any local process (including a browser page from an
-//! unrelated origin doing a fetch to `127.0.0.1`) could otherwise drive the
-//! whole config API. So every `/api/*` route requires a token that is generated
-//! fresh on each start and only printed to the terminal that launched us.
+//! Off by default: the server binds to loopback, and the common case is a
+//! single-user machine where an extra secret to copy around buys little. Pass
+//! `--token <TOKEN>` to turn the check on, and every `/api/*` route then
+//! requires it.
+//!
+//! Worth knowing when deciding: loopback is not by itself a security boundary.
+//! Without a token, any local process — and, via DNS rebinding, a page you have
+//! open from an unrelated origin — can drive the whole config API, which
+//! includes reading provider API keys and writing MCP entries that the CLIs
+//! later execute. `--token` is what closes that, so it is the right choice on a
+//! shared machine or any non-loopback bind.
 
 use std::sync::Arc;
 
@@ -16,22 +22,17 @@ use axum::{
 };
 use serde::Deserialize;
 
-/// The session token, generated once per server start.
+/// The token the user supplied via `--token`.
 ///
-/// Two v4 UUIDs (256 bits total, hyphens stripped) — the same source of
-/// randomness the app already relies on for provider/session ids, so no new
-/// dependency is needed just to produce a secret.
+/// User-chosen rather than generated, which is what makes it stable across
+/// restarts: a URL you bookmarked keeps working, because the same value comes
+/// back on the next launch.
 #[derive(Clone)]
 pub struct AuthToken(Arc<String>);
 
 impl AuthToken {
-    pub fn generate() -> Self {
-        let raw = format!(
-            "{}{}",
-            uuid::Uuid::new_v4().simple(),
-            uuid::Uuid::new_v4().simple()
-        );
-        Self(Arc::new(raw))
+    pub fn new(raw: impl Into<String>) -> Self {
+        Self(Arc::new(raw.into()))
     }
 
     pub fn as_str(&self) -> &str {
@@ -95,29 +96,26 @@ mod tests {
     use super::AuthToken;
 
     #[test]
-    fn generated_token_is_64_hex_chars() {
-        let token = AuthToken::generate();
-        assert_eq!(token.as_str().len(), 64);
-        assert!(token.as_str().chars().all(|c| c.is_ascii_hexdigit()));
-    }
-
-    #[test]
-    fn distinct_tokens_per_generation() {
-        assert_ne!(
-            AuthToken::generate().as_str(),
-            AuthToken::generate().as_str()
-        );
+    fn keeps_the_value_it_was_given() {
+        assert_eq!(AuthToken::new("s3cret").as_str(), "s3cret");
     }
 
     #[test]
     fn matches_only_the_exact_token() {
-        let token = AuthToken::generate();
-        let value = token.as_str().to_string();
+        let token = AuthToken::new("s3cret-value");
 
-        assert!(token.matches(&value));
+        assert!(token.matches("s3cret-value"));
         assert!(!token.matches(""));
-        assert!(!token.matches(&value[..value.len() - 1]));
-        assert!(!token.matches(&format!("{value}x")));
-        assert!(!token.matches(&value.to_uppercase()));
+        assert!(!token.matches("s3cret-valu"));
+        assert!(!token.matches("s3cret-valuex"));
+        assert!(!token.matches("S3CRET-VALUE"));
+    }
+
+    /// Multi-byte input must not panic the comparison, which slices bytes.
+    #[test]
+    fn handles_non_ascii_candidates() {
+        let token = AuthToken::new("mật-khẩu");
+        assert!(token.matches("mật-khẩu"));
+        assert!(!token.matches("mat-khau"));
     }
 }

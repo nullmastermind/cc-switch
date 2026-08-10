@@ -7,8 +7,6 @@ npx -y @spec-ade/cli-switch
 ```
 
 This starts a local server and opens the Cli-Switch UI in your default browser.
-A random access token is generated on every start; the printed URL already
-includes it.
 
 ## Options
 
@@ -16,16 +14,34 @@ includes it.
 -p, --port <PORT>    Port to listen on (default: an OS-assigned free port)
     --host <HOST>    Address to bind (default: 127.0.0.1)
     --no-open        Do not open a browser automatically
+    --token <TOKEN>  Require this bearer token on /api/* (default: none)
 -h, --help           Print help
 ```
 
 ## Security
 
-The server binds to `127.0.0.1` by default and requires the printed token on
-every API request. Binding `--host 0.0.0.0` (or any non-loopback address)
-exposes your provider configuration — including API keys — to anyone who can
-reach that port and the token. Only do this on a trusted network, and prefer
-an SSH tunnel or VPN over exposing the port directly.
+The server binds to `127.0.0.1` by default, and the API is **unauthenticated**
+unless you pass `--token`.
+
+Loopback on its own is not a security boundary. With no token, any process on
+the machine — and, via DNS rebinding, a page you have open from an unrelated
+site — can read and change your provider configuration. That includes reading
+your API keys and writing MCP entries, which your CLI tools later execute.
+
+Pass a token to close that:
+
+```bash
+npx -y @spec-ade/cli-switch --token "$(openssl rand -hex 32)"
+```
+
+The printed URL then includes the token, and the browser stores it for later
+visits. Because the value is yours rather than generated, it stays the same
+across restarts and a bookmarked URL keeps working.
+
+Use a token whenever the machine is shared, and always when binding a
+non-loopback address. Binding `--host 0.0.0.0` exposes your provider
+configuration to anyone who can reach the port; prefer an SSH tunnel or VPN
+over exposing it directly.
 
 ## Supported platforms
 

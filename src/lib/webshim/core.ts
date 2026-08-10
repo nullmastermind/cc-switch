@@ -9,6 +9,8 @@
  * engine the desktop webview uses, so argument and return shapes are identical.
  */
 
+import { showAuthErrorOnce } from "./authError";
+
 export type InvokeArgs =
   Record<string, unknown> | number[] | ArrayBuffer | Uint8Array;
 
@@ -20,16 +22,18 @@ const TOKEN_STORAGE_KEY = "cc-switch:server-token";
 
 /**
  * The server prints a URL containing the token and opens it. We move the token
- * into `sessionStorage` and strip it from the address bar on first load, so it
+ * into `localStorage` and strip it from the address bar on first load, so it
  * does not linger in history, bookmarks, or a copy-pasted URL.
  *
- * `sessionStorage` (not `localStorage`) because the token is regenerated on
- * every server start; a stale one from a previous run is only noise.
+ * `localStorage` (not `sessionStorage`): the `--token` value a user chooses is
+ * stable across restarts, unlike the old auto-generated one, so a bookmarked
+ * tab or a freshly opened one should still find it rather than starting from
+ * scratch each time.
  */
 function readToken(): string {
   let token = "";
   try {
-    token = sessionStorage.getItem(TOKEN_STORAGE_KEY) ?? "";
+    token = localStorage.getItem(TOKEN_STORAGE_KEY) ?? "";
   } catch {
     // Private-mode or blocked storage — fall through to the URL.
   }
@@ -39,7 +43,7 @@ function readToken(): string {
   if (fromUrl) {
     token = fromUrl;
     try {
-      sessionStorage.setItem(TOKEN_STORAGE_KEY, token);
+      localStorage.setItem(TOKEN_STORAGE_KEY, token);
     } catch {
       // Keep the in-memory value; only persistence failed.
     }
@@ -57,6 +61,16 @@ export function getServerToken(): string {
     cachedToken = readToken();
   }
   return cachedToken;
+}
+
+/** Drops a token that the server just rejected, so it is not retried forever. */
+function forgetServerToken(): void {
+  cachedToken = "";
+  try {
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+  } catch {
+    // Nothing to clean up if storage was never reachable.
+  }
 }
 
 /** Thrown for transport-level failures, to keep them distinguishable from a command's own error. */
@@ -92,6 +106,17 @@ export async function invoke<T>(
     // 204 or an empty body maps to the unit return of a `-> Result<(), _>` command.
     const text = await response.text();
     return (text ? JSON.parse(text) : undefined) as T;
+  }
+
+  if (response.status === 401) {
+    // A previously-working token stopped being accepted (server restarted
+    // with a different `--token`, or this tab's copy is simply wrong) or none
+    // was ever available. Either way retrying with the same value cannot
+    // succeed, and the failure is otherwise invisible: this is commonly the
+    // very first `invoke()` in `bootstrap()`, before React has rendered
+    // anything a user could see.
+    forgetServerToken();
+    showAuthErrorOnce();
   }
 
   let payload: unknown;

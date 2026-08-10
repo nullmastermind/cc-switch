@@ -89,10 +89,11 @@ fn run_headless(
         .recv()
         .map_err(|_| "app setup ended without reporting readiness".to_string())??;
 
+    let token = options.token.clone().map(AuthToken::new);
     let handles = ServerHandles {
         app: ready.app_handle,
         webview: IpcWebview::new(ready.webview),
-        token: AuthToken::generate(),
+        token,
         options,
     };
 

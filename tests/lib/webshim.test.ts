@@ -24,7 +24,8 @@ async function importEvent() {
 beforeEach(() => {
   vi.resetModules();
   vi.unstubAllGlobals();
-  sessionStorage.clear();
+  localStorage.clear();
+  document.body.innerHTML = "";
   setLocation("");
 });
 
@@ -39,14 +40,26 @@ describe("webshim core", () => {
     const { getServerToken } = await importCore();
 
     expect(getServerToken()).toBe(TOKEN);
-    expect(sessionStorage.getItem("cc-switch:server-token")).toBe(TOKEN);
+    expect(localStorage.getItem("cc-switch:server-token")).toBe(TOKEN);
     expect(window.location.search).not.toContain("token");
   });
 
-  it("reuses a token from sessionStorage when the URL has none", async () => {
-    sessionStorage.setItem("cc-switch:server-token", TOKEN);
+  // localStorage (not sessionStorage): a bookmarked or reopened tab has no
+  // sessionStorage of its own, and the server keeps the same --token value
+  // across restarts, so there is no reason a saved token should only last
+  // one tab's lifetime.
+  it("reuses a token from localStorage when the URL has none", async () => {
+    localStorage.setItem("cc-switch:server-token", TOKEN);
     const { getServerToken } = await importCore();
     expect(getServerToken()).toBe(TOKEN);
+  });
+
+  it("prefers a token freshly given in the URL over a stored one", async () => {
+    localStorage.setItem("cc-switch:server-token", "stale-token");
+    setLocation(`?token=${TOKEN}`);
+    const { getServerToken } = await importCore();
+    expect(getServerToken()).toBe(TOKEN);
+    expect(localStorage.getItem("cc-switch:server-token")).toBe(TOKEN);
   });
 
   it("posts cmd/args to /api/invoke with the bearer token and returns parsed JSON", async () => {
@@ -154,6 +167,81 @@ describe("webshim core", () => {
 
     const [, init] = fetchMock.mock.calls[0] as [string, RequestInit];
     expect(new Headers(init.headers).has("Authorization")).toBe(false);
+  });
+});
+
+/**
+ * A 401 used to surface as a blank page: the rejection propagated out of
+ * bootstrap's first `invoke()` with nothing rendered yet, so the user saw only
+ * `{"error":"missing or invalid token"}` in devtools. These pin the two things
+ * that fixes it — drop the token that just failed, and say so on screen.
+ */
+describe("webshim core auth failure", () => {
+  function unauthorized() {
+    return new Response(JSON.stringify({ error: "missing or invalid token" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  it("clears the stored token so a stale one is not retried forever", async () => {
+    localStorage.setItem("cc-switch:server-token", TOKEN);
+    vi.stubGlobal("fetch", vi.fn(async () => unauthorized()));
+
+    const { invoke } = await importCore();
+    await expect(invoke("get_settings")).rejects.toBeDefined();
+
+    expect(localStorage.getItem("cc-switch:server-token")).toBeNull();
+  });
+
+  it("shows a readable message instead of leaving a blank page", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => unauthorized()));
+
+    const { invoke } = await importCore();
+    await expect(invoke("get_settings")).rejects.toBeDefined();
+
+    const overlay = document.querySelector("[data-cc-switch-auth-error]");
+    expect(overlay).not.toBeNull();
+    expect(overlay?.textContent).toMatch(/token/i);
+  });
+
+  it("still rejects with the server's error value", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => unauthorized()));
+
+    const { invoke } = await importCore();
+    await expect(invoke("get_settings")).rejects.toBe(
+      "missing or invalid token",
+    );
+  });
+
+  it("shows the message only once across repeated failures", async () => {
+    vi.stubGlobal("fetch", vi.fn(async () => unauthorized()));
+
+    const { invoke } = await importCore();
+    await expect(invoke("get_settings")).rejects.toBeDefined();
+    await expect(invoke("get_providers")).rejects.toBeDefined();
+
+    expect(
+      document.querySelectorAll("[data-cc-switch-auth-error]"),
+    ).toHaveLength(1);
+  });
+
+  it("leaves the page alone for a non-auth failure", async () => {
+    vi.stubGlobal(
+      "fetch",
+      vi.fn(
+        async () =>
+          new Response(JSON.stringify({ error: "provider not found" }), {
+            status: 400,
+            headers: { "Content-Type": "application/json" },
+          }),
+      ),
+    );
+
+    const { invoke } = await importCore();
+    await expect(invoke("switch_provider")).rejects.toBe("provider not found");
+
+    expect(document.querySelector("[data-cc-switch-auth-error]")).toBeNull();
   });
 });
 

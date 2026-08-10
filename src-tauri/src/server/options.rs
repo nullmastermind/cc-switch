@@ -20,6 +20,10 @@ OPTIONS:
         --host <HOST>    Address to bind (default: 127.0.0.1). Binding a
                          non-loopback address exposes the API to your network.
         --no-open        Do not open a browser automatically
+        --token <TOKEN>  Require this value as a bearer token on /api/*.
+                         Unset by default: with no token, anyone who can reach
+                         the port can read and change your provider
+                         configuration, including API keys.
     -h, --help           Print this help
 ";
 
@@ -28,6 +32,7 @@ pub struct ServerOptions {
     pub host: IpAddr,
     pub port: u16,
     pub open: bool,
+    pub token: Option<String>,
 }
 
 impl Default for ServerOptions {
@@ -36,6 +41,7 @@ impl Default for ServerOptions {
             host: DEFAULT_HOST,
             port: DEFAULT_PORT,
             open: true,
+            token: None,
         }
     }
 }
@@ -59,6 +65,12 @@ where
         match arg.as_str() {
             "-h" | "--help" => return Ok(ParseOutcome::Help),
             "--no-open" => options.open = false,
+            "--token" => {
+                let raw = args
+                    .next()
+                    .ok_or_else(|| format!("{arg} requires a value"))?;
+                options.token = Some(parse_token(&raw)?);
+            }
             "-p" | "--port" => {
                 let raw = args
                     .next()
@@ -77,6 +89,8 @@ where
                     options.port = parse_port(raw)?;
                 } else if let Some(raw) = other.strip_prefix("--host=") {
                     options.host = parse_host(raw)?;
+                } else if let Some(raw) = other.strip_prefix("--token=") {
+                    options.token = Some(parse_token(raw)?);
                 } else {
                     return Err(format!("unrecognized argument `{other}`"));
                 }
@@ -92,6 +106,13 @@ fn parse_port(raw: &str) -> Result<u16, String> {
         .map_err(|_| format!("invalid port `{raw}` (expected 0-65535)"))
 }
 
+fn parse_token(raw: &str) -> Result<String, String> {
+    if raw.trim().is_empty() {
+        return Err("--token requires a non-empty value".to_string());
+    }
+    Ok(raw.to_string())
+}
+
 fn parse_host(raw: &str) -> Result<IpAddr, String> {
     match raw {
         // Convenience aliases; `localhost` is not parseable as an IpAddr.
@@ -105,7 +126,7 @@ fn parse_host(raw: &str) -> Result<IpAddr, String> {
 
 #[cfg(test)]
 mod tests {
-    use super::{parse, ParseOutcome, ServerOptions, DEFAULT_HOST, DEFAULT_PORT};
+    use super::{parse, ParseOutcome, ServerOptions, DEFAULT_HOST, DEFAULT_PORT, HELP};
     use std::net::{IpAddr, Ipv4Addr};
 
     fn run(args: &[&str]) -> ServerOptions {
@@ -142,6 +163,32 @@ mod tests {
     #[test]
     fn no_open_disables_browser_launch() {
         assert!(!run(&["--no-open"]).open);
+    }
+
+    #[test]
+    fn no_token_by_default() {
+        assert_eq!(run(&[]).token, None);
+    }
+
+    #[test]
+    fn parses_token_in_both_forms() {
+        assert_eq!(run(&["--token", "s3cret"]).token.as_deref(), Some("s3cret"));
+        assert_eq!(run(&["--token=s3cret"]).token.as_deref(), Some("s3cret"));
+    }
+
+    /// `--token ""` would otherwise turn the check on while accepting an empty
+    /// bearer value, which is worse than either intent.
+    #[test]
+    fn rejects_an_empty_token() {
+        assert!(parse(["--token", ""]).is_err());
+        assert!(parse(["--token="]).is_err());
+        assert!(parse(["--token", "   "]).is_err());
+        assert!(parse(["--token"]).is_err());
+    }
+
+    #[test]
+    fn token_is_documented_in_help() {
+        assert!(HELP.contains("--token"));
     }
 
     #[test]
