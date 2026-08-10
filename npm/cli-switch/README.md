@@ -31,3 +31,23 @@ an SSH tunnel or VPN over exposing the port directly.
 
 Windows, macOS, and Linux, on x64 and arm64. The matching binary is installed
 automatically as an optional dependency of this package.
+
+## Releasing (maintainers)
+
+Publishing to npm is automated by `.github/workflows/npm-release.yml`:
+
+- **Publishing a GitHub release** (the normal path) builds all six platform
+  binaries and publishes them plus the launcher.
+- **Pushing an `npm-v*` tag** does the same, for publishing npm-only fixes
+  without cutting a desktop release.
+- **Running the workflow manually** defaults to a dry run — it builds and packs
+  but publishes nothing. Untick `dry_run` to publish for real.
+
+The version comes from the release tag, not from the checked-in
+`package.json` files (whose versions are placeholders that CI overwrites via
+`npm/set-version.mjs`). The tag must match the app version in the repo's root
+`package.json`, so bump that before tagging.
+
+Requires an `NPM_TOKEN` secret on the `release` environment. Re-running a
+finished release is safe: already-published versions are skipped rather than
+failing the run.

@@ -5,11 +5,21 @@ name: npm Release
 # bundles and is left untouched.
 
 on:
+  # Publishing a GitHub release is enough to ship to npm.
+  # `published` also covers flipping an existing draft release to public.
+  release:
+    types: [published]
+  # Tag trigger kept so npm can ship independently of a desktop release
+  # (e.g. a launcher/webshim-only fix that needs no new desktop bundles).
   push:
     tags:
       - 'npm-v*'
   workflow_dispatch:
     inputs:
+      version:
+        description: 'Version to publish (blank = read from package.json)'
+        type: string
+        required: false
       dry_run:
         description: 'Build and pack without publishing'
         type: boolean
@@ -19,12 +29,75 @@ permissions:
   contents: read
 
 concurrency:
-  group: npm-release-${{ github.ref_name }}
-  cancel-in-progress: true
+  # Grouped by tag/release name: if a release-published and a tag-push event
+  # both point at the same version, they queue instead of racing
+  # (`cancel-in-progress: true` could cancel one mid-`npm publish`).
+  group: npm-release-${{ github.event.release.tag_name || github.ref_name }}
+  cancel-in-progress: false
 
 jobs:
+  # Resolve the version once and share it with every other job, so build and
+  # publish never derive it independently and drift when a trigger is added.
+  resolve:
+    name: Resolve version
+    runs-on: ubuntu-22.04
+    outputs:
+      version: ${{ steps.resolve.outputs.version }}
+      publish: ${{ steps.resolve.outputs.publish }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Resolve version and publish mode
+        id: resolve
+        shell: bash
+        env:
+          # Passed through env instead of interpolated straight into the
+          # script: a tag/input is user-controlled data, and interpolating it
+          # directly would be a script-injection hole.
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+
+          case "${{ github.event_name }}" in
+            release)          raw="$RELEASE_TAG" ;;
+            push)             raw="${GITHUB_REF#refs/tags/}" ;;
+            workflow_dispatch) raw="${INPUT_VERSION:-$(node -p "require('./package.json').version")}" ;;
+            *) echo "unsupported event: ${{ github.event_name }}" >&2; exit 1 ;;
+          esac
+
+          # Reuses set-version.mjs's own normalize/validate instead of a
+          # second semver regex here — two copies drift apart over time.
+          # A bad tag is caught here, before spending 6 runners on a build.
+          if ! version="$(RAW="$raw" node --input-type=module -e "
+            import { normalizeVersion } from './npm/set-version.mjs';
+            console.log(normalizeVersion(process.env.RAW));
+          ")"; then
+            echo "::error::invalid tag/version: '$raw' (expected v1.2.3, npm-v1.2.3, or 1.2.3)"
+            exit 1
+          fi
+
+          # release/tag events publish for real; workflow_dispatch defaults to a dry run.
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            publish="${{ inputs.dry_run == false }}"
+          else
+            publish=true
+          fi
+
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "publish=$publish" >> "$GITHUB_OUTPUT"
+          {
+            echo "### npm release"
+            echo ""
+            echo "- trigger: \`${{ github.event_name }}\`"
+            echo "- version: \`$version\`"
+            echo "- publish: \`$publish\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   build:
     name: Build ${{ matrix.target }}
+    needs: resolve
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
@@ -96,6 +169,16 @@ jobs:
       - name: Install frontend deps
         run: bun install --frozen-lockfile
 
+      # No --allow-app-mismatch: for a real release/tag, the version must match
+      # the repo root's package.json (i.e. the maintainer bumped it before
+      # tagging). A mismatch here means the bump was forgotten, so this fails
+      # the build hard rather than publishing the wrong version to npm.
+      # workflow_dispatch can still test an arbitrary version by bumping
+      # package.json on the same test branch.
+      - name: Stamp npm package versions
+        shell: bash
+        run: node npm/set-version.mjs "${{ needs.resolve.outputs.version }}"
+
       - name: Build web frontend
         run: bun run build:web
 
@@ -132,9 +215,15 @@ jobs:
 
   publish:
     name: Publish to npm
-    needs: build
+    needs: [resolve, build]
     runs-on: ubuntu-22.04
     environment: release
+    permissions:
+      contents: read
+      # Only this job needs it: `npm publish --provenance` signs an
+      # attestation over OIDC. Provenance only works for a public repo on a
+      # GitHub-hosted runner.
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -162,32 +251,71 @@ jobs:
             ls -la artifacts >&2
             exit 1
           fi
+          # Every tarball must carry the resolved version — catches a build
+          # job that ran against stale source (e.g. a cache or rerun mismatch).
+          for tarball in artifacts/*.tgz; do
+            found=$(tar -xzO -f "$tarball" package/package.json | node -p "JSON.parse(require('fs').readFileSync(0)).version")
+            if [ "$found" != "${{ needs.resolve.outputs.version }}" ]; then
+              echo "$tarball has version $found, expected ${{ needs.resolve.outputs.version }}" >&2
+              exit 1
+            fi
+          done
+
+      # This checkout is a separate job from `build`, so the version stamp
+      # applied there is not inherited — the launcher's own package.json
+      # (published directly, not from a tarball) needs it stamped again here.
+      #
+      # Same strict validation as the build job: if build already passed,
+      # this passes too, so --allow-app-mismatch here would only drop a
+      # safety check without buying anything.
+      - name: Stamp launcher package version
+        shell: bash
+        run: node npm/set-version.mjs "${{ needs.resolve.outputs.version }}"
 
       # Platform packages go first: the launcher lists them as
       # optionalDependencies at an exact version, so publishing it first would
       # leave a window where `npx` resolves a launcher whose binaries do not
       # exist yet.
       - name: Publish platform packages
-        if: github.event_name == 'push' || inputs.dry_run == false
+        if: needs.resolve.outputs.publish == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         shell: bash
         run: |
           set -euxo pipefail
           for tarball in artifacts/*.tgz; do
+            name=$(tar -xzO -f "$tarball" package/package.json | node -p "JSON.parse(require('fs').readFileSync(0)).name")
+            # Idempotent: if this version was already published (e.g. a rerun
+            # after the publish job failed partway through), skip it instead
+            # of letting `npm publish` error out and turn the run red for
+            # no reason.
+            if npm view "$name@${{ needs.resolve.outputs.version }}" version >/dev/null 2>&1; then
+              echo "$name@${{ needs.resolve.outputs.version }} is already on npm, skipping"
+              continue
+            fi
             npm publish "$tarball" --access public --provenance
           done
 
       - name: Publish launcher
-        if: github.event_name == 'push' || inputs.dry_run == false
+        if: needs.resolve.outputs.publish == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         working-directory: npm/cli-switch
-        run: npm publish --access public --provenance
-
-      - name: Dry run summary
-        if: github.event_name == 'workflow_dispatch' && inputs.dry_run
         shell: bash
         run: |
-          echo "Dry run — nothing published. Packed tarballs:"
-          ls -la artifacts
+          set -euxo pipefail
+          if npm view "@spec-ade/cli-switch@${{ needs.resolve.outputs.version }}" version >/dev/null 2>&1; then
+            echo "@spec-ade/cli-switch@${{ needs.resolve.outputs.version }} is already on npm, skipping"
+            exit 0
+          fi
+          npm publish --access public --provenance
+
+      - name: Summary
+        shell: bash
+        run: |
+          if [ "${{ needs.resolve.outputs.publish }}" = "true" ]; then
+            echo "Published version ${{ needs.resolve.outputs.version }} to npm."
+          else
+            echo "Dry run — nothing published. Packed tarballs:"
+            ls -la artifacts
+          fi
