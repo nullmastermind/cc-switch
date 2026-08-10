@@ -172,7 +172,7 @@ pub async fn restore_codex_unified_history() -> Result<CodexUnifyHistoryRestoreR
 
 /// 重启应用程序（当 app_config_dir 变更后使用）
 #[tauri::command]
-pub async fn restart_app(app: AppHandle) -> Result<bool, String> {
+pub async fn restart_app(app: AppHandle<crate::AppRuntime>) -> Result<bool, String> {
     crate::save_window_state_before_exit(&app);
 
     // 在后台延迟重启，让函数有时间返回响应
@@ -195,7 +195,7 @@ pub async fn restart_app(app: AppHandle) -> Result<bool, String> {
 /// `process.relaunch()`，旧进程可能已经处在 bundle 被替换后的不稳定窗口期。
 /// 这里把退出清理、安装和重启串在同一个后端流程中，避免依赖旧前端继续执行。
 #[tauri::command]
-pub async fn install_update_and_restart(app: AppHandle) -> Result<bool, String> {
+pub async fn install_update_and_restart(app: AppHandle<crate::AppRuntime>) -> Result<bool, String> {
     let updater = app
         .updater_builder()
         .build()
@@ -272,7 +272,9 @@ pub async fn install_update_and_restart(app: AppHandle) -> Result<bool, String> 
 /// 已是最新版本，但数据库仍不兼容（通常由第三方客户端或更高版本创建），应提示用户
 /// 升级无法解决，而不是让其反复尝试。
 #[tauri::command]
-pub async fn check_app_update_available(app: AppHandle) -> Result<Option<String>, String> {
+pub async fn check_app_update_available(
+    app: AppHandle<crate::AppRuntime>,
+) -> Result<Option<String>, String> {
     let updater = app
         .updater_builder()
         .build()
@@ -286,7 +288,9 @@ pub async fn check_app_update_available(app: AppHandle) -> Result<Option<String>
 
 /// 获取 app_config_dir 覆盖配置 (从 Store)
 #[tauri::command]
-pub async fn get_app_config_dir_override(app: AppHandle) -> Result<Option<String>, String> {
+pub async fn get_app_config_dir_override(
+    app: AppHandle<crate::AppRuntime>,
+) -> Result<Option<String>, String> {
     Ok(crate::app_store::refresh_app_config_dir_override(&app)
         .map(|p| p.to_string_lossy().to_string()))
 }
@@ -294,7 +298,7 @@ pub async fn get_app_config_dir_override(app: AppHandle) -> Result<Option<String
 /// 设置 app_config_dir 覆盖配置 (到 Store)
 #[tauri::command]
 pub async fn set_app_config_dir_override(
-    app: AppHandle,
+    app: AppHandle<crate::AppRuntime>,
     path: Option<String>,
 ) -> Result<bool, String> {
     crate::app_store::set_app_config_dir_to_store(&app, path.as_deref())?;

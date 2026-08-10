@@ -102,7 +102,7 @@ pub fn switch_provider_test_hook(
 
 #[tauri::command]
 pub async fn switch_provider(
-    app_handle: tauri::AppHandle,
+    app_handle: tauri::AppHandle<crate::AppRuntime>,
     app: String,
     id: String,
 ) -> Result<SwitchResult, String> {
@@ -440,7 +440,7 @@ pub(crate) fn suggested_claude_desktop_routes(
 #[allow(non_snake_case)]
 #[tauri::command]
 pub async fn queryProviderUsage(
-    app_handle: tauri::AppHandle,
+    app_handle: tauri::AppHandle<crate::AppRuntime>,
     state: State<'_, AppState>,
     copilot_state: State<'_, CopilotAuthState>,
     xai_state: State<'_, XaiOAuthState>,
@@ -863,7 +863,7 @@ pub struct UniversalProviderSyncedEvent {
     pub id: String,
 }
 
-fn emit_universal_provider_synced(app: &AppHandle, action: &str, id: &str) {
+fn emit_universal_provider_synced(app: &AppHandle<crate::AppRuntime>, action: &str, id: &str) {
     let _ = app.emit(
         "universal-provider-synced",
         UniversalProviderSyncedEvent {
@@ -890,7 +890,7 @@ pub fn get_universal_provider(
 
 #[tauri::command]
 pub fn upsert_universal_provider(
-    app: AppHandle,
+    app: AppHandle<crate::AppRuntime>,
     state: State<'_, AppState>,
     provider: UniversalProvider,
 ) -> Result<bool, String> {
@@ -905,7 +905,7 @@ pub fn upsert_universal_provider(
 
 #[tauri::command]
 pub fn delete_universal_provider(
-    app: AppHandle,
+    app: AppHandle<crate::AppRuntime>,
     state: State<'_, AppState>,
     id: String,
 ) -> Result<bool, String> {
@@ -919,7 +919,7 @@ pub fn delete_universal_provider(
 
 #[tauri::command]
 pub fn sync_universal_provider(
-    app: AppHandle,
+    app: AppHandle<crate::AppRuntime>,
     state: State<'_, AppState>,
     id: String,
 ) -> Result<bool, String> {

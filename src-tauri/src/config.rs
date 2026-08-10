@@ -199,6 +199,41 @@ pub fn get_claude_settings_path() -> PathBuf {
     settings
 }
 
+/// 兼容 v3.10.3：当用户环境存在 `HOME` 且与真实用户目录不同，v3.10.3 可能在
+/// `HOME/.cc-switch/` 下创建/使用了数据库。仅在“默认位置没有数据库”时回退到
+/// 旧位置，避免再次出现“供应商消失”问题，同时也避免新安装因为 `HOME` 被设置
+/// 而写入非预期路径。
+///
+/// `has_test_home_override` 必须优先于本回退：否则在设置了 `HOME` 的 shell
+/// （Git Bash / MSYS / CI）里，即使调用方已经把 home 重定向到沙箱，只要沙箱里
+/// 还没有数据库，这里就会读到真实用户目录并绕过隔离——即“沙箱逃逸”。
+///
+/// 纯函数（不读环境变量、不做真实文件系统访问之外的 I/O），便于直接测试两条
+/// 分支，而不必依赖测试运行所在机器的真实 `HOME` 状态。
+#[cfg(windows)]
+fn resolve_windows_legacy_dir(
+    default_dir: &std::path::Path,
+    home_env: Option<&str>,
+    has_test_home_override: bool,
+    db_exists: impl Fn(&std::path::Path) -> bool,
+) -> Option<PathBuf> {
+    if has_test_home_override || db_exists(&default_dir.join("cc-switch.db")) {
+        return None;
+    }
+
+    let trimmed = home_env?.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+
+    let legacy_dir = PathBuf::from(trimmed).join(".cc-switch");
+    if db_exists(&legacy_dir.join("cc-switch.db")) {
+        Some(legacy_dir)
+    } else {
+        None
+    }
+}
+
 /// 获取应用配置目录路径 (~/.cc-switch)
 pub fn get_app_config_dir() -> PathBuf {
     if let Some(custom) = crate::app_store::get_app_config_dir_override() {
@@ -211,24 +246,23 @@ pub fn get_app_config_dir() -> PathBuf {
     // v3.10.3 可能在 `HOME/.cc-switch/` 下创建/使用了数据库。
     // 这里仅在“默认位置没有数据库”时回退到旧位置，避免再次出现“供应商消失”问题，
     // 同时也避免新安装因为 `HOME` 被设置而写入非预期路径。
+    //
+    // 决策逻辑抽到 `resolve_windows_legacy_dir`（纯函数）以便直接测试，
+    // 避免通过真实环境变量 + 真实用户目录间接断言。
     #[cfg(windows)]
     {
-        let default_db = default_dir.join("cc-switch.db");
-        if !default_db.exists() {
-            if let Ok(home_env) = std::env::var("HOME") {
-                let trimmed = home_env.trim();
-                if !trimmed.is_empty() {
-                    let legacy_dir = PathBuf::from(trimmed).join(".cc-switch");
-                    if legacy_dir.join("cc-switch.db").exists() {
-                        log::info!(
-                            "Detected v3.10.3 legacy database at {}, using it instead of {}",
-                            legacy_dir.display(),
-                            default_dir.display()
-                        );
-                        return legacy_dir;
-                    }
-                }
-            }
+        if let Some(legacy_dir) = resolve_windows_legacy_dir(
+            &default_dir,
+            std::env::var("HOME").ok().as_deref(),
+            std::env::var_os("CC_SWITCH_TEST_HOME").is_some(),
+            |path| path.exists(),
+        ) {
+            log::info!(
+                "Detected v3.10.3 legacy database at {}, using it instead of {}",
+                legacy_dir.display(),
+                default_dir.display()
+            );
+            return legacy_dir;
         }
     }
 
@@ -471,6 +505,99 @@ pub fn atomic_write(path: &Path, data: &[u8]) -> Result<(), AppError> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Direct tests of the extracted decision function — deterministic, no env
+    /// vars, no real filesystem/home-directory state, so they cannot pass
+    /// vacuously depending on what happens to exist on the machine running them
+    /// (unlike testing through `get_app_config_dir()`, where "the real home
+    /// already has a legacy DB" would make the override-priority branch
+    /// unreachable and the assertion trivially true).
+    #[cfg(windows)]
+    mod windows_legacy_dir_resolution {
+        use super::resolve_windows_legacy_dir;
+        use std::path::{Path, PathBuf};
+
+        fn exists_only(existing: &'static [&'static str]) -> impl Fn(&Path) -> bool {
+            move |path: &Path| {
+                let path = path.to_string_lossy().replace('\\', "/");
+                existing.iter().any(|candidate| path == *candidate)
+            }
+        }
+
+        /// The bug this whole function exists to fix: a test override present
+        /// but its sandbox not yet populated must NOT fall through to a real
+        /// legacy database.
+        #[test]
+        fn test_home_override_suppresses_the_fallback_even_with_no_sandbox_db() {
+            let default_dir = PathBuf::from("/sandbox/.cc-switch");
+            let result = resolve_windows_legacy_dir(
+                &default_dir,
+                Some("/real-home"),
+                true, // has_test_home_override
+                exists_only(&["/real-home/.cc-switch/cc-switch.db"]),
+            );
+            assert_eq!(result, None);
+        }
+
+        /// Without the override, a real legacy database must still be found —
+        /// this is the behavior the fallback exists to provide.
+        #[test]
+        fn legacy_db_is_used_when_default_is_empty_and_no_override_is_set() {
+            let default_dir = PathBuf::from("/home/.cc-switch");
+            let result = resolve_windows_legacy_dir(
+                &default_dir,
+                Some("/legacy-home"),
+                false,
+                exists_only(&["/legacy-home/.cc-switch/cc-switch.db"]),
+            );
+            assert_eq!(result, Some(PathBuf::from("/legacy-home/.cc-switch")));
+        }
+
+        /// If the default location already has a database, the fallback must
+        /// never override it, override flag or not.
+        #[test]
+        fn default_db_present_short_circuits_regardless_of_override() {
+            let default_dir = PathBuf::from("/home/.cc-switch");
+            let exists = exists_only(&[
+                "/home/.cc-switch/cc-switch.db",
+                "/legacy-home/.cc-switch/cc-switch.db",
+            ]);
+            assert_eq!(
+                resolve_windows_legacy_dir(&default_dir, Some("/legacy-home"), false, &exists),
+                None
+            );
+            assert_eq!(
+                resolve_windows_legacy_dir(&default_dir, Some("/legacy-home"), true, &exists),
+                None
+            );
+        }
+
+        #[test]
+        fn no_home_env_or_empty_home_env_yields_no_fallback() {
+            let default_dir = PathBuf::from("/home/.cc-switch");
+            let exists = exists_only(&["/legacy-home/.cc-switch/cc-switch.db"]);
+            assert_eq!(
+                resolve_windows_legacy_dir(&default_dir, None, false, &exists),
+                None
+            );
+            assert_eq!(
+                resolve_windows_legacy_dir(&default_dir, Some("   "), false, &exists),
+                None
+            );
+        }
+
+        #[test]
+        fn legacy_home_without_its_own_db_yields_no_fallback() {
+            let default_dir = PathBuf::from("/home/.cc-switch");
+            let result = resolve_windows_legacy_dir(
+                &default_dir,
+                Some("/legacy-home"),
+                false,
+                exists_only(&[]), // nothing exists anywhere
+            );
+            assert_eq!(result, None);
+        }
+    }
 
     #[cfg(windows)]
     #[test]

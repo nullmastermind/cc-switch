@@ -24,9 +24,47 @@ export default defineConfig(({ command }) => ({
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
+      // Browser (server) mode: swap Tauri's IPC/window/plugin modules for
+      // HTTP-backed shims, so the existing call sites keep importing
+      // "@tauri-apps/*" unchanged. Desktop builds are unaffected.
+      ...(process.env.BUILD_TARGET === "web"
+        ? {
+            "@tauri-apps/api/core": path.resolve(
+              __dirname,
+              "./src/lib/webshim/core.ts",
+            ),
+            "@tauri-apps/api/event": path.resolve(
+              __dirname,
+              "./src/lib/webshim/event.ts",
+            ),
+            "@tauri-apps/api/window": path.resolve(
+              __dirname,
+              "./src/lib/webshim/window.ts",
+            ),
+            "@tauri-apps/api/path": path.resolve(
+              __dirname,
+              "./src/lib/webshim/path.ts",
+            ),
+            "@tauri-apps/api/app": path.resolve(
+              __dirname,
+              "./src/lib/webshim/misc.ts",
+            ),
+            "@tauri-apps/plugin-dialog": path.resolve(
+              __dirname,
+              "./src/lib/webshim/misc.ts",
+            ),
+            "@tauri-apps/plugin-process": path.resolve(
+              __dirname,
+              "./src/lib/webshim/misc.ts",
+            ),
+            "@tauri-apps/plugin-log": path.resolve(
+              __dirname,
+              "./src/lib/webshim/misc.ts",
+            ),
+          }
+        : {}),
     },
   },
   clearScreen: false,
   envPrefix: ["VITE_", "TAURI_"],
 }));
-

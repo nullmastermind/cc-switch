@@ -45,7 +45,7 @@ const TIER_LABEL_GROUPS: &[(&str, &[&str])] = &[
 /// 每个 app 分区的子菜单句柄，用于 usage 更新时就地改 label 而非整菜单重建。
 /// `create_tray_menu` 每次重建都会整表覆盖写入，保证句柄始终指向当前活跃菜单。
 static TRAY_SECTION_SUBMENUS: Lazy<
-    std::sync::Mutex<std::collections::HashMap<AppType, Submenu<tauri::Wry>>>,
+    std::sync::Mutex<std::collections::HashMap<AppType, Submenu<crate::AppRuntime>>>,
 > = Lazy::new(|| std::sync::Mutex::new(std::collections::HashMap::new()));
 
 /// 托盘菜单文本（国际化）
@@ -386,7 +386,10 @@ fn sort_providers(
 /// 事件 id 形如 `profile_<scope>_<uuid>`（同一项目在各分组子菜单里各有一项，
 /// 应用时只作用于该分组）；`profile_none_<scope>` 表示某分组"不使用项目"
 /// （只清该分组标记，不动配置）。
-pub fn handle_profile_tray_event(app: &tauri::AppHandle, event_id: &str) -> bool {
+pub fn handle_profile_tray_event(
+    app: &tauri::AppHandle<crate::AppRuntime>,
+    event_id: &str,
+) -> bool {
     let Some(suffix) = event_id.strip_prefix("profile_") else {
         return false;
     };
@@ -471,7 +474,10 @@ pub fn handle_profile_tray_event(app: &tauri::AppHandle, event_id: &str) -> bool
 }
 
 /// 处理供应商托盘事件
-pub fn handle_provider_tray_event(app: &tauri::AppHandle, event_id: &str) -> bool {
+pub fn handle_provider_tray_event(
+    app: &tauri::AppHandle<crate::AppRuntime>,
+    event_id: &str,
+) -> bool {
     for section in TRAY_SECTIONS.iter() {
         if let Some(suffix) = event_id.strip_prefix(section.prefix) {
             // 处理 Auto 点击
@@ -504,7 +510,10 @@ pub fn handle_provider_tray_event(app: &tauri::AppHandle, event_id: &str) -> boo
 }
 
 /// 处理 Auto 点击：启用 proxy 和 auto_failover
-fn handle_auto_click(app: &tauri::AppHandle, app_type: &AppType) -> Result<(), AppError> {
+fn handle_auto_click(
+    app: &tauri::AppHandle<crate::AppRuntime>,
+    app_type: &AppType,
+) -> Result<(), AppError> {
     if let Some(app_state) = app.try_state::<AppState>() {
         let app_type_str = app_type.as_str();
 
@@ -594,7 +603,7 @@ fn handle_auto_click(app: &tauri::AppHandle, app_type: &AppType) -> Result<(), A
 
 /// 处理供应商点击：关闭 auto_failover + 切换供应商
 fn handle_provider_click(
-    app: &tauri::AppHandle,
+    app: &tauri::AppHandle<crate::AppRuntime>,
     app_type: &AppType,
     provider_id: &str,
 ) -> Result<(), AppError> {
@@ -638,9 +647,9 @@ fn handle_provider_click(
 
 /// 创建动态托盘菜单
 pub fn create_tray_menu(
-    app: &tauri::AppHandle,
+    app: &tauri::AppHandle<crate::AppRuntime>,
     app_state: &AppState,
-) -> Result<Menu<tauri::Wry>, AppError> {
+) -> Result<Menu<crate::AppRuntime>, AppError> {
     let app_settings = crate::settings::get_settings();
     // 用户未显式设置语言（首次安装）时，按系统区域回退而非硬编码简体，
     // 否则繁中系统的托盘会固定显示简体直到用户手动切换一次。
@@ -654,7 +663,7 @@ pub fn create_tray_menu(
     let visible_apps = app_settings.visible_apps.unwrap_or_default();
 
     let mut menu_builder = MenuBuilder::new(app);
-    let mut section_handles: std::collections::HashMap<AppType, Submenu<tauri::Wry>> =
+    let mut section_handles: std::collections::HashMap<AppType, Submenu<crate::AppRuntime>> =
         std::collections::HashMap::new();
 
     // 顶部：打开主界面 / 打开官方网站
@@ -875,7 +884,7 @@ pub fn create_tray_menu(
 /// 就地更新各 app 分区子菜单的标题（usage 后缀变化时走这条），
 /// 避免 `set_menu` 导致用户打开中的菜单被关闭。
 /// 句柄由上一次 `create_tray_menu` 填充；为空（从未构建过菜单）时无事发生。
-fn update_tray_usage_labels(app: &tauri::AppHandle) {
+fn update_tray_usage_labels(app: &tauri::AppHandle<crate::AppRuntime>) {
     let Some(app_state) = app.try_state::<AppState>() else {
         return;
     };
@@ -908,7 +917,7 @@ fn update_tray_usage_labels(app: &tauri::AppHandle) {
     }
 }
 
-pub fn refresh_tray_menu(app: &tauri::AppHandle) {
+pub fn refresh_tray_menu(app: &tauri::AppHandle<crate::AppRuntime>) {
     use crate::store::AppState;
 
     if let Some(state) = app.try_state::<AppState>() {
@@ -923,7 +932,7 @@ pub fn refresh_tray_menu(app: &tauri::AppHandle) {
 }
 
 #[cfg(target_os = "macos")]
-pub fn apply_tray_policy(app: &tauri::AppHandle, dock_visible: bool) {
+pub fn apply_tray_policy(app: &tauri::AppHandle<crate::AppRuntime>, dock_visible: bool) {
     use tauri::ActivationPolicy;
 
     let desired_policy = if dock_visible {
@@ -942,7 +951,7 @@ pub fn apply_tray_policy(app: &tauri::AppHandle, dock_visible: bool) {
 }
 
 /// 处理托盘菜单事件
-pub fn handle_tray_menu_event(app: &tauri::AppHandle, event_id: &str) {
+pub fn handle_tray_menu_event(app: &tauri::AppHandle<crate::AppRuntime>, event_id: &str) {
     log::info!("处理托盘菜单事件: {event_id}");
 
     match event_id {
@@ -1009,7 +1018,7 @@ const MIN_TRAY_USAGE_REFRESH_INTERVAL: std::time::Duration = std::time::Duration
 static TRAY_REBUILD_SCHEDULED: std::sync::atomic::AtomicBool =
     std::sync::atomic::AtomicBool::new(false);
 
-pub fn schedule_tray_refresh(app: &tauri::AppHandle) {
+pub fn schedule_tray_refresh(app: &tauri::AppHandle<crate::AppRuntime>) {
     use std::sync::atomic::Ordering;
     if TRAY_REBUILD_SCHEDULED.swap(true, Ordering::AcqRel) {
         return;
@@ -1032,7 +1041,7 @@ pub fn schedule_tray_refresh(app: &tauri::AppHandle) {
 /// 刷新面与 `format_usage_suffix` 的展示面严格对齐 —— 每次悬停最多发
 /// `TRAY_SECTIONS.len()` 次外部请求；只有显式启用的用量查询（含官方订阅、
 /// coding_plan / balance / Copilot / 自定义脚本）才会发请求。
-pub(crate) async fn refresh_all_usage_in_tray(app: &tauri::AppHandle) {
+pub(crate) async fn refresh_all_usage_in_tray(app: &tauri::AppHandle<crate::AppRuntime>) {
     use crate::commands::CopilotAuthState;
     use futures::future::join_all;
 

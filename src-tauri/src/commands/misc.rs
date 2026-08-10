@@ -20,7 +20,7 @@ const CREATE_NO_WINDOW: u32 = 0x08000000;
 
 /// 打开外部链接
 #[tauri::command]
-pub async fn open_external(app: AppHandle, url: String) -> Result<bool, String> {
+pub async fn open_external(app: AppHandle<crate::AppRuntime>, url: String) -> Result<bool, String> {
     let url = if url.starts_with("http://") || url.starts_with("https://") {
         url
     } else {
@@ -52,7 +52,7 @@ pub async fn copy_text_to_clipboard(text: String) -> Result<bool, String> {
 
 /// 检查更新
 #[tauri::command]
-pub async fn check_for_updates(handle: AppHandle) -> Result<bool, String> {
+pub async fn check_for_updates(handle: AppHandle<crate::AppRuntime>) -> Result<bool, String> {
     handle
         .opener()
         .open_url(
@@ -4253,7 +4253,10 @@ read -r _
 /// 设置窗口主题（Windows/macOS 标题栏颜色）
 /// theme: "dark" | "light" | "system"
 #[tauri::command]
-pub async fn set_window_theme(window: tauri::Window, theme: String) -> Result<(), String> {
+pub async fn set_window_theme(
+    window: tauri::Window<crate::AppRuntime>,
+    theme: String,
+) -> Result<(), String> {
     use tauri::Theme;
 
     let tauri_theme = match theme.as_str() {

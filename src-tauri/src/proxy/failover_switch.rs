@@ -40,7 +40,7 @@ impl FailoverSwitchManager {
     /// - `Err(e)` - 切换过程中发生错误
     pub async fn try_switch(
         &self,
-        app_handle: Option<&tauri::AppHandle>,
+        app_handle: Option<&tauri::AppHandle<crate::AppRuntime>>,
         app_type: &str,
         provider_id: &str,
         provider_name: &str,
@@ -73,7 +73,7 @@ impl FailoverSwitchManager {
 
     async fn do_switch(
         &self,
-        app_handle: Option<&tauri::AppHandle>,
+        app_handle: Option<&tauri::AppHandle<crate::AppRuntime>>,
         app_type: &str,
         provider_id: &str,
         provider_name: &str,

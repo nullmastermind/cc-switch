@@ -162,7 +162,10 @@ pub async fn get_config_dir(app: String) -> Result<String, String> {
 }
 
 #[tauri::command]
-pub async fn open_config_folder(handle: AppHandle, app: String) -> Result<bool, String> {
+pub async fn open_config_folder(
+    handle: AppHandle<crate::AppRuntime>,
+    app: String,
+) -> Result<bool, String> {
     let config_dir = match AppType::from_str(&app).map_err(|e| e.to_string())? {
         AppType::Claude => config::get_claude_config_dir(),
         AppType::ClaudeDesktop => {
@@ -190,7 +193,7 @@ pub async fn open_config_folder(handle: AppHandle, app: String) -> Result<bool, 
 
 #[tauri::command]
 pub async fn pick_directory(
-    app: AppHandle,
+    app: AppHandle<crate::AppRuntime>,
     #[allow(non_snake_case)] defaultPath: Option<String>,
 ) -> Result<Option<String>, String> {
     let initial = defaultPath
@@ -226,7 +229,7 @@ pub async fn get_app_config_path() -> Result<String, String> {
 }
 
 #[tauri::command]
-pub async fn open_app_config_folder(handle: AppHandle) -> Result<bool, String> {
+pub async fn open_app_config_folder(handle: AppHandle<crate::AppRuntime>) -> Result<bool, String> {
     let config_dir = config::get_app_config_dir();
 
     if !config_dir.exists() {
