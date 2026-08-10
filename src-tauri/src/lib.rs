@@ -686,6 +686,22 @@ pub fn build_app_state(app_handle: &tauri::AppHandle<AppRuntime>, db: Arc<Databa
     app_state
 }
 
+/// The one and only `generate_context!()` call site in this crate.
+///
+/// On macOS the macro expands to `embed_plist::embed_info_plist_bytes!`, which
+/// defines a `static _EMBED_INFO_PLIST` in the `__TEXT,__info_plist` link
+/// section. That symbol may exist only once per crate, so calling
+/// `generate_context!()` a second time anywhere in `cc_switch_lib` — for
+/// instance in `server::runtime` — fails to build with
+/// "symbol `_EMBED_INFO_PLIST` is already defined". It builds fine on Windows
+/// and Linux, so it only shows up on a macOS runner.
+///
+/// `Context` is generic over the runtime, so both the desktop (`Wry`) and
+/// browser-mode (`MockRuntime`) builders can consume the same value.
+pub(crate) fn tauri_context() -> tauri::Context<AppRuntime> {
+    tauri::generate_context!()
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     // 设置 panic hook，在应用崩溃时记录日志到 <app_config_dir>/crash.log（默认 ~/.cc-switch/crash.log）
@@ -1673,7 +1689,7 @@ pub fn run() {
         ]);
 
     let app = builder
-        .build(tauri::generate_context!())
+        .build(tauri_context())
         .expect("error while running tauri application");
 
     app.run(|app_handle, event| {

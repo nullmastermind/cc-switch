@@ -166,7 +166,11 @@ fn build_app(
         })
         .invoke_handler(super::handler::invoke_handler());
 
-    Ok(builder.build(tauri::generate_context!())?)
+    // Reuses `lib.rs`'s single `generate_context!()` call rather than expanding
+    // the macro again: on macOS a second expansion redefines the
+    // `_EMBED_INFO_PLIST` symbol and the crate fails to link. See
+    // `crate::tauri_context`.
+    Ok(builder.build(crate::tauri_context())?)
 }
 
 fn init_logging(app: &tauri::AppHandle<AppRuntime>) -> tauri::Result<()> {
