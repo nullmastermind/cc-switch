@@ -10,7 +10,7 @@ pub const DEFAULT_PORT: u16 = 0;
 pub const DEFAULT_HOST: IpAddr = IpAddr::V4(Ipv4Addr::LOCALHOST);
 
 pub const HELP: &str = "\
-cli-switch — CC Switch in your browser
+cli-switch — Cli-Switch in your browser
 
 USAGE:
     cli-switch [OPTIONS]

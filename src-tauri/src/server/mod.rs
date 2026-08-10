@@ -113,7 +113,7 @@ pub async fn serve(handles: ServerHandles) -> std::io::Result<()> {
 
     // Printed rather than logged: this is the one line the user must see to
     // reach the UI, and it must not depend on the configured log level.
-    println!("\n  CC Switch is running at:\n\n    {url}\n");
+    println!("\n  Cli-Switch is running at:\n\n    {url}\n");
     if !handles.options.host.is_loopback() {
         println!(
             "  Warning: bound to {} — anyone who can reach this port and the\n  \

@@ -979,7 +979,7 @@ pub fn handle_tray_menu_event(app: &tauri::AppHandle<crate::AppRuntime>, event_i
             }
         }
         "open_website" => {
-            if let Err(e) = app.opener().open_url("https://ccswitch.io", None::<String>) {
+            if let Err(e) = app.opener().open_url("https://viber.vn", None::<String>) {
                 log::error!("打开官方网站失败: {e}");
             }
         }

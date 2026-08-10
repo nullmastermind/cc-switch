@@ -81,7 +81,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
   {
     name: "PackyCode",
     websiteUrl: "https://www.packyapi.ai",
-    apiKeyUrl: "https://www.packyapi.ai/register?aff=cc-switch",
+    apiKeyUrl: "https://www.packyapi.ai/register",
     auth: grokAuth(),
     config: grokPresetConfig("PackyCode", "https://www.packyapi.ai/v1"),
     endpointCandidates: [
@@ -192,7 +192,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
   {
     name: "AIGoCode",
     websiteUrl: "https://aigocode.app",
-    apiKeyUrl: "https://aigocode.app/invite/CC-SWITCH",
+    apiKeyUrl: "https://aigocode.app",
     auth: grokAuth(),
     config: grokPresetConfig("AIGoCode", "https://api.aigocode.app"),
     endpointCandidates: ["https://api.aigocode.app"],
@@ -236,7 +236,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
   {
     name: "APIKEY.FUN",
     websiteUrl: "https://apikey.fun",
-    apiKeyUrl: "https://apikey.fun/register?aff=CCSwitch",
+    apiKeyUrl: "https://apikey.fun/register",
     auth: grokAuth(),
     config: grokPresetConfig("APIKEY.FUN", "https://api.apikey.fun/v1"),
     endpointCandidates: [
@@ -301,8 +301,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
     name: "Compshare",
     nameKey: "providerForm.presets.ucloud",
     websiteUrl: "https://www.compshare.cn",
-    apiKeyUrl:
-      "https://www.compshare.cn/coding-plan?ytag=GPU_YY_YX_git_cc-switch",
+    apiKeyUrl: "https://www.compshare.cn/coding-plan",
     auth: grokAuth(),
     config: grokPresetConfig("Compshare", "https://api.modelverse.cn/v1"),
     endpointCandidates: ["https://api.modelverse.cn/v1"],
@@ -316,8 +315,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
     name: "Compshare Coding Plan",
     nameKey: "providerForm.presets.ucloudCoding",
     websiteUrl: "https://www.compshare.cn",
-    apiKeyUrl:
-      "https://www.compshare.cn/coding-plan?ytag=GPU_YY_YX_git_cc-switch",
+    apiKeyUrl: "https://www.compshare.cn/coding-plan",
     auth: grokAuth(),
     config: grokPresetConfig(
       "Compshare Coding Plan",
@@ -378,7 +376,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
   {
     name: "RightCode",
     websiteUrl: "https://www.rightapi.ai",
-    apiKeyUrl: "https://www.rightapi.ai/register?aff=CCSWITCH",
+    apiKeyUrl: "https://www.rightapi.ai/register",
     auth: grokAuth(),
     config: grokPresetConfig("RightCode", "https://www.rightapi.ai/codex/v1"),
     category: "third_party",
@@ -403,7 +401,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
   {
     name: "Cubence",
     websiteUrl: "https://cubence.com",
-    apiKeyUrl: "https://cubence.com/signup?code=CCSWITCH&source=ccs",
+    apiKeyUrl: "https://cubence.com/signup",
     auth: grokAuth(),
     config: grokPresetConfig("Cubence", "https://api.cubence.com/v1"),
     endpointCandidates: [
@@ -421,7 +419,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
   {
     name: "CrazyRouter",
     websiteUrl: "https://www.crazyrouter.com",
-    apiKeyUrl: "https://www.crazyrouter.com/register?aff=OZcm&ref=cc-switch",
+    apiKeyUrl: "https://www.crazyrouter.com/register?aff=OZcm",
     auth: grokAuth(),
     config: grokPresetConfig("CrazyRouter", "https://cn.crazyrouter.com/v1"),
     endpointCandidates: ["https://cn.crazyrouter.com/v1"],
@@ -443,8 +441,7 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
   {
     name: "SudoCode.chat",
     websiteUrl: "https://sudocode.chat",
-    apiKeyUrl:
-      "https://sudocode.chat/sign-up?aff=CC-SWITCH&utm_source=cc-switch&utm_medium=sponsor&utm_campaign=ccswitch",
+    apiKeyUrl: "https://sudocode.chat/sign-up",
     auth: grokAuth(),
     config: grokPresetConfig("SudoCode.chat", "https://api.sudocode.chat/v1"),
     endpointCandidates: ["https://api.sudocode.chat/v1"],

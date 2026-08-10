@@ -1,9 +1,9 @@
 {
   "name": "@spec-ade/cli-switch",
   "version": "3.19.2",
-  "description": "CC Switch in your browser: manage providers, MCP servers, prompts and skills for Claude Code, Codex, Gemini CLI and more",
+  "description": "Cli-Switch in your browser: manage providers, MCP servers, prompts and skills for Claude Code, Codex, Gemini CLI and more",
   "license": "MIT",
-  "repository": "https://github.com/nullmastermind/cc-switch",
+  "homepage": "https://viber.vn",
   "type": "module",
   "bin": {
     "cli-switch": "bin/cli-switch.mjs"

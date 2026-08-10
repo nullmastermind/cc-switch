@@ -1,12 +1,12 @@
 # @spec-ade/cli-switch
 
-Run [CC Switch](https://github.com/nullmastermind/cc-switch) in your browser — no desktop install required.
+Run [Cli-Switch](https://viber.vn) in your browser — no desktop install required.
 
 ```bash
 npx -y @spec-ade/cli-switch
 ```
 
-This starts a local server and opens the CC Switch UI in your default browser.
+This starts a local server and opens the Cli-Switch UI in your default browser.
 A random access token is generated on every start; the printed URL already
 includes it.
 

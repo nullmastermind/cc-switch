@@ -71,7 +71,7 @@ export async function exit(code = 0): Promise<void> {
   // `window.close()` is a no-op for a tab the script did not open, so make the
   // UI unusable rather than appearing to work.
   document.body.innerHTML =
-    "<p style='font:14px system-ui;padding:2rem'>CC Switch has stopped. You can close this tab.</p>";
+    "<p style='font:14px system-ui;padding:2rem'>Cli-Switch has stopped. You can close this tab.</p>";
 }
 
 export async function relaunch(): Promise<void> {
@@ -88,7 +88,7 @@ export async function getVersion(): Promise<string> {
 }
 
 export async function getName(): Promise<string> {
-  return "CC Switch";
+  return "Cli-Switch";
 }
 
 export async function getTauriVersion(): Promise<string> {

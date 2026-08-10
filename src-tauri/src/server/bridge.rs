@@ -40,11 +40,9 @@ const NATIVE_ONLY_COMMANDS: &[&str] = &[
     "exit_lightweight_mode",
     // Native title-bar theming: there is no OS window to re-theme.
     "set_window_theme",
-    // Desktop process lifecycle / Tauri updater. In browser mode the process
-    // is owned by npx, and updates come from npm.
+    // Desktop process lifecycle. In browser mode the process is owned by npx,
+    // and updates come from npm.
     "restart_app",
-    "install_update_and_restart",
-    "check_app_update_available",
 ];
 
 pub fn is_native_only(cmd: &str) -> bool {

@@ -140,7 +140,6 @@ export function GeminiFormFields({
           shouldShowLink={shouldShowApiKeyLink}
           websiteUrl={websiteUrl}
           isPartner={isPartner}
-          partnerPromotionKey={partnerPromotionKey}
         />
       )}
 
