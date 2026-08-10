@@ -133,7 +133,7 @@ export function FailoverQueueManager({
               })}
             </span>
             {isFailoverEnabled && (
-              <span className="px-2 py-0.5 text-xs rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+              <span className="px-2 py-0.5 text-xs rounded-full bg-positive/20 text-positive dark:text-positive">
                 {t("common.enabled", { defaultValue: "已开启" })}
               </span>
             )}
@@ -153,7 +153,7 @@ export function FailoverQueueManager({
       </div>
 
       {/* 说明信息 */}
-      <Alert className="border-blue-500/40 bg-blue-500/10">
+      <Alert className="border-accent/40 bg-accent/10">
         <Info className="h-4 w-4" />
         <AlertDescription className="text-sm">
           {t(

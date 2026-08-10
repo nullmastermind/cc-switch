@@ -130,10 +130,10 @@ export const getProviderIconName = (providerId: string) => {
 
 export const getRoleTone = (role: string) => {
   const normalized = role.toLowerCase();
-  if (normalized === "assistant") return "text-blue-500";
-  if (normalized === "user") return "text-emerald-500";
-  if (normalized === "system") return "text-amber-500";
-  if (normalized === "tool") return "text-purple-500";
+  if (normalized === "assistant") return "text-accent";
+  if (normalized === "user") return "text-positive";
+  if (normalized === "system") return "text-warning";
+  if (normalized === "tool") return "text-accent";
   return "text-muted-foreground";
 };
 
@@ -242,7 +242,7 @@ export const highlightText = (text: string, query: string): ReactNode => {
           {
             key: i,
             className:
-              "bg-yellow-200/60 dark:bg-yellow-500/30 text-inherit rounded-sm px-0.5",
+              "bg-warning/60 dark:bg-warning/30 text-inherit rounded-sm px-0.5",
           },
           part,
         )

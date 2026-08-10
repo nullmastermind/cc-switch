@@ -294,7 +294,7 @@ export function ProviderPresetSelector({
       if (preset.theme?.backgroundColor) {
         return `${baseClass} text-white`;
       }
-      return `${baseClass} bg-blue-500 text-white dark:bg-blue-600`;
+      return `${baseClass} bg-accent text-white dark:bg-accent`;
     }
 
     return `${baseClass} bg-accent text-muted-foreground hover:bg-accent/80`;
@@ -395,7 +395,7 @@ export function ProviderPresetSelector({
           onClick={() => onPresetChange("custom")}
           className={`inline-flex items-center justify-start gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors w-full ${
             selectedPresetId === "custom"
-              ? "bg-blue-500 text-white dark:bg-blue-600"
+              ? "bg-accent text-white dark:bg-accent"
               : "bg-accent text-muted-foreground hover:bg-accent/80"
           }`}
         >
@@ -434,7 +434,7 @@ export function ProviderPresetSelector({
               </span>
               {isPrimePartner ? (
                 <Heart
-                  className="absolute -top-1 -right-1 h-5 w-5 fill-amber-500 text-amber-500 drop-shadow-sm"
+                  className="absolute -top-1 -right-1 h-5 w-5 fill-amber-500 text-warning drop-shadow-sm"
                   strokeWidth={0}
                   aria-hidden
                 />

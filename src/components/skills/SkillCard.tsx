@@ -101,7 +101,7 @@ export function SkillCard({
           {skill.installed && (
             <Badge
               variant="default"
-              className="shrink-0 bg-green-600/90 hover:bg-green-600 dark:bg-green-700/90 dark:hover:bg-green-700 text-white border-0"
+              className="shrink-0 bg-positive/90 hover:bg-positive dark:bg-positive/90 dark:hover:bg-positive text-white border-0"
             >
               {t("skills.installed")}
             </Badge>
@@ -136,7 +136,7 @@ export function SkillCard({
             size="sm"
             onClick={handleUninstall}
             disabled={loading}
-            className="flex-1 border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 dark:border-red-900/50 dark:text-red-400 dark:hover:bg-red-950/50 dark:hover:text-red-300"
+            className="flex-1 border-negative text-negative hover:bg-negative/10 hover:text-negative dark:border-negative/50 dark:text-negative dark:hover:bg-negative/10/50 dark:hover:text-negative"
           >
             {loading ? (
               <Loader2 className="h-3.5 w-3.5 mr-1.5 animate-spin" />

@@ -147,7 +147,7 @@ export function RequestLogTable({
       </div>
 
       {isLoading ? (
-        <div className="h-[400px] animate-pulse rounded bg-gray-100" />
+        <div className="h-[400px] animate-pulse rounded bg-bg-subtle" />
       ) : (
         <>
           <div className="rounded-lg border border-border/50 bg-card/40 backdrop-blur-sm overflow-x-auto">
@@ -302,8 +302,8 @@ export function RequestLogTable({
                           <span
                             className={
                               log.statusCode >= 200 && log.statusCode < 300
-                                ? "text-green-600"
-                                : "text-red-600"
+                                ? "text-positive"
+                                : "text-negative"
                             }
                           >
                             {log.statusCode}

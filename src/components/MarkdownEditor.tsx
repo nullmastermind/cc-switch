@@ -42,7 +42,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
       ".cm-scroller": {
         overflow: "auto",
         fontFamily:
-          "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
+          "Lilex, ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace",
         fontSize: "14px",
       },
       "&light .cm-content, &dark .cm-content": {
@@ -96,15 +96,15 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
               backgroundColor: "transparent",
             },
             ".cm-content": {
-              color: "#374151", // text-gray-700
+              color: "var(--text)", // text
             },
             ".cm-gutters": {
-              backgroundColor: "#f9fafb", // bg-gray-50
-              color: "#9ca3af", // text-gray-400
-              borderRight: "1px solid #e5e7eb", // border-gray-200
+              backgroundColor: "var(--bg-subtle)", // bg-subtle
+              color: "var(--text-secondary)", // text-secondary
+              borderRight: "1px solid var(--border)", // border
             },
             ".cm-activeLineGutter": {
-              backgroundColor: "#e5e7eb",
+              backgroundColor: "var(--active)",
             },
           },
           { dark: false },
@@ -150,7 +150,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
     <div
       ref={editorRef}
       className={`border rounded-md overflow-hidden ${
-        darkMode ? "border-gray-800" : "border-gray-200"
+        darkMode ? "border-border" : "border-border"
       } ${className}`}
     />
   );

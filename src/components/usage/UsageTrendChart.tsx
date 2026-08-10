@@ -20,6 +20,27 @@ import {
 import { resolveUsageRange } from "@/lib/usageRange";
 import type { UsageRangeSelection } from "@/types/usage";
 
+/** Read a CSS custom property from :root at call-time (resolves to the
+ *  current theme value; safe to call during render). */
+function cssVar(name: string): string {
+  return getComputedStyle(document.documentElement)
+    .getPropertyValue(name)
+    .trim();
+}
+
+/** The 5 chart series mapped to git-lane-0…4 (cyclic palette). */
+function chartColors() {
+  return {
+    input: cssVar("--git-lane-0"),
+    output: cssVar("--git-lane-1"),
+    cacheCreation: cssVar("--git-lane-2"),
+    cacheRead: cssVar("--git-lane-4"),
+    cost: cssVar("--git-lane-3"),
+    border: cssVar("--border"),
+    textSecondary: cssVar("--text-secondary"),
+  };
+}
+
 interface UsageTrendChartProps {
   range: UsageRangeSelection;
   rangeLabel: string;
@@ -127,115 +148,142 @@ export function UsageTrendChart({
 
       <div className="h-[350px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart
-            data={displayData}
-            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
-          >
-            <defs>
-              <linearGradient id="colorInput" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="colorOutput" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#22c55e" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#22c55e" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient
-                id="colorCacheCreation"
-                x1="0"
-                y1="0"
-                x2="0"
-                y2="1"
+          {(() => {
+            const c = chartColors();
+            return (
+              <AreaChart
+                data={displayData}
+                margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
               >
-                <stop offset="5%" stopColor="#f97316" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#f97316" stopOpacity={0} />
-              </linearGradient>
-              <linearGradient id="colorCacheRead" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#a855f7" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#a855f7" stopOpacity={0} />
-              </linearGradient>
-            </defs>
-            <CartesianGrid
-              strokeDasharray="3 3"
-              vertical={false}
-              stroke="hsl(var(--border))"
-              opacity={0.4}
-            />
-            <XAxis
-              dataKey="label"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-              dy={10}
-            />
-            <YAxis
-              yAxisId="tokens"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-              tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
-            />
-            <YAxis
-              yAxisId="cost"
-              orientation="right"
-              axisLine={false}
-              tickLine={false}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
-              tickFormatter={(value) => `$${value}`}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Legend />
-            <Area
-              yAxisId="tokens"
-              type="monotone"
-              dataKey="inputTokens"
-              name={t("usage.inputTokens", "输入 Tokens")}
-              stroke="#3b82f6"
-              fillOpacity={1}
-              fill="url(#colorInput)"
-              strokeWidth={2}
-            />
-            <Area
-              yAxisId="tokens"
-              type="monotone"
-              dataKey="outputTokens"
-              name={t("usage.outputTokens", "输出 Tokens")}
-              stroke="#22c55e"
-              fillOpacity={1}
-              fill="url(#colorOutput)"
-              strokeWidth={2}
-            />
-            <Area
-              yAxisId="tokens"
-              type="monotone"
-              dataKey="cacheCreationTokens"
-              name={t("usage.cacheCreationTokens", "缓存创建")}
-              stroke="#f97316"
-              fillOpacity={1}
-              fill="url(#colorCacheCreation)"
-              strokeWidth={2}
-            />
-            <Area
-              yAxisId="tokens"
-              type="monotone"
-              dataKey="cacheReadTokens"
-              name={t("usage.cacheReadTokens", "缓存命中")}
-              stroke="#a855f7"
-              fillOpacity={1}
-              fill="url(#colorCacheRead)"
-              strokeWidth={2}
-            />
-            <Area
-              yAxisId="cost"
-              type="monotone"
-              dataKey="cost"
-              name={t("usage.cost", "成本")}
-              stroke="#f43f5e"
-              fill="none"
-              strokeWidth={2}
-              strokeDasharray="4 4"
-            />
-          </AreaChart>
+                <defs>
+                  <linearGradient id="colorInput" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={c.input} stopOpacity={0.2} />
+                    <stop offset="95%" stopColor={c.input} stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient id="colorOutput" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor={c.output} stopOpacity={0.2} />
+                    <stop offset="95%" stopColor={c.output} stopOpacity={0} />
+                  </linearGradient>
+                  <linearGradient
+                    id="colorCacheCreation"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="5%"
+                      stopColor={c.cacheCreation}
+                      stopOpacity={0.2}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor={c.cacheCreation}
+                      stopOpacity={0}
+                    />
+                  </linearGradient>
+                  <linearGradient
+                    id="colorCacheRead"
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    y2="1"
+                  >
+                    <stop
+                      offset="5%"
+                      stopColor={c.cacheRead}
+                      stopOpacity={0.2}
+                    />
+                    <stop
+                      offset="95%"
+                      stopColor={c.cacheRead}
+                      stopOpacity={0}
+                    />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  vertical={false}
+                  stroke={c.border}
+                  opacity={0.4}
+                />
+                <XAxis
+                  dataKey="label"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: c.textSecondary, fontSize: 12 }}
+                  dy={10}
+                />
+                <YAxis
+                  yAxisId="tokens"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: c.textSecondary, fontSize: 12 }}
+                  tickFormatter={(value) => `${(value / 1000).toFixed(0)}k`}
+                />
+                <YAxis
+                  yAxisId="cost"
+                  orientation="right"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fill: c.textSecondary, fontSize: 12 }}
+                  tickFormatter={(value) => `$${value}`}
+                />
+                <Tooltip content={<CustomTooltip />} />
+                <Legend />
+                <Area
+                  yAxisId="tokens"
+                  type="monotone"
+                  dataKey="inputTokens"
+                  name={t("usage.inputTokens", "输入 Tokens")}
+                  stroke={c.input}
+                  fillOpacity={1}
+                  fill="url(#colorInput)"
+                  strokeWidth={2}
+                />
+                <Area
+                  yAxisId="tokens"
+                  type="monotone"
+                  dataKey="outputTokens"
+                  name={t("usage.outputTokens", "输出 Tokens")}
+                  stroke={c.output}
+                  fillOpacity={1}
+                  fill="url(#colorOutput)"
+                  strokeWidth={2}
+                />
+                <Area
+                  yAxisId="tokens"
+                  type="monotone"
+                  dataKey="cacheCreationTokens"
+                  name={t("usage.cacheCreationTokens", "缓存创建")}
+                  stroke={c.cacheCreation}
+                  fillOpacity={1}
+                  fill="url(#colorCacheCreation)"
+                  strokeWidth={2}
+                />
+                <Area
+                  yAxisId="tokens"
+                  type="monotone"
+                  dataKey="cacheReadTokens"
+                  name={t("usage.cacheReadTokens", "缓存命中")}
+                  stroke={c.cacheRead}
+                  fillOpacity={1}
+                  fill="url(#colorCacheRead)"
+                  strokeWidth={2}
+                />
+                <Area
+                  yAxisId="cost"
+                  type="monotone"
+                  dataKey="cost"
+                  name={t("usage.cost", "成本")}
+                  stroke={c.cost}
+                  fill="none"
+                  strokeWidth={2}
+                  strokeDasharray="4 4"
+                />
+              </AreaChart>
+            );
+          })()}
         </ResponsiveContainer>
       </div>
     </div>

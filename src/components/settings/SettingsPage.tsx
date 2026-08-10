@@ -369,7 +369,7 @@ export function SettingsPage({
                       >
                         <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-3">
-                            <Database className="h-5 w-5 text-blue-500" />
+                            <Database className="h-5 w-5 text-accent" />
                             <div className="text-left">
                               <h3 className="text-base font-semibold">
                                 {t("settings.advanced.data.title")}
@@ -401,7 +401,7 @@ export function SettingsPage({
                       >
                         <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-3">
-                            <HardDriveDownload className="h-5 w-5 text-amber-500" />
+                            <HardDriveDownload className="h-5 w-5 text-warning" />
                             <div className="text-left">
                               <h3 className="text-base font-semibold">
                                 {t("settings.advanced.backup.title", {
@@ -434,7 +434,7 @@ export function SettingsPage({
                       >
                         <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-3">
-                            <Cloud className="h-5 w-5 text-blue-500" />
+                            <Cloud className="h-5 w-5 text-accent" />
                             <div className="text-left">
                               <h3 className="text-base font-semibold">
                                 {t("settings.advanced.cloudSync.title")}
@@ -461,7 +461,7 @@ export function SettingsPage({
                       >
                         <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-3">
-                            <FlaskConical className="h-5 w-5 text-emerald-500" />
+                            <FlaskConical className="h-5 w-5 text-positive" />
                             <div className="text-left">
                               <h3 className="text-base font-semibold">
                                 {t("settings.advanced.connectivityCheck.title")}
@@ -522,7 +522,7 @@ export function SettingsPage({
             {activeTab === "advanced" && settings && (
               <div
                 className="flex-shrink-0 pt-4 border-t border-border-default"
-                style={{ backgroundColor: "hsl(var(--background))" }}
+                style={{ backgroundColor: "var(--bg)" }}
               >
                 <div className="px-6 flex items-center justify-end gap-3">
                   <Button onClick={handleSave} disabled={isSaving}>

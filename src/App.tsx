@@ -270,7 +270,7 @@ function App() {
   const { data: unmanagedSkills } = useScanUnmanagedSkills();
   const hasUnmanagedSkills = (unmanagedSkills?.length ?? 0) > 0;
   const addActionButtonClass =
-    "bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30 dark:shadow-orange-500/40 rounded-full w-8 h-8";
+    "bg-warning hover:bg-warning dark:bg-warning dark:hover:bg-warning text-white shadow-lg shadow-orange-500/30 dark:shadow-orange-500/40 rounded-full w-8 h-8";
 
   const {
     isRunning: isProxyRunning,
@@ -1125,7 +1125,7 @@ function App() {
                 size="icon"
                 onClick={() => void handleWindowClose()}
                 title={t("header.windowClose")}
-                className="h-7 w-7 hover:bg-red-500/15 hover:text-red-500"
+                className="h-7 w-7 hover:bg-negative/15 hover:text-negative"
               >
                 <X className="w-4 h-4" />
               </Button>
@@ -1224,19 +1224,16 @@ function App() {
             ) : (
               <div className="flex items-center gap-2">
                 <div className="relative inline-flex items-center">
-                  <a
-                    href="https://viber.vn"
-                    target="_blank"
-                    rel="noreferrer"
+                  <span
                     className={cn(
-                      "text-xl font-semibold transition-colors",
+                      "text-xl font-semibold",
                       isProxyRunning && isCurrentAppTakeoverActive
-                        ? "text-emerald-500 hover:text-emerald-600 dark:text-emerald-400 dark:hover:text-emerald-300"
-                        : "text-blue-500 hover:text-blue-600 dark:text-blue-400 dark:hover:text-blue-300",
+                        ? "text-positive dark:text-positive"
+                        : "text-accent dark:text-accent",
                     )}
                   >
-                    Cli-Switch
-                  </a>
+                    Providers
+                  </span>
                 </div>
                 <Button
                   variant="ghost"
@@ -1423,7 +1420,7 @@ function App() {
                       {t("skills.import")}
                       {hasUnmanagedSkills && (
                         <span
-                          className="absolute top-1 right-1 h-2 w-2 rounded-full bg-green-500"
+                          className="absolute top-1 right-1 h-2 w-2 rounded-full bg-positive"
                           aria-hidden="true"
                         />
                       )}

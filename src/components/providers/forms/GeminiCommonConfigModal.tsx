@@ -96,24 +96,24 @@ export const GeminiCommonConfigModal: React.FC<
       }
     >
       <div className="space-y-4">
-        <div className="rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/30 p-3 space-y-1.5">
-          <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
+        <div className="rounded-lg border border-accent dark:border-accent bg-accent-subtle/50 dark:bg-accent-subtle/30 p-3 space-y-1.5">
+          <p className="text-sm font-medium text-accent dark:text-accent">
             {t("commonConfig.guideTitle")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-xs text-accent/80 dark:text-accent/80">
             {t("commonConfig.guidePurpose")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-xs text-accent/80 dark:text-accent/80">
             {t("commonConfig.guideUsage")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-xs text-accent/80 dark:text-accent/80">
             {t("commonConfig.guideReExtract")}
           </p>
           <p className="text-xs text-muted-foreground">
             {t("commonConfig.guideReassurance")}
           </p>
         </div>
-        <p className="text-xs text-amber-600 dark:text-amber-400">
+        <p className="text-xs text-warning dark:text-warning">
           {t("geminiConfig.commonConfigHint", {
             defaultValue:
               "该片段会写入 Gemini 的 .env（不允许包含 GOOGLE_GEMINI_BASE_URL、GEMINI_API_KEY）",
@@ -144,7 +144,7 @@ export const GeminiCommonConfigModal: React.FC<
         />
 
         {error && (
-          <p className="text-sm text-red-500 dark:text-red-400">{error}</p>
+          <p className="text-sm text-negative dark:text-negative">{error}</p>
         )}
       </div>
     </FullScreenPanel>

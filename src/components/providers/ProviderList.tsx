@@ -451,7 +451,7 @@ export function ProviderList({
   return (
     <div className="mt-4 space-y-4">
       {claudeDesktopStatusMessages.length > 0 && (
-        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-200">
+        <div className="rounded-lg border border-warning/30 bg-warning/10 px-4 py-3 text-sm text-warning dark:text-warning">
           <div className="flex items-center gap-2 font-medium">
             <AlertTriangle className="h-4 w-4 shrink-0" />
             {t("claudeDesktop.statusTitle", {

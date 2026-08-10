@@ -63,7 +63,7 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
     if (inline) {
       return (
         <div className="inline-flex items-center gap-2 text-xs rounded-lg border border-border-default bg-card px-3 py-2 shadow-sm">
-          <div className="flex items-center gap-1.5 text-red-500 dark:text-red-400">
+          <div className="flex items-center gap-1.5 text-negative dark:text-negative">
             <AlertCircle size={12} />
             <span>{quota.error || t("subscription.queryFailed")}</span>
           </div>
@@ -125,7 +125,7 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
   return (
     <div className="mt-3 rounded-xl border border-border-default bg-card px-4 py-3 shadow-sm">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+        <span className="text-xs text-text-secondary dark:text-text-secondary font-medium">
           {quota.plan || t("subscription.title")}
         </span>
         <div className="flex items-center gap-2">
@@ -154,19 +154,19 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
           return (
             <div key={tier.name} className="flex items-center gap-3 text-xs">
               <span
-                className="text-gray-500 dark:text-gray-400 min-w-0 font-medium"
+                className="text-text-secondary dark:text-text-secondary min-w-0 font-medium"
                 style={{ width: "25%" }}
               >
                 {label}
               </span>
-              <div className="flex-1 h-2 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+              <div className="flex-1 h-2 bg-bg-subtle dark:bg-surface rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all ${
                     tier.utilization >= 90
-                      ? "bg-red-500"
+                      ? "bg-negative"
                       : tier.utilization >= 70
-                        ? "bg-orange-500"
-                        : "bg-green-500"
+                        ? "bg-warning"
+                        : "bg-positive"
                   }`}
                   style={{
                     width: `${Math.min(tier.utilization, 100)}%`,

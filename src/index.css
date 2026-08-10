@@ -3,60 +3,203 @@
 @tailwind utilities;
 
 @layer base {
+  /* ─── Design tokens ── Light mode (default) ──────────────────────────── */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    /* Surface */
+    --bg: #f7f8fa;
+    --bg-subtle: #f1f2f5;
+    --surface: #ffffff;
+    --raised: #f1f2f5;
+    --active: #e2e4e9;
 
-    --primary: 210 100% 56%;
-    --primary-foreground: 0 0% 100%;
+    /* Border */
+    --border: #d8dbe1;
+    --border-strong: #c8ccd4;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    /* Text */
+    --text: #15171c;
+    --text-secondary: #5c616b;
+    --text-disabled: #8b909b;
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    /* Accent / action */
+    --accent: #5b57d1;
+    --accent-hover: #4e4ac4;
+    --accent-subtle: #dedcf7;
+    --on-accent: #ffffff;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    /* Hover overlay */
+    --hover: rgba(0, 0, 0, 0.04);
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 210 100% 56%;
+    /* Semantic */
+    --positive: #2bb673;
+    --negative: #cc2033;
+    --info: #0284c7;
+    --warning: #d4940a;
+    --gold: #d4a843;
+    --agent-claude: #d97757;
+    --scrim: rgba(0, 0, 0, 0.55);
 
-    --radius: 0.5rem;
+    /* Git status */
+    --git-modified: #0033b3;
+    --git-added: #067d17;
+    --git-deleted: #5a5e6b;
+    --git-renamed: #0033b3;
+    --git-untracked: #b23247;
+    --git-conflict: #c41525;
+    --git-ignored: #8c4f00;
+
+    /* Git log graph lanes (modulo-8) */
+    --git-lane-0: #0284c7;
+    --git-lane-1: #16a34a;
+    --git-lane-2: #ca8a04;
+    --git-lane-3: #dc2626;
+    --git-lane-4: #7c3aed;
+    --git-lane-5: #0891b2;
+    --git-lane-6: #ea580c;
+    --git-lane-7: #db2777;
+
+    /* Git ref chips */
+    --git-ref-local: #0284c7;
+    --git-ref-remote: #16a34a;
+    --git-ref-tag: #ca8a04;
+    --git-ref-head: #7c3aed;
+
+    /* Spacing (4px grid) */
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 32px;
+
+    /* Border radius */
+    --radius-xs: 4px;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    /* Typography */
+    --font-xs: 10px;
+    --font-sm: 11px;
+    --font-md: 12px;
+    --font-lg: 13px;
+    --font-xl: 15px;
+
+    /* Motion */
+    --motion-fast: 150ms;
+    --motion-medium: 220ms;
+    --motion-slow: 300ms;
+    --motion-easing: cubic-bezier(0.215, 0.61, 0.355, 1); /* easeOutCubic */
+
+    /* Chrome dimensions */
+    --panel-header-height: 36px;
+    --control-md: 36px;
+    --quick-start-card-size: 110px;
+    --quick-start-icon-size: 24px;
+
+    /* ── shadcn/Radix compat aliases (keep existing components compiling) ── */
+    --background: var(--bg);
+    --foreground: var(--text);
+    --card: var(--surface);
+    --card-foreground: var(--text);
+    --popover: var(--raised);
+    --popover-foreground: var(--text);
+    --primary: var(--accent);
+    --primary-foreground: var(--on-accent);
+    --secondary: var(--bg-subtle);
+    --secondary-foreground: var(--text);
+    --muted: var(--bg-subtle);
+    --muted-foreground: var(--text-secondary);
+    /* NOTE: --accent is re-used as both token and shadcn name here;
+       the shadcn --accent-foreground is mapped to on-accent */
+    --accent-foreground: var(--on-accent);
+    --destructive: var(--negative);
+    --destructive-foreground: #ffffff;
+    --input: var(--border);
+    --ring: var(--accent);
+    --radius: var(--radius-md);
   }
 
+  /* ─── Design tokens ── Dark mode ──────────────────────────────────────── */
   .dark {
-    --background: 240 5% 12%;
-    --foreground: 0 0% 98%;
-    --card: 240 5% 16%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 5% 16%;
-    --popover-foreground: 0 0% 98%;
+    /* Surface */
+    --bg: #0c0d10;
+    --bg-subtle: #101216;
+    --surface: #15171c;
+    --raised: #1f232a;
+    --active: #1f232a;
 
-    --primary: 210 100% 54%;
-    --primary-foreground: 0 0% 100%;
+    /* Border */
+    --border: #262b33;
+    --border-strong: #2f343d;
 
-    --secondary: 240 5% 18%;
-    --secondary-foreground: 0 0% 98%;
+    /* Text */
+    --text: #e6e8ec;
+    --text-secondary: #9aa0a9;
+    --text-disabled: #5b616b;
 
-    --muted: 240 5% 18%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 5% 18%;
-    --accent-foreground: 0 0% 98%;
+    /* Accent / action */
+    --accent: #6e6ade;
+    --accent-hover: #8784e8;
+    --accent-subtle: #211f48;
+    --on-accent: #ffffff;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
+    /* Hover overlay */
+    --hover: rgba(255, 255, 255, 0.055);
 
-    --border: 240 5% 24%;
-    --input: 240 5% 24%;
-    --ring: 210 100% 54%;
+    /* Semantic */
+    --positive: #50977c;
+    --negative: #c4707d;
+    --info: #38bdf8;
+    --warning: #f0b429;
+    --gold: #d4a843;
+    --agent-claude: #d97757;
+    --scrim: rgba(0, 0, 0, 0.55);
+
+    /* Git status */
+    --git-modified: #5e9fef;
+    --git-added: #68b06e;
+    --git-deleted: #8a8e96;
+    --git-renamed: #5e9fef;
+    --git-untracked: #d98080;
+    --git-conflict: #d97070;
+    --git-ignored: #d69a6b;
+
+    /* Git log graph lanes (modulo-8) */
+    --git-lane-0: #4fc1ff;
+    --git-lane-1: #3dd68c;
+    --git-lane-2: #e2b93d;
+    --git-lane-3: #f25f5c;
+    --git-lane-4: #a78bfa;
+    --git-lane-5: #38bdf8;
+    --git-lane-6: #f97316;
+    --git-lane-7: #ec4899;
+
+    /* Git ref chips */
+    --git-ref-local: #4fc1ff;
+    --git-ref-remote: #3dd68c;
+    --git-ref-tag: #e2b93d;
+    --git-ref-head: #a78bfa;
+
+    /* ── shadcn/Radix compat aliases ── */
+    --background: var(--bg);
+    --foreground: var(--text);
+    --card: var(--surface);
+    --card-foreground: var(--text);
+    --popover: var(--raised);
+    --popover-foreground: var(--text);
+    --primary: var(--accent);
+    --primary-foreground: var(--on-accent);
+    --secondary: var(--bg-subtle);
+    --secondary-foreground: var(--text);
+    --muted: var(--surface);
+    --muted-foreground: var(--text-secondary);
+    --accent-foreground: var(--on-accent);
+    --destructive: var(--negative);
+    --destructive-foreground: #ffffff;
+    --input: var(--border);
+    --ring: var(--accent);
+    /* spacing, radius, font, motion, and chrome vars are the same in dark */
   }
 }
 
@@ -100,17 +243,17 @@
 }
 
 .glass-header {
-  background: hsl(var(--background));
+  background: var(--bg);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   border: none;
-  border-top: 2px solid hsl(var(--border));
+  border-top: 2px solid var(--border);
 }
 
 .dark .glass-header {
-  background: hsl(var(--background));
+  background: var(--bg);
   border: none;
-  border-top: 2px solid hsl(var(--border));
+  border-top: 2px solid var(--border);
 }
 
 [data-tauri-drag-region] {
@@ -133,12 +276,23 @@ html {
   line-height: 1.5;
   color-scheme: light;
   overscroll-behavior: none;
+  /* IBM Plex Sans Variable dense — match spec font-md (12px) as default body size */
+  font-size: var(--font-md);
 }
 
 body {
   @apply m-0 p-0 text-sm;
-  background-color: hsl(var(--background));
-  color: hsl(var(--foreground));
+  background-color: var(--bg);
+  color: var(--text);
+  font-family:
+    "IBM Plex Sans Variable",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
 }
 
 html.dark {
@@ -179,7 +333,8 @@ html[data-window-active="false"] .status-heartbeat {
 }
 
 *:focus-visible {
-  @apply outline-2 outline-blue-500 outline-offset-2;
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 @layer utilities {
@@ -192,7 +347,7 @@ html[data-window-active="false"] .status-heartbeat {
 
   .border-default {
     border-width: 1px;
-    border-color: hsl(var(--border));
+    border-color: var(--border);
   }
 
   .border-active {
@@ -200,19 +355,19 @@ html[data-window-active="false"] .status-heartbeat {
   }
 
   .border-border-default {
-    border-color: hsl(var(--border));
+    border-color: var(--border);
   }
 
   .border-border-active {
-    border-color: hsl(var(--primary));
+    border-color: var(--accent);
   }
 
   .border-border-hover {
-    border-color: hsl(var(--primary) / 0.4);
+    border-color: color-mix(in srgb, var(--accent) 40%, transparent);
   }
 
   .border-border-dragging {
-    border-color: hsl(var(--primary) / 0.6);
+    border-color: color-mix(in srgb, var(--accent) 60%, transparent);
   }
 }
 

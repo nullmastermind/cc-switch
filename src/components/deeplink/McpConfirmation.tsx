@@ -65,7 +65,7 @@ export function McpConfirmation({
       <span className="text-muted-foreground shrink-0">{label}</span>
       <span
         className={`font-mono break-all ${
-          risk ? "text-yellow-700 dark:text-yellow-500 font-semibold" : ""
+          risk ? "text-warning dark:text-warning font-semibold" : ""
         }`}
       >
         {risk && <span aria-hidden="true">⚠ </span>}
@@ -151,11 +151,11 @@ export function McpConfirmation({
       </div>
 
       {risks.length > 0 && (
-        <div className="rounded border border-yellow-500/40 bg-yellow-500/10 p-2 space-y-1">
+        <div className="rounded border border-warning/40 bg-warning/10 p-2 space-y-1">
           {risks.map((kind) => (
             <div
               key={kind}
-              className="text-yellow-700 dark:text-yellow-500 text-sm flex items-start gap-2"
+              className="text-warning dark:text-warning text-sm flex items-start gap-2"
             >
               <span aria-hidden="true">⚠️</span>
               <span>{t(riskI18nKey(kind))}</span>
@@ -173,7 +173,7 @@ export function McpConfirmation({
         挂条件的后果是：恶意链接省略 `enabled` 就能让这条警告消失，而写入行为
         一模一样——把提示变成了可被攻击者关掉的开关。
       */}
-      <div className="text-yellow-600 dark:text-yellow-500 text-sm flex items-center gap-2">
+      <div className="text-warning dark:text-warning text-sm flex items-center gap-2">
         <span>⚠️</span>
         <span>{t("deeplink.mcp.enabledWarning")}</span>
       </div>
