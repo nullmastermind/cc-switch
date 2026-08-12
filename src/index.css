@@ -1,61 +1,99 @@
+/* Spec ADE embed tokens — single source of hex/font values */
+@import "./styles/ade-bridge.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
+  /*
+   * Surface/text slots resolve from ADE bridge vars.
+   * Brand accent (primary/ring/destructive) stays app-owned.
+   * Default appearance is dark (ADE default) when no .light/.dark class yet.
+   */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
+    --background: var(--ade-bg-hsl);
+    --foreground: var(--ade-text-hsl);
+    --card: var(--ade-surface-hsl);
+    --card-foreground: var(--ade-text-hsl);
+    --popover: var(--ade-surface-hsl);
+    --popover-foreground: var(--ade-text-hsl);
 
     --primary: 210 100% 56%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
+    --secondary: var(--ade-raised-hsl);
+    --secondary-foreground: var(--ade-text-hsl);
 
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
+    --muted: var(--ade-raised-hsl);
+    --muted-foreground: var(--ade-text-secondary-hsl);
+    --accent: var(--ade-raised-hsl);
+    --accent-foreground: var(--ade-text-hsl);
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
+    --border: var(--ade-border-hsl);
+    --input: var(--ade-border-hsl);
     --ring: 210 100% 56%;
 
     --radius: 0.5rem;
   }
 
-  .dark {
-    --background: 240 5% 12%;
-    --foreground: 0 0% 98%;
-    --card: 240 5% 16%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 5% 16%;
-    --popover-foreground: 0 0% 98%;
+  /* Light theme — same ADE light tokens whether via app .light or ADE host class */
+  .light,
+  .ade-theme-light {
+    --background: var(--ade-bg-hsl);
+    --foreground: var(--ade-text-hsl);
+    --card: var(--ade-surface-hsl);
+    --card-foreground: var(--ade-text-hsl);
+    --popover: var(--ade-surface-hsl);
+    --popover-foreground: var(--ade-text-hsl);
+
+    --primary: 210 100% 56%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: var(--ade-raised-hsl);
+    --secondary-foreground: var(--ade-text-hsl);
+
+    --muted: var(--ade-raised-hsl);
+    --muted-foreground: var(--ade-text-secondary-hsl);
+    --accent: var(--ade-raised-hsl);
+    --accent-foreground: var(--ade-text-hsl);
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: var(--ade-border-hsl);
+    --input: var(--ade-border-hsl);
+    --ring: 210 100% 56%;
+  }
+
+  .dark,
+  .ade-theme-dark {
+    --background: var(--ade-bg-hsl);
+    --foreground: var(--ade-text-hsl);
+    --card: var(--ade-surface-hsl);
+    --card-foreground: var(--ade-text-hsl);
+    --popover: var(--ade-surface-hsl);
+    --popover-foreground: var(--ade-text-hsl);
 
     --primary: 210 100% 54%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 240 5% 18%;
-    --secondary-foreground: 0 0% 98%;
+    --secondary: var(--ade-raised-hsl);
+    --secondary-foreground: var(--ade-text-hsl);
 
-    --muted: 240 5% 18%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 5% 18%;
-    --accent-foreground: 0 0% 98%;
+    --muted: var(--ade-raised-hsl);
+    --muted-foreground: var(--ade-text-secondary-hsl);
+    --accent: var(--ade-raised-hsl);
+    --accent-foreground: var(--ade-text-hsl);
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 240 5% 24%;
-    --input: 240 5% 24%;
+    --border: var(--ade-border-hsl);
+    --input: var(--ade-border-hsl);
     --ring: 210 100% 54%;
   }
 }
@@ -131,18 +169,28 @@
 html {
   @apply font-sans antialiased;
   line-height: 1.5;
-  color-scheme: light;
+  color-scheme: dark;
   overscroll-behavior: none;
+  font-family: var(--ade-font-sans);
 }
 
 body {
   @apply m-0 p-0 text-sm;
+  margin: 0;
+  min-height: 100%;
   background-color: hsl(var(--background));
   color: hsl(var(--foreground));
+  font-family: var(--ade-font-sans);
 }
 
-html.dark {
+html.dark,
+html.ade-theme-dark {
   color-scheme: dark;
+}
+
+html.light,
+html.ade-theme-light {
+  color-scheme: light;
 }
 
 .status-heartbeat {

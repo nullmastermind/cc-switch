@@ -81,25 +81,9 @@ module.exports = {
         xl: "0.875rem",
       },
       fontFamily: {
-        // 使用与之前版本保持一致的系统字体栈
-        sans: [
-          "-apple-system",
-          "BlinkMacSystemFont",
-          '"Segoe UI"',
-          "Roboto",
-          '"Helvetica Neue"',
-          "Arial",
-          "sans-serif",
-        ],
-        mono: [
-          "ui-monospace",
-          "SFMono-Regular",
-          '"SF Mono"',
-          "Consolas",
-          '"Liberation Mono"',
-          "Menlo",
-          "monospace",
-        ],
+        // ADE embed fonts (values live in src/styles/ade-bridge.css)
+        sans: ["var(--ade-font-sans)"],
+        mono: ["var(--ade-font-mono)"],
       },
       animation: {
         "fade-in": "fadeIn 0.5s ease-out",
@@ -170,4 +154,3 @@ module.exports = {
   },
   plugins: [],
 };
-
