@@ -37,7 +37,7 @@ pub fn get_current_provider(state: State<'_, AppState>, app: String) -> Result<S
 
 #[tauri::command]
 pub async fn add_provider(
-    app_handle: tauri::AppHandle,
+    app_handle: tauri::AppHandle<crate::AppRuntime>,
     app: String,
     provider: Provider,
     #[allow(non_snake_case)] addToLive: Option<bool>,
@@ -57,7 +57,7 @@ pub async fn add_provider(
 
 #[tauri::command]
 pub async fn update_provider(
-    app_handle: tauri::AppHandle,
+    app_handle: tauri::AppHandle<crate::AppRuntime>,
     app: String,
     provider: Provider,
     #[allow(non_snake_case)] originalId: Option<String>,

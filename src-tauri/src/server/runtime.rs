@@ -228,8 +228,7 @@ fn apply_log_level(db: &crate::database::Database) {
 fn manage_auxiliary_state(app: &tauri::App<AppRuntime>) {
     use crate::commands::{CodexOAuthState, CopilotAuthState, SkillServiceState, XaiOAuthState};
     use crate::proxy::providers::{
-        codex_oauth_auth::CodexOAuthManager, copilot_auth::CopilotAuthManager,
-        xai_oauth_auth::XaiOAuthManager,
+        copilot_auth::CopilotAuthManager, xai_oauth_auth::XaiOAuthManager,
     };
     use tokio::sync::RwLock;
 
@@ -241,9 +240,11 @@ fn manage_auxiliary_state(app: &tauri::App<AppRuntime>) {
     app.manage(CopilotAuthState(Arc::new(RwLock::new(
         CopilotAuthManager::new(app_config_dir.clone()),
     ))));
-    app.manage(CodexOAuthState(Arc::new(RwLock::new(
-        CodexOAuthManager::new(app_config_dir.clone()),
-    ))));
+    // Upstream moved the manager into `AppState` so `ProxyService` shares one
+    // instance; reuse it here instead of constructing a second manager.
+    app.manage(CodexOAuthState(
+        app.state::<AppState>().codex_oauth_manager.clone(),
+    ));
     app.manage(XaiOAuthState(Arc::new(RwLock::new(XaiOAuthManager::new(
         app_config_dir,
     )))));

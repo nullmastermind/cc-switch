@@ -112,6 +112,16 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::enable_prompt,
         commands::import_prompt_from_file,
         commands::get_current_prompt_file_content,
+        commands::get_pi_prompt_file,
+        commands::replace_pi_prompt_file,
+        commands::delete_pi_prompt_file,
+        commands::list_pi_prompt_templates,
+        commands::upsert_pi_prompt_template,
+        commands::delete_pi_prompt_template,
+        // Pi native provider and session views
+        commands::get_pi_current_state,
+        commands::update_pi_provider_usage_script,
+        commands::get_pi_session_discovery,
         // Profile management (项目配置方案)
         commands::list_profiles,
         commands::create_profile,
@@ -309,6 +319,7 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         // Generic managed auth commands
         commands::auth_start_login,
         commands::auth_poll_for_account,
+        commands::auth_cancel_login,
         commands::auth_list_accounts,
         commands::auth_get_status,
         commands::auth_remove_account,
