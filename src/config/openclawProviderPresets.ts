@@ -643,10 +643,10 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
   },
   {
     name: "APIKEY.FUN",
-    websiteUrl: "https://apikey.fun",
-    apiKeyUrl: "https://apikey.fun/register",
+    websiteUrl: "https://apikey.fan",
+    apiKeyUrl: "https://apikey.fan/register?aff=CCSwitch",
     settingsConfig: {
-      baseUrl: "https://api.apikey.fun",
+      baseUrl: "https://api.apikey.fan",
       apiKey: "",
       api: "anthropic-messages",
       models: [
@@ -720,7 +720,6 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
     isPartner: true,
     partnerPromotionKey: "9527code",
     icon: "9527code",
-    iconColor: "#4F46E5",
     templateValues: {
       apiKey: {
         label: "API Key",
@@ -1012,7 +1011,8 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
     },
   },
   {
-    name: "DouBaoSeed",
+    name: "Volcengine Doubao",
+    nameKey: "providerForm.presets.doubaoseed",
     websiteUrl:
       "https://console.volcengine.com/ark/region:ark+cn-beijing/apiKey?apikey=%7B%7D",
     apiKeyUrl:
@@ -1154,38 +1154,6 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       },
       modelCatalog: {
         "a6api/gpt-5.6-sol": { alias: "GPT-5.6 Sol" },
-      },
-    },
-  },
-  {
-    name: "AtlasCloud",
-    websiteUrl: "https://www.atlascloud.ai/console/coding-plan",
-    apiKeyUrl: "https://www.atlascloud.ai/console/coding-plan",
-    settingsConfig: {
-      baseUrl: "https://api.atlascloud.ai/v1",
-      apiKey: "",
-      api: "openai-completions",
-      models: [
-        {
-          id: "zai-org/glm-5.1",
-          name: "GLM 5.1",
-        },
-      ],
-    },
-    category: "aggregator",
-    isPartner: true,
-    partnerPromotionKey: "atlascloud",
-    icon: "atlascloud",
-    templateValues: {
-      apiKey: {
-        label: "API Key",
-        placeholder: "",
-        editorValue: "",
-      },
-    },
-    suggestedDefaults: {
-      model: {
-        primary: "atlascloud/zai-org/glm-5.1",
       },
     },
   },
@@ -1347,6 +1315,55 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       modelCatalog: {
         "sssaicode/claude-opus-5": { alias: "Opus" },
         "sssaicode/claude-sonnet-5": { alias: "Sonnet" },
+      },
+    },
+  },
+  {
+    name: "SoleAPI",
+    websiteUrl: "https://soleapi.com",
+    apiKeyUrl: "https://soleapi.com/r/ccswitch",
+    settingsConfig: {
+      baseUrl: "https://soleapi.com",
+      apiKey: "",
+      api: "anthropic-messages",
+      models: [
+        {
+          id: "claude-opus-5",
+          name: "Claude Opus 5",
+          contextWindow: 1000000,
+        },
+        {
+          id: "claude-sonnet-5",
+          name: "Claude Sonnet 5",
+          contextWindow: 1000000,
+        },
+        {
+          id: "claude-haiku-4-5-20251001",
+          name: "Claude Haiku 4.5",
+          contextWindow: 200000,
+        },
+      ],
+    },
+    category: "aggregator",
+    isPartner: true,
+    partnerPromotionKey: "soleapi",
+    icon: "soleapi",
+    templateValues: {
+      apiKey: {
+        label: "API Key",
+        placeholder: "",
+        editorValue: "",
+      },
+    },
+    suggestedDefaults: {
+      model: {
+        primary: "soleapi/claude-opus-5",
+        fallbacks: ["soleapi/claude-sonnet-5"],
+      },
+      modelCatalog: {
+        "soleapi/claude-opus-5": { alias: "Opus" },
+        "soleapi/claude-sonnet-5": { alias: "Sonnet" },
+        "soleapi/claude-haiku-4-5-20251001": { alias: "Haiku" },
       },
     },
   },
@@ -1743,6 +1760,36 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
     },
   },
   {
+    name: "AtlasCloud",
+    websiteUrl: "https://www.atlascloud.ai/console/coding-plan",
+    apiKeyUrl: "https://www.atlascloud.ai/console/coding-plan",
+    settingsConfig: {
+      baseUrl: "https://api.atlascloud.ai/v1",
+      apiKey: "",
+      api: "openai-completions",
+      models: [
+        {
+          id: "zai-org/glm-5.1",
+          name: "GLM 5.1",
+        },
+      ],
+    },
+    category: "aggregator",
+    icon: "atlascloud",
+    templateValues: {
+      apiKey: {
+        label: "API Key",
+        placeholder: "",
+        editorValue: "",
+      },
+    },
+    suggestedDefaults: {
+      model: {
+        primary: "atlascloud/zai-org/glm-5.1",
+      },
+    },
+  },
+  {
     name: "DeepSeek",
     websiteUrl: "https://platform.deepseek.com",
     apiKeyUrl: "https://platform.deepseek.com/api_keys",
@@ -1917,15 +1964,6 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
           maxTokens: 131072,
         },
         {
-          id: "minimax-m2.5",
-          name: "MiniMax M2.5",
-          reasoning: false,
-          input: ["text"],
-          cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-          contextWindow: 196608,
-          maxTokens: 32768,
-        },
-        {
           id: "glm-5",
           name: "GLM-5",
           reasoning: false,
@@ -2098,12 +2136,12 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
   {
     // Token Plan 企业版专业套餐（1823/130659，2026-08-25 版，广州地域）：
     // 模型条目照官方企业版 OpenClaw 接入页（1300/81503，Pro 块）原样
-    //（cost 全零、ctx/maxTokens 为官方 OpenClaw 口径）；glm-5/minimax-m2.5/
-    // deepseek 带日期对取个人版接入页（1823/130062）口径；接入页未列的
+    //（cost 全零、ctx/maxTokens 为官方 OpenClaw 口径）；glm-5/deepseek
+    // 带日期对取个人版接入页（1823/130062）口径；接入页未列的
     // glm-5.3/glm-5.1/glm-5-turbo/kimi-k2.6/minimax-m2.7/deepseek-*-0731/
     // -0813 按平台模型列表页（1300/78934）补 maxTokens、reasoning 随同族
     // 接入页口径（全 false）。kimi-k2.5 官方 2026-08-31 下线不收；
-    // minimax-m2.5 文档已除名但接入页仍列且真 Key 实测可用，照实收录
+    // minimax-m2.5 官方已除名且平台计划下线，2026-09-07 从全部 app 移除
     name: "Tencent Token Plan Enterprise Pro",
     websiteUrl: "https://cloud.tencent.com/product/tokenhub",
     apiKeyUrl: "https://console.cloud.tencent.com/tokenhub/tokenplan-e",
@@ -2214,15 +2252,6 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
           input: ["text"],
           cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
           contextWindow: 1048576,
-          maxTokens: 32768,
-        },
-        {
-          id: "minimax-m2.5",
-          name: "MiniMax M2.5",
-          reasoning: false,
-          input: ["text"],
-          cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-          contextWindow: 196608,
           maxTokens: 32768,
         },
         {
@@ -2595,25 +2624,25 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
     },
   },
   {
-    name: "Qwen Coder",
-    websiteUrl: "https://bailian.console.aliyun.com",
-    apiKeyUrl: "https://bailian.console.aliyun.com/#/api-key",
+    name: "千问AI平台",
+    websiteUrl: "https://platform.qianwenai.com/",
+    apiKeyUrl:
+      "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
       apiKey: "",
       api: "openai-completions",
       models: [
         {
-          id: "qwen3.5-plus",
-          name: "Qwen3.5 Plus",
-          contextWindow: 32000,
-          cost: { input: 0.26, output: 1.56, cacheRead: 0.052 },
+          id: "qwen3.8-max",
+          name: "Qwen3.8 Max",
+          contextWindow: 983616,
         },
       ],
     },
     category: "cn_official",
-    icon: "qwen",
-    iconColor: "#FF6A00",
+    icon: "qianwenai",
+    iconColor: "#624AFF",
     templateValues: {
       baseUrl: {
         label: "Base URL",
@@ -2628,17 +2657,75 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       },
     },
     suggestedDefaults: {
-      model: { primary: "qwen/qwen3.5-plus" },
-      modelCatalog: { "qwen/qwen3.5-plus": { alias: "Qwen" } },
+      model: { primary: "qwen/qwen3.8-max" },
+      modelCatalog: { "qwen/qwen3.8-max": { alias: "Qwen" } },
+    },
+  },
+  {
+    name: "千问AI平台 Token Plan",
+    websiteUrl:
+      "https://platform.qianwenai.com/pricing/token-plan",
+    apiKeyUrl:
+      "https://platform.qianwenai.com/home/api-keys",
+    settingsConfig: {
+      baseUrl: "https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic",
+      apiKey: "",
+      api: "anthropic-messages",
+      models: [
+        {
+          id: "qwen3.8-max",
+          name: "Qwen3.8 Max",
+          reasoning: true,
+          input: ["text", "image"],
+          contextWindow: 983616,
+          maxTokens: 131072,
+        },
+        {
+          id: "qwen3.8-flash",
+          name: "Qwen3.8 Flash",
+          reasoning: true,
+          input: ["text", "image"],
+          contextWindow: 983616,
+          maxTokens: 131072,
+        },
+      ],
+    },
+    category: "cn_official",
+    icon: "qianwenai",
+    iconColor: "#624AFF",
+    templateValues: {
+      baseUrl: {
+        label: "Base URL",
+        placeholder:
+          "https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic",
+        defaultValue:
+          "https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic",
+        editorValue: "",
+      },
+      apiKey: {
+        label: "API Key",
+        placeholder: "sk-...",
+        editorValue: "",
+      },
+    },
+    suggestedDefaults: {
+      model: { primary: "qianwenai-token-plan/qwen3.8-max" },
+      modelCatalog: {
+        "qianwenai-token-plan/qwen3.8-max": { alias: "Qwen3.8 Max" },
+        "qianwenai-token-plan/qwen3.8-flash": { alias: "Qwen3.8 Flash" },
+      },
     },
   },
   // ===== QwenCloud（DashScope 国际站）=====
-  // 三条线都走 anthropic-messages，地址比 Claude Code 的多一段 /v1。
+  // 与上面国内条目是两套独立站点：域名、控制台、密钥互不通用。
+  // QwenCloud 与 Token Plan 都走 anthropic-messages，地址比 Claude Code 的
+  // 多一段 /v1；国内 Token Plan 是唯一例外，官方文档给的就是不带 /v1 的
+  // /apps/anthropic，勿照搬国际站补齐。
   // modelCatalog 必须逐条覆盖 models：OpenClaw 把 agents.defaults.models
   // 当白名单，漏写的模型会在客户端里被隐藏。
   {
     name: "QwenCloud",
-    websiteUrl: "https://www.qwencloud.com",
+    websiteUrl: "https://home.qwencloud.com/",
     apiKeyUrl: "https://home.qwencloud.com/api-keys",
     settingsConfig: {
       baseUrl: "https://dashscope-intl.aliyuncs.com/apps/anthropic/v1",
@@ -2646,30 +2733,32 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       api: "anthropic-messages",
       models: [
         {
+          id: "qwen3.8-max",
+          name: "Qwen3.8 Max",
+          reasoning: true,
+          input: ["text", "image"],
+          contextWindow: 983616,
+          maxTokens: 131072,
+        },
+        {
+          id: "qwen3.8-flash",
+          name: "Qwen3.8 Flash",
+          reasoning: true,
+          input: ["text", "image"],
+          contextWindow: 983616,
+          maxTokens: 131072,
+        },
+        {
           id: "qwen3.7-max",
           name: "Qwen3.7 Max",
           input: ["text"],
           contextWindow: 1000000,
           maxTokens: 65536,
         },
-        {
-          id: "qwen3.7-plus",
-          name: "Qwen3.7 Plus",
-          input: ["text", "image"],
-          contextWindow: 1000000,
-          maxTokens: 65536,
-        },
-        {
-          id: "qwen3.6-plus",
-          name: "Qwen3.6 Plus",
-          input: ["text", "image"],
-          contextWindow: 1000000,
-          maxTokens: 65536,
-        },
       ],
     },
     category: "cn_official",
-    icon: "qwen",
+    icon: "qwencloud",
     iconColor: "#6336E7",
     templateValues: {
       baseUrl: {
@@ -2685,11 +2774,11 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       },
     },
     suggestedDefaults: {
-      model: { primary: "qwencloud/qwen3.7-max" },
+      model: { primary: "qwencloud/qwen3.8-max" },
       modelCatalog: {
+        "qwencloud/qwen3.8-max": { alias: "Qwen3.8 Max" },
+        "qwencloud/qwen3.8-flash": { alias: "Qwen3.8 Flash" },
         "qwencloud/qwen3.7-max": { alias: "Qwen3.7 Max" },
-        "qwencloud/qwen3.7-plus": { alias: "Qwen3.7 Plus" },
-        "qwencloud/qwen3.6-plus": { alias: "Qwen3.6 Plus" },
       },
     },
   },
@@ -2726,7 +2815,7 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       ],
     },
     category: "cn_official",
-    icon: "qwen",
+    icon: "qwencloud",
     iconColor: "#6336E7",
     templateValues: {
       baseUrl: {
@@ -2754,7 +2843,8 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
   },
   {
     name: "QwenCloud Token Plan",
-    websiteUrl: "https://www.qwencloud.com",
+    websiteUrl:
+      "https://www.qwencloud.com/pricing/token-plan",
     apiKeyUrl: "https://home.qwencloud.com/api-keys",
     settingsConfig: {
       baseUrl:
@@ -2785,31 +2875,10 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
           contextWindow: 1000000,
           maxTokens: 65536,
         },
-        {
-          id: "qwen3.7-plus",
-          name: "Qwen3.7 Plus",
-          input: ["text", "image"],
-          contextWindow: 1000000,
-          maxTokens: 65536,
-        },
-        {
-          id: "qwen3.6-plus",
-          name: "Qwen3.6 Plus",
-          input: ["text", "image"],
-          contextWindow: 1000000,
-          maxTokens: 65536,
-        },
-        {
-          id: "qwen3.6-flash",
-          name: "Qwen3.6 Flash",
-          input: ["text", "image"],
-          contextWindow: 1000000,
-          maxTokens: 32768,
-        },
       ],
     },
     category: "cn_official",
-    icon: "qwen",
+    icon: "qwencloud",
     iconColor: "#6336E7",
     templateValues: {
       baseUrl: {
@@ -2832,9 +2901,6 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
         "qwencloud-token-plan/qwen3.8-max": { alias: "Qwen3.8 Max" },
         "qwencloud-token-plan/qwen3.8-flash": { alias: "Qwen3.8 Flash" },
         "qwencloud-token-plan/qwen3.7-max": { alias: "Qwen3.7 Max" },
-        "qwencloud-token-plan/qwen3.7-plus": { alias: "Qwen3.7 Plus" },
-        "qwencloud-token-plan/qwen3.6-plus": { alias: "Qwen3.6 Plus" },
-        "qwencloud-token-plan/qwen3.6-flash": { alias: "Qwen3.6 Flash" },
       },
     },
   },
@@ -2938,15 +3004,16 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       api: "openai-completions",
       models: [
         {
-          id: "MiniMax-M2.7",
-          name: "MiniMax M2.7",
-          contextWindow: 200000,
-          cost: { input: 0.3, output: 1.2, cacheRead: 0.06, cacheWrite: 0.375 },
+          id: "MiniMax-M3",
+          name: "MiniMax M3",
+          reasoning: true,
+          input: ["text", "image"],
+          contextWindow: 1000000,
+          maxTokens: 131072,
         },
       ],
     },
     category: "cn_official",
-    partnerPromotionKey: "minimax_cn",
     theme: {
       backgroundColor: "#f64551",
       textColor: "#FFFFFF",
@@ -2961,8 +3028,8 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       },
     },
     suggestedDefaults: {
-      model: { primary: "minimax/MiniMax-M2.7" },
-      modelCatalog: { "minimax/MiniMax-M2.7": { alias: "MiniMax" } },
+      model: { primary: "minimax/MiniMax-M3" },
+      modelCatalog: { "minimax/MiniMax-M3": { alias: "MiniMax" } },
     },
   },
   {
@@ -2975,15 +3042,16 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       api: "openai-completions",
       models: [
         {
-          id: "MiniMax-M2.7",
-          name: "MiniMax M2.7",
-          contextWindow: 200000,
-          cost: { input: 0.3, output: 1.2, cacheRead: 0.06, cacheWrite: 0.375 },
+          id: "MiniMax-M3",
+          name: "MiniMax M3",
+          reasoning: true,
+          input: ["text", "image"],
+          contextWindow: 1000000,
+          maxTokens: 131072,
         },
       ],
     },
     category: "cn_official",
-    partnerPromotionKey: "minimax_en",
     theme: {
       backgroundColor: "#f64551",
       textColor: "#FFFFFF",
@@ -2998,8 +3066,8 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
       },
     },
     suggestedDefaults: {
-      model: { primary: "minimax-en/MiniMax-M2.7" },
-      modelCatalog: { "minimax-en/MiniMax-M2.7": { alias: "MiniMax" } },
+      model: { primary: "minimax-en/MiniMax-M3" },
+      modelCatalog: { "minimax-en/MiniMax-M3": { alias: "MiniMax" } },
     },
   },
   {

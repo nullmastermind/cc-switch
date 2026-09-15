@@ -238,11 +238,12 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
   },
   {
     name: "APIKEY.FUN",
-    websiteUrl: "https://apikey.fun",
-    apiKeyUrl: "https://apikey.fun/register",
+    websiteUrl: "https://apikey.fan",
+    apiKeyUrl: "https://apikey.fan/register?aff=CCSwitch",
     auth: grokAuth(),
-    config: grokPresetConfig("APIKEY.FUN", "https://api.apikey.fun/v1"),
+    config: grokPresetConfig("APIKEY.FUN", "https://api.apikey.fan/v1"),
     endpointCandidates: [
+      "https://api.apikey.fan/v1",
       "https://api.apikey.fun/v1",
       "https://slb.apikey.fun/v1",
     ],
@@ -267,7 +268,6 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
     isPartner: true,
     partnerPromotionKey: "9527code",
     icon: "9527code",
-    iconColor: "#4F46E5",
   },
   {
     name: "Code0",
@@ -382,6 +382,18 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
     partnerPromotionKey: "sssaicode",
     icon: "sssaicode",
     iconColor: "#000000",
+  },
+  {
+    name: "SoleAPI",
+    websiteUrl: "https://soleapi.com",
+    apiKeyUrl: "https://soleapi.com/r/ccswitch",
+    auth: grokAuth(),
+    config: grokPresetConfig("SoleAPI", "https://soleapi.com/v1"),
+    endpointCandidates: ["https://soleapi.com/v1"],
+    category: "aggregator",
+    isPartner: true,
+    partnerPromotionKey: "soleapi",
+    icon: "soleapi",
   },
   {
     name: "Micu",

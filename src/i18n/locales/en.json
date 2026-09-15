@@ -42,7 +42,8 @@
     "deleting": "Deleting...",
     "auto": "Auto",
     "enabled": "Enabled",
-    "notSet": "Not Set"
+    "notSet": "Not Set",
+    "collapse": "Collapse"
   },
   "firstRunNotice": {
     "title": "Welcome to Cli-Switch",
@@ -83,7 +84,8 @@
     "enableTeammates": "Teammates Mode",
     "enableToolSearch": "Enable Tool Search",
     "effortMax": "Max Effort Thinking",
-    "disableAutoUpgrade": "Disable Auto-Upgrade"
+    "disableAutoUpgrade": "Disable Auto-Upgrade",
+    "disableArtifact": "Disable Artifact Tool"
   },
   "header": {
     "viewOnGithub": "View on GitHub",
@@ -899,7 +901,8 @@
     "opencode": "OpenCode",
     "openclaw": "OpenClaw",
     "hermes": "Hermes",
-    "pi": "Pi"
+    "pi": "Pi",
+    "mcode": "MiniMax Code"
   },
   "pi": {
     "empty": {
@@ -965,7 +968,8 @@
       "effectiveApiRequired": "Model {{id}} needs an API, either directly or from the provider",
       "effectiveBaseUrlRequired": "Model {{id}} needs a base URL, either directly or from the provider",
       "duplicateModel": "Model ID {{id}} is duplicated",
-      "modelRequired": "Add at least one model"
+      "modelRequired": "Add at least one model",
+      "providerKeyDuplicate": "This provider key already exists"
     },
     "current": {
       "readFailed": "Could not read Pi's provider configuration",
@@ -1185,6 +1189,7 @@
       "ucloudCoding": "Compshare Coding Plan",
       "shengsuanyun": "Shengsuanyun",
       "qiniu": "Qiniu",
+      "doubaoseed": "Volcengine Doubao",
       "openrouter": "OpenRouter",
       "deepseek": "DeepSeek",
       "together": "Together AI"
@@ -1363,6 +1368,7 @@
     "reauthLogin": "Re-login",
     "reauthSelectHint": "This account needs to sign in again to enable managed binding.",
     "reauthNow": "Re-login now",
+    "duplicateAccount": "This ChatGPT account has already been added. Use the existing account.",
     "loggedInAccounts": "Logged in accounts",
     "defaultAccount": "Default",
     "selected": "Selected",
@@ -1660,7 +1666,8 @@
       "gemini": "Gemini",
       "opencode": "OpenCode",
       "grokbuild": "Grok Build",
-      "pi": "Pi"
+      "pi": "Pi",
+      "mcode": "MiniMax Code"
     },
     "rawInputLabel": "Raw",
     "sessionSync": {
@@ -1955,7 +1962,8 @@
         "grokbuild": "Grok Build",
         "opencode": "OpenCode",
         "openclaw": "OpenClaw",
-        "hermes": "Hermes"
+        "hermes": "Hermes",
+        "mcode": "MiniMax Code"
       }
     },
     "userLevelPath": "User-level MCP path",
@@ -2132,6 +2140,7 @@
     }
   },
   "profiles": {
+    "switcherAriaLabel": "Project: {{name}}",
     "switcherTooltip": {
       "claude": "Projects: switch the Claude Code provider / MCP / Skills / memory files in one click",
       "claude-desktop": "Projects: switch the Claude Desktop provider in one click",
@@ -2814,6 +2823,7 @@
     },
     "switchFailed": "Switch failed: {{error}}",
     "takeover": {
+      "ariaLabel": "{{appLabel}} local routing",
       "hint": "Select apps to route — once enabled, requests from that app will go through local routing",
       "enabled": "{{app}} routing enabled",
       "disabled": "{{app}} routing disabled",
@@ -3169,6 +3179,7 @@
     "title": "Subscription Quota",
     "fiveHour": "5-Hour",
     "sevenDay": "7-Day",
+    "sevenDayFable": "Fable",
     "sevenDayOpus": "7-Day (Opus)",
     "sevenDaySonnet": "7-Day (Sonnet)",
     "thirtyDay": "30-Day",

@@ -42,7 +42,8 @@
     "deleting": "刪除中...",
     "auto": "自動",
     "enabled": "已啟用",
-    "notSet": "未設定"
+    "notSet": "未設定",
+    "collapse": "收合"
   },
   "firstRunNotice": {
     "title": "歡迎使用 Cli-Switch",
@@ -83,7 +84,8 @@
     "enableTeammates": "Teammates 模式",
     "enableToolSearch": "啟用 Tool Search",
     "effortMax": "最大強度思考",
-    "disableAutoUpgrade": "停用自動升級"
+    "disableAutoUpgrade": "停用自動升級",
+    "disableArtifact": "停用 Artifact 工具"
   },
   "header": {
     "viewOnGithub": "在 GitHub 上檢視",
@@ -900,7 +902,8 @@
     "opencode": "OpenCode",
     "openclaw": "OpenClaw",
     "hermes": "Hermes",
-    "pi": "Pi"
+    "pi": "Pi",
+    "mcode": "MiniMax Code"
   },
   "pi": {
     "empty": {
@@ -966,7 +969,8 @@
       "effectiveApiRequired": "模型 {{id}} 必須直接設定或從供應商繼承 API",
       "effectiveBaseUrlRequired": "模型 {{id}} 必須直接設定或從供應商繼承基礎 URL",
       "duplicateModel": "模型 ID {{id}} 重複",
-      "modelRequired": "請至少新增一個模型"
+      "modelRequired": "請至少新增一個模型",
+      "providerKeyDuplicate": "該供應商標識已存在"
     },
     "current": {
       "readFailed": "無法讀取 Pi 供應商設定",
@@ -1186,6 +1190,7 @@
       "ucloudCoding": "優雲智算 Coding Plan",
       "shengsuanyun": "勝算雲",
       "qiniu": "七牛雲",
+      "doubaoseed": "火山 豆包AI",
       "openrouter": "OpenRouter",
       "deepseek": "DeepSeek",
       "together": "Together AI"
@@ -1364,6 +1369,7 @@
     "reauthLogin": "重新登入",
     "reauthSelectHint": "該帳號需重新登入以啟用託管綁定。",
     "reauthNow": "立即重新登入",
+    "duplicateAccount": "該 ChatGPT 帳號已新增，請直接使用現有帳號。",
     "loggedInAccounts": "已登入帳號",
     "defaultAccount": "預設",
     "selected": "已選取",
@@ -1661,7 +1667,8 @@
       "gemini": "Gemini",
       "opencode": "OpenCode",
       "grokbuild": "Grok Build",
-      "pi": "Pi"
+      "pi": "Pi",
+      "mcode": "MiniMax Code"
     },
     "rawInputLabel": "原始",
     "sessionSync": {
@@ -1956,7 +1963,8 @@
         "grokbuild": "Grok Build",
         "opencode": "OpenCode",
         "openclaw": "OpenClaw",
-        "hermes": "Hermes"
+        "hermes": "Hermes",
+        "mcode": "MiniMax Code"
       }
     },
     "userLevelPath": "使用者級 MCP 設定路徑",
@@ -2133,6 +2141,7 @@
     }
   },
   "profiles": {
+    "switcherAriaLabel": "專案：{{name}}",
     "switcherTooltip": {
       "claude": "專案：一鍵切換 Claude Code 的供應商 / MCP / Skills / 記憶檔案",
       "claude-desktop": "專案：一鍵切換 Claude Desktop 的供應商",
@@ -2815,6 +2824,7 @@
     },
     "switchFailed": "切換失敗：{{error}}",
     "takeover": {
+      "ariaLabel": "{{appLabel}} 本地路由",
       "hint": "選擇要路由的應用程式，啟用後該應用程式的請求將透過本地路由轉發",
       "enabled": "{{app}} 路由已啟用",
       "disabled": "{{app}} 路由已關閉",
@@ -3171,6 +3181,7 @@
     "fiveHour": "5 小時",
     "sevenDay": "7 天",
     "sevenDayOpus": "7 天 (Opus)",
+    "sevenDayFable": "Fable",
     "sevenDaySonnet": "7 天 (Sonnet)",
     "thirtyDay": "30 天",
     "geminiPro": "Pro",

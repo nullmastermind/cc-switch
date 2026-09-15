@@ -154,6 +154,7 @@ function ModelOptionKeyInput({
 }
 
 interface OpenCodeFormFieldsProps {
+  apiFormats?: ReadonlyArray<{ value: string; label: string }>;
   // NPM Package
   npm: string;
   onNpmChange: (value: string) => void;
@@ -184,6 +185,7 @@ interface OpenCodeFormFieldsProps {
 }
 
 export function OpenCodeFormFields({
+  apiFormats = opencodeNpmPackages,
   npm,
   onNpmChange,
   apiKey,
@@ -506,7 +508,7 @@ export function OpenCodeFormFields({
             />
           </SelectTrigger>
           <SelectContent>
-            {opencodeNpmPackages.map((pkg) => (
+            {apiFormats.map((pkg) => (
               <SelectItem key={pkg.value} value={pkg.value}>
                 {pkg.label}
               </SelectItem>
