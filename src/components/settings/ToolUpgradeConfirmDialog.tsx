@@ -41,28 +41,31 @@ export function ToolUpgradeConfirmDialog({
         if (!open) onCancel();
       }}
     >
-      <DialogContent className="max-w-md" zIndex="alert">
-        <DialogHeader className="space-y-2 border-b-0 bg-transparent pb-0">
-          <DialogTitle className="flex items-center gap-2 text-base font-semibold">
-            <AlertTriangle className="h-5 w-5 text-yellow-500" />
+      <DialogContent
+        className="w-full max-w-[480px] gap-2 rounded-[8px] p-2 text-ui sm:rounded-[8px]"
+        zIndex="alert"
+      >
+        <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
+          <DialogTitle className="flex items-center gap-2 text-[12.35px] font-semibold leading-[1.3] tracking-normal">
+            <AlertTriangle className="h-4 w-4 text-yellow-500" />
             {t("settings.toolUpgradeConfirmTitle")}
           </DialogTitle>
-          <DialogDescription className="text-sm leading-relaxed">
+          <DialogDescription className="text-[12.35px] leading-[1.3]">
             {t("settings.toolUpgradeConfirmHint")}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="max-h-[50vh] space-y-3 overflow-y-auto">
+        <div className="max-h-[50vh] space-y-2 overflow-y-auto">
           {plans.map((plan) => (
             <div
               key={plan.tool}
-              className="space-y-1.5 rounded-lg border border-yellow-500/20 bg-yellow-500/5 p-2.5"
+              className="space-y-2 rounded-[8px] border border-yellow-500/20 bg-yellow-500/5 p-2"
             >
-              <div className="text-xs font-medium">
+              <div className="text-ui font-medium">
                 {displayName(plan.tool)}
               </div>
               {!plan.anchored && (
-                <div className="text-[10px] leading-snug text-yellow-600 dark:text-yellow-400">
+                <div className="text-ui leading-[1.3] text-yellow-600 dark:text-yellow-400">
                   {t("settings.toolUpgradeUnanchoredHint")}
                 </div>
               )}
@@ -73,12 +76,12 @@ export function ToolUpgradeConfirmDialog({
                   </li>
                 ))}
               </ul>
-              <div className="space-y-0.5">
-                <div className="text-[10px] text-muted-foreground">
+              <div className="space-y-1">
+                <div className="text-ui text-muted-foreground">
                   {t("settings.toolUpgradeWillRun")}
                 </div>
                 <code
-                  className="block truncate rounded bg-background/80 px-1.5 py-0.5 font-mono text-[10px] text-foreground"
+                  className="block min-h-6 truncate rounded-[4px] bg-background/80 px-2 py-1 font-mono text-ui text-foreground"
                   title={plan.command}
                 >
                   {plan.command}
@@ -88,7 +91,7 @@ export function ToolUpgradeConfirmDialog({
           ))}
         </div>
 
-        <DialogFooter className="flex gap-2 border-t-0 bg-transparent pt-2 sm:justify-end">
+        <DialogFooter className="gap-2 border-t-0 bg-transparent p-0 sm:justify-end">
           <Button variant="outline" onClick={onCancel}>
             {t("common.cancel")}
           </Button>

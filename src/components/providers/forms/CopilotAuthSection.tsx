@@ -228,11 +228,10 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
           <Button
             type="button"
             variant="outline"
-            size="sm"
-            className="h-7 shrink-0"
+            className="shrink-0"
             onClick={() => void refetchStatus()}
           >
-            <RefreshCw className="mr-1 h-3.5 w-3.5" />
+            <RefreshCw className="h-4 w-4" />
             {t("copilot.retry", "重试")}
           </Button>
         </div>

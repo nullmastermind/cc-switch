@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
   Download,
   Copy,
@@ -279,12 +279,15 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
   // probeToolInstallations 是个 1-3 秒级别的跨进程探测(对每个工具跑 --version + canonicalize),
   // 在它返回之前 toolActions / batchAction 都还没被置位 → 按钮不会 disabled → 用户快速双击
   // 会并发开两轮 probe,各自再触发 executeRun(并发的 `npm i -g` / 官方 installer,写冲突)。
-  // 把 probe 期间的工具登记在这里、纳入 isAnyBusy 派生,关掉这个并发窗口。
+  // 把 probe 期间的工具登记在这里、按卡片 disabled,关掉双击同一工具的并发窗口。
   // 用 Set 而非 boolean:单卡片升级 & 批量升级可能在不同工具上独立 preflight,
   // 精确反映到各自卡片按钮的 disabled。
   const [preflightTools, setPreflightTools] = useState<Set<ToolName>>(
     () => new Set(),
   );
+  // Sync lock: React state lags one frame, so double-click on the same card
+  // would both see idle and start two npm/pip writes. Ref is claimed before await.
+  const busyToolsRef = useRef<Set<ToolName>>(new Set());
 
   const toolVersionByName = useMemo(() => {
     return new Map(toolVersions.map((tool) => [tool.name, tool]));
@@ -505,7 +508,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
     }
   }, [t]);
 
-  // 实际执行安装/升级的串行循环（已通过任何必要的确认后才调用）。
+  // 实际执行安装/升级（已通过任何必要的确认后才调用）。
   const executeRun = useCallback(
     async (toolNames: ToolName[], action: ToolLifecycleAction) => {
       const isBatch = toolNames.length > 1;
@@ -513,160 +516,172 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
         setBatchAction(action);
       }
 
-      // 逐工具串行执行：每个工具独立成败、独立刷新版本，一个失败不会连坐
-      // 后续工具（后端把整批拼成单脚本 + set -e，会在首个失败处中止整批）。
-      // soft=true 表示"命令成功执行但结果仍需用户介入"（版本没变/装上却跑不起来），
-      // 与命令本身报错（soft=false）区别对待：前者不算硬失败，toast 降级为 warning。
-      const failures: {
-        toolName: ToolName;
-        detail: string;
-        soft: boolean;
-        kind?: "notRunnable" | "versionUnchanged";
-      }[] = [];
-      let succeeded = 0;
+      try {
+        // 各工具独立成败、独立刷新版本；并行执行，互不等待。
+        // soft=true 表示"命令成功执行但结果仍需用户介入"（版本没变/装上却跑不起来），
+        // 与命令本身报错（soft=false）区别对待：前者不算硬失败，toast 降级为 warning。
+        const failures: {
+          toolName: ToolName;
+          detail: string;
+          soft: boolean;
+          kind?: "notRunnable" | "versionUnchanged";
+        }[] = [];
+        let succeeded = 0;
 
-      for (const toolName of toolNames) {
-        setToolActions((prev) => ({ ...prev, [toolName]: action }));
-        try {
-          const previousTool = toolVersionByName.get(toolName);
-          const previousVersion = previousTool?.version ?? null;
-          const previousLatestVersion = previousTool?.latest_version ?? null;
+        setToolActions((prev) => {
+          const next = { ...prev };
+          for (const name of toolNames) next[name] = action;
+          return next;
+        });
 
-          await settingsApi.runToolLifecycleAction(
-            [toolName],
-            action,
-            wslShellByTool,
-          );
-          // 静默执行真正结束后刷新该工具版本，卡片立即反映结果。
-          const refreshed = await refreshToolVersions(
-            [toolName],
-            wslShellByTool,
-          );
-          const tool = refreshed.find((t) => t.name === toolName);
-          if (tool?.version) {
-            const latestVersion = tool.latest_version ?? previousLatestVersion;
-            const versionUnchangedAfterUpdate =
-              action === "update" &&
-              Boolean(previousVersion) &&
-              tool.version === previousVersion &&
-              isUpdateAvailable(tool.version, latestVersion);
+        const outcomes = await Promise.all(
+          toolNames.map(async (toolName) => {
+            try {
+              const previousTool = toolVersionByName.get(toolName);
+              const previousVersion = previousTool?.version ?? null;
+              const previousLatestVersion =
+                previousTool?.latest_version ?? null;
 
-            if (versionUnchangedAfterUpdate) {
-              // 有些上游 updater 会在未实际改动版本时仍返回 0。这里用刷新后的
-              // 当前版本 + latest_version 再确认一次，避免给用户误报升级成功。
-              failures.push({
-                toolName,
-                detail: t("settings.toolActionVersionUnchanged", {
-                  version: tool.version,
-                  latest: latestVersion ?? t("common.unknown"),
-                }),
-                soft: true,
-                kind: "versionUnchanged",
-              });
-              void diagnoseToolSilently(toolName);
-            } else {
-              succeeded += 1;
-              // 升级成功后无条件补诊：版本没变多半被另一处遮蔽，版本变了另一处也可能仍在，
-              // 两种都要刷新冲突展示（diagnoseToolSilently 无冲突时会自动清旧）。
-              if (action === "update") {
-                void diagnoseToolSilently(toolName);
+              await settingsApi.runToolLifecycleAction(
+                [toolName],
+                action,
+                wslShellByTool,
+              );
+              const refreshed = await refreshToolVersions(
+                [toolName],
+                wslShellByTool,
+              );
+              const tool = refreshed.find((t) => t.name === toolName);
+              if (tool?.version) {
+                const latestVersion =
+                  tool.latest_version ?? previousLatestVersion;
+                const versionUnchangedAfterUpdate =
+                  action === "update" &&
+                  Boolean(previousVersion) &&
+                  tool.version === previousVersion &&
+                  isUpdateAvailable(tool.version, latestVersion);
+
+                if (versionUnchangedAfterUpdate) {
+                  void diagnoseToolSilently(toolName);
+                  return {
+                    toolName,
+                    detail: t("settings.toolActionVersionUnchanged", {
+                      version: tool.version,
+                      latest: latestVersion ?? t("common.unknown"),
+                    }),
+                    soft: true as const,
+                    kind: "versionUnchanged" as const,
+                  };
+                }
+                if (action === "update") {
+                  void diagnoseToolSilently(toolName);
+                }
+                return { toolName, ok: true as const };
               }
+              const detail =
+                tool?.error?.trim() || t("settings.toolNotRunnable");
+              void diagnoseToolSilently(toolName);
+              return {
+                toolName,
+                detail,
+                soft: true as const,
+                kind: "notRunnable" as const,
+              };
+            } catch (error) {
+              console.error(
+                `[AboutSection] Failed to run tool action for ${toolName}`,
+                error,
+              );
+              return {
+                toolName,
+                detail: extractErrorMessage(error) || String(error),
+                soft: false as const,
+              };
+            } finally {
+              setToolActions((prev) => {
+                const next = { ...prev };
+                delete next[toolName];
+                return next;
+              });
             }
-          } else {
-            // 命令退出码为 0、但刷新后仍探不到版本：多半是"装上了却跑不起来"
-            // （如 openclaw 要求更高的 Node 版本）。refreshToolVersions 的 merge 已把
-            // version 置空并写入后端 error，这里只需归类为软失败并展示原因。
-            const detail = tool?.error?.trim() || t("settings.toolNotRunnable");
-            failures.push({
-              toolName,
-              detail,
-              soft: true,
-              kind: "notRunnable",
-            });
-            // 装了却跑不起来同样可能源于多处安装，自动诊断帮用户定位。
-            void diagnoseToolSilently(toolName);
-          }
-        } catch (error) {
-          console.error(
-            `[AboutSection] Failed to run tool action for ${toolName}`,
-            error,
-          );
-          const detail = extractErrorMessage(error) || String(error);
-          failures.push({ toolName, detail, soft: false });
-        } finally {
-          setToolActions((prev) => {
-            const next = { ...prev };
-            delete next[toolName];
-            return next;
-          });
-        }
-      }
-
-      if (isBatch) {
-        setBatchAction(null);
-      }
-
-      const actionLabel =
-        action === "install"
-          ? t("settings.toolInstall")
-          : t("settings.toolUpdate");
-
-      if (failures.length === 0) {
-        toast.success(
-          t("settings.toolActionDone", {
-            count: succeeded,
-            action: actionLabel,
           }),
-          { closeButton: true },
         );
-        return;
-      }
 
-      // 批量场景每个失败只摘取错误末行（最相关），单工具场景给出完整详情。
-      const lastLine = (text: string) => {
-        const lines = text.trim().split("\n").filter(Boolean);
-        return lines[lines.length - 1] ?? text;
-      };
-      const failureDescription = isBatch
-        ? failures
-            .map(
-              (f) => `${TOOL_DISPLAY_NAMES[f.toolName]}: ${lastLine(f.detail)}`,
-            )
-            .join("\n")
-        : failures[0]?.detail;
+        for (const outcome of outcomes) {
+          if ("ok" in outcome && outcome.ok) {
+            succeeded += 1;
+          } else if ("detail" in outcome) {
+            failures.push(outcome);
+          }
+        }
 
-      const hardFailures = failures.filter((f) => !f.soft);
-      const allSoftVersionUnchanged =
-        failures.length > 0 &&
-        failures.every((f) => f.soft && f.kind === "versionUnchanged");
+        const actionLabel =
+          action === "install"
+            ? t("settings.toolInstall")
+            : t("settings.toolUpdate");
 
-      if (succeeded === 0 && hardFailures.length === 0) {
-        // 命令均成功执行、但结果需要用户介入（版本没变 / 装上却跑不起来）
-        // → 降级为 warning 并解释原因。
-        toast.warning(
-          allSoftVersionUnchanged
-            ? t("settings.toolActionVersionUnchangedTitle")
-            : t("settings.toolActionInstalledNotRunnable"),
-          {
+        if (failures.length === 0) {
+          toast.success(
+            t("settings.toolActionDone", {
+              count: succeeded,
+              action: actionLabel,
+            }),
+            { closeButton: true },
+          );
+          return;
+        }
+
+        // 批量场景每个失败只摘取错误末行（最相关），单工具场景给出完整详情。
+        const lastLine = (text: string) => {
+          const lines = text.trim().split("\n").filter(Boolean);
+          return lines[lines.length - 1] ?? text;
+        };
+        const failureDescription = isBatch
+          ? failures
+              .map(
+                (f) =>
+                  `${TOOL_DISPLAY_NAMES[f.toolName]}: ${lastLine(f.detail)}`,
+              )
+              .join("\n")
+          : failures[0]?.detail;
+
+        const hardFailures = failures.filter((f) => !f.soft);
+        const allSoftVersionUnchanged =
+          failures.length > 0 &&
+          failures.every((f) => f.soft && f.kind === "versionUnchanged");
+
+        if (succeeded === 0 && hardFailures.length === 0) {
+          // 命令均成功执行、但结果需要用户介入（版本没变 / 装上却跑不起来）
+          // → 降级为 warning 并解释原因。
+          toast.warning(
+            allSoftVersionUnchanged
+              ? t("settings.toolActionVersionUnchangedTitle")
+              : t("settings.toolActionInstalledNotRunnable"),
+            {
+              description: failureDescription || undefined,
+              closeButton: true,
+            },
+          );
+        } else if (succeeded === 0) {
+          toast.error(t("settings.toolActionFailed"), {
             description: failureDescription || undefined,
             closeButton: true,
-          },
-        );
-      } else if (succeeded === 0) {
-        toast.error(t("settings.toolActionFailed"), {
-          description: failureDescription || undefined,
-          closeButton: true,
-        });
-      } else {
-        // 部分成功：用 warning 汇总成败数量，详情列出失败的工具。
-        toast.warning(
-          t("settings.toolActionPartial", {
-            succeeded,
-            failed: failures.length,
-            action: actionLabel,
-          }),
-          { description: failureDescription || undefined, closeButton: true },
-        );
+          });
+        } else {
+          // 部分成功：用 warning 汇总成败数量，详情列出失败的工具。
+          toast.warning(
+            t("settings.toolActionPartial", {
+              succeeded,
+              failed: failures.length,
+              action: actionLabel,
+            }),
+            { description: failureDescription || undefined, closeButton: true },
+          );
+        }
+      } finally {
+        if (isBatch) {
+          setBatchAction(null);
+        }
       }
     },
     [
@@ -683,9 +698,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
   //   ① update 的 probeToolInstallations 阶段(1-3 秒跨进程,executeRun 之前);
   //   ② executeRun 内部 setToolActions 落到 React commit 前的几个 microtask;
   //   ③ install 直接进 executeRun 的同一段 microtask 窗口。
-  // 早退检查避免同一工具在 toolActions / preflight 已登记时被重复入栈——批量场景里
-  // 只要有一个工具被锁,整批不开新一轮,因为后端 set -e 串行的语义假设是「一次性
-  // 单脚本」,跨两次 IPC 并发会破坏它。
+  // 只跳过已经在跑的工具，其余仍并行入栈。
   const handleRunToolAction = useCallback(
     async (
       toolNames: ToolName[],
@@ -693,18 +706,14 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
       options?: { fromBatchEntry?: boolean },
     ) => {
       if (toolNames.length === 0) return;
-      if (
-        toolNames.some(
-          (name) => preflightTools.has(name) || toolActions[name] !== undefined,
-        )
-      ) {
-        return;
-      }
-      // 入栈 preflight,按钮立刻 disabled。new Set(prev) 是不可变更新(直接 mutate
-      // 原 Set 会让 React 复用引用、跳过 re-render);finally 块负责异常路径解锁。
+      const idleNames = toolNames.filter(
+        (name) => !busyToolsRef.current.has(name),
+      );
+      if (idleNames.length === 0) return;
+      idleNames.forEach((name) => busyToolsRef.current.add(name));
       setPreflightTools((prev) => {
         const next = new Set(prev);
-        toolNames.forEach((name) => next.add(name));
+        idleNames.forEach((name) => next.add(name));
         return next;
       });
       // 「全部升级」入口在 probe 阶段就点亮 spinner:batchAction 若只由 executeRun
@@ -716,18 +725,19 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
       if (fromBatchEntry) {
         setBatchAction(action);
       }
+      let handedOffToConfirm = false;
       try {
         if (action === "install") {
-          await executeRun(toolNames, action);
+          await executeRun(idleNames, action);
           return;
         }
         let reports: ToolInstallationReport[];
         try {
-          reports = await settingsApi.probeToolInstallations(toolNames);
+          reports = await settingsApi.probeToolInstallations(idleNames);
         } catch (error) {
           // 探测失败不应阻断升级：退回直接执行（等同旧行为）。
           console.error("[AboutSection] probeToolInstallations failed", error);
-          await executeRun(toolNames, action);
+          await executeRun(idleNames, action);
           return;
         }
         // 认不出安装渠道的原生安装（winget / Scoop / 手动下载的二进制等）不执行升级：
@@ -748,7 +758,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
             closeButton: true,
           });
         }
-        const runnableTools = toolNames.filter(
+        const runnableTools = idleNames.filter(
           (name) => !unmanaged.some((r) => r.tool === name),
         );
         if (runnableTools.length === 0) return;
@@ -759,34 +769,40 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
           await executeRun(runnableTools, action);
           return;
         }
+        handedOffToConfirm = true;
+        idleNames
+          .filter((name) => !runnableTools.includes(name))
+          .forEach((name) => busyToolsRef.current.delete(name));
         setPendingUpgrade({
           toolNames: runnableTools,
           plans: needConfirm,
           fromBatchEntry,
         });
       } finally {
-        if (fromBatchEntry) {
+        if (fromBatchEntry && !handedOffToConfirm) {
           setBatchAction(null);
         }
         setPreflightTools((prev) => {
           const next = new Set(prev);
-          toolNames.forEach((name) => next.delete(name));
+          idleNames.forEach((name) => next.delete(name));
           return next;
         });
+        if (!handedOffToConfirm) {
+          idleNames.forEach((name) => busyToolsRef.current.delete(name));
+        }
       }
     },
-    [executeRun, preflightTools, toolActions, t],
+    [executeRun, t],
   );
 
   const handleConfirmUpgrade = useCallback(() => {
     if (pendingUpgrade) {
       const { toolNames, fromBatchEntry } = pendingUpgrade;
-      // executeRun 按数量判 isBatch，「全部升级(1)」确认后执行期会漏置 batchAction，
-      // 由入口来源在这里补上；对 >1 的场景 executeRun 会重复置位/清除，无害。
       if (fromBatchEntry) {
         setBatchAction("update");
       }
       void executeRun(toolNames, "update").finally(() => {
+        toolNames.forEach((name) => busyToolsRef.current.delete(name));
         if (fromBatchEntry) {
           setBatchAction(null);
         }
@@ -795,18 +811,30 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
     setPendingUpgrade(null);
   }, [pendingUpgrade, executeRun]);
 
-  const handleCancelUpgrade = useCallback(() => setPendingUpgrade(null), []);
+  const handleCancelUpgrade = useCallback(() => {
+    pendingUpgrade?.toolNames.forEach((name) =>
+      busyToolsRef.current.delete(name),
+    );
+    setPendingUpgrade(null);
+  }, [pendingUpgrade]);
 
   const displayVersion = version ?? t("common.unknown");
 
-  // 任一安装/升级进行中（批量或单工具）即视为忙碌：用于禁用所有操作按钮，
-  // 避免并发触发多个 npm/pip 全局写入造成冲突。
-  // preflightTools 覆盖升级前的 probe 阶段——那段在 executeRun 之前、toolActions
-  // 还没置位,如果不算进 busy 会留出 1-3 秒的并发触发窗口。
-  const isAnyBusy =
-    Boolean(batchAction) ||
-    Object.keys(toolActions).length > 0 ||
-    preflightTools.size > 0;
+  const isToolBusy = (name: ToolName) =>
+    preflightTools.has(name) ||
+    toolActions[name] !== undefined ||
+    Boolean(pendingUpgrade?.toolNames.includes(name));
+
+  const idleUpdatableToolNames = useMemo(
+    () =>
+      updatableToolNames.filter(
+        (name) =>
+          !preflightTools.has(name) &&
+          toolActions[name] === undefined &&
+          !pendingUpgrade?.toolNames.includes(name),
+      ),
+    [updatableToolNames, preflightTools, toolActions, pendingUpgrade],
+  );
 
   return (
     <motion.section
@@ -826,29 +854,27 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
         initial={{ opacity: 0, scale: 0.98 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3, delay: 0.1 }}
-        className="rounded-xl border border-border bg-gradient-to-br from-card/80 to-card/40 p-6 space-y-5 shadow-sm"
+        className="rounded-[8px] border border-border bg-card p-2"
       >
-        <div className="flex items-center gap-8">
-          <div className="flex flex-col items-center gap-2">
+        <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-1">
             <div className="flex items-center gap-2">
-              <img src={appIcon} alt="Cli-Switch" className="h-5 w-5" />
-              <h4 className="text-lg font-semibold text-foreground">
+              <img src={appIcon} alt="Cli-Switch" className="h-4 w-4" />
+              <h4 className="text-ui font-semibold text-foreground">
                 Cli-Switch
               </h4>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="outline" className="gap-1.5 bg-background/80">
-                <span className="text-muted-foreground">
-                  {t("common.version")}
-                </span>
+              <div className="flex items-center gap-1 text-ui text-muted-foreground">
+                <span>{t("common.version")}</span>
                 {isLoadingVersion ? (
-                  <Loader2 className="h-3 w-3 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  <span className="font-medium">{`v${displayVersion}`}</span>
+                  <span className="font-medium text-foreground">{`v${displayVersion}`}</span>
                 )}
-              </Badge>
+              </div>
               {isPortable && (
-                <Badge variant="secondary" className="gap-1.5">
+                <Badge variant="secondary" className="gap-1">
                   <Info className="h-3 w-3" />
                   {t("settings.portableMode")}
                 </Badge>
@@ -858,14 +884,16 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
         </div>
       </motion.div>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         <div className="flex flex-col gap-2 px-1 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-ui font-semibold">{t("settings.localEnvCheck")}</h3>
+          <h3 className="text-ui font-semibold">
+            {t("settings.localEnvCheck")}
+          </h3>
           <div className="flex flex-wrap items-center gap-2">
             <Button
               variant="outline"
               onClick={() => handleDiagnoseAll()}
-              disabled={isLoadingTools || isAnyBusy || isDiagnosingAll}
+              disabled={isLoadingTools || isDiagnosingAll}
             >
               {isDiagnosingAll ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -879,24 +907,20 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
             <Button
               variant="outline"
               onClick={() => loadAllToolVersions({ force: true })}
-              disabled={isLoadingTools || isAnyBusy}
+              disabled={isLoadingTools}
             >
               <RefreshCw
-                className={
-                  isLoadingTools ? "h-4 w-4 animate-spin" : "h-4 w-4"
-                }
+                className={isLoadingTools ? "h-4 w-4 animate-spin" : "h-4 w-4"}
               />
               {isLoadingTools ? t("common.refreshing") : t("common.refresh")}
             </Button>
             <Button
               onClick={() =>
-                handleRunToolAction(updatableToolNames, "update", {
+                handleRunToolAction(idleUpdatableToolNames, "update", {
                   fromBatchEntry: true,
                 })
               }
-              disabled={
-                isLoadingTools || isAnyBusy || updatableToolNames.length === 0
-              }
+              disabled={isLoadingTools || idleUpdatableToolNames.length === 0}
             >
               {batchAction === "update" ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
@@ -904,13 +928,13 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                 <ArrowUpCircle className="h-4 w-4" />
               )}
               {t("settings.updateAllTools", {
-                count: updatableToolNames.length,
+                count: idleUpdatableToolNames.length,
               })}
             </Button>
           </div>
         </div>
 
-        <div className="grid gap-3 px-1 sm:grid-cols-2 xl:grid-cols-3">
+        <div className="grid gap-2 px-1 sm:grid-cols-2 xl:grid-cols-3">
           {TOOL_NAMES.map((toolName, index) => {
             const tool = toolVersionByName.get(toolName);
             const appConfig = APP_ICON_MAP[TOOL_APP_IDS[toolName]];
@@ -949,11 +973,11 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.3, delay: 0.15 + index * 0.04 }}
-                className="flex min-h-[150px] flex-col gap-3 rounded-xl border border-border bg-gradient-to-br from-card/80 to-card/40 p-4 shadow-sm transition-colors hover:border-primary/30"
+                className="flex flex-col gap-2 rounded-[8px] border border-border bg-card p-2 transition-colors hover:border-primary/30"
               >
-                <div className="flex items-start justify-between gap-3">
+                <div className="flex items-start justify-between gap-2">
                   <div className="flex min-w-0 items-center gap-2">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-background/80 text-muted-foreground">
+                    <span className="flex h-4 w-4 shrink-0 items-center justify-center text-muted-foreground">
                       {appConfig?.icon ?? <Terminal className="h-4 w-4" />}
                     </span>
                     <div className="min-w-0">
@@ -962,7 +986,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                       </div>
                       {tool?.env_type && ENV_BADGE_CONFIG[tool.env_type] && (
                         <span
-                          className={`mt-1 inline-flex w-fit text-[9px] px-1.5 py-0.5 rounded-full border ${ENV_BADGE_CONFIG[tool.env_type].className}`}
+                          className={`mt-1 inline-flex h-4 min-w-[32px] w-fit items-center px-1 text-ui leading-[1.3] rounded-[3px] border ${ENV_BADGE_CONFIG[tool.env_type].className}`}
                         >
                           {t(ENV_BADGE_CONFIG[tool.env_type].labelKey)}
                           {tool.wsl_distro ? ` · ${tool.wsl_distro}` : ""}
@@ -974,7 +998,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                     <Loader2 className="mt-1 h-4 w-4 animate-spin text-muted-foreground" />
                   ) : tool?.version ? (
                     isOutdated ? (
-                      <span className="mt-1 shrink-0 rounded-full border border-yellow-500/20 bg-yellow-500/10 px-1.5 py-0.5 text-[10px] text-yellow-600 dark:text-yellow-400">
+                      <span className="mt-1 inline-flex h-4 min-w-[32px] shrink-0 items-center rounded-[3px] border border-yellow-500/20 bg-yellow-500/10 px-1 text-ui leading-[1.3] text-yellow-600 dark:text-yellow-400">
                         {t("settings.updateAvailableShort")}
                       </span>
                     ) : (
@@ -985,13 +1009,13 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                   )}
                 </div>
 
-                <div className="space-y-1.5 text-xs">
+                <div className="space-y-1 text-ui">
                   <div className="flex items-center justify-between gap-3">
                     <span className="text-muted-foreground">
                       {t("settings.currentVersion")}
                     </span>
                     <span
-                      className="min-w-0 truncate font-mono text-foreground"
+                      className="min-w-0 truncate font-mono text-ui text-foreground"
                       title={title}
                     >
                       {isToolVersionLoading
@@ -1014,7 +1038,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                     </span>
                   </div>
                   {!isToolVersionLoading && !tool?.version && tool?.error && (
-                    <div className="truncate text-[11px] text-muted-foreground">
+                    <div className="truncate text-ui text-muted-foreground">
                       {tool.error}
                     </div>
                   )}
@@ -1025,7 +1049,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                     <Select
                       value={wslShellByTool[toolName]?.wslShell || "auto"}
                       onValueChange={(v) => handleToolShellChange(toolName, v)}
-                      disabled={isToolVersionLoading || isAnyBusy}
+                      disabled={isToolVersionLoading || isToolBusy(toolName)}
                     >
                       <SelectTrigger className="w-[82px]">
                         <SelectValue />
@@ -1044,7 +1068,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                       onValueChange={(v) =>
                         handleToolShellFlagChange(toolName, v)
                       }
-                      disabled={isToolVersionLoading || isAnyBusy}
+                      disabled={isToolVersionLoading || isToolBusy(toolName)}
                     >
                       <SelectTrigger className="w-[82px]">
                         <SelectValue />
@@ -1063,11 +1087,11 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
 
                 {/* 多处安装冲突诊断结果：仅在懒触发后有数据时渲染。 */}
                 {conflicts && conflicts.length > 0 && (
-                  <div className="space-y-1.5 rounded-lg border border-yellow-500/20 bg-yellow-500/5 p-2.5">
-                    <div className="text-[11px] font-medium text-yellow-600 dark:text-yellow-400">
+                  <div className="space-y-1 rounded-[8px] border border-yellow-500/20 bg-yellow-500/5 p-2">
+                    <div className="text-ui font-semibold text-yellow-600 dark:text-yellow-400">
                       {t("settings.toolConflictTitle")}
                     </div>
-                    <p className="text-[10px] leading-snug text-muted-foreground">
+                    <p className="text-ui leading-[1.3] text-muted-foreground">
                       {t("settings.toolConflictHint")}
                     </p>
                     <ul className="space-y-1.5">
@@ -1087,14 +1111,14 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                     </span>
                   ) : installedButBroken ? (
                     // 已安装但跑不起来：重装无济于事，不给按钮，给一句指向环境的提示。
-                    <span className="text-xs text-yellow-600 dark:text-yellow-400">
+                    <span className="text-ui text-yellow-600 dark:text-yellow-400">
                       {t("settings.toolCheckEnv")}
                     </span>
                   ) : action ? (
                     <Button
                       variant={action === "install" ? "outline" : "default"}
                       onClick={() => handleRunToolAction([toolName], action)}
-                      disabled={isToolVersionLoading || isAnyBusy}
+                      disabled={isToolVersionLoading || isToolBusy(toolName)}
                     >
                       {runningAction || preflightTools.has(toolName) ? (
                         <Loader2 className="h-4 w-4 animate-spin" />
@@ -1140,20 +1164,17 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
           {t("settings.manualInstallCommands")}
         </Button>
         {showInstallCommands && (
-          <div className="rounded-xl border border-border bg-gradient-to-br from-card/80 to-card/40 p-4 space-y-3 shadow-sm">
+          <div className="space-y-2 rounded-[8px] border border-border bg-card p-2">
             <div className="flex items-center justify-between gap-2">
               <p className="text-ui text-muted-foreground">
                 {t("settings.oneClickInstallHint")}
               </p>
-              <Button
-                variant="outline"
-                onClick={handleCopyInstallCommands}
-              >
+              <Button variant="outline" onClick={handleCopyInstallCommands}>
                 <Copy className="h-4 w-4" />
                 {t("common.copy")}
               </Button>
             </div>
-            <pre className="text-xs font-mono bg-background/80 px-3 py-2.5 rounded-lg border border-border/60 overflow-x-auto">
+            <pre className="overflow-x-auto rounded-[8px] border border-border/60 bg-background/80 px-2 py-2 font-mono text-ui">
               {ONE_CLICK_INSTALL_COMMANDS}
             </pre>
           </div>

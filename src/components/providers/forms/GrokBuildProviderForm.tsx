@@ -524,7 +524,7 @@ export function GrokBuildProviderForm({
                 language="javascript"
               />
               {rawConfigError && (
-                <p className="text-xs text-destructive">
+                <p className="text-ui text-destructive">
                   {t("grokBuild.invalidToml", {
                     error: rawConfigError,
                     defaultValue: `Invalid config.toml: ${rawConfigError}`,

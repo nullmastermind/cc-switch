@@ -789,7 +789,7 @@ export function ClaudeFormFields({
               type="button"
               variant={null}
               size="sm"
-              className="h-8 w-full justify-start gap-1.5 px-0 text-sm font-medium text-foreground hover:opacity-70"
+              className="h-8 w-full justify-start gap-1.5 px-0 text-ui font-medium text-foreground hover:opacity-70"
             >
               {advancedExpanded ? (
                 <ChevronDown className="h-4 w-4" />
@@ -800,7 +800,7 @@ export function ClaudeFormFields({
             </Button>
           </CollapsibleTrigger>
           {!advancedExpanded && (
-            <p className="text-xs text-muted-foreground mt-1 ml-1">
+            <p className="text-ui text-muted-foreground mt-1 ml-1">
               {t("providerForm.advancedOptionsHint")}
             </p>
           )}
@@ -838,7 +838,7 @@ export function ClaudeFormFields({
                     </SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-xs leading-relaxed text-muted-foreground">
+                <p className="text-ui text-muted-foreground">
                   {t("providerForm.apiFormatHint", {
                     defaultValue:
                       "供应商原生为 Anthropic Messages API 就选 Anthropic Messages（直连，不转换格式）；使用 Chat Completions 协议就选 Chat；使用 Responses API 就选 Responses；使用 Gemini generateContent 协议就选 Gemini Native。Chat、Responses 与 Gemini Native 均需开启路由接管才能转换为 Anthropic Messages。",
@@ -874,7 +874,7 @@ export function ClaudeFormFields({
                   </SelectItem>
                 </SelectContent>
               </Select>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-ui text-muted-foreground">
                 {t("providerForm.authFieldHint", {
                   defaultValue: "选择写入配置的认证环境变量名",
                 })}
@@ -948,7 +948,7 @@ export function ClaudeFormFields({
                   </Button>
                 </div>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-ui text-muted-foreground">
                 {t("providerForm.modelMappingHint")}
               </p>
             </div>
@@ -1084,7 +1084,7 @@ export function ClaudeFormFields({
                   })}
                 </label>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-ui text-muted-foreground">
                 {t("providerForm.fallbackModelHint", {
                   defaultValue:
                     "用于未明确落到 Sonnet、Opus、Fable、Haiku 角色的请求。使用第三方/中转端点时建议填写：否则这些请求（含 Haiku 后台子任务）会以原始 Claude 模型名透传给上游，可能因上游无此模型而报错。官方端点可留空。",

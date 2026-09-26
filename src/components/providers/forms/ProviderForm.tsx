@@ -2177,7 +2177,7 @@ function ProviderFormFull({
                     opencodeForm.opencodeProviderKey,
                   ) &&
                     !isProviderKeyLocked && (
-                      <p className="text-xs text-destructive">
+                      <p className="text-ui text-destructive">
                         {t("opencode.providerKeyDuplicate")}
                       </p>
                     )}
@@ -2185,7 +2185,7 @@ function ProviderFormFull({
                     !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                       opencodeForm.opencodeProviderKey,
                     ) && (
-                      <p className="text-xs text-destructive">
+                      <p className="text-ui text-destructive">
                         {t("opencode.providerKeyInvalid")}
                       </p>
                     )}
@@ -2198,7 +2198,7 @@ function ProviderFormFull({
                       /^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                         opencodeForm.opencodeProviderKey,
                       )) && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-ui text-muted-foreground">
                         {isProviderKeyLocked
                           ? t("opencode.providerKeyLockedHint", {
                               defaultValue:
@@ -2240,7 +2240,7 @@ function ProviderFormFull({
                     openclawForm.openclawProviderKey,
                   ) &&
                     !isProviderKeyLocked && (
-                      <p className="text-xs text-destructive">
+                      <p className="text-ui text-destructive">
                         {t("openclaw.providerKeyDuplicate")}
                       </p>
                     )}
@@ -2248,7 +2248,7 @@ function ProviderFormFull({
                     !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                       openclawForm.openclawProviderKey,
                     ) && (
-                      <p className="text-xs text-destructive">
+                      <p className="text-ui text-destructive">
                         {t("openclaw.providerKeyInvalid")}
                       </p>
                     )}
@@ -2261,7 +2261,7 @@ function ProviderFormFull({
                       /^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                         openclawForm.openclawProviderKey,
                       )) && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-ui text-muted-foreground">
                         {isProviderKeyLocked
                           ? t("openclaw.providerKeyLockedHint", {
                               defaultValue:
@@ -2307,7 +2307,7 @@ function ProviderFormFull({
                     hermesForm.hermesProviderKey,
                   ) &&
                     !isProviderKeyLocked && (
-                      <p className="text-xs text-destructive">
+                      <p className="text-ui text-destructive">
                         {t("hermes.form.providerKeyDuplicate")}
                       </p>
                     )}
@@ -2315,7 +2315,7 @@ function ProviderFormFull({
                     !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                       hermesForm.hermesProviderKey,
                     ) && (
-                      <p className="text-xs text-destructive">
+                      <p className="text-ui text-destructive">
                         {t("hermes.form.providerKeyInvalid")}
                       </p>
                     )}
@@ -2328,7 +2328,7 @@ function ProviderFormFull({
                       /^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                         hermesForm.hermesProviderKey,
                       )) && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-ui text-muted-foreground">
                         {isProviderKeyLocked
                           ? t("hermes.form.providerKeyLockedHint", {
                               defaultValue:

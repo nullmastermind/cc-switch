@@ -219,9 +219,16 @@ fn run_tool_lifecycle_silently(command_line: &str, _label: &str) -> Result<(), S
 fn run_tool_lifecycle_silently(command_line: &str, label: &str) -> Result<(), String> {
     use std::os::windows::process::CommandExt;
     use std::process::Command;
+    use std::sync::atomic::{AtomicU64, Ordering};
 
-    let bat_file =
-        std::env::temp_dir().join(format!("cc_switch_{}_{}.bat", label, std::process::id()));
+    static BAT_SEQ: AtomicU64 = AtomicU64::new(0);
+    let seq = BAT_SEQ.fetch_add(1, Ordering::Relaxed);
+    let bat_file = std::env::temp_dir().join(format!(
+        "cc_switch_{}_{}_{}.bat",
+        label,
+        std::process::id(),
+        seq
+    ));
     std::fs::write(&bat_file, command_line).map_err(|e| format!("写入批处理文件失败: {e}"))?;
 
     let output = Command::new("cmd")

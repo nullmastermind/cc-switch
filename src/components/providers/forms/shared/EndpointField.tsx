@@ -63,7 +63,7 @@ export function EndpointField({
                 }`}
               />
               <span
-                className={`text-xs font-medium ${
+                className={`text-ui font-medium ${
                   isFullUrl ? "text-foreground" : "text-muted-foreground"
                 }`}
               >
@@ -103,7 +103,7 @@ export function EndpointField({
       />
       {effectiveHint ? (
         <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg">
-          <p className="text-xs text-amber-600 dark:text-amber-400">
+          <p className="text-ui text-amber-600 dark:text-amber-400">
             {effectiveHint}
           </p>
         </div>

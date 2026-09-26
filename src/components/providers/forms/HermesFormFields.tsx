@@ -204,7 +204,7 @@ export function HermesFormFields({
             ))}
           </SelectContent>
         </Select>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {t("hermes.form.apiModeHint", {
             defaultValue: "供应商 API 协议。请根据端点选择正确的协议。",
           })}
@@ -229,9 +229,9 @@ export function HermesFormFields({
           }
         />
         {showBaseUrlError ? (
-          <p className="text-xs text-destructive">{baseUrlErrorMessage}</p>
+          <p className="text-ui text-destructive">{baseUrlErrorMessage}</p>
         ) : (
-          <p className="text-xs text-muted-foreground">
+          <p className="text-ui text-muted-foreground">
             {t("hermes.form.baseUrlHint", {
               defaultValue: "供应商的 API 端点地址。",
             })}
@@ -288,15 +288,15 @@ export function HermesFormFields({
           </p>
         ) : (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 px-1 text-xs text-muted-foreground">
-              <span className="w-9" />
+            <div className="flex items-center gap-2 text-ui text-muted-foreground">
+              <span className="w-6" />
               <span className="flex-1">
                 {t("hermes.form.modelId", { defaultValue: "模型 ID" })}
               </span>
               <span className="flex-1">
                 {t("hermes.form.modelName", { defaultValue: "显示名称" })}
               </span>
-              <span className="w-9" />
+              <span className="w-6" />
             </div>
             {models.map((model, index) => {
               const modelKey = modelKeys[index];
@@ -315,7 +315,7 @@ export function HermesFormFields({
                       })}
                       aria-expanded={isExpanded}
                       aria-controls={detailsId}
-                      className="h-9 w-9 shrink-0"
+                      className="shrink-0"
                     >
                       <ChevronRight
                         className={`h-4 w-4 transition-transform motion-reduce:transition-none ${
@@ -367,7 +367,7 @@ export function HermesFormFields({
                       aria-label={t("hermes.form.removeModel", {
                         defaultValue: "移除模型",
                       })}
-                      className="h-9 w-9 shrink-0 text-muted-foreground hover:text-destructive"
+                      className="shrink-0 text-muted-foreground hover:text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />
                     </Button>
@@ -376,12 +376,12 @@ export function HermesFormFields({
                   {isExpanded && (
                     <div
                       id={detailsId}
-                      className="ml-9 grid gap-3 border-l border-border-default pl-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2.25rem]"
+                      className="ml-8 grid gap-3 border-l border-border-default pl-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2.25rem]"
                     >
                       <div className="space-y-1">
                         <Label
                           htmlFor={`hermes-model-context-${modelKey}`}
-                          className="text-xs font-normal text-muted-foreground"
+                          className="text-ui font-normal text-muted-foreground"
                         >
                           {t("hermes.form.contextLength", {
                             defaultValue: "上下文长度",
@@ -412,7 +412,7 @@ export function HermesFormFields({
           </div>
         )}
 
-        <p className="text-xs text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {t("hermes.form.modelsHint", {
             defaultValue:
               "启用为当前供应商时，第一个模型会设为 Hermes 默认模型。",
@@ -445,7 +445,7 @@ export function HermesFormFields({
           }}
           placeholder="0.5"
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {t("hermes.form.rateLimitDelayHint", {
             defaultValue: "连续请求间的最小间隔秒数（可选）。留空表示无限制。",
           })}

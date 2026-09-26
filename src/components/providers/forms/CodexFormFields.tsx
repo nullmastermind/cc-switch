@@ -320,7 +320,7 @@ function ReasoningLevelsEditor({
         </Command>
         {selected.length > 0 && (
           <div className="border-t border-border-default p-2">
-            <span className="text-xs text-muted-foreground">
+            <span className="text-ui text-muted-foreground">
               {t("codexConfig.defaultReasoningLevelLabel", {
                 defaultValue: "Default level",
               })}
@@ -830,7 +830,7 @@ export function CodexFormFields({
               />
             )}
           </div>
-          <p className="text-xs leading-relaxed text-muted-foreground">
+          <p className="text-ui text-muted-foreground">
             {isGrokBuild
               ? t("grokBuild.defaultModelHint", {
                   defaultValue:
@@ -842,7 +842,7 @@ export function CodexFormFields({
                 })}
           </p>
           {isDefaultModelOutsideCatalog && (
-            <p className="flex flex-wrap items-center gap-x-2 text-xs leading-relaxed text-muted-foreground">
+            <p className="flex flex-wrap items-center gap-x-2 text-ui text-muted-foreground">
               {t("codexConfig.defaultModelNotInCatalog", {
                 defaultValue:
                   "该模型不在模型映射中，Codex 的 /model 菜单不会列出它（直接请求仍然有效）。",
@@ -851,7 +851,7 @@ export function CodexFormFields({
                 type="button"
                 variant="link"
                 size="sm"
-                className="h-auto p-0 text-xs"
+                className="h-auto p-0 text-ui"
                 onClick={handleAddDefaultModelToCatalog}
               >
                 {t("codexConfig.addToModelMapping", {
@@ -875,7 +875,7 @@ export function CodexFormFields({
               type="button"
               variant={null}
               size="sm"
-              className="h-8 w-full justify-start gap-1.5 px-0 text-sm font-medium text-foreground hover:opacity-70"
+              className="h-8 w-full justify-start gap-1.5 px-0 text-ui font-medium text-foreground hover:opacity-70"
             >
               {advancedExpanded ? (
                 <ChevronDown className="h-4 w-4" />
@@ -888,7 +888,7 @@ export function CodexFormFields({
             </Button>
           </CollapsibleTrigger>
           {!advancedExpanded && (
-            <p className="mt-1 ml-1 text-xs text-muted-foreground">
+            <p className="mt-1 ml-1 text-ui text-muted-foreground">
               {isGrokBuild
                 ? t("grokBuild.advancedSectionHint", {
                     defaultValue:
@@ -942,7 +942,7 @@ export function CodexFormFields({
                       </SelectItem>
                     </SelectContent>
                   </Select>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
+                  <p className="text-ui text-muted-foreground">
                     {t("codexConfig.upstreamFormatHint", {
                       defaultValue:
                         "供应商原生是 Responses API 就选 Responses（直连，不转换格式）；使用 Chat Completions 协议就选 Chat；供应商只提供原生 Anthropic Messages 协议就选 Anthropic Messages。Chat 与 Anthropic Messages 均需开启路由接管才能转换为 Responses。",
@@ -983,7 +983,7 @@ export function CodexFormFields({
                         </SelectItem>
                       </SelectContent>
                     </Select>
-                    <p className="text-xs leading-relaxed text-muted-foreground">
+                    <p className="text-ui text-muted-foreground">
                       {t("codexConfig.anthropicAuthFieldHint", {
                         defaultValue:
                           "选择网关接收 API Key 的请求头：ANTHROPIC_AUTH_TOKEN 发送 Authorization: Bearer；ANTHROPIC_API_KEY 发送 x-api-key。两者只发其一。",
@@ -1000,7 +1000,7 @@ export function CodexFormFields({
                           defaultValue: "模拟 Claude Code 客户端",
                         })}
                       </FormLabel>
-                      <p className="text-xs leading-relaxed text-muted-foreground">
+                      <p className="text-ui text-muted-foreground">
                         {t("codexConfig.impersonateClaudeCodeHint", {
                           defaultValue:
                             "网关或其上游限制只能通过 Claude Code 使用时开启：伪装 User-Agent、anthropic-beta、x-app 请求头，并在系统提示首行注入 Claude Code 身份。",
@@ -1039,7 +1039,7 @@ export function CodexFormFields({
                         defaultValue: "留空则使用默认 8192",
                       })}
                     />
-                    <p className="text-xs leading-relaxed text-muted-foreground">
+                    <p className="text-ui text-muted-foreground">
                       {isGrokBuild
                         ? t("grokBuild.maxOutputTokensHint", {
                             defaultValue:
@@ -1097,7 +1097,7 @@ export function CodexFormFields({
                       </SelectItem>
                     </SelectContent>
                   </Select>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
+                  <p className="text-ui text-muted-foreground">
                     {t("codexConfig.promptCacheRoutingHint", {
                       defaultValue:
                         "自动模式仅对已确认兼容的上游发送 prompt_cache_key；开启可用于其他兼容网关，关闭可避免严格网关因未知字段返回 400。只使用客户端提供的稳定会话 ID。",
@@ -1111,7 +1111,7 @@ export function CodexFormFields({
                       defaultValue: "思考能力",
                     })}
                   </FormLabel>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
+                  <p className="text-ui text-muted-foreground">
                     {t("codexConfig.reasoningSectionHint", {
                       defaultValue:
                         "预设供应商已自动配置；自定义供应商会按名称/地址自动推断。仅当自动识别不准时才需手动覆盖。",
@@ -1126,7 +1126,7 @@ export function CodexFormFields({
                         defaultValue: "支持思考模式",
                       })}
                     </FormLabel>
-                    <p className="text-xs leading-relaxed text-muted-foreground">
+                    <p className="text-ui text-muted-foreground">
                       {t("codexConfig.reasoningModeHint", {
                         defaultValue:
                           "上游 Chat Completions 接口支持开启或关闭 thinking 时启用。Kimi、GLM、Qwen 等通常属于这一类。",
@@ -1149,7 +1149,7 @@ export function CodexFormFields({
                         defaultValue: "支持思考等级",
                       })}
                     </FormLabel>
-                    <p className="text-xs leading-relaxed text-muted-foreground">
+                    <p className="text-ui text-muted-foreground">
                       {isGrokBuild
                         ? t("grokBuild.reasoningEffortHint", {
                             defaultValue:
@@ -1197,7 +1197,7 @@ export function CodexFormFields({
                       }),
                     )}
                   </div>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
+                  <p className="text-ui text-muted-foreground">
                     {t("codexConfig.modelMappingHint", {
                       defaultValue:
                         "选择模型角色后，Cli-Switch 会自动生成 Codex 兼容路由；菜单显示名可以填 DeepSeek、Kimi 等品牌模型，实际请求模型按右侧填写内容发送。",
@@ -1208,7 +1208,7 @@ export function CodexFormFields({
                 {catalogRows.length > 0 && (
                   <div className="space-y-2">
                     {/* 列头：md+ 显示 */}
-                    <div className="hidden grid-cols-[1fr_1fr_140px_1fr_36px] gap-2 px-1 text-xs font-medium text-muted-foreground md:grid">
+                    <div className="hidden grid-cols-[1fr_1fr_140px_1fr_24px] gap-2 text-ui font-medium text-muted-foreground md:grid">
                       <span>
                         {t("codexConfig.catalogColumnDisplay", {
                           defaultValue: "菜单显示名",
@@ -1328,7 +1328,7 @@ export function CodexFormFields({
                           type="button"
                           variant="ghost"
                           size="icon"
-                          className="h-9 w-9 text-muted-foreground hover:text-destructive"
+                          className="text-muted-foreground hover:text-destructive"
                           onClick={() => handleRemoveCatalogRow(index)}
                           title={t("common.delete", { defaultValue: "删除" })}
                         >

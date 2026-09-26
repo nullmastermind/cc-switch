@@ -19,7 +19,7 @@ export function ToggleRow({
 }: ToggleRowProps) {
   return (
     <div className="flex items-center justify-between gap-2 px-2 py-2 transition-colors hover:bg-muted/50">
-      <div className="flex min-w-0 items-center gap-1">
+      <div className="flex min-w-0 items-center gap-2">
         {icon}
         <div className="min-w-0 space-y-1">
           <p className="text-ui font-semibold">{title}</p>

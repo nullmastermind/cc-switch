@@ -204,7 +204,7 @@ export function McodeProviderForm({
         )}
         <fieldset
           disabled={busy || !jsonValid}
-          className="min-w-0 space-y-6 border-0 p-0 disabled:opacity-50"
+          className="min-w-0 space-y-3 border-0 p-0 disabled:opacity-50"
         >
           <BasicFormFields form={form} />
           <OpenCodeFormFields

@@ -170,33 +170,32 @@ export function StructuredOptionsEditor({
     >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0 max-w-3xl flex-1 space-y-1">
-          <span className="block text-sm font-medium text-foreground">
+          <span className="block text-ui font-medium text-foreground">
             {title}
           </span>
-          <p className="text-xs text-muted-foreground">{hint}</p>
+          <p className="text-ui text-muted-foreground">{hint}</p>
         </div>
         <Button
           type="button"
           variant="outline"
-          size="sm"
           onClick={addOption}
           aria-label={addLabel}
-          className="h-7 shrink-0 gap-1"
+          className="shrink-0"
         >
-          <Plus className="h-3.5 w-3.5" />
+          <Plus className="h-4 w-4" />
           {addLabel}
         </Button>
       </div>
 
       <div className="max-w-3xl space-y-2">
         {!hasRows ? (
-          <p className="py-1 text-sm text-muted-foreground">{emptyLabel}</p>
+          <p className="py-1 text-ui text-muted-foreground">{emptyLabel}</p>
         ) : (
           <div className="space-y-2">
-            <div className="mb-1 flex items-center gap-2 px-1 text-xs text-muted-foreground">
+            <div className="mb-1 flex items-center gap-2 text-ui text-muted-foreground">
               <span className="flex-1">{keyLabel}</span>
               <span className="flex-1">{valueLabel}</span>
-              <span className="w-9" />
+              <span className="w-6" />
             </div>
 
             {Object.entries(options).map(([key, value]) => (
@@ -220,7 +219,7 @@ export function StructuredOptionsEditor({
                   size="icon"
                   onClick={() => removeOption(key)}
                   aria-label={removeLabel}
-                  className="h-9 w-9 shrink-0 text-muted-foreground hover:text-destructive"
+                  className="shrink-0 text-muted-foreground hover:text-destructive"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>
@@ -278,7 +277,7 @@ export function StructuredOptionsEditor({
                   size="icon"
                   onClick={() => removeDraft(draft.id)}
                   aria-label={removeLabel}
-                  className="h-9 w-9 shrink-0 text-muted-foreground hover:text-destructive"
+                  className="shrink-0 text-muted-foreground hover:text-destructive"
                 >
                   <Trash2 className="h-4 w-4" />
                 </Button>

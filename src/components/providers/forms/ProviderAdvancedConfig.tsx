@@ -64,7 +64,7 @@ export function ProviderAdvancedConfig({
             >
               <Label
                 htmlFor="pricing-config-enabled"
-                className="text-sm text-muted-foreground"
+                className="text-muted-foreground"
               >
                 {t("providerAdvanced.useCustomPricing", {
                   defaultValue: "使用单独配置",
@@ -95,7 +95,7 @@ export function ProviderAdvancedConfig({
           )}
         >
           <div className="border-t border-border/50 p-4 space-y-4">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               {t("providerAdvanced.pricingConfigDesc", {
                 defaultValue:
                   "为此供应商配置单独的计费参数，不启用时使用全局默认配置。",
@@ -126,7 +126,7 @@ export function ProviderAdvancedConfig({
                   })}
                   disabled={!pricingConfig.enabled}
                 />
-                <p className="text-xs text-muted-foreground">
+                <p className="text-ui text-muted-foreground">
                   {t("providerAdvanced.costMultiplierHint", {
                     defaultValue: "实际成本 = 基础成本 × 倍率，支持小数如 1.5",
                   })}
@@ -169,7 +169,7 @@ export function ProviderAdvancedConfig({
                     </SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-ui text-muted-foreground">
                   {t("providerAdvanced.pricingModelSourceHint", {
                     defaultValue: "选择按请求模型还是返回模型进行定价匹配",
                   })}
