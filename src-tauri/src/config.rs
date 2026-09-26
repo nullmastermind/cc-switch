@@ -33,13 +33,52 @@ pub fn get_home_dir() -> PathBuf {
     })
 }
 
+/// `CC_SWITCH_DIR_SUFFIX` (e.g. `-dev`) is appended to default live-config
+/// directory names so a dev build does not share Claude/Codex/etc. dirs with
+/// the installed release. Ignored when `CC_SWITCH_TEST_HOME` is set.
+pub(crate) fn dir_suffix_from_env() -> Option<String> {
+    resolve_dir_suffix(
+        std::env::var("CC_SWITCH_DIR_SUFFIX").ok().as_deref(),
+        std::env::var_os("CC_SWITCH_TEST_HOME").is_some(),
+    )
+}
+
+fn resolve_dir_suffix(value: Option<&str>, has_test_home_override: bool) -> Option<String> {
+    if has_test_home_override {
+        return None;
+    }
+    let trimmed = value?.trim();
+    if trimmed.is_empty() || trimmed.contains('/') || trimmed.contains('\\') {
+        return None;
+    }
+    Some(trimmed.to_string())
+}
+
+pub(crate) fn apply_dir_suffix(path: PathBuf) -> PathBuf {
+    apply_dir_suffix_with(path, dir_suffix_from_env().as_deref())
+}
+
+fn apply_dir_suffix_with(path: PathBuf, suffix: Option<&str>) -> PathBuf {
+    let Some(suffix) = suffix else {
+        return path;
+    };
+    match path.file_name() {
+        Some(name) => {
+            let mut new_name = name.to_os_string();
+            new_name.push(suffix);
+            path.with_file_name(new_name)
+        }
+        None => path,
+    }
+}
+
 /// 获取 Claude Code 配置目录路径
 pub fn get_claude_config_dir() -> PathBuf {
     if let Some(custom) = crate::settings::get_claude_override_dir() {
         return custom;
     }
 
-    get_home_dir().join(".claude")
+    apply_dir_suffix(get_home_dir().join(".claude"))
 }
 
 /// 默认 Claude MCP 配置文件路径 (~/.claude.json)
@@ -180,6 +219,9 @@ pub fn get_claude_mcp_path() -> PathBuf {
         }
         return derive_mcp_path_from_override(&custom_dir);
     }
+    if dir_suffix_from_env().is_some() {
+        return derive_mcp_path_from_override(&get_claude_config_dir());
+    }
     get_default_claude_mcp_path()
 }
 
@@ -234,13 +276,43 @@ fn resolve_windows_legacy_dir(
     }
 }
 
+/// 通过 `CC_SWITCH_CONFIG_DIR` 覆盖应用配置目录。
+///
+/// `CC_SWITCH_TEST_HOME` 存在时忽略，避免测试沙箱被开发者环境变量穿透。
+pub(crate) fn config_dir_from_env() -> Option<PathBuf> {
+    resolve_config_dir_env(
+        std::env::var("CC_SWITCH_CONFIG_DIR").ok().as_deref(),
+        std::env::var_os("CC_SWITCH_TEST_HOME").is_some(),
+    )
+}
+
+fn resolve_config_dir_env(value: Option<&str>, has_test_home_override: bool) -> Option<PathBuf> {
+    if has_test_home_override {
+        return None;
+    }
+    let trimmed = value?.trim();
+    if trimmed.is_empty() {
+        return None;
+    }
+    Some(PathBuf::from(trimmed))
+}
+
 /// 获取应用配置目录路径 (~/.cc-switch)
+///
+/// 优先级：`CC_SWITCH_CONFIG_DIR` → Store `app_config_dir_override` → `{home}/.cc-switch`
 pub fn get_app_config_dir() -> PathBuf {
+    if let Some(custom) = config_dir_from_env() {
+        return custom;
+    }
+
     if let Some(custom) = crate::app_store::get_app_config_dir_override() {
         return custom;
     }
 
     let default_dir = get_home_dir().join(".cc-switch");
+    if dir_suffix_from_env().is_some() {
+        return apply_dir_suffix(default_dir);
+    }
 
     // 兼容 v3.10.3：当用户环境存在 `HOME` 且与真实用户目录不同，
     // v3.10.3 可能在 `HOME/.cc-switch/` 下创建/使用了数据库。
@@ -535,6 +607,51 @@ fn atomic_write_with_unix_mode(
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn config_dir_env_uses_trimmed_non_empty_path() {
+        assert_eq!(
+            resolve_config_dir_env(Some(" /tmp/cc-switch-dev "), false),
+            Some(PathBuf::from("/tmp/cc-switch-dev"))
+        );
+    }
+
+    #[test]
+    fn config_dir_env_ignores_empty_missing_and_test_home() {
+        assert_eq!(resolve_config_dir_env(Some("  "), false), None);
+        assert_eq!(resolve_config_dir_env(None, false), None);
+        assert_eq!(
+            resolve_config_dir_env(Some("/tmp/cc-switch-dev"), true),
+            None
+        );
+    }
+
+    #[test]
+    fn dir_suffix_env_accepts_dash_dev_and_rejects_junk() {
+        assert_eq!(
+            resolve_dir_suffix(Some(" -dev "), false).as_deref(),
+            Some("-dev")
+        );
+        assert_eq!(resolve_dir_suffix(Some("  "), false), None);
+        assert_eq!(resolve_dir_suffix(Some("-dev/../etc"), false), None);
+        assert_eq!(resolve_dir_suffix(Some("-dev"), true), None);
+    }
+
+    #[test]
+    fn dir_suffix_appends_to_last_component() {
+        assert_eq!(
+            apply_dir_suffix_with(PathBuf::from("/home/u/.claude"), Some("-dev")),
+            PathBuf::from("/home/u/.claude-dev")
+        );
+        assert_eq!(
+            apply_dir_suffix_with(PathBuf::from("/home/u/.config/opencode"), Some("-dev")),
+            PathBuf::from("/home/u/.config/opencode-dev")
+        );
+        assert_eq!(
+            apply_dir_suffix_with(PathBuf::from("/home/u/.claude"), None),
+            PathBuf::from("/home/u/.claude")
+        );
+    }
 
     /// Direct tests of the extracted decision function — deterministic, no env
     /// vars, no real filesystem/home-directory state, so they cannot pass

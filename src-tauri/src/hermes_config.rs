@@ -63,7 +63,7 @@ pub fn get_hermes_dir() -> PathBuf {
         }
     }
 
-    default_hermes_dir()
+    crate::config::apply_dir_suffix(default_hermes_dir())
 }
 
 /// 平台默认 Hermes 目录(Windows):对齐 Hermes `_get_platform_default_hermes_home()`——

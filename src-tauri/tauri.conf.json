@@ -5,7 +5,7 @@
   "identifier": "com.ccswitch.desktop",
   "build": {
     "frontendDist": "../dist",
-    "devUrl": "http://localhost:3000",
+    "devUrl": "http://localhost:54264",
     "beforeDevCommand": "bun run dev:renderer",
     "beforeBuildCommand": "bun run build:renderer"
   },

@@ -50,9 +50,11 @@ pub fn get_opencode_dir() -> PathBuf {
         return override_dir;
     }
 
-    crate::config::get_home_dir()
-        .join(".config")
-        .join("opencode")
+    crate::config::apply_dir_suffix(
+        crate::config::get_home_dir()
+            .join(".config")
+            .join("opencode"),
+    )
 }
 
 pub fn get_opencode_config_path() -> PathBuf {

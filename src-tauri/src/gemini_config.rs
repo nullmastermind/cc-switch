@@ -1,4 +1,4 @@
-use crate::config::{get_home_dir, write_text_file};
+use crate::config::{apply_dir_suffix, get_home_dir, write_text_file};
 use crate::error::AppError;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -11,7 +11,7 @@ pub fn get_gemini_dir() -> PathBuf {
         return custom;
     }
 
-    get_home_dir().join(".gemini")
+    apply_dir_suffix(get_home_dir().join(".gemini"))
 }
 
 /// 获取 Gemini .env 文件路径

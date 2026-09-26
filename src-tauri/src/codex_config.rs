@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
 use crate::config::{
-    atomic_write, delete_file, get_home_dir, path_is_within, read_json_file,
+    apply_dir_suffix, atomic_write, delete_file, get_home_dir, path_is_within, read_json_file,
     sanitize_provider_name, write_json_file, write_text_file,
 };
 use crate::error::AppError;
@@ -450,7 +450,7 @@ pub fn get_codex_config_dir() -> PathBuf {
         return custom;
     }
 
-    get_home_dir().join(".codex")
+    apply_dir_suffix(get_home_dir().join(".codex"))
 }
 
 /// 获取 Codex auth.json 路径

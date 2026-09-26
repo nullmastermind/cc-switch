@@ -567,63 +567,17 @@ impl SkillService {
 
     /// 获取应用的 skills 目录
     pub fn get_app_skills_dir(app: &AppType) -> Result<PathBuf> {
-        // 目录覆盖：优先使用用户在 settings.json 中配置的 override 目录
-        match app {
-            AppType::Claude => {
-                if let Some(custom) = crate::settings::get_claude_override_dir() {
-                    return Ok(custom.join("skills"));
-                }
-            }
-            AppType::ClaudeDesktop | AppType::Mcode => {}
-            AppType::Codex => {
-                if let Some(custom) = crate::settings::get_codex_override_dir() {
-                    return Ok(custom.join("skills"));
-                }
-            }
-            AppType::Gemini => {
-                if let Some(custom) = crate::settings::get_gemini_override_dir() {
-                    return Ok(custom.join("skills"));
-                }
-            }
-            AppType::GrokBuild => {
-                if let Some(custom) = crate::settings::get_grok_override_dir() {
-                    return Ok(custom.join("skills"));
-                }
-            }
-            AppType::OpenCode => {
-                if let Some(custom) = crate::settings::get_opencode_override_dir() {
-                    return Ok(custom.join("skills"));
-                }
-            }
-            AppType::OpenClaw => {
-                if let Some(custom) = crate::settings::get_openclaw_override_dir() {
-                    return Ok(custom.join("skills"));
-                }
-            }
-            AppType::Hermes => {
-                if let Some(custom) = crate::settings::get_hermes_override_dir() {
-                    return Ok(custom.join("skills"));
-                }
-            }
-            AppType::Pi => {
-                return Ok(crate::pi_config::get_pi_agent_dir()?.join("skills"));
-            }
-        }
-
-        // 默认路径：回退到用户主目录下的标准位置。
-        // 必须走 get_home_dir()（可被 CC_SWITCH_TEST_HOME 覆盖）：Windows 上 dirs::home_dir()
-        // 走 Known Folder API，测试无法隔离真实用户目录。
-        let home = crate::config::get_home_dir();
-
         Ok(match app {
             AppType::Mcode => crate::mcode_config::data_dir().join("skills"),
-            AppType::Claude => home.join(".claude").join("skills"),
-            AppType::ClaudeDesktop => home.join(".claude-desktop").join("skills"),
-            AppType::Codex => home.join(".codex").join("skills"),
-            AppType::Gemini => home.join(".gemini").join("skills"),
-            AppType::GrokBuild => home.join(".grok").join("skills"),
-            AppType::OpenCode => home.join(".config").join("opencode").join("skills"),
-            AppType::OpenClaw => home.join(".openclaw").join("skills"),
+            AppType::Claude => crate::config::get_claude_config_dir().join("skills"),
+            AppType::ClaudeDesktop => crate::config::get_home_dir()
+                .join(".claude-desktop")
+                .join("skills"),
+            AppType::Codex => crate::codex_config::get_codex_config_dir().join("skills"),
+            AppType::Gemini => crate::gemini_config::get_gemini_dir().join("skills"),
+            AppType::GrokBuild => crate::grok_config::get_grok_config_dir().join("skills"),
+            AppType::OpenCode => crate::opencode_config::get_opencode_dir().join("skills"),
+            AppType::OpenClaw => crate::openclaw_config::get_openclaw_dir().join("skills"),
             AppType::Hermes => crate::hermes_config::get_hermes_dir().join("skills"),
             AppType::Pi => crate::pi_config::get_pi_agent_dir()?.join("skills"),
         })
