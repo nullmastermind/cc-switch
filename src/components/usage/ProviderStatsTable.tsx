@@ -40,7 +40,7 @@ export function ProviderStatsTable({
   }
 
   return (
-    <div className="rounded-lg border border-border/50 bg-card/40 backdrop-blur-sm overflow-hidden">
+    <div className="rounded-[8px] border border-border/50 bg-card/40 backdrop-blur-sm overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow>

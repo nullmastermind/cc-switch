@@ -279,18 +279,20 @@ export function UsageDashboard({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="space-y-8 pb-8"
+      className="space-y-2 pb-2"
     >
-      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-2">
-        <div className="flex flex-col gap-1">
-          <h2 className="text-2xl font-bold tracking-tight">
+      <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-2">
+        <div className="flex flex-col gap-2">
+          <h2 className="text-[12.35px] leading-[1.3] font-semibold tracking-tight">
             {t("usage.title")}
           </h2>
-          <p className="text-sm text-muted-foreground">{t("usage.subtitle")}</p>
+          <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+            {t("usage.subtitle")}
+          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2">
-          <div className="flex items-center p-1 bg-muted/30 rounded-lg border border-border/50">
+          <div className="flex items-center p-1 bg-muted/30 rounded-[8px] border border-border/50">
             {APP_FILTER_OPTIONS.map((type) => {
               const label = t(`usage.appFilter.${type}`);
               return (
@@ -302,7 +304,7 @@ export function UsageDashboard({
                   aria-label={label}
                   onClick={() => changeAppType(type)}
                   className={cn(
-                    "h-8 min-w-0 px-2.5",
+                    "h-6 min-w-0 px-2",
                     appType === type
                       ? "bg-background text-primary shadow-sm"
                       : "text-muted-foreground",
@@ -385,7 +387,7 @@ export function UsageDashboard({
                 aria-label={t("usage.refreshInterval")}
               >
                 <span className="flex items-center gap-2">
-                  <RefreshCw className="h-3.5 w-3.5 shrink-0" />
+                  <RefreshCw className="h-4 w-4 shrink-0" />
                   <SelectValue />
                 </span>
               </SelectTrigger>
@@ -424,9 +426,9 @@ export function UsageDashboard({
         refreshIntervalMs={refreshIntervalMs}
       />
 
-      <div className="space-y-4">
+      <div className="space-y-2">
         <Tabs defaultValue="logs" className="w-full">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-2">
             <TabsList className="bg-muted/50">
               <TabsTrigger value="logs" className="gap-2">
                 <ListFilter className="h-4 w-4" />
@@ -483,31 +485,30 @@ export function UsageDashboard({
         </Tabs>
       </div>
 
-      <div className="space-y-4">
-        <div className="rounded-xl glass-card px-6 py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <ScanSearch className="h-5 w-5 text-sky-500" />
+      <div className="space-y-2">
+        <div className="rounded-[8px] glass-card px-2 py-2 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <ScanSearch className="h-4 w-4 text-sky-500" />
             <div>
-              <h3 className="text-base font-semibold">
+              <h3 className="text-[12.35px] leading-[1.3] font-semibold">
                 {t("usage.sessionSync.title")}
               </h3>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                 {t("usage.sessionSync.description")}
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             {!sessionAutoSyncEnabled && (
               <Button
                 variant="outline"
-                size="sm"
                 disabled={syncingSession}
                 onClick={() => void runManualSessionSync()}
               >
                 {syncingSession ? (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  <Loader2 className="h-4 w-4 animate-spin" />
                 ) : (
-                  <RefreshCw className="mr-2 h-4 w-4" />
+                  <RefreshCw className="h-4 w-4" />
                 )}
                 {t("usage.sessionSync.syncNow")}
               </Button>
@@ -525,49 +526,49 @@ export function UsageDashboard({
         <Accordion
           type="multiple"
           defaultValue={[]}
-          className="w-full space-y-4"
+          className="w-full space-y-2"
         >
           <AccordionItem
             value="pricing"
-            className="rounded-xl glass-card overflow-hidden"
+            className="rounded-[8px] glass-card overflow-hidden"
           >
-            <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-              <div className="flex items-center gap-3">
-                <Coins className="h-5 w-5 text-yellow-500" />
+            <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+              <div className="flex items-center gap-2">
+                <Coins className="h-4 w-4 text-yellow-500" />
                 <div className="text-left">
-                  <h3 className="text-base font-semibold">
+                  <h3 className="text-[12.35px] leading-[1.3] font-semibold">
                     {t("settings.advanced.pricing.title")}
                   </h3>
-                  <p className="text-sm text-muted-foreground font-normal">
+                  <p className="text-[12.35px] leading-[1.3] text-muted-foreground font-normal">
                     {t("settings.advanced.pricing.description")}
                   </p>
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+            <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
               <PricingConfigPanel />
             </AccordionContent>
           </AccordionItem>
           <AccordionItem
             value="maintenance"
-            className="rounded-xl glass-card overflow-hidden"
+            className="rounded-[8px] glass-card overflow-hidden"
           >
-            <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-              <div className="flex items-center gap-3">
-                <DatabaseBackup className="h-5 w-5 text-orange-500" />
+            <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+              <div className="flex items-center gap-2">
+                <DatabaseBackup className="h-4 w-4 text-orange-500" />
                 <div className="text-left">
-                  <h3 className="text-base font-semibold">
+                  <h3 className="text-[12.35px] leading-[1.3] font-semibold">
                     {t("usage.rebuildCodex.title")}
                   </h3>
-                  <p className="text-sm text-muted-foreground font-normal">
+                  <p className="text-[12.35px] leading-[1.3] text-muted-foreground font-normal">
                     {t("usage.rebuildCodex.description")}
                   </p>
                 </div>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
-              <div className="flex items-center justify-between gap-4 rounded-lg border border-destructive/20 bg-destructive/5 p-4">
-                <p className="text-sm text-muted-foreground">
+            <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
+              <div className="flex items-center justify-between gap-2 rounded-[8px] border border-destructive/20 bg-destructive/5 p-2">
+                <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                   {t("usage.rebuildCodex.warning")}
                 </p>
                 <Button
@@ -577,9 +578,9 @@ export function UsageDashboard({
                   className="shrink-0"
                 >
                   {rebuildingCodex ? (
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
-                    <DatabaseBackup className="mr-2 h-4 w-4" />
+                    <DatabaseBackup className="h-4 w-4" />
                   )}
                   {t("usage.rebuildCodex.action")}
                 </Button>

@@ -40,7 +40,7 @@ export function ModelStatsTable({
   }
 
   return (
-    <div className="rounded-lg border border-border/50 bg-card/40 backdrop-blur-sm overflow-hidden">
+    <div className="rounded-[8px] border border-border/50 bg-card/40 backdrop-blur-sm overflow-hidden">
       <Table>
         <TableHeader>
           <TableRow>
@@ -72,7 +72,7 @@ export function ModelStatsTable({
           ) : (
             stats?.map((stat) => (
               <TableRow key={stat.model}>
-                <TableCell className="font-mono text-sm">
+                <TableCell className="font-mono text-[12.35px] leading-[1.3]">
                   {stat.model}
                 </TableCell>
                 <TableCell className="text-right">

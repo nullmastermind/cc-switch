@@ -110,9 +110,9 @@ export function RequestLogTable({
   const locale = getLocaleFromLanguage(language);
 
   return (
-    <div className="space-y-4">
-      <div className="rounded-lg border bg-card/50 p-2 backdrop-blur-sm">
-        <div className="flex flex-wrap items-center gap-1.5">
+    <div className="space-y-2">
+      <div className="rounded-[8px] border bg-card/50 p-2 backdrop-blur-sm">
+        <div className="flex flex-wrap items-center gap-2">
           {/* Status code */}
           <Select
             value={statusCode?.toString() || "all"}
@@ -151,7 +151,7 @@ export function RequestLogTable({
         <div className="h-[400px] animate-pulse rounded bg-gray-100" />
       ) : (
         <>
-          <div className="rounded-lg border border-border/50 bg-card/40 backdrop-blur-sm overflow-x-auto">
+          <div className="rounded-[8px] border border-border/50 bg-card/40 backdrop-blur-sm overflow-x-auto">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -199,7 +199,7 @@ export function RequestLogTable({
                     const unpriced = isUnpricedUsage(log);
                     return (
                       <TableRow key={log.requestId}>
-                        <TableCell className="text-center whitespace-nowrap text-xs px-1.5">
+                        <TableCell className="text-center whitespace-nowrap text-[12.35px] leading-[1.3] px-2">
                           {new Date(log.createdAt * 1000).toLocaleString(
                             locale,
                             {
@@ -213,7 +213,7 @@ export function RequestLogTable({
                         <TableCell className="text-center">
                           {log.providerName || t("usage.unknownProvider")}
                         </TableCell>
-                        <TableCell className="text-center font-mono text-xs max-w-[200px]">
+                        <TableCell className="text-center font-mono text-[12.35px] leading-[1.3] max-w-[200px]">
                           <div
                             className="truncate"
                             title={
@@ -236,7 +236,7 @@ export function RequestLogTable({
                             )}
                           </div>
                         </TableCell>
-                        <TableCell className="text-center px-1.5">
+                        <TableCell className="text-center px-2">
                           {(() => {
                             const freshInput = getFreshInputTokens(log);
                             const isCacheInclusive =
@@ -256,7 +256,7 @@ export function RequestLogTable({
                           })()}
                           {(log.cacheReadTokens > 0 ||
                             log.cacheCreationTokens > 0) && (
-                            <div className="text-[10px] text-muted-foreground whitespace-nowrap">
+                            <div className="text-[12.35px] leading-[1.3] text-muted-foreground whitespace-nowrap">
                               {[
                                 log.cacheReadTokens > 0 &&
                                   `R${fmtInt(log.cacheReadTokens, locale)}`,
@@ -268,21 +268,21 @@ export function RequestLogTable({
                             </div>
                           )}
                         </TableCell>
-                        <TableCell className="text-center px-1.5">
+                        <TableCell className="text-center px-2">
                           <div className="tabular-nums">
                             {fmtInt(log.outputTokens, locale)}
                             {(() => {
                               const tpsStr = formatOutputTokensPerSecond(log);
                               if (tpsStr == null) return null;
                               return (
-                                <span className="text-muted-foreground text-xs">
+                                <span className="text-muted-foreground text-[12.35px] leading-[1.3]">
                                   /{tpsStr} tps
                                 </span>
                               );
                             })()}
                           </div>
                         </TableCell>
-                        <TableCell className="text-center px-1.5">
+                        <TableCell className="text-center px-2">
                           <div
                             className={`font-medium tabular-nums ${
                               unpriced ? "text-muted-foreground" : ""
@@ -294,7 +294,7 @@ export function RequestLogTable({
                           </div>
                           {parseFiniteNumber(log.costMultiplier) != null &&
                             parseFiniteNumber(log.costMultiplier) !== 1 && (
-                              <div className="text-[11px] text-muted-foreground">
+                              <div className="text-[12.35px] leading-[1.3] text-muted-foreground">
                                 ×
                                 {parseFiniteNumber(log.costMultiplier)?.toFixed(
                                   2,
@@ -302,7 +302,7 @@ export function RequestLogTable({
                               </div>
                             )}
                         </TableCell>
-                        <TableCell className="text-center whitespace-nowrap text-xs tabular-nums">
+                        <TableCell className="text-center whitespace-nowrap text-[12.35px] leading-[1.3] tabular-nums">
                           {(log.latencyMs / 1000).toFixed(1)}s
                           {log.firstTokenMs != null && (
                             <span className="text-muted-foreground">
@@ -321,7 +321,7 @@ export function RequestLogTable({
                             {log.statusCode}
                           </span>
                         </TableCell>
-                        <TableCell className="text-center text-xs text-muted-foreground">
+                        <TableCell className="text-center text-[12.35px] leading-[1.3] text-muted-foreground">
                           {log.dataSource || "proxy"}
                         </TableCell>
                       </TableRow>

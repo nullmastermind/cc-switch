@@ -258,7 +258,7 @@ export function UsageDateRangePicker({
     return (
       <div
         className={cn(
-          "rounded-lg border px-3 py-2 transition-all",
+          "rounded-[8px] border px-2 py-2 transition-all",
           isEndLive
             ? "border-border/30 bg-muted/30 cursor-not-allowed opacity-50"
             : isActive
@@ -269,14 +269,14 @@ export function UsageDateRangePicker({
           if (!isEndLive) setActiveField(field);
         }}
       >
-        <div className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="mb-2 text-[12.35px] leading-[1.3] font-medium uppercase tracking-wider text-muted-foreground">
           {label}
         </div>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <Input
             type="date"
             className={cn(
-              "h-7 flex-1 border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0",
+              "flex-1 border-0 bg-transparent p-0 shadow-none focus-visible:ring-0",
               isEndLive && "pointer-events-none",
             )}
             value={fmtDate(ts)}
@@ -297,7 +297,7 @@ export function UsageDateRangePicker({
             type="time"
             step={60}
             className={cn(
-              "h-7 w-[90px] flex-none border-0 bg-transparent p-0 text-sm shadow-none focus-visible:ring-0",
+              "w-[90px] flex-none border-0 bg-transparent p-0 shadow-none focus-visible:ring-0",
               isEndLive && "pointer-events-none",
             )}
             value={fmtTime(ts)}
@@ -322,7 +322,7 @@ export function UsageDateRangePicker({
         <Button
           type="button"
           variant={selection.preset === "custom" ? "default" : "outline"}
-          className="w-[100px] justify-start gap-1"
+          className="w-[100px] min-w-0 justify-start gap-2 overflow-hidden whitespace-normal text-left"
           title={triggerLabel}
         >
           <CalendarDays className="h-4 w-4 shrink-0" />
@@ -331,18 +331,16 @@ export function UsageDateRangePicker({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="usage-range-popover w-[620px] max-w-[calc(100vw-2rem)] p-3"
+        className="usage-range-popover w-[620px] max-w-[calc(100vw-2rem)] rounded-[8px] p-2"
         align="end"
       >
         {/* Preset shortcuts */}
-        <div className="flex flex-wrap gap-1.5 pb-2 border-b border-border/40">
+        <div className="flex flex-wrap gap-2 pb-2 border-b border-border/40">
           {PRESETS.map((preset) => (
             <Button
               key={preset}
               type="button"
-              size="sm"
               variant={selection.preset === preset ? "default" : "outline"}
-              className="h-7 px-2.5 text-xs"
               onClick={() => {
                 onApply({ preset });
                 setOpen(false);
@@ -353,16 +351,16 @@ export function UsageDateRangePicker({
           ))}
         </div>
 
-        <div className="usage-range-layout flex flex-col gap-3">
+        <div className="usage-range-layout flex flex-col gap-2">
           {/* Left: date fields */}
           <div className="usage-range-fields space-y-2">
-            <p className="text-xs text-muted-foreground">
+            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("usage.customRangeHint", "支持日期与时间，最长 30 天")}
             </p>
             {renderField("start")}
             {renderField("end")}
 
-            <label className="flex items-center gap-2 cursor-pointer select-none">
+            <label className="flex items-center gap-2 cursor-pointer select-none text-[12.35px] leading-[1.3]">
               <Checkbox
                 checked={draftLiveEnd}
                 onCheckedChange={(checked) => {
@@ -374,18 +372,21 @@ export function UsageDateRangePicker({
                   }
                 }}
               />
-              <span className="text-xs text-muted-foreground">
+              <span className="text-[12.35px] leading-[1.3] text-muted-foreground">
                 {t("usage.liveEndTime", "结束时间跟随当前时刻")}
               </span>
             </label>
 
-            {error && <p className="text-xs text-destructive">{error}</p>}
+            {error && (
+              <p className="text-[12.35px] leading-[1.3] text-destructive">
+                {error}
+              </p>
+            )}
 
-            <div className="flex gap-2 pt-1">
+            <div className="flex gap-2 pt-2">
               <Button
                 type="button"
                 variant="ghost"
-                size="sm"
                 className="flex-1"
                 onClick={() => setOpen(false)}
               >
@@ -393,7 +394,6 @@ export function UsageDateRangePicker({
               </Button>
               <Button
                 type="button"
-                size="sm"
                 className="flex-1"
                 onClick={handleApply}
               >
@@ -403,14 +403,13 @@ export function UsageDateRangePicker({
           </div>
 
           {/* Right: calendar */}
-          <div className="usage-range-calendar rounded-lg border border-border/50 bg-muted/30 p-2.5">
+          <div className="usage-range-calendar rounded-[8px] border border-border/50 bg-muted/30 p-2">
             {/* Month navigation */}
-            <div className="flex items-center justify-between mb-1.5">
+            <div className="flex items-center justify-between mb-2">
               <Button
                 type="button"
                 size="icon"
                 variant="ghost"
-                className="h-7 w-7"
                 onClick={() =>
                   setDisplayMonth(
                     new Date(
@@ -421,12 +420,12 @@ export function UsageDateRangePicker({
                   )
                 }
               >
-                <ChevronLeft className="h-3.5 w-3.5" />
+                <ChevronLeft className="h-4 w-4" />
               </Button>
               <Button
                 type="button"
                 variant="ghost"
-                className="h-auto min-w-0 px-1"
+                className="min-w-0 px-2"
                 onClick={goToToday}
                 title={t("usage.presetToday", { defaultValue: "当天" })}
               >
@@ -439,7 +438,6 @@ export function UsageDateRangePicker({
                 type="button"
                 size="icon"
                 variant="ghost"
-                className="h-7 w-7"
                 onClick={() =>
                   setDisplayMonth(
                     new Date(
@@ -450,12 +448,12 @@ export function UsageDateRangePicker({
                   )
                 }
               >
-                <ChevronRight className="h-3.5 w-3.5" />
+                <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
 
             {/* Weekday headers */}
-            <div className="grid grid-cols-7 text-center text-[11px] text-muted-foreground mb-0.5">
+            <div className="grid grid-cols-7 text-center text-[12.35px] leading-[1.3] text-muted-foreground mb-2">
               {weekdayLabels.map((label, i) => (
                 <div key={i} className="py-0.5">
                   {label}
@@ -486,7 +484,7 @@ export function UsageDateRangePicker({
                     aria-current={isToday ? "date" : undefined}
                     aria-pressed={isEndpoint}
                     className={cn(
-                      "relative h-7 min-w-0 rounded text-xs",
+                      "relative h-6 min-w-0 rounded-[4px]",
                       !isCurrentMonth && "text-muted-foreground/30",
                       isCurrentMonth && !inRange && "hover:bg-muted",
                       inRange && !isEndpoint && "bg-primary/10 text-primary",

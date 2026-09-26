@@ -22,7 +22,7 @@ interface FullScreenPanelProps {
   /** Entry/exit motion. Nested navigation panels can opt into a horizontal transition. */
   motionPreset?: "fade" | "slide-from-right";
   /**
-   * 覆盖内容区滚动容器的内边距/间距类。默认 `px-6 py-4 space-y-4`。
+   * 覆盖内容区滚动容器的内边距/间距类。默认 `px-2 py-2 space-y-2`。
    * 通过 `cn`(twMerge) 合并，传入如 `pt-3` 只覆盖顶部内边距，其余保持默认。
    */
   contentClassName?: string;
@@ -157,7 +157,7 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
             }
           >
             <div
-              className="px-6 w-full flex items-center gap-4"
+              className="px-2 w-full flex items-center gap-2"
               {...DRAG_REGION_ATTR}
               style={{ ...DRAG_REGION_STYLE } as React.CSSProperties}
             >
@@ -172,7 +172,7 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <h2 className="text-ui font-semibold text-foreground select-none">
+              <h2 className="text-[12.35px] leading-[1.3] font-semibold text-foreground select-none">
                 {title}
               </h2>
             </div>
@@ -180,7 +180,7 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto scroll-overlay">
-            <div className={cn("px-6 py-4 space-y-4 w-full", contentClassName)}>
+            <div className={cn("px-2 py-2 space-y-2 w-full", contentClassName)}>
               {children}
             </div>
           </div>
@@ -188,10 +188,10 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
           {/* Footer */}
           {footer && (
             <div
-              className="flex-shrink-0 py-4 border-t border-border-default"
+              className="flex-shrink-0 py-2 border-t border-border-default"
               style={{ backgroundColor: "hsl(var(--background))" }}
             >
-              <div className="px-6 flex items-center justify-end gap-3">
+              <div className="px-2 flex items-center justify-end gap-2">
                 {footer}
               </div>
             </div>

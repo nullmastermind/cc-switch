@@ -195,8 +195,8 @@ export function UsageTrendChart({
 
   if (isLoading) {
     return (
-      <div className="flex h-[350px] items-center justify-center rounded-xl bg-card/40 border border-border/50">
-        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground/30" />
+      <div className="flex h-[350px] items-center justify-center rounded-[8px] bg-card/40 border border-border/50">
+        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground/30" />
       </div>
     );
   }
@@ -206,7 +206,7 @@ export function UsageTrendChart({
       const point = payload[0]?.payload as UsageTrendChartPoint | undefined;
       const heading = point?.tooltipLabel ?? point?.label ?? "";
       return (
-        <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur-md">
+        <div className="rounded-[8px] border bg-background/95 p-2 shadow-lg backdrop-blur-md">
           <p className="mb-2 text-ui font-semibold">{heading}</p>
           {payload.map((entry: any, index: number) => (
             <div
@@ -233,12 +233,14 @@ export function UsageTrendChart({
   };
 
   return (
-    <div className="rounded-xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm">
-      <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-ui font-semibold">
+    <div className="rounded-[8px] border border-border/50 bg-card/40 p-2 backdrop-blur-sm">
+      <div className="mb-2 flex items-center justify-between">
+        <h3 className="text-[12.35px] leading-[1.3] font-semibold">
           {t("usage.trends", "使用趋势")}
         </h3>
-        <p className="text-sm text-muted-foreground">{rangeLabel}</p>
+        <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+          {rangeLabel}
+        </p>
       </div>
 
       <div className="h-[350px] w-full">

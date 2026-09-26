@@ -210,27 +210,27 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
     <Dialog open onOpenChange={(open) => !open && !isSaving && onClose()}>
       <DialogContent
         zIndex="top"
-        className="max-w-4xl h-[84vh]"
+        className="max-w-[480px] h-[84vh] gap-2 rounded-[8px] p-2"
         onEscapeKeyDown={(event) => {
           if (isTextEditableTarget(event.target)) event.preventDefault();
         }}
       >
-        <DialogHeader>
-          <DialogTitle>
+        <DialogHeader className="p-0">
+          <DialogTitle className="text-[12.35px] leading-[1.3]">
             {t("usage.modelsDevAutoSync.configureTitle")}
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-[12.35px] leading-[1.3]">
             {t("usage.modelsDevAutoSync.configureDescription")}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-1 min-h-0 flex-col gap-3 px-6 py-4">
-          <div className="flex items-center justify-between gap-4 rounded-lg border border-border/50 bg-muted/20 px-3 py-2.5">
+        <div className="flex flex-1 min-h-0 flex-col gap-2 p-0">
+          <div className="flex items-center justify-between gap-2 rounded-[8px] border border-border/50 bg-muted/20 px-2 py-2">
             <div>
-              <div className="text-sm font-medium">
+              <div className="text-[12.35px] leading-[1.3] font-medium">
                 {t("usage.modelsDevAutoSync.commonModels")}
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-[12.35px] leading-[1.3] text-muted-foreground">
                 {t("usage.modelsDevAutoSync.commonModelsDescription", {
                   count: commonModelKeys.size,
                 })}
@@ -253,7 +253,7 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                 <span>
                   {t("usage.modelsDevLoadError")}: {String(error)}
                 </span>
-                <Button variant="outline" size="sm" onClick={() => refetch()}>
+                <Button variant="outline" onClick={() => refetch()}>
                   {t("usage.modelsDevRetry")}
                 </Button>
               </AlertDescription>
@@ -280,7 +280,7 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                   </SelectContent>
                 </Select>
                 <div className="relative flex-1">
-                  <Search className="absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                  <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     value={search}
                     onChange={(event) => setSearch(event.target.value)}
@@ -290,7 +290,6 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                 </div>
                 <Button
                   variant="outline"
-                  size="sm"
                   onClick={selectFiltered}
                   disabled={filtered.length === 0}
                 >
@@ -300,7 +299,6 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                 </Button>
                 <Button
                   variant="outline"
-                  size="sm"
                   onClick={clearFiltered}
                   disabled={filtered.length === 0}
                 >
@@ -308,7 +306,7 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                 </Button>
               </div>
 
-              <div className="flex items-center justify-between text-xs text-muted-foreground">
+              <div className="flex items-center justify-between text-[12.35px] leading-[1.3] text-muted-foreground">
                 <span>
                   {t("usage.modelsDevAutoSync.selectedCount", {
                     count: effectiveSelectedKeys.size,
@@ -319,7 +317,7 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
 
               <div className="flex-1 min-h-0 overflow-y-auto rounded-md border border-border/50">
                 {filtered.length === 0 ? (
-                  <div className="flex h-full items-center justify-center py-8 text-sm text-muted-foreground">
+                  <div className="flex h-full items-center justify-center py-8 text-[12.35px] leading-[1.3] text-muted-foreground">
                     {t("usage.modelsDevNoResults")}
                   </div>
                 ) : (
@@ -350,37 +348,37 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                           </span>
                           <div className="min-w-0 flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="truncate text-sm font-medium">
+                              <span className="truncate text-[12.35px] leading-[1.3] font-medium">
                                 {entry.modelName}
                               </span>
-                              <span className="shrink-0 text-xs text-muted-foreground">
+                              <span className="shrink-0 text-[12.35px] leading-[1.3] text-muted-foreground">
                                 {entry.providerName}
                               </span>
                               {common && (
-                                <span className="rounded bg-primary/10 px-1.5 py-0.5 text-[10px] text-primary">
+                                <span className="rounded-[4px] bg-primary/10 px-2 py-0.5 text-[12.35px] leading-[1.3] text-primary">
                                   {t("usage.modelsDevAutoSync.commonBadge")}
                                 </span>
                               )}
                               {entry.releaseDate && (
-                                <span className="shrink-0 text-[10px] text-muted-foreground/70">
+                                <span className="shrink-0 text-[12.35px] leading-[1.3] text-muted-foreground/70">
                                   {entry.releaseDate}
                                 </span>
                               )}
                             </div>
                             <div
-                              className="truncate font-mono text-xs text-muted-foreground"
+                              className="truncate font-mono text-[12.35px] leading-[1.3] text-muted-foreground"
                               title={entry.modelId}
                             >
                               {entry.normalizedId}
                             </div>
                           </div>
-                          <div className="flex shrink-0 gap-3 text-right">
+                          <div className="flex shrink-0 gap-2 text-right">
                             {priceColumns(entry).map((column) => (
                               <div key={column.label} className="w-16">
-                                <div className="text-[10px] text-muted-foreground">
+                                <div className="text-[12.35px] leading-[1.3] text-muted-foreground">
                                   {column.label}
                                 </div>
-                                <div className="font-mono text-xs">
+                                <div className="font-mono text-[12.35px] leading-[1.3]">
                                   ${formatPrice(column.value)}
                                 </div>
                               </div>
@@ -390,7 +388,7 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                       );
                     })}
                     {filtered.length > visible.length && (
-                      <div className="px-3 py-2 text-center text-xs text-muted-foreground">
+                      <div className="px-2 py-2 text-center text-[12.35px] leading-[1.3] text-muted-foreground">
                         {isFiltering
                           ? t("usage.modelsDevTruncated", {
                               shown: visible.length,
@@ -409,12 +407,12 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
           )}
         </div>
 
-        <DialogFooter>
+        <DialogFooter className="p-0">
           <Button variant="outline" onClick={onClose} disabled={isSaving}>
             {t("common.cancel")}
           </Button>
           <Button onClick={save} disabled={isSaving || isLoading || !!error}>
-            {isSaving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
             {t("common.save")}
           </Button>
         </DialogFooter>
@@ -514,8 +512,8 @@ export function ModelsDevAutoSyncPanel() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center rounded-lg border border-border/50 py-6">
-        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center rounded-[8px] border border-border/50 py-2">
+        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -529,7 +527,7 @@ export function ModelsDevAutoSyncPanel() {
               error: String(error),
             })}
           </span>
-          <Button variant="outline" size="sm" onClick={() => refetch()}>
+          <Button variant="outline" onClick={() => refetch()}>
             {t("usage.modelsDevRetry")}
           </Button>
         </AlertDescription>
@@ -551,18 +549,18 @@ export function ModelsDevAutoSyncPanel() {
 
   return (
     <>
-      <div className="space-y-3 rounded-lg border border-border/50 bg-muted/15 p-4">
-        <div className="flex items-start justify-between gap-4">
+      <div className="space-y-2 rounded-[8px] border border-border/50 bg-muted/15 p-2">
+        <div className="flex items-start justify-between gap-2">
           <div>
-            <h5 className="text-sm font-medium">
+            <h5 className="text-[12.35px] leading-[1.3] font-medium">
               {t("usage.modelsDevAutoSync.title")}
             </h5>
-            <p className="mt-0.5 text-xs text-muted-foreground">
+            <p className="mt-0.5 text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("usage.modelsDevAutoSync.description")}
             </p>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs text-muted-foreground">
+            <span className="text-[12.35px] leading-[1.3] text-muted-foreground">
               {data.config.autoSyncEnabled
                 ? t("usage.modelsDevAutoSync.enabled")
                 : t("usage.modelsDevAutoSync.disabled")}
@@ -576,7 +574,7 @@ export function ModelsDevAutoSyncPanel() {
           </div>
         </div>
 
-        <div className="grid gap-2 text-xs text-muted-foreground md:grid-cols-2">
+        <div className="grid gap-2 text-[12.35px] leading-[1.3] text-muted-foreground md:grid-cols-2">
           <div>
             {t("usage.modelsDevAutoSync.lastSync")}: {lastSync}
           </div>
@@ -598,11 +596,14 @@ export function ModelsDevAutoSyncPanel() {
           </Alert>
         )}
 
-        <div className="rounded-md bg-background/60 px-3 py-2">
-          <div className="text-[11px] text-muted-foreground">
+        <div className="rounded-[8px] bg-background/60 px-2 py-2">
+          <div className="text-[12.35px] leading-[1.3] text-muted-foreground">
             {t("usage.modelsDevAutoSync.localFile")}
           </div>
-          <div className="truncate font-mono text-xs" title={data.configPath}>
+          <div
+            className="truncate font-mono text-[12.35px] leading-[1.3]"
+            title={data.configPath}
+          >
             {data.configPath}
           </div>
         </div>
@@ -610,38 +611,35 @@ export function ModelsDevAutoSyncPanel() {
         <div className="flex flex-wrap justify-end gap-2">
           <Button
             variant="outline"
-            size="sm"
             onClick={() => void openLocalFileFolder()}
           >
-            <FolderOpen className="mr-1.5 h-3.5 w-3.5" />
+            <FolderOpen className="h-4 w-4" />
             {t("usage.modelsDevAutoSync.openFolder")}
           </Button>
           <Button
             variant="outline"
-            size="sm"
             onClick={() => void reloadLocalFile()}
             disabled={isReloading}
           >
             {isReloading ? (
-              <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
+              <RefreshCw className="h-4 w-4" />
             )}
             {t("usage.modelsDevAutoSync.reloadLocalFile")}
           </Button>
           <Button
             variant="outline"
-            size="sm"
             onClick={() => setIsDialogOpen(true)}
           >
-            <Settings2 className="mr-1.5 h-3.5 w-3.5" />
+            <Settings2 className="h-4 w-4" />
             {t("usage.modelsDevAutoSync.configure")}
           </Button>
-          <Button size="sm" onClick={() => void syncNow()} disabled={isSyncing}>
+          <Button onClick={() => void syncNow()} disabled={isSyncing}>
             {isSyncing ? (
-              <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
             ) : (
-              <RefreshCw className="mr-1.5 h-3.5 w-3.5" />
+              <RefreshCw className="h-4 w-4" />
             )}
             {t("usage.modelsDevAutoSync.syncNow")}
           </Button>

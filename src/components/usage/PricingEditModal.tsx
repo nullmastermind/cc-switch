@@ -101,9 +101,9 @@ export function PricingEditModal({
           disabled={updatePricing.isPending}
         >
           {isNew ? (
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4" />
           ) : (
-            <Save className="h-4 w-4 mr-2" />
+            <Save className="h-4 w-4" />
           )}
           {updatePricing.isPending
             ? t("common.saving", "保存中...")
@@ -114,8 +114,8 @@ export function PricingEditModal({
       }
     >
       {isNew && (
-        <div className="mb-6 flex items-center justify-between gap-3 rounded-md border border-border/50 bg-muted/20 px-3 py-2.5">
-          <p className="text-xs text-muted-foreground">
+        <div className="mb-2 flex items-center justify-between gap-2 rounded-[8px] border border-border/50 bg-muted/20 px-2 py-2">
+          <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
             {t(
               "usage.modelsDevHint",
               "无需手动填写，可从 models.dev 选择模型定价",
@@ -124,17 +124,16 @@ export function PricingEditModal({
           <Button
             type="button"
             variant="outline"
-            size="sm"
             onClick={() => setIsPickerOpen(true)}
             className="shrink-0"
           >
-            <Globe className="mr-1.5 h-4 w-4" />
+            <Globe className="h-4 w-4" />
             {t("usage.importFromModelsDev", "从 models.dev 导入")}
           </Button>
         </div>
       )}
 
-      <form id="pricing-form" onSubmit={handleSubmit} className="space-y-6">
+      <form id="pricing-form" onSubmit={handleSubmit} className="space-y-2">
         {isNew && (
           <div className="space-y-2">
             <Label htmlFor="modelId">{t("usage.modelId", "模型 ID")}</Label>

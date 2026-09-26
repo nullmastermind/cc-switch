@@ -202,8 +202,8 @@ export function PricingConfigPanel() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center p-4">
-        <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
+      <div className="flex items-center justify-center p-2">
+        <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -219,26 +219,25 @@ export function PricingConfigPanel() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* 全局计费默认配置 - 紧凑表格布局 */}
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <div>
-            <h4 className="text-sm font-medium">
+            <h4 className="text-[12.35px] leading-[1.3] font-medium">
               {t("settings.globalProxy.pricingDefaultsTitle")}
             </h4>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("settings.globalProxy.pricingDefaultsDescription")}
             </p>
           </div>
           <Button
             onClick={handleSaveAll}
             disabled={isConfigLoading || isSaving || !isDirty}
-            size="sm"
           >
             {isSaving ? (
               <>
-                <Loader2 className="mr-1.5 h-3.5 w-3.5 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
                 {t("common.saving")}
               </>
             ) : (
@@ -248,21 +247,21 @@ export function PricingConfigPanel() {
         </div>
 
         {isConfigLoading ? (
-          <div className="flex items-center justify-center py-4">
+          <div className="flex items-center justify-center py-2">
             <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
           </div>
         ) : (
-          <div className="rounded-md border border-border/50 overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="rounded-[8px] border border-border/50 overflow-hidden">
+            <table className="w-full text-[12.35px] leading-[1.3]">
               <thead>
                 <tr className="border-b border-border/50 bg-muted/30">
-                  <th className="px-3 py-2 text-left font-medium text-muted-foreground w-24">
+                  <th className="px-2 py-2 text-left font-medium text-muted-foreground w-24">
                     {t("settings.globalProxy.pricingAppLabel")}
                   </th>
-                  <th className="px-3 py-2 text-left font-medium text-muted-foreground">
+                  <th className="px-2 py-2 text-left font-medium text-muted-foreground">
                     {t("settings.globalProxy.defaultCostMultiplierLabel")}
                   </th>
-                  <th className="px-3 py-2 text-left font-medium text-muted-foreground">
+                  <th className="px-2 py-2 text-left font-medium text-muted-foreground">
                     {t("settings.globalProxy.pricingModelSourceLabel")}
                   </th>
                 </tr>
@@ -277,10 +276,10 @@ export function PricingConfigPanel() {
                         : ""
                     }
                   >
-                    <td className="px-3 py-1.5 font-medium">
+                    <td className="px-2 py-2 font-medium">
                       {t(`apps.${app}`)}
                     </td>
-                    <td className="px-3 py-1.5">
+                    <td className="px-2 py-2">
                       <Input
                         type="number"
                         step="0.01"
@@ -298,7 +297,7 @@ export function PricingConfigPanel() {
                         className="w-24"
                       />
                     </td>
-                    <td className="px-3 py-1.5">
+                    <td className="px-2 py-2">
                       <Select
                         value={appConfigs[app].source}
                         onValueChange={(value) =>
@@ -341,11 +340,11 @@ export function PricingConfigPanel() {
       <div className="border-t border-border/50" />
 
       {/* 模型定价配置 */}
-      <div className="space-y-4">
+      <div className="space-y-2">
         <ModelsDevAutoSyncPanel />
 
         <div className="flex items-center justify-between">
-          <h4 className="text-sm font-medium text-muted-foreground">
+          <h4 className="text-[12.35px] leading-[1.3] font-medium text-muted-foreground">
             {t("usage.modelPricingDesc")} {t("usage.perMillion")}
           </h4>
           <Button
@@ -353,14 +352,13 @@ export function PricingConfigPanel() {
               e.stopPropagation();
               handleAddNew();
             }}
-            size="sm"
           >
-            <Plus className="mr-1 h-4 w-4" />
+            <Plus className="h-4 w-4" />
             {t("common.add")}
           </Button>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-2">
           {!pricing || pricing.length === 0 ? (
             <Alert>
               <AlertDescription>{t("usage.noPricingData")}</AlertDescription>
@@ -392,20 +390,20 @@ export function PricingConfigPanel() {
                 <TableBody>
                   {pricing.map((model) => (
                     <TableRow key={model.modelId}>
-                      <TableCell className="font-mono text-sm">
+                      <TableCell className="font-mono text-[12.35px] leading-[1.3]">
                         {model.modelId}
                       </TableCell>
                       <TableCell>{model.displayName}</TableCell>
-                      <TableCell className="text-right font-mono text-sm">
+                      <TableCell className="text-right font-mono text-[12.35px] leading-[1.3]">
                         ${model.inputCostPerMillion}
                       </TableCell>
-                      <TableCell className="text-right font-mono text-sm">
+                      <TableCell className="text-right font-mono text-[12.35px] leading-[1.3]">
                         ${model.outputCostPerMillion}
                       </TableCell>
-                      <TableCell className="text-right font-mono text-sm">
+                      <TableCell className="text-right font-mono text-[12.35px] leading-[1.3]">
                         ${model.cacheReadCostPerMillion}
                       </TableCell>
-                      <TableCell className="text-right font-mono text-sm">
+                      <TableCell className="text-right font-mono text-[12.35px] leading-[1.3]">
                         ${model.cacheCreationCostPerMillion}
                       </TableCell>
                       <TableCell className="text-right">
@@ -457,14 +455,16 @@ export function PricingConfigPanel() {
         open={!!deleteConfirm}
         onOpenChange={() => setDeleteConfirm(null)}
       >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t("usage.deleteConfirmTitle")}</DialogTitle>
-            <DialogDescription>
+        <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2">
+          <DialogHeader className="p-0">
+            <DialogTitle className="text-[12.35px] leading-[1.3]">
+              {t("usage.deleteConfirmTitle")}
+            </DialogTitle>
+            <DialogDescription className="text-[12.35px] leading-[1.3]">
               {t("usage.deleteConfirmDesc")}
             </DialogDescription>
           </DialogHeader>
-          <DialogFooter>
+          <DialogFooter className="p-0">
             <Button variant="outline" onClick={() => setDeleteConfirm(null)}>
               {t("common.cancel")}
             </Button>
