@@ -181,14 +181,11 @@ pub async fn restart_app(app: AppHandle<crate::AppRuntime>) -> Result<bool, Stri
     Ok(true)
 }
 
-/// 获取 app_config_dir 覆盖配置（`CC_SWITCH_CONFIG_DIR` 优先于 Store）
+/// 获取 app_config_dir 覆盖配置
 #[tauri::command]
 pub async fn get_app_config_dir_override(
     app: AppHandle<crate::AppRuntime>,
 ) -> Result<Option<String>, String> {
-    if let Some(dir) = crate::config::config_dir_from_env() {
-        return Ok(Some(dir.to_string_lossy().to_string()));
-    }
     Ok(crate::app_store::refresh_app_config_dir_override(&app)
         .map(|p| p.to_string_lossy().to_string()))
 }

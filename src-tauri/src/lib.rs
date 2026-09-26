@@ -2005,8 +2005,8 @@ pub(crate) fn remove_tray_icon_before_exit(app_handle: &tauri::AppHandle<AppRunt
 
 /// 启动时根据 proxy_config 表中的代理状态自动恢复代理服务
 ///
-/// 检查 `proxy_config.enabled` 字段，如果有任一应用的状态为 `true`，
-/// 则自动启动代理服务并接管对应应用的 Live 配置。
+/// 检查 `proxy_config.proxy_enabled`（总开关）和 `proxy_config.enabled`
+/// （各应用接管）。总开关默认开启：新库会启动本地路由服务，但不自动接管 Live。
 const PROXY_STARTUP_APP_TYPES: [&str; 4] = ["claude", "codex", "gemini", "grokbuild"];
 
 async fn enabled_proxy_apps_on_startup(db: &database::Database) -> Vec<&'static str> {
@@ -2024,11 +2024,29 @@ async fn enabled_proxy_apps_on_startup(db: &database::Database) -> Vec<&'static 
 }
 
 pub(crate) async fn restore_proxy_state_on_startup(state: &store::AppState) {
+    let proxy_enabled = state
+        .db
+        .get_global_proxy_config()
+        .await
+        .map(|config| config.proxy_enabled)
+        .unwrap_or(true);
+
     // 收集需要恢复接管的应用列表（从 proxy_config.enabled 读取）
     let apps_to_restore = enabled_proxy_apps_on_startup(&state.db).await;
 
     if apps_to_restore.is_empty() {
-        log::debug!("启动时无需恢复代理状态");
+        if proxy_enabled {
+            match state.proxy_service.start().await {
+                Ok(info) => log::info!(
+                    "✓ 已按默认总开关启动本地路由 {}:{}",
+                    info.address,
+                    info.port
+                ),
+                Err(e) => log::error!("✗ 启动本地路由失败: {e}"),
+            }
+        } else {
+            log::debug!("启动时无需恢复代理状态");
+        }
         return;
     }
 

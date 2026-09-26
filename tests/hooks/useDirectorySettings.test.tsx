@@ -223,7 +223,7 @@ describe("useDirectorySettings", () => {
     expect(result.current.resolvedDirs.appConfig).toBe("/home/mock/.cc-switch");
   });
 
-  it("appends CC_SWITCH_DIR_SUFFIX to computed default directories", async () => {
+  it("appends the debug dir suffix to computed default directories", async () => {
     getDirSuffixMock.mockResolvedValue("-dev");
     getConfigDirMock.mockResolvedValue("");
 
@@ -248,6 +248,9 @@ describe("useDirectorySettings", () => {
     expect(result.current.resolvedDirs.codex).toBe("/home/mock/.codex-dev");
     expect(result.current.resolvedDirs.opencode).toBe(
       "/home/mock/.config/opencode-dev",
+    );
+    expect(result.current.resolvedDirs.appConfig).toBe(
+      "/home/mock/.cc-switch-dev",
     );
   });
 

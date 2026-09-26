@@ -368,8 +368,8 @@ pub struct AppSettings {
     /// 静默启动（程序启动时不显示主窗口，仅托盘运行）
     #[serde(default)]
     pub silent_startup: bool,
-    /// 是否在主页面启用本地代理功能（默认关闭）
-    #[serde(default)]
+    /// 是否在主页面启用本地代理功能（默认开启）
+    #[serde(default = "default_enable_local_proxy")]
     pub enable_local_proxy: bool,
     /// User has confirmed the local proxy first-run notice
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -385,7 +385,7 @@ pub struct AppSettings {
     #[serde(default = "default_session_auto_sync_enabled")]
     pub session_auto_sync_enabled: bool,
     /// Whether to show the failover toggle independently on the main page
-    #[serde(default)]
+    #[serde(default = "default_enable_failover_toggle")]
     pub enable_failover_toggle: bool,
     /// Whether to show the project profile switcher on the main page header
     #[serde(default = "default_show_profile_switcher")]
@@ -520,6 +520,14 @@ fn default_show_profile_switcher() -> bool {
     true
 }
 
+fn default_enable_local_proxy() -> bool {
+    true
+}
+
+fn default_enable_failover_toggle() -> bool {
+    true
+}
+
 fn default_session_auto_sync_enabled() -> bool {
     true
 }
@@ -534,12 +542,12 @@ impl Default for AppSettings {
             skip_claude_onboarding: false,
             launch_on_startup: false,
             silent_startup: false,
-            enable_local_proxy: false,
+            enable_local_proxy: true,
             proxy_confirmed: None,
             usage_confirmed: None,
             usage_dashboard_refresh_interval_ms: None,
             session_auto_sync_enabled: true,
-            enable_failover_toggle: false,
+            enable_failover_toggle: true,
             show_profile_switcher: true,
             preserve_codex_official_auth_on_switch: false,
             unify_codex_session_history: false,

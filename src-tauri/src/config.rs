@@ -33,30 +33,38 @@ pub fn get_home_dir() -> PathBuf {
     })
 }
 
-/// `CC_SWITCH_DIR_SUFFIX` (e.g. `-dev`) is appended to live-config directory
-/// names so a dev build does not share Claude/Codex/etc. dirs with the
-/// installed release. Applied to defaults **and** saved overrides; nothing
-/// except `CC_SWITCH_TEST_HOME` can bypass it.
-pub(crate) fn dir_suffix_from_env() -> Option<String> {
+/// `CC_SWITCH_DEV` appends `-dev` to live-config directory names so a `just dev`
+/// session does not share Claude/Codex/etc. dirs with the installed release.
+/// Applied to defaults **and** saved overrides. `CC_SWITCH_TEST_HOME` disables it.
+const DEV_DIR_SUFFIX: &str = "-dev";
+
+pub(crate) fn dir_suffix() -> Option<&'static str> {
     resolve_dir_suffix(
-        std::env::var("CC_SWITCH_DIR_SUFFIX").ok().as_deref(),
+        env_flag_enabled("CC_SWITCH_DEV"),
         std::env::var_os("CC_SWITCH_TEST_HOME").is_some(),
     )
 }
 
-fn resolve_dir_suffix(value: Option<&str>, has_test_home_override: bool) -> Option<String> {
-    if has_test_home_override {
-        return None;
+fn env_flag_enabled(name: &str) -> bool {
+    std::env::var(name)
+        .ok()
+        .map(|value| {
+            let trimmed = value.trim();
+            !trimmed.is_empty() && trimmed != "0"
+        })
+        .unwrap_or(false)
+}
+
+fn resolve_dir_suffix(is_dev: bool, has_test_home_override: bool) -> Option<&'static str> {
+    if !is_dev || has_test_home_override {
+        None
+    } else {
+        Some(DEV_DIR_SUFFIX)
     }
-    let trimmed = value?.trim();
-    if trimmed.is_empty() || trimmed.contains('/') || trimmed.contains('\\') {
-        return None;
-    }
-    Some(trimmed.to_string())
 }
 
 pub(crate) fn apply_dir_suffix(path: PathBuf) -> PathBuf {
-    apply_dir_suffix_with(path, dir_suffix_from_env().as_deref())
+    apply_dir_suffix_with(path, dir_suffix())
 }
 
 fn apply_dir_suffix_with(path: PathBuf, suffix: Option<&str>) -> PathBuf {
@@ -76,7 +84,7 @@ fn apply_dir_suffix_with(path: PathBuf, suffix: Option<&str>) -> PathBuf {
     }
 }
 
-/// Override (if any) else `default`, then always apply `CC_SWITCH_DIR_SUFFIX`.
+/// Override (if any) else `default`, then apply the `-dev` suffix when `CC_SWITCH_DEV` is set.
 pub(crate) fn resolve_tool_config_dir(override_dir: Option<PathBuf>, default: PathBuf) -> PathBuf {
     apply_dir_suffix(override_dir.unwrap_or(default))
 }
@@ -277,7 +285,7 @@ fn derive_mcp_path_from_override(dir: &Path) -> PathBuf {
 
 /// 获取 Claude MCP 配置文件路径
 pub fn get_claude_mcp_path() -> PathBuf {
-    if dir_suffix_from_env().is_some() {
+    if dir_suffix().is_some() {
         return derive_mcp_path_from_override(&get_claude_config_dir());
     }
     if let Some(custom_dir) = crate::settings::get_claude_override_dir() {
@@ -340,41 +348,16 @@ fn resolve_windows_legacy_dir(
     }
 }
 
-/// 通过 `CC_SWITCH_CONFIG_DIR` 覆盖应用配置目录。
-///
-/// `CC_SWITCH_TEST_HOME` 存在时忽略，避免测试沙箱被开发者环境变量穿透。
-pub(crate) fn config_dir_from_env() -> Option<PathBuf> {
-    resolve_config_dir_env(
-        std::env::var("CC_SWITCH_CONFIG_DIR").ok().as_deref(),
-        std::env::var_os("CC_SWITCH_TEST_HOME").is_some(),
-    )
-}
-
-fn resolve_config_dir_env(value: Option<&str>, has_test_home_override: bool) -> Option<PathBuf> {
-    if has_test_home_override {
-        return None;
-    }
-    let trimmed = value?.trim();
-    if trimmed.is_empty() {
-        return None;
-    }
-    Some(PathBuf::from(trimmed))
-}
-
 /// 获取应用配置目录路径 (~/.cc-switch)
 ///
-/// 优先级：`CC_SWITCH_CONFIG_DIR` → Store `app_config_dir_override` → `{home}/.cc-switch`
+/// 优先级：Store `app_config_dir_override` → `{home}/.cc-switch`，`CC_SWITCH_DEV` 再加 `-dev`
 pub fn get_app_config_dir() -> PathBuf {
-    if let Some(custom) = config_dir_from_env() {
-        return custom;
-    }
-
     if let Some(custom) = crate::app_store::get_app_config_dir_override() {
-        return custom;
+        return apply_dir_suffix(custom);
     }
 
     let default_dir = get_home_dir().join(".cc-switch");
-    if dir_suffix_from_env().is_some() {
+    if dir_suffix().is_some() {
         return apply_dir_suffix(default_dir);
     }
 
@@ -673,32 +656,11 @@ mod tests {
     use super::*;
 
     #[test]
-    fn config_dir_env_uses_trimmed_non_empty_path() {
-        assert_eq!(
-            resolve_config_dir_env(Some(" /tmp/cc-switch-dev "), false),
-            Some(PathBuf::from("/tmp/cc-switch-dev"))
-        );
-    }
-
-    #[test]
-    fn config_dir_env_ignores_empty_missing_and_test_home() {
-        assert_eq!(resolve_config_dir_env(Some("  "), false), None);
-        assert_eq!(resolve_config_dir_env(None, false), None);
-        assert_eq!(
-            resolve_config_dir_env(Some("/tmp/cc-switch-dev"), true),
-            None
-        );
-    }
-
-    #[test]
-    fn dir_suffix_env_accepts_dash_dev_and_rejects_junk() {
-        assert_eq!(
-            resolve_dir_suffix(Some(" -dev "), false).as_deref(),
-            Some("-dev")
-        );
-        assert_eq!(resolve_dir_suffix(Some("  "), false), None);
-        assert_eq!(resolve_dir_suffix(Some("-dev/../etc"), false), None);
-        assert_eq!(resolve_dir_suffix(Some("-dev"), true), None);
+    fn dir_suffix_only_in_dev_without_test_home() {
+        assert_eq!(resolve_dir_suffix(true, false), Some("-dev"));
+        assert_eq!(resolve_dir_suffix(true, true), None);
+        assert_eq!(resolve_dir_suffix(false, false), None);
+        assert_eq!(resolve_dir_suffix(false, true), None);
     }
 
     #[test]

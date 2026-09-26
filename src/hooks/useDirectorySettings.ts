@@ -249,7 +249,7 @@ export function useDirectorySettings({
         const normalizedOverride = sanitizeDir(overrideRaw ?? undefined);
 
         defaultsRef.current = {
-          appConfig: defaultAppConfig ?? "",
+          appConfig: applyDirSuffix(defaultAppConfig ?? "", dirSuffix),
           claude: defaultClaudeDir ?? "",
           codex: defaultCodexDir ?? "",
           gemini: defaultGeminiDir ?? "",
@@ -264,7 +264,10 @@ export function useDirectorySettings({
         initialAppConfigDirRef.current = normalizedOverride;
 
         setResolvedDirs({
-          appConfig: normalizedOverride ?? defaultsRef.current.appConfig,
+          appConfig: applyDirSuffix(
+            normalizedOverride ?? defaultsRef.current.appConfig,
+            dirSuffix,
+          ),
           claude: claudeDir || defaultsRef.current.claude,
           codex: codexDir || defaultsRef.current.codex,
           gemini: geminiDir || defaultsRef.current.gemini,

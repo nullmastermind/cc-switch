@@ -24,8 +24,10 @@ use axum::{
     Router,
 };
 use hyper_util::rt::TokioIo;
-use std::net::SocketAddr;
+use std::io::ErrorKind;
+use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
 use std::sync::Arc;
+use std::time::Duration;
 use tokio::sync::{oneshot, RwLock};
 use tokio::task::JoinHandle;
 
@@ -102,6 +104,10 @@ impl ProxyServer {
                 .parse()
                 .map_err(|e| ProxyError::BindFailed(format!("无效的地址: {e}")))?;
 
+        if listen_addr_in_use(addr).await {
+            return Err(ProxyError::BindFailed(port_in_use_message(addr.port())));
+        }
+
         // 创建关闭通道
         let (shutdown_tx, shutdown_rx) = oneshot::channel();
 
@@ -111,7 +117,7 @@ impl ProxyServer {
         // 绑定监听器
         let listener = tokio::net::TcpListener::bind(&addr)
             .await
-            .map_err(|e| ProxyError::BindFailed(e.to_string()))?;
+            .map_err(|e| ProxyError::BindFailed(map_bind_error(addr.port(), e)))?;
         let local_addr = listener
             .local_addr()
             .map_err(|e| ProxyError::BindFailed(e.to_string()))?;
@@ -436,6 +442,44 @@ impl ProxyServer {
             .reset_provider_breaker(provider_id, app_type)
             .await;
     }
+}
+
+fn probe_socket_addr(addr: SocketAddr) -> SocketAddr {
+    if !addr.ip().is_unspecified() {
+        return addr;
+    }
+    let ip = if addr.is_ipv4() {
+        IpAddr::V4(Ipv4Addr::LOCALHOST)
+    } else {
+        IpAddr::V6(Ipv6Addr::LOCALHOST)
+    };
+    SocketAddr::new(ip, addr.port())
+}
+
+fn port_in_use_message(port: u16) -> String {
+    format!("端口 {port} 已被占用，启动已取消（不会关闭占用该端口的进程）")
+}
+
+fn map_bind_error(port: u16, err: std::io::Error) -> String {
+    if err.kind() == ErrorKind::AddrInUse {
+        port_in_use_message(port)
+    } else {
+        err.to_string()
+    }
+}
+
+async fn listen_addr_in_use(addr: SocketAddr) -> bool {
+    if addr.port() == 0 {
+        return false;
+    }
+    tokio::time::timeout(
+        Duration::from_millis(300),
+        tokio::net::TcpStream::connect(probe_socket_addr(addr)),
+    )
+    .await
+    .ok()
+    .and_then(Result::ok)
+    .is_some()
 }
 
 #[cfg(test)]
@@ -1239,5 +1283,46 @@ mod tests {
             full_url_request.body["commands"]["search_query"][0]["q"],
             "full URL"
         );
+    }
+
+    #[tokio::test]
+    async fn start_fails_when_listen_port_already_in_use_without_taking_the_port() {
+        let occupant = tokio::net::TcpListener::bind(("127.0.0.1", 0))
+            .await
+            .expect("bind occupant");
+        let addr = occupant.local_addr().expect("occupant addr");
+
+        let db = Arc::new(Database::memory().expect("memory database"));
+        let proxy = ProxyServer::new(
+            ProxyConfig {
+                listen_address: "127.0.0.1".to_string(),
+                listen_port: addr.port(),
+                ..ProxyConfig::default()
+            },
+            db,
+            None,
+        );
+
+        let err = proxy
+            .start()
+            .await
+            .expect_err("start should fail when the port is taken");
+        match err {
+            ProxyError::BindFailed(msg) => {
+                assert!(
+                    msg.contains(&addr.port().to_string()),
+                    "error should name the port: {msg}"
+                );
+                assert!(
+                    msg.contains("已被占用"),
+                    "error should say the port is in use: {msg}"
+                );
+            }
+            other => panic!("expected BindFailed, got {other:?}"),
+        }
+
+        tokio::net::TcpStream::connect(addr)
+            .await
+            .expect("occupant must keep the port");
     }
 }

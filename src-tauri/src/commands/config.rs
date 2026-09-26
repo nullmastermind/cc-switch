@@ -186,7 +186,7 @@ pub async fn get_config_dir(app: String) -> Result<String, String> {
 
 #[tauri::command]
 pub async fn get_dir_suffix() -> Result<Option<String>, String> {
-    Ok(crate::config::dir_suffix_from_env())
+    Ok(crate::config::dir_suffix().map(str::to_string))
 }
 
 #[tauri::command]

@@ -362,7 +362,7 @@ export interface Settings {
   launchOnStartup?: boolean;
   // 静默启动（程序启动时不显示主窗口）
   silentStartup?: boolean;
-  // 是否启用主页面本地代理功能（默认关闭）
+  // 是否启用主页面本地代理功能（默认开启）
   enableLocalProxy?: boolean;
   // User has confirmed the local proxy first-run notice
   proxyConfirmed?: boolean;
@@ -371,7 +371,7 @@ export interface Settings {
   usageDashboardRefreshIntervalMs?: number;
   // 会话用量自动扫描开关（默认开启=自动模式；关闭后仅手动同步时扫描会话日志，代理记账不受影响）
   sessionAutoSyncEnabled?: boolean;
-  // Whether to show the failover toggle independently on the main page
+  // Whether to show the failover toggle independently on the main page (default on)
   enableFailoverToggle?: boolean;
   // Whether to show the project profile switcher on the main page header
   showProfileSwitcher?: boolean;
