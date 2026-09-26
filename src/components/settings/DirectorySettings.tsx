@@ -212,7 +212,7 @@ function DirectoryInput({
 }: DirectoryInputProps) {
   const { t } = useTranslation();
   const displayValue = useMemo(
-    () => value ?? resolvedValue ?? "",
+    () => resolvedValue || value || "",
     [value, resolvedValue],
   );
 

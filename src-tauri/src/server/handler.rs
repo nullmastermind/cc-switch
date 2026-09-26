@@ -41,6 +41,7 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::get_config_status,
         commands::get_claude_code_config_path,
         commands::get_config_dir,
+        commands::get_dir_suffix,
         commands::open_config_folder,
         commands::pick_directory,
         commands::open_external,

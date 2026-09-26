@@ -5,6 +5,7 @@ import type { SettingsFormState } from "@/hooks/useSettingsForm";
 
 const getAppConfigDirOverrideMock = vi.hoisted(() => vi.fn());
 const getConfigDirMock = vi.hoisted(() => vi.fn());
+const getDirSuffixMock = vi.hoisted(() => vi.fn());
 const selectConfigDirectoryMock = vi.hoisted(() => vi.fn());
 const setAppConfigDirOverrideMock = vi.hoisted(() => vi.fn());
 const homeDirMock = vi.hoisted(() => vi.fn<() => Promise<string>>());
@@ -17,6 +18,7 @@ vi.mock("@/lib/api", () => ({
   settingsApi: {
     getAppConfigDirOverride: getAppConfigDirOverrideMock,
     getConfigDir: getConfigDirMock,
+    getDirSuffix: getDirSuffixMock,
     selectConfigDirectory: selectConfigDirectoryMock,
     setAppConfigDirOverride: setAppConfigDirOverrideMock,
   },
@@ -65,6 +67,7 @@ describe("useDirectorySettings", () => {
     );
 
     getAppConfigDirOverrideMock.mockResolvedValue(null);
+    getDirSuffixMock.mockResolvedValue(null);
     getConfigDirMock.mockImplementation(async (app: string) => {
       if (app === "claude") return "/remote/claude";
       if (app === "codex") return "/remote/codex";
@@ -218,6 +221,34 @@ describe("useDirectorySettings", () => {
     expect(result.current.resolvedDirs.claude).toBe("/home/mock/.claude");
     expect(result.current.resolvedDirs.codex).toBe("/home/mock/.codex");
     expect(result.current.resolvedDirs.appConfig).toBe("/home/mock/.cc-switch");
+  });
+
+  it("appends CC_SWITCH_DIR_SUFFIX to computed default directories", async () => {
+    getDirSuffixMock.mockResolvedValue("-dev");
+    getConfigDirMock.mockResolvedValue("");
+
+    const { result } = renderHook(() =>
+      useDirectorySettings({
+        settings: createSettings({
+          claudeConfigDir: undefined,
+          codexConfigDir: undefined,
+        }),
+        onUpdateSettings,
+      }),
+    );
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+
+    await act(async () => {
+      await result.current.resetDirectory("claude");
+      await result.current.resetDirectory("codex");
+      await result.current.resetDirectory("opencode");
+    });
+
+    expect(result.current.resolvedDirs.claude).toBe("/home/mock/.claude-dev");
+    expect(result.current.resolvedDirs.codex).toBe("/home/mock/.codex-dev");
+    expect(result.current.resolvedDirs.opencode).toBe(
+      "/home/mock/.config/opencode-dev",
+    );
   });
 
   it("updates openclaw directory when browsing succeeds", async () => {

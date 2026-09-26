@@ -33,9 +33,10 @@ pub fn get_home_dir() -> PathBuf {
     })
 }
 
-/// `CC_SWITCH_DIR_SUFFIX` (e.g. `-dev`) is appended to default live-config
-/// directory names so a dev build does not share Claude/Codex/etc. dirs with
-/// the installed release. Ignored when `CC_SWITCH_TEST_HOME` is set.
+/// `CC_SWITCH_DIR_SUFFIX` (e.g. `-dev`) is appended to live-config directory
+/// names so a dev build does not share Claude/Codex/etc. dirs with the
+/// installed release. Applied to defaults **and** saved overrides; nothing
+/// except `CC_SWITCH_TEST_HOME` can bypass it.
 pub(crate) fn dir_suffix_from_env() -> Option<String> {
     resolve_dir_suffix(
         std::env::var("CC_SWITCH_DIR_SUFFIX").ok().as_deref(),
@@ -64,6 +65,9 @@ fn apply_dir_suffix_with(path: PathBuf, suffix: Option<&str>) -> PathBuf {
     };
     match path.file_name() {
         Some(name) => {
+            if name.to_string_lossy().ends_with(suffix) {
+                return path;
+            }
             let mut new_name = name.to_os_string();
             new_name.push(suffix);
             path.with_file_name(new_name)
@@ -72,13 +76,17 @@ fn apply_dir_suffix_with(path: PathBuf, suffix: Option<&str>) -> PathBuf {
     }
 }
 
+/// Override (if any) else `default`, then always apply `CC_SWITCH_DIR_SUFFIX`.
+pub(crate) fn resolve_tool_config_dir(override_dir: Option<PathBuf>, default: PathBuf) -> PathBuf {
+    apply_dir_suffix(override_dir.unwrap_or(default))
+}
+
 /// 获取 Claude Code 配置目录路径
 pub fn get_claude_config_dir() -> PathBuf {
-    if let Some(custom) = crate::settings::get_claude_override_dir() {
-        return custom;
-    }
-
-    apply_dir_suffix(get_home_dir().join(".claude"))
+    resolve_tool_config_dir(
+        crate::settings::get_claude_override_dir(),
+        get_home_dir().join(".claude"),
+    )
 }
 
 /// 默认 Claude MCP 配置文件路径 (~/.claude.json)
@@ -213,14 +221,14 @@ fn derive_mcp_path_from_override(dir: &Path) -> PathBuf {
 
 /// 获取 Claude MCP 配置文件路径
 pub fn get_claude_mcp_path() -> PathBuf {
+    if dir_suffix_from_env().is_some() {
+        return derive_mcp_path_from_override(&get_claude_config_dir());
+    }
     if let Some(custom_dir) = crate::settings::get_claude_override_dir() {
         if let Some(path) = default_mcp_path_for_config_dir(&custom_dir) {
             return path;
         }
         return derive_mcp_path_from_override(&custom_dir);
-    }
-    if dir_suffix_from_env().is_some() {
-        return derive_mcp_path_from_override(&get_claude_config_dir());
     }
     get_default_claude_mcp_path()
 }
@@ -650,6 +658,30 @@ mod tests {
         assert_eq!(
             apply_dir_suffix_with(PathBuf::from("/home/u/.claude"), None),
             PathBuf::from("/home/u/.claude")
+        );
+    }
+
+    #[test]
+    fn dir_suffix_does_not_double_apply() {
+        assert_eq!(
+            apply_dir_suffix_with(PathBuf::from("/home/u/.claude-dev"), Some("-dev")),
+            PathBuf::from("/home/u/.claude-dev")
+        );
+        assert_eq!(
+            apply_dir_suffix_with(PathBuf::from("/home/u/.config/opencode-dev"), Some("-dev")),
+            PathBuf::from("/home/u/.config/opencode-dev")
+        );
+    }
+
+    #[test]
+    fn resolve_tool_config_dir_applies_suffix_to_override() {
+        assert_eq!(
+            apply_dir_suffix_with(PathBuf::from("/home/u/.claude"), Some("-dev")),
+            PathBuf::from("/home/u/.claude-dev")
+        );
+        assert_eq!(
+            apply_dir_suffix_with(PathBuf::from(r"C:\Users\0x317\.claude"), Some("-dev")),
+            PathBuf::from(r"C:\Users\0x317\.claude-dev")
         );
     }
 

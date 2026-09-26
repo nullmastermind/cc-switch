@@ -25,6 +25,8 @@ import {
   Shield,
   Cpu,
   LayoutDashboard,
+  Loader2,
+  RefreshCw,
   MoreHorizontal,
 } from "lucide-react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -84,7 +86,9 @@ import {
   getSkillsPageHeaderActions,
   type SkillsPageSource,
 } from "@/components/skills/SkillsPage";
-import UnifiedSkillsPanel from "@/components/skills/UnifiedSkillsPanel";
+import UnifiedSkillsPanel, {
+  type SkillsCheckUpdatesState,
+} from "@/components/skills/UnifiedSkillsPanel";
 import { DeepLinkImportDialog } from "@/components/DeepLinkImportDialog";
 import { FirstRunNoticeDialog } from "@/components/FirstRunNoticeDialog";
 import { LanguagePickerDialog } from "@/components/LanguagePickerDialog";
@@ -235,6 +239,11 @@ function App() {
   const [skillsNavigationBusy, setSkillsNavigationBusy] = useState(false);
   const [promptManagementBusy, setPromptManagementBusy] = useState(false);
   const [promptNavigationBusy, setPromptNavigationBusy] = useState(false);
+  const [skillsCheckUpdatesState, setSkillsCheckUpdatesState] =
+    useState<SkillsCheckUpdatesState>({
+      isChecking: false,
+      hasSkills: false,
+    });
 
   useEffect(() => {
     localStorage.setItem(VIEW_STORAGE_KEY, currentView);
@@ -1094,6 +1103,7 @@ function App() {
               onOpenDiscovery={handleOpenSkillsDiscovery}
               onInteractionBlockedChange={setSkillsManagementBusy}
               onNavigationBlockedChange={setSkillsNavigationBusy}
+              onCheckUpdatesStateChange={setSkillsCheckUpdatesState}
               currentApp={
                 sharedFeatureApp === "openclaw" ? "claude" : sharedFeatureApp
               }
@@ -1536,6 +1546,28 @@ function App() {
                     >
                       <Search className="w-4 h-4 mr-2" />
                       {t("skills.discover")}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      disabled={
+                        skillsManagementBusy ||
+                        skillsCheckUpdatesState.isChecking ||
+                        !skillsCheckUpdatesState.hasSkills
+                      }
+                      onClick={() =>
+                        unifiedSkillsPanelRef.current?.checkUpdates()
+                      }
+                      className="hover:bg-black/5 disabled:opacity-100 dark:hover:bg-white/5"
+                    >
+                      {skillsCheckUpdatesState.isChecking ? (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      ) : (
+                        <RefreshCw className="w-4 h-4 mr-2" />
+                      )}
+                      {skillsCheckUpdatesState.isChecking
+                        ? t("skills.checkingUpdates")
+                        : t("skills.checkUpdates")}
                     </Button>
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

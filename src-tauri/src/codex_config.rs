@@ -2,8 +2,8 @@ use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
 use crate::config::{
-    apply_dir_suffix, atomic_write, delete_file, get_home_dir, path_is_within, read_json_file,
-    sanitize_provider_name, write_json_file, write_text_file,
+    atomic_write, delete_file, get_home_dir, path_is_within, read_json_file, sanitize_provider_name,
+    write_json_file, write_text_file,
 };
 use crate::error::AppError;
 use crate::model_capabilities::{image_input_capability_from_modalities, ImageInputCapability};
@@ -446,11 +446,10 @@ const CODEX_RESERVED_MODEL_PROVIDER_IDS: &[&str] = &[
 
 /// 获取 Codex 配置目录路径
 pub fn get_codex_config_dir() -> PathBuf {
-    if let Some(custom) = crate::settings::get_codex_override_dir() {
-        return custom;
-    }
-
-    apply_dir_suffix(get_home_dir().join(".codex"))
+    crate::config::resolve_tool_config_dir(
+        crate::settings::get_codex_override_dir(),
+        get_home_dir().join(".codex"),
+    )
 }
 
 /// 获取 Codex auth.json 路径

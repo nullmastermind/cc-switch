@@ -262,6 +262,8 @@ export const handlers = [
     return success(app === "claude" ? "/default/claude" : "/default/codex");
   }),
 
+  http.post(`${TAURI_ENDPOINT}/get_dir_suffix`, () => success(null)),
+
   http.post(`${TAURI_ENDPOINT}/is_portable_mode`, () => success(false)),
 
   http.post(

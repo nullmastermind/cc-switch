@@ -1,4 +1,4 @@
-use crate::config::{apply_dir_suffix, get_home_dir, write_text_file};
+use crate::config::{get_home_dir, write_text_file};
 use crate::error::AppError;
 use serde_json::Value;
 use std::collections::HashMap;
@@ -7,11 +7,10 @@ use std::path::PathBuf;
 
 /// 获取 Gemini 配置目录路径（支持设置覆盖）
 pub fn get_gemini_dir() -> PathBuf {
-    if let Some(custom) = crate::settings::get_gemini_override_dir() {
-        return custom;
-    }
-
-    apply_dir_suffix(get_home_dir().join(".gemini"))
+    crate::config::resolve_tool_config_dir(
+        crate::settings::get_gemini_override_dir(),
+        get_home_dir().join(".gemini"),
+    )
 }
 
 /// 获取 Gemini .env 文件路径
