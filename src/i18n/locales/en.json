@@ -2549,7 +2549,7 @@
     "noResults": "No matching skills found",
     "noInstalled": "No skills installed",
     "noInstalledDescription": "Discover and install skills from repositories, or import existing skills",
-    "discover": "Discover Skills",
+    "discover": "Community Skills",
     "import": "Import Existing",
     "importDescription": "Select skills to import into Cli-Switch unified management",
     "importSuccess": "Successfully imported {{count}} skills",

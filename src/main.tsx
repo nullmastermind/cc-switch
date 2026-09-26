@@ -2,11 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { DatabaseUpgrade } from "./components/DatabaseUpgrade";
-// ADE embed fonts — self-hosted woff2 via @fontsource (no CDN)
-import "@fontsource/ibm-plex-sans/latin-400.css";
-import "@fontsource/ibm-plex-sans/latin-500.css";
-import "@fontsource/ibm-plex-sans/latin-600.css";
-import "@fontsource/ibm-plex-sans/latin-700.css";
+// Chrome UI font — Inter Variable (includes Vietnamese); fallback Inter / system-ui
+import "@fontsource-variable/inter";
 import "@fontsource/lilex/latin-400.css";
 import "@fontsource/lilex/latin-600.css";
 import "./index.css";

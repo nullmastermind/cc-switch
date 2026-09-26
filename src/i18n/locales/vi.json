@@ -74,7 +74,7 @@
     "writeCommonConfig": "Áp dụng Common Config",
     "editCommonConfig": "Sửa Common Config",
     "editCommonConfigTitle": "Sửa Common Config snippet",
-    "commonConfigHint": "Snippet này sẽ được merge vào settings.json khi tick 'Áp dụng Common Config'",
+    "commonConfigHint": "Tick 'Áp dụng Common Config' thì snippet này merge vào settings.json",
     "fullSettingsHint": "Toàn bộ nội dung Claude Code settings.json",
     "extractFromCurrent": "Tách từ Editor",
     "extractNoCommonConfig": "Editor không có Common Config để tách",
@@ -118,7 +118,7 @@
     "noRoutingSupport": "Không hỗ trợ Routing",
     "blockedByProxyHint": "Không chuyển sang Provider official được khi proxy takeover đang bật",
     "editProvider": "Sửa Provider",
-    "editProviderHint": "Config sẽ được áp dụng ngay cho Provider hiện tại sau khi cập nhật.",
+    "editProviderHint": "Cập nhật xong, config áp ngay cho Provider hiện tại.",
     "deleteProvider": "Xóa Provider",
     "addNewProvider": "Thêm Provider mới",
     "addFooterHint": "💡 Sau khi chọn preset, điền các trường bên dưới (ví dụ API Key)",
@@ -164,7 +164,7 @@
     "editCommonConfigButton": "Sửa Common Config",
     "configJsonHint": "Điền đầy đủ config Claude Code",
     "editCommonConfigTitle": "Sửa Common Config snippet",
-    "editCommonConfigHint": "Common Config snippet sẽ được merge vào mọi Provider đã bật",
+    "editCommonConfigHint": "Common Config snippet merge vào mọi Provider đã bật",
     "addProvider": "Thêm Provider",
     "sortUpdated": "Đã cập nhật thứ tự",
     "usageSaved": "Đã lưu config usage query",
@@ -179,7 +179,7 @@
         "apiKeyPlaceholder": "Nhập Gemini API Key"
       }
     },
-    "duplicateLiveIdsLoadFailed": "Không đọc được identifier Provider từ config, hãy sửa config rồi thử lại"
+    "duplicateLiveIdsLoadFailed": "Không đọc được identifier Provider từ config. Sửa config rồi thử lại."
   },
   "claudeCode": {
     "needsRouting": "Cần Routing",
@@ -224,14 +224,14 @@
     "supports1mShort": "1M",
     "directModelListTitle": "Danh sách Model",
     "directModelListCollapsedHint": "Provider model Claude native thường không cần mục này. Claude Desktop sẽ tự fetch /v1/models.",
-    "directModelListHint": "Cấu hình model Sonnet, Opus và Haiku cho Claude Desktop. Để trống để Claude Desktop tự fetch /v1/models. Tick 1M nghĩa là khai báo hỗ trợ context 1M.",
+    "directModelListHint": "Chọn model Sonnet, Opus và Haiku cho Claude Desktop. Để trống thì Claude Desktop tự fetch /v1/models. Tick 1M nghĩa là khai báo hỗ trợ context 1M.",
     "directModelInvalid": "Direct model phải dùng model ID Sonnet / Opus / Haiku mà Claude Desktop nhận",
     "addModel": "Thêm model",
     "addRoute": "Thêm model",
     "routeInvalid": "Chọn model role và nhập model request",
     "routesRequired": "Cần ít nhất một model mapping",
     "statusTitle": "Config Claude Desktop cần xem lại",
-    "statusUnsupported": "Hệ thống này chưa hỗ trợ ghi config Claude Desktop 3P.",
+    "statusUnsupported": "Máy này chưa ghi được config Claude Desktop 3P.",
     "statusStaleRawModels": "Profile Claude Desktop chứa model ID ngoài nhóm role Sonnet / Opus / Haiku. Bản Claude Desktop mới hơn có thể từ chối; chuyển lại Provider hiện tại để sửa.",
     "statusMissingRouteMappings": "Provider hiện tại đã bật model mapping nhưng chưa có route hợp lệ. Sửa Provider và thêm ít nhất một mapping.",
     "statusGatewayTokenMissing": "Token local routing chưa được tạo. Chuyển lại Provider này sẽ ghi token local mới.",
@@ -273,7 +273,7 @@
     "deleteFailed": "Không xóa được Provider: {{error}}",
     "settingsSaved": "Đã lưu cài đặt",
     "settingsSaveFailed": "Không lưu được cài đặt: {{error}}",
-    "proxyRequiredForSwitch": "Provider này {{reason}}, cần routing service. Hãy bật routing trước.",
+    "proxyRequiredForSwitch": "Provider này {{reason}}, cần routing service. Bật routing trước.",
     "proxyReasonCopilot": "dùng GitHub Copilot làm Claude Provider",
     "proxyReasonOpenAIChat": "dùng format OpenAI Chat API",
     "proxyReasonOpenAIResponses": "dùng format OpenAI Responses API",
@@ -314,13 +314,13 @@
     },
     "unifyCodexHistory": {
       "title": "Gộp session history Codex",
-      "message": "Khi bật, subscription official và Provider third-party dùng chung một danh sách session history. Lưu ý: resume session cũ giữa các Provider có thể thất bại vì encrypted_content reasoning không giải mã được ở backend khác.\n\nBạn cũng có thể migrate session history official hiện có vào danh sách dùng chung (bản gốc được backup vào thư mục backup của app trước, khôi phục được khi tắt).",
+      "message": "Khi bật, subscription official và Provider third-party dùng chung một danh sách session history. Resume session cũ giữa các Provider có thể thất bại vì encrypted_content reasoning không giải mã được ở backend khác.\n\nCũng migrate được session history official hiện có vào danh sách dùng chung (bản gốc backup vào thư mục backup của app trước, khôi phục được khi tắt).",
       "migrateExisting": "Migrate luôn session history official hiện có",
       "confirm": "Đã hiểu, bật"
     },
     "unifyCodexHistoryOff": {
       "title": "Tắt gộp session history",
-      "message": "Sau khi tắt, subscription official và Provider third-party trở lại danh sách history riêng. Session tạo lúc đang bật không gán được cho Provider nào, nên chúng ở lại history third-party và subscription official sẽ không thấy.",
+      "message": "Sau khi tắt, subscription official và Provider third-party trở lại danh sách history riêng. Session tạo lúc đang bật không gán được cho Provider nào, nên nằm lại history third-party; subscription official không thấy.",
       "restoreBackup": "Khôi phục session official đã migrate lúc bật về history official (restore đúng từ backup)",
       "confirm": "Tắt"
     },
@@ -336,7 +336,7 @@
     },
     "commonConfig": {
       "title": "Về Common Config",
-      "message": "\"Common Config snippet\" dùng để chia sẻ plugin, biến môi trường và setting khác giữa các Provider, nên chúng không mất khi bạn chuyển.\n\nCách dùng:\n① Sửa Provider → bấm \"Sửa Common Config\" → \"Tách từ Editor\"\n② Khi tạo Provider mới, tick \"Áp dụng Common Config\" (bật mặc định)\n\nNếu mới cài plugin hoặc hook, tách lại Common Config để chúng còn sync.",
+      "message": "\"Common Config snippet\" dùng để chia sẻ plugin, biến môi trường và setting khác giữa các Provider, để không mất khi chuyển.\n\nCách dùng:\n① Sửa Provider → bấm \"Sửa Common Config\" → \"Tách từ Editor\"\n② Khi tạo Provider mới, tick \"Áp dụng Common Config\" (bật mặc định)\n\nNếu mới cài plugin hoặc hook, tách lại Common Config để chúng còn sync.",
       "confirm": "Đã hiểu"
     }
   },
@@ -427,7 +427,7 @@
         "title": "Log chẩn đoán app",
         "description": "Chọn mức log chẩn đoán của app",
         "enabled": "Bật log chẩn đoán",
-        "enabledDescription": "Điều khiển log runtime của app; bản ghi usage request và crash.log không bị ảnh hưởng",
+        "enabledDescription": "Bật/tắt log runtime của app; bản ghi usage request và crash.log không đổi.",
         "level": "Log level",
         "levelDescription": "Mức log tối thiểu được ghi",
         "levels": {
@@ -463,9 +463,9 @@
     "importing": "Đang import...",
     "importSuccess": "Import thành công!",
     "importFailed": "Import thất bại",
-    "syncLiveFailed": "Đã import, nhưng không sync được sang Provider hiện tại. Hãy chọn lại Provider thủ công.",
+    "syncLiveFailed": "Đã import, nhưng không sync được sang Provider hiện tại. Chọn lại Provider thủ công.",
     "importPartialSuccess": "Đã import config, nhưng không sync được sang Provider hiện tại.",
-    "importPartialHint": "Hãy chọn lại Provider để làm mới live config.",
+    "importPartialHint": "Chọn lại Provider để làm mới live config.",
     "configExported": "Config đã export tới:",
     "exportFailed": "Export thất bại",
     "selectFileFailed": "Chọn file backup SQL hợp lệ",
@@ -553,7 +553,7 @@
       "incompatibleVersion": "Dữ liệu remote không tương thích (protocol v{{protocolVersion}}, database {{dbCompatVersion}}). Client này hỗ trợ protocol v2 / db-v6.",
       "unsaved": "Chưa lưu",
       "saved": "Đã lưu",
-      "unsavedChanges": "Hãy lưu config trước",
+      "unsavedChanges": "Lưu config trước",
       "saveBeforeSync": "Lưu config trước để bật upload/download.",
       "fetchingRemote": "Đang lấy thông tin remote...",
       "fetchRemoteFailed": "Không lấy được thông tin remote. Kiểm tra config và mạng.",
@@ -658,7 +658,7 @@
       "incompatibleVersion": "Dữ liệu remote không tương thích (version {{version}}). Client này hỗ trợ protocol v2 / db-v6.",
       "unsaved": "Chưa lưu",
       "saved": "Đã lưu",
-      "unsavedChanges": "Hãy lưu config trước",
+      "unsavedChanges": "Lưu config trước",
       "saveBeforeSync": "Lưu config trước để bật upload/download.",
       "fetchingRemote": "Đang lấy thông tin remote...",
       "fetchRemoteFailed": "Không lấy được thông tin remote. Kiểm tra config và mạng.",
@@ -708,7 +708,7 @@
     "skipClaudeOnboardingDescription": "Khi bật, Claude Code bỏ qua xác nhận first-run",
     "codexAuth": "Tùy chọn thêm cho Codex",
     "preserveCodexOfficialAuthOnSwitch": "Giữ login official khi chuyển trực tiếp",
-    "preserveCodexOfficialAuthOnSwitchDescription": "Điều khiển chuyển third-party khi local routing tắt. Takeover routing luôn giữ login official của Codex.",
+    "preserveCodexOfficialAuthOnSwitchDescription": "Khi local routing tắt, quyết định có chuyển third-party không. Takeover routing luôn giữ login official của Codex.",
     "unifyCodexSessionHistory": "Gộp session history Codex",
     "unifyCodexSessionHistoryDescription": "Khi bật, subscription official chạy dưới provider id \"custom\" dùng chung nên session official và third-party nằm cùng một history, có thể migrate session official hiện có (backup trước). Khi tắt, session đã migrate restore được từ backup. Lưu ý: resume session cũ giữa các Provider có thể thất bại vì encrypted_content reasoning chỉ giải mã được ở backend đã tạo nó.",
     "unifyCodexHistoryRestoreCompleted": "Đã restore session history official từ backup ({{files}} file session, {{rows}} hàng index)",
@@ -733,7 +733,7 @@
       "ccSwitchHint": "Skill lưu trong thư mục data của app và sync sang từng app bằng symlink hoặc copy.",
       "unifiedHint": "Skill lưu ở ~/.agents/skills/, open standard Agent Skills. Tool tương thích (Claude Code, Codex, Gemini CLI, ...) tự tìm Skill ở đây.",
       "confirmTitle": "Migrate nơi lưu Skill",
-      "confirmMessage": "{{count}} Skill sẽ được chuyển tới vị trí mới. Tiếp tục?",
+      "confirmMessage": "Chuyển {{count}} Skill sang vị trí mới. Tiếp tục?",
       "migrationSuccess": "Đã migrate {{count}} Skill",
       "migrationPartial": "Đã migrate {{migrated}} Skill, {{errors}} lỗi. Xem log để biết chi tiết."
     },
@@ -776,7 +776,7 @@
       }
     },
     "configDirectoryOverride": "Ghi đè thư mục config (nâng cao)",
-    "configDirectoryDescription": "Khi dùng Claude Code hoặc Codex trong môi trường như WSL, có thể chỉ định thư mục config sang phía WSL để dữ liệu Provider khớp môi trường chính.",
+    "configDirectoryDescription": "Khi dùng Claude Code hoặc Codex trong môi trường như WSL, chỉ định thư mục config sang phía WSL được, để dữ liệu Provider khớp môi trường chính.",
     "appConfigDir": "Thư mục config Cli-Switch",
     "appConfigDirDescription": "Tùy chỉnh nơi lưu config Cli-Switch (trỏ tới thư mục cloud sync để sync config)",
     "browsePlaceholderApp": "vd. C:\\Users\\Administrator\\AppData",
@@ -826,7 +826,7 @@
     "toolNotRunnable": "Đã cài nhưng không chạy được (không thấy version)",
     "toolActionVersionUnchangedTitle": "Version không đổi",
     "toolActionVersionUnchanged": "Vẫn đang {{version}} (mới nhất: {{latest}}). Updater có thể báo thành công nhưng chưa áp dụng update.",
-    "toolActionInstalledNotRunnable": "Đã cài, nhưng không chạy được trong môi trường hiện tại. Hãy kiểm tra",
+    "toolActionInstalledNotRunnable": "Đã cài, nhưng không chạy được trong môi trường hiện tại. Kiểm tra lại.",
     "installedNotRunnable": "Đã cài · không chạy được",
     "toolCheckEnv": "Kiểm tra môi trường",
     "toolDiagnose": "Kiểm tra bản cài",
@@ -838,7 +838,7 @@
     "toolDiagnoseNoConflict": "Không có bản cài xung đột",
     "toolDiagnoseFailed": "Kiểm tra thất bại",
     "toolUpgradeConfirmTitle": "Xác nhận chỗ sẽ upgrade",
-    "toolUpgradeConfirmHint": "Phát hiện nhiều bản cài. Lần upgrade này không update hết; xem từng tool bên dưới để biết bản nào sẽ được update.",
+    "toolUpgradeConfirmHint": "Phát hiện nhiều bản cài. Lần upgrade này không update hết; xem từng tool bên dưới để biết bản nào được update.",
     "toolUpgradeWillRun": "Sẽ chạy:",
     "toolUpgradeConfirmBtn": "Xác nhận upgrade",
     "toolUpgradeUnanchoredHint": "Không xác định được command line đang dùng bản cài nào; sẽ chạy lệnh upgrade mặc định (có thể cài vào npm đầu tiên trên PATH).",
@@ -851,15 +851,15 @@
     "wslShell": "Shell",
     "wslShellFlag": "Flag",
     "installCommandsCopied": "Đã sao chép lệnh cài",
-    "installCommandsCopyFailed": "Sao chép thất bại, hãy copy thủ công.",
+    "installCommandsCopyFailed": "Sao chép thất bại, copy thủ công.",
     "importFailedError": "Import config thất bại: {{message}}",
     "exportFailedError": "Export config thất bại:",
     "restartRequired": "Cần restart",
     "restartRequiredMessage": "Đổi thư mục config Cli-Switch cần restart app mới dùng được. Restart ngay?",
     "restartNow": "Restart ngay",
     "restartLater": "Restart sau",
-    "restartFailed": "Restart app thất bại, hãy đóng rồi mở lại.",
-    "devModeRestartHint": "Dev Mode: không hỗ trợ restart tự động, hãy restart app thủ công.",
+    "restartFailed": "Restart app thất bại. Đóng rồi mở lại.",
+    "devModeRestartHint": "Dev Mode không restart tự động được. Restart app thủ công.",
     "saving": "Đang lưu...",
     "globalProxy": {
       "label": "Proxy cho cả app",
@@ -995,7 +995,7 @@
       "stopBeforeDelete": "Bỏ dùng prompt này trước khi xóa",
       "systemFilesDescription": "Nên append. Chỉ replace khi bạn muốn tự viết hết instruction gốc.",
       "systemAppend": "Append system",
-      "systemAppendDescription": "Thêm instruction sau base prompt có sẵn của Pi, phù hợp hầu hết tùy chỉnh global.",
+      "systemAppendDescription": "Thêm instruction sau base prompt có sẵn của Pi, đủ cho hầu hết chỉnh global.",
       "systemOverride": "Thay system",
       "systemOverrideDescription": "Thay base prompt có sẵn của Pi. Pi vẫn thêm context, AGENTS.md và resource khác.",
       "systemOverrideWarning": "SYSTEM.md thay base prompt có sẵn của Pi. Nên dùng APPEND_SYSTEM.md trừ khi bạn muốn tự viết hết instruction gốc.",
@@ -1260,7 +1260,7 @@
     "modelPlaceholder": "",
     "smallModelPlaceholder": "",
     "haikuModelPlaceholder": "",
-    "modelHelper": "Không bắt buộc: chọn model Claude mặc định. Để trống thì dùng mặc định hệ thống.",
+    "modelHelper": "Không bắt buộc. Chọn model Claude mặc định, để trống thì dùng mặc định hệ thống.",
     "modelMappingLabel": "Model Mapping",
     "modelMappingHint": "Tên hiển thị chỉ ảnh hưởng menu /model. 1M chỉ là khai báo khả năng context của Claude Code.",
     "modelRoleLabel": "Model role",
@@ -1280,7 +1280,7 @@
     "quickSetModels": "Đặt nhanh",
     "quickSetSuccess": "Đã gán tên model cho mọi role",
     "advancedOptionsToggle": "Tùy chọn nâng cao",
-    "advancedOptionsHint": "Gồm format API, trường auth và model mapping. Mặc định dùng được cho hầu hết trường hợp.",
+    "advancedOptionsHint": "Format API, trường auth và model mapping. Mặc định dùng được cho hầu hết trường hợp.",
     "categoryOfficial": "Official",
     "categoryCnOfficial": "Official mã nguồn mở",
     "categoryAggregation": "Tổng hợp",
@@ -1459,7 +1459,7 @@
     "writeCommonConfig": "Áp dụng Common Config",
     "editCommonConfig": "Sửa Common Config",
     "editCommonConfigTitle": "Sửa Common Config snippet của Codex",
-    "commonConfigHint": "Snippet này sẽ được thêm cuối config.toml khi tick 'Áp dụng Common Config'",
+    "commonConfigHint": "Tick 'Áp dụng Common Config' thì snippet này thêm cuối config.toml",
     "enableRemoteCompaction": "Bật remote compaction",
     "remoteCompactionHint": "Khi bật, tên entry model_providers đang dùng được ghi thành OpenAI để Codex thử remote compaction.",
     "apiUrlLabel": "URL request API",
@@ -1650,7 +1650,7 @@
     "outputTokens": "Output",
     "cacheReadTokens": "Cache hit",
     "cacheCreationTokens": "Tạo cache",
-    "timingInfo": "Duration/TTFT",
+    "timingInfo": "Thời gian/TTFT",
     "status": "Trạng thái",
     "multiplier": "Hệ số",
     "requestModel": "Request model",
@@ -1658,7 +1658,7 @@
     "noData": "Không có dữ liệu",
     "unknownProvider": "Provider không rõ",
     "stream": "Stream",
-    "nonStream": "Non-stream",
+    "nonStream": "Không stream",
     "source": "Nguồn",
     "requestsLabel": "requests",
     "costLabel": "tổng cost",
@@ -1683,7 +1683,7 @@
     "rebuildCodex": {
       "title": "Bảo trì usage Codex",
       "description": "Build lại usage session Codex từ log rollout local",
-      "warning": "Database được backup trước. History mà file JSONL nguồn đã xóa thì import lại không được.",
+      "warning": "App backup database trước. History mà file JSONL nguồn đã xóa thì import lại không được.",
       "action": "Build lại usage Codex",
       "confirmTitle": "Build lại usage Codex?",
       "confirmMessage": "Sẽ xóa chi tiết session Codex và rollup hiện có, rồi import lại từ log Codex local.\n\nHistory mà log đã xóa sẽ mất. Fork thiếu parent rollout sẽ bị hoãn.",
@@ -1916,7 +1916,7 @@
   },
   "dbUpgrade": {
     "title": "Phiên bản database quá mới",
-    "description": "Database này do bản Cli-Switch mới hơn tạo. Hãy upgrade app để tiếp tục. Upgrade không xóa dữ liệu.",
+    "description": "Database này do bản Cli-Switch mới hơn tạo. Upgrade app rồi mới tiếp tục. Upgrade không xóa dữ liệu.",
     "versionInfo": "Database v{{db}} · App hỗ trợ v{{supported}}",
     "dbPath": "File database",
     "openConfigDir": "Mở thư mục config",
@@ -1925,9 +1925,9 @@
   "errors": {
     "usage_query_failed": "Usage query thất bại",
     "configLoadFailedTitle": "Tải config thất bại",
-    "configLoadFailedMessage": "Không đọc được file config:\n{{path}}\n\nChi tiết lỗi:\n{{detail}}\n\nKiểm tra JSON có hợp lệ không, hoặc restore từ file backup (ví dụ config.json.bak) cùng thư mục.\n\nApp sẽ thoát để bạn sửa.",
+    "configLoadFailedMessage": "Không đọc được file config:\n{{path}}\n\nChi tiết lỗi:\n{{detail}}\n\nKiểm tra JSON có hợp lệ không, hoặc restore từ file backup (ví dụ config.json.bak) cùng thư mục.\n\nApp thoát để bạn sửa.",
     "frontendCrashTitle": "Giao diện bị lỗi",
-    "frontendCrashMessage": "Lỗi đã được ghi vào log chẩn đoán của app. Tải lại giao diện. Nếu vẫn lỗi, đính log khi mở issue.",
+    "frontendCrashMessage": "Lỗi ghi vào log chẩn đoán của app. Tải lại giao diện. Nếu vẫn lỗi, đính log khi mở issue.",
     "reloadInterface": "Tải lại giao diện"
   },
   "presetSelector": {
@@ -1971,7 +1971,7 @@
       }
     },
     "userLevelPath": "Path MCP cấp user",
-    "serverList": "Servers",
+    "serverList": "Server",
     "loading": "Đang tải...",
     "empty": "Không có MCP server",
     "emptyDescription": "Bấm nút góc trên phải để thêm MCP server đầu tiên",
@@ -2079,7 +2079,7 @@
       "requiresEnv": "Cần env",
       "fetch": {
         "name": "mcp-server-fetch",
-        "description": "Tool HTTP đa năng, hỗ trợ GET/POST và method khác, dùng request API nhanh hoặc lấy dữ liệu web"
+        "description": "Tool HTTP: GET/POST và method khác, request API nhanh hoặc lấy dữ liệu web"
       },
       "time": {
         "name": "@modelcontextprotocol/server-time",
@@ -2087,7 +2087,7 @@
       },
       "memory": {
         "name": "@modelcontextprotocol/server-memory",
-        "description": "Hệ thống nhớ knowledge graph: entity, relation, observation, giúp AI nhớ thông tin quan trọng trong hội thoại"
+        "description": "Nhớ knowledge graph: entity, relation, observation, giúp AI nhớ thông tin quan trọng trong hội thoại"
       },
       "sequential-thinking": {
         "name": "@modelcontextprotocol/server-sequential-thinking",
@@ -2161,7 +2161,7 @@
     },
     "manage": "Quản lý project…",
     "manageTitle": "Quản lý project",
-    "manageDescription": "Project là snapshot config. Khi chuyển project, config hiện tại được lưu lại vào project bạn vừa rời.",
+    "manageDescription": "Project là snapshot config. Khi chuyển project, config hiện tại lưu lại vào project bạn vừa rời.",
     "namePlaceholder": "vd. Development, Drawing",
     "rename": "Đổi tên",
     "noSnapshotForScope": "App này chưa lưu",
@@ -2280,7 +2280,7 @@
       "profileFull": "Full",
       "profileUnset": "Chưa đặt",
       "unsupportedProfileTitle": "tools.profile không được hỗ trợ",
-      "unsupportedProfileDescription": "Giá trị tools.profile '{{value}}' không nằm trong list OpenClaw hỗ trợ. Sẽ giữ nguyên đến khi bạn chọn giá trị mới.",
+      "unsupportedProfileDescription": "Giá trị tools.profile '{{value}}' không nằm trong list OpenClaw hỗ trợ. Giữ nguyên đến khi bạn chọn giá trị mới.",
       "unsupportedProfileLabel": "không hỗ trợ",
       "allowList": "Allow list",
       "denyList": "Deny list",
@@ -2416,7 +2416,7 @@
     "confirm": {
       "title": "Xác nhận xóa biến môi trường",
       "message": "Xóa {{count}} biến môi trường?",
-      "backupNotice": "Sẽ tự tạo backup trước khi xóa. Restore sau được. Có hiệu lực sau khi restart app hoặc terminal.",
+      "backupNotice": "Sẽ tự tạo backup trước khi xóa. Restore sau được. Restart app hoặc terminal rồi mới dùng.",
       "confirm": "Xác nhận xóa"
     },
     "error": {
@@ -2549,7 +2549,7 @@
     "noResults": "Không có Skill khớp",
     "noInstalled": "Chưa cài Skill",
     "noInstalledDescription": "Tìm và cài Skill từ repo, hoặc import Skill có sẵn",
-    "discover": "Khám phá Skill",
+    "discover": "Community skills",
     "import": "Import có sẵn",
     "importDescription": "Chọn Skill để import vào quản lý thống nhất của Cli-Switch",
     "importSuccess": "Đã import {{count}} Skill",
@@ -2565,7 +2565,7 @@
     "frontmatterMissing": "(không có YAML frontmatter)",
     "previewLoadFailed": "Không tải được nội dung Skill: {{error}}",
     "uninstallConfirm": "Gỡ \"{{name}}\"? Skill sẽ bị gỡ khỏi mọi app. Sẽ tạo backup local trước.",
-    "uninstallInMainPanel": "Hãy gỡ Skill từ panel chính",
+    "uninstallInMainPanel": "Gỡ Skill từ panel chính",
     "notFound": "Không thấy Skill",
     "backup": {
       "location": "Vị trí backup: {{path}}"
@@ -2605,7 +2605,7 @@
   },
   "deeplink": {
     "confirmImport": "Xác nhận import Provider",
-    "confirmImportDescription": "Config sau sẽ được import từ deep link vào Cli-Switch",
+    "confirmImportDescription": "Config sau import từ deep link vào Cli-Switch",
     "importPrompt": "Import prompt",
     "importPromptDescription": "Xác nhận import system prompt này",
     "importMcp": "Import MCP server",
@@ -2650,7 +2650,7 @@
       "title": "Import hàng loạt MCP server",
       "targetApps": "App đích",
       "serverCount": "MCP server ({{count}})",
-      "enabledWarning": "Import xong, config sẽ được ghi ngay vào mọi app đã chọn",
+      "enabledWarning": "Import xong, config ghi ngay vào mọi app đã chọn",
       "command": "Command",
       "args": "Args",
       "env": "Env",

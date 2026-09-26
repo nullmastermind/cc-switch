@@ -18,8 +18,7 @@
   --ade-border: #262b33;
   --ade-text: #e6e8ec;
   --ade-text-secondary: #9aa0a9;
-  --ade-font-sans:
-    "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ade-font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
   --ade-font-mono:
     "Lilex", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 
@@ -42,8 +41,7 @@
   --ade-border: #d8dbe1;
   --ade-text: #15171c;
   --ade-text-secondary: #5c616b;
-  --ade-font-sans:
-    "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ade-font-sans: "Inter Variable", "Inter", system-ui, sans-serif;
   --ade-font-mono:
     "Lilex", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
 

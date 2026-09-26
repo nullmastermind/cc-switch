@@ -2549,7 +2549,7 @@
     "noResults": "一致するスキルが見つかりませんでした",
     "noInstalled": "インストールされたスキルがありません",
     "noInstalledDescription": "リポジトリからスキルを発見してインストールするか、既存のスキルをインポートしてください",
-    "discover": "スキルを発見",
+    "discover": "コミュニティスキル",
     "import": "既存をインポート",
     "importDescription": "Cli-Switch 統合管理にインポートするスキルを選択してください",
     "importSuccess": "{{count}} 件のスキルをインポートしました",
