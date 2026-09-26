@@ -1288,7 +1288,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                   <Button
                                     type="button"
                                     variant="ghost"
-                                    className="h-auto min-w-0 flex-1 justify-start"
+                                    className="h-auto min-w-0 flex-1 justify-start text-left"
                                     aria-label={t(
                                       "sessionManager.toggleProviderGroup",
                                       {
@@ -1310,7 +1310,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                       name={providerGroup.providerId}
                                       size={16}
                                     />
-                                    <span className="min-w-0 flex-1 truncate text-[12.35px] leading-[1.3] font-medium">
+                                    <span className="min-w-0 flex-1 truncate text-left text-[12.35px] leading-[1.3] font-medium">
                                       {providerLabel}
                                     </span>
                                     {renderGroupSelectionBadge(
@@ -1352,7 +1352,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                             <Button
                                               type="button"
                                               variant="ghost"
-                                              className="h-auto min-w-0 flex-1 justify-start"
+                                              className="h-auto min-w-0 flex-1 justify-start text-left"
                                               aria-label={t(
                                                 "sessionManager.toggleDirectoryGroup",
                                                 {
@@ -1370,7 +1370,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                               )}
                                               <FolderOpen className="size-3.5 shrink-0" />
                                               <span
-                                                className="min-w-0 flex-1 truncate text-[12.35px] leading-[1.3] font-medium"
+                                                className="min-w-0 flex-1 truncate text-left text-[12.35px] leading-[1.3] font-medium"
                                                 title={
                                                   directoryGroup.projectDir ??
                                                   t(
