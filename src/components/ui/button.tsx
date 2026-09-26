@@ -17,13 +17,13 @@ const buttonVariants = cva(
         ghost:
           "text-muted-foreground hover:text-foreground hover:bg-muted",
         destructive:
-          "bg-red-500 text-white hover:bg-red-600 dark:bg-red-600 dark:hover:bg-red-700",
+          "bg-[#D73251] text-white hover:bg-[#C72C49] active:bg-[#B82D46]",
         positive:
-          "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700",
+          "bg-[#14835E] text-white hover:bg-[#1E7857] active:bg-[#216F52]",
         warning:
-          "bg-amber-500 text-white hover:bg-amber-600 dark:bg-amber-600 dark:hover:bg-amber-700",
+          "bg-[#9F680C] text-white hover:bg-[#916012] active:bg-[#865A15]",
         link: "text-blue-500 underline-offset-4 hover:underline dark:text-blue-400",
-        mcp: "bg-emerald-500 text-white hover:bg-emerald-600 dark:bg-emerald-600 dark:hover:bg-emerald-700",
+        mcp: "bg-[#14835E] text-white hover:bg-[#1E7857] active:bg-[#216F52]",
       },
       size: {
         default: "h-6 min-w-[60px] px-2 py-1 rounded-[4px]",

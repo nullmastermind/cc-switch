@@ -33,14 +33,19 @@ import {
   useAddSkillRepo,
   useRemoveSkillRepo,
   useSearchSkillsSh,
+  useUninstallSkill,
 } from "@/hooks/useSkills";
 import type { AppId } from "@/lib/api/types";
 import type {
   DiscoverableSkill,
+  InstalledSkill,
   SkillRepo,
   SkillsShDiscoverableSkill,
 } from "@/lib/api/skills";
-import { formatSkillError } from "@/lib/errors/skillErrorParser";
+import {
+  formatSkillError,
+  parseSkillError,
+} from "@/lib/errors/skillErrorParser";
 
 export type SkillsPageSource = "repos" | "skillssh";
 
@@ -101,7 +106,8 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
     >("all");
 
     // skills.sh 搜索状态
-    const [searchSource, setSearchSource] = useState<SkillsPageSource>("repos");
+    const [searchSource, setSearchSource] =
+      useState<SkillsPageSource>("skillssh");
     const [skillsShInput, setSkillsShInput] = useState("");
     const [skillsShQuery, setSkillsShQuery] = useState("");
     const [skillsShOffset, setSkillsShOffset] = useState(0);
@@ -153,6 +159,7 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
 
     // Mutations
     const installMutation = useInstallSkill();
+    const uninstallMutation = useUninstallSkill();
     const addRepoMutation = useAddSkillRepo();
     const removeRepoMutation = useRemoveSkillRepo();
 
@@ -168,6 +175,41 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
         }),
       );
     }, [installedSkills]);
+
+    const occupyingByDir = useMemo(() => {
+      const map = new Map<string, InstalledSkill>();
+      installedSkills?.forEach((s) => {
+        const dir =
+          s.directory.split(/[/\\]/).pop()?.toLowerCase() ||
+          s.directory.toLowerCase();
+        map.set(dir, s);
+      });
+      return map;
+    }, [installedSkills]);
+
+    const findOccupier = (directory: string) => {
+      const dir =
+        directory.split(/[/\\]/).pop()?.toLowerCase() ||
+        directory.toLowerCase();
+      return occupyingByDir.get(dir);
+    };
+
+    const isOccupiedByOther = (skill: {
+      directory: string;
+      repoOwner: string;
+      repoName: string;
+      installed?: boolean;
+    }) => {
+      if (skill.installed) return false;
+      const occupier = findOccupier(skill.directory);
+      if (!occupier) return false;
+      const owner = occupier.repoOwner?.toLowerCase() || "";
+      const name = occupier.repoName?.toLowerCase() || "";
+      return (
+        owner !== skill.repoOwner.toLowerCase() ||
+        name !== skill.repoName.toLowerCase()
+      );
+    };
 
     type DiscoverableSkillItem = DiscoverableSkill & { installed: boolean };
 
@@ -233,17 +275,56 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
       readmeUrl: s.readmeUrl,
     });
 
-    const handleInstall = async (key: string) => {
-      let skill: DiscoverableSkill | undefined;
-
+    const resolveDiscoverableSkill = (
+      key: string,
+    ): DiscoverableSkill | undefined => {
       if (searchSource === "skillssh") {
         const found = accumulatedResults.find((s) => s.key === key);
-        if (found) {
-          skill = toDiscoverableSkill(found);
-        }
-      } else {
-        skill = discoverableSkills?.find((s) => s.key === key);
+        return found ? toDiscoverableSkill(found) : undefined;
       }
+      return discoverableSkills?.find((s) => s.key === key);
+    };
+
+    const handleReplace = async (key: string) => {
+      const skill = resolveDiscoverableSkill(key);
+      if (!skill) {
+        toast.error(t("skills.notFound"));
+        return;
+      }
+
+      const occupier = findOccupier(skill.directory);
+      if (!occupier) {
+        await handleInstall(key);
+        return;
+      }
+
+      try {
+        await uninstallMutation.mutateAsync(occupier.id);
+        await installMutation.mutateAsync({
+          skill,
+          currentApp,
+        });
+        toast.success(t("skills.replaceSuccess", { name: skill.name }), {
+          closeButton: true,
+        });
+      } catch (error) {
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        const { title, description } = formatSkillError(
+          errorMessage,
+          t,
+          "skills.replaceFailed",
+        );
+        toast.error(title, {
+          description,
+          duration: 10000,
+        });
+        console.error("Replace skill failed:", error);
+      }
+    };
+
+    const handleInstall = async (key: string) => {
+      const skill = resolveDiscoverableSkill(key);
 
       if (!skill) {
         toast.error(t("skills.notFound"));
@@ -266,9 +347,20 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
           t,
           "skills.installFailed",
         );
+        const parsed = parseSkillError(errorMessage);
         toast.error(title, {
           description,
           duration: 10000,
+          ...(parsed?.code === "SKILL_DIRECTORY_CONFLICT"
+            ? {
+                action: {
+                  label: t("skills.replace"),
+                  onClick: () => {
+                    void handleReplace(key);
+                  },
+                },
+              }
+            : {}),
         });
         console.error("Install skill failed:", error);
       }
@@ -378,19 +470,6 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                 <Button
                   type="button"
                   size="sm"
-                  variant={effectiveSource === "repos" ? "default" : "ghost"}
-                  className={
-                    effectiveSource === "repos"
-                      ? "shadow-sm min-w-[64px]"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted min-w-[64px]"
-                  }
-                  onClick={() => setSearchSource("repos")}
-                >
-                  {t("skills.searchSource.repos")}
-                </Button>
-                <Button
-                  type="button"
-                  size="sm"
                   variant={effectiveSource === "skillssh" ? "default" : "ghost"}
                   className={
                     effectiveSource === "skillssh"
@@ -400,6 +479,19 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                   onClick={() => setSearchSource("skillssh")}
                 >
                   skills.sh
+                </Button>
+                <Button
+                  type="button"
+                  size="sm"
+                  variant={effectiveSource === "repos" ? "default" : "ghost"}
+                  className={
+                    effectiveSource === "repos"
+                      ? "shadow-sm min-w-[64px]"
+                      : "text-muted-foreground hover:text-foreground hover:bg-muted min-w-[64px]"
+                  }
+                  onClick={() => setSearchSource("repos")}
+                >
+                  {t("skills.searchSource.repos")}
                 </Button>
               </div>
 
@@ -500,7 +592,15 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                       type="text"
                       placeholder={t("skills.skillssh.searchPlaceholder")}
                       value={skillsShInput}
-                      onChange={(e) => setSkillsShInput(e.target.value)}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setSkillsShInput(value);
+                        if (value.trim() === "" && skillsShQuery !== "") {
+                          setSkillsShOffset(0);
+                          setAccumulatedResults([]);
+                          setSkillsShQuery("");
+                        }
+                      }}
                       onKeyDown={(e) => {
                         if (e.key === "Enter") handleSkillsShSearch();
                       }}
@@ -559,13 +659,15 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                   </p>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                   {filteredSkills.map((skill) => (
                     <SkillCard
                       key={skill.key}
                       skill={skill}
+                      occupied={isOccupiedByOther(skill)}
                       onInstall={handleInstall}
                       onUninstall={handleUninstall}
+                      onReplace={handleReplace}
                     />
                   ))}
                 </div>
@@ -580,24 +682,24 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                       {t("skills.skillssh.loading")}
                     </span>
                   </div>
-                ) : skillsShQuery.length < 2 ? (
-                  <div className="flex flex-col items-center justify-center h-64 text-center">
-                    <Search className="h-12 w-12 text-muted-foreground/30 mb-4" />
-                    <p className="text-sm text-muted-foreground">
-                      {t("skills.skillssh.searchPlaceholder")}
-                    </p>
-                  </div>
                 ) : accumulatedResults.length === 0 ? (
                   <div className="flex flex-col items-center justify-center h-48 text-center">
                     <p className="text-lg font-medium text-foreground">
-                      {t("skills.skillssh.noResults", {
-                        query: skillsShQuery,
-                      })}
+                      {skillsShQuery.length >= 2
+                        ? t("skills.skillssh.noResults", {
+                            query: skillsShQuery,
+                          })
+                        : t("skills.skillssh.noTrending")}
                     </p>
                   </div>
                 ) : (
                   <>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {skillsShQuery.length < 2 && (
+                      <p className="mb-3 text-sm font-medium text-muted-foreground">
+                        {t("skills.skillssh.trending")}
+                      </p>
+                    )}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
                       {accumulatedResults.map((skill) => {
                         const installed = isSkillsShInstalled(skill);
                         return (
@@ -608,8 +710,15 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                               installed,
                             }}
                             installs={skill.installs}
+                            occupied={isOccupiedByOther({
+                              directory: skill.directory,
+                              repoOwner: skill.repoOwner,
+                              repoName: skill.repoName,
+                              installed,
+                            })}
                             onInstall={handleInstall}
                             onUninstall={handleUninstall}
+                            onReplace={handleReplace}
                           />
                         );
                       })}

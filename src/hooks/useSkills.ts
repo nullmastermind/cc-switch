@@ -371,7 +371,7 @@ export function useSearchSkillsSh(
   return useQuery({
     queryKey: ["skills", "skillssh", query, limit, offset],
     queryFn: () => skillsApi.searchSkillsSh(query, limit, offset),
-    enabled: query.length >= 2,
+    enabled: query.length === 0 || query.length >= 2,
     staleTime: 5 * 60 * 1000,
     placeholderData: keepPreviousData,
   });

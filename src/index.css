@@ -137,6 +137,101 @@
   border: 1px solid rgba(59, 130, 246, 0.3);
 }
 
+/* Island list card — UI.md §9 / §10.2 / §10.1 (hex lives here, not in components) */
+.skill-card {
+  border: none;
+  border-radius: 8px;
+  box-shadow: none;
+  background: #18191b;
+  transition: none;
+}
+.light .skill-card,
+.ade-theme-light .skill-card {
+  background: #ffffff;
+}
+
+.skill-card-title {
+  font-size: 12.35px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: 0;
+  color: #e0e1e4;
+}
+.light .skill-card-title,
+.ade-theme-light .skill-card-title {
+  color: #090909;
+}
+
+.skill-card-desc {
+  font-size: 12.35px;
+  font-weight: 400;
+  line-height: 1.3;
+  color: #ffffff85;
+}
+.light .skill-card-desc,
+.ade-theme-light .skill-card-desc {
+  color: #0000008b;
+}
+
+.skill-card-tag,
+.skill-card-counter,
+.skill-card-status {
+  height: 16px;
+  min-width: 32px;
+  padding: 0 4px;
+  border: none;
+  font-size: 12.35px;
+  font-weight: 400;
+  line-height: 16px;
+}
+
+.skill-card-tag {
+  border-radius: 3px;
+  background: #ffffff16;
+  color: #ffffff85;
+}
+.light .skill-card-tag,
+.ade-theme-light .skill-card-tag {
+  background: #00000010;
+  color: #0000008b;
+}
+
+.skill-card-counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border-radius: 30px;
+  background: #ffffff21;
+  color: #e0e1e4;
+}
+.light .skill-card-counter,
+.ade-theme-light .skill-card-counter {
+  background: #00000018;
+  color: #090909;
+}
+
+.skill-card-status {
+  border-radius: 3px;
+  background: #216f52;
+  color: #e6f2ea;
+}
+
+.skill-card-footer {
+  border-top: 1px solid #ffffff21;
+}
+.light .skill-card-footer,
+.ade-theme-light .skill-card-footer {
+  border-top-color: #0000002e;
+}
+
+.skill-card-ghost {
+  color: #e0e1e4;
+}
+.light .skill-card-ghost,
+.ade-theme-light .skill-card-ghost {
+  color: #090909;
+}
+
 .glass-header {
   background: hsl(var(--background));
   backdrop-filter: none;

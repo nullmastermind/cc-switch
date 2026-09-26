@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { describe, expect, it, vi, beforeEach } from "vitest";
 
+import { toast } from "sonner";
 import {
   SkillsPage,
   getSkillsPageHeaderActions,
@@ -10,14 +11,17 @@ import {
 } from "@/components/skills/SkillsPage";
 import type {
   DiscoverableSkill,
+  InstalledSkill,
   SkillRepo,
   SkillsShDiscoverableSkill,
   SkillsShSearchResult,
 } from "@/lib/api/skills";
 
 const installMutateAsyncMock = vi.fn();
+const uninstallMutateAsyncMock = vi.fn();
 let discoverableSkillsMock: DiscoverableSkill[] = [];
 let skillReposMock: SkillRepo[] = [];
+let installedSkillsMock: InstalledSkill[] = [];
 const refetchDiscoverableMock = vi.fn();
 
 // Stable cache so repeated renders see referentially-equal data.
@@ -67,11 +71,14 @@ vi.mock("@/hooks/useSkills", () => ({
     refetch: refetchDiscoverableMock,
   }),
   useInstalledSkills: () => ({
-    data: [],
+    data: installedSkillsMock,
     isLoading: false,
   }),
   useInstallSkill: () => ({
     mutateAsync: installMutateAsyncMock,
+  }),
+  useUninstallSkill: () => ({
+    mutateAsync: uninstallMutateAsyncMock,
   }),
   useSkillRepos: () => ({
     data: skillReposMock,
@@ -126,14 +133,72 @@ const makeSkillRepo = (overrides: Partial<SkillRepo> = {}): SkillRepo => ({
   ...overrides,
 });
 
+const makeInstalledSkill = (
+  overrides: Partial<InstalledSkill> = {},
+): InstalledSkill => ({
+  id: "installed-dev-browser",
+  name: "dev-browser",
+  directory: "dev-browser",
+  apps: {
+    claude: true,
+    codex: false,
+    gemini: false,
+    opencode: false,
+    openclaw: false,
+    hermes: false,
+    pi: false,
+  },
+  installedAt: 0,
+  updatedAt: 0,
+  ...overrides,
+});
+
 describe("SkillsPage - skills.sh install (regression)", () => {
   beforeEach(() => {
     installMutateAsyncMock.mockReset();
     installMutateAsyncMock.mockResolvedValue({});
+    uninstallMutateAsyncMock.mockReset();
+    uninstallMutateAsyncMock.mockResolvedValue({});
     discoverableSkillsMock = [];
     skillReposMock = [];
+    installedSkillsMock = [];
     refetchDiscoverableMock.mockReset();
     searchCache.clear();
+    vi.mocked(toast.error).mockClear();
+    vi.mocked(toast.success).mockClear();
+  });
+
+  it("defaults to skills.sh on the left and shows trending without searching", async () => {
+    skillReposMock = [makeSkillRepo()];
+    const trending = makeSkillsShSkill({
+      key: "vercel-labs/skills/find-skills",
+      name: "find-skills",
+      directory: "find-skills",
+      repoOwner: "vercel-labs",
+      repoName: "skills",
+      installs: 3572189,
+    });
+    setSearchResult("", 0, {
+      skills: [trending],
+      totalCount: 1,
+      query: "",
+    });
+
+    render(<SkillsPage initialApp="claude" />);
+
+    await waitFor(() => {
+      expect(screen.getByText("find-skills")).toBeInTheDocument();
+    });
+    expect(screen.getByText("skills.skillssh.trending")).toBeInTheDocument();
+
+    const skillsSh = screen.getByRole("button", { name: /skills\.sh/i });
+    const repos = screen.getByRole("button", {
+      name: "skills.searchSource.repos",
+    });
+    expect(
+      skillsSh.compareDocumentPosition(repos) &
+        Node.DOCUMENT_POSITION_FOLLOWING,
+    ).toBeTruthy();
   });
 
   it("installs the second skill when two results share the same directory", async () => {
@@ -180,7 +245,7 @@ describe("SkillsPage - skills.sh install (regression)", () => {
     // Click install on the SECOND card (Agent Browser B)
     const secondCard = screen
       .getByText("Agent Browser B")
-      .closest("div.glass-card");
+      .closest("div.skill-card");
     expect(secondCard).not.toBeNull();
     const installButton = secondCard!.querySelector(
       "button:last-of-type",
@@ -290,8 +355,13 @@ describe("SkillsPage - skills.sh install (regression)", () => {
   it("keeps the repository source when configured repositories return no discoverable skills", async () => {
     skillReposMock = [makeSkillRepo()];
     const onSourceChange = vi.fn();
+    const user = userEvent.setup();
 
     render(<SkillsPage initialApp="claude" onSourceChange={onSourceChange} />);
+
+    await user.click(
+      screen.getByRole("button", { name: "skills.searchSource.repos" }),
+    );
 
     await waitFor(() => {
       expect(onSourceChange).toHaveBeenCalledWith("repos");
@@ -335,5 +405,100 @@ describe("SkillsPage - skills.sh install (regression)", () => {
     expect(
       getSkillsPageHeaderActions("skillssh").map((action) => action.key),
     ).toEqual(["manage-repos"]);
+  });
+
+  it("shows Replace when the directory is occupied by another skill", async () => {
+    installedSkillsMock = [makeInstalledSkill()];
+    const incoming = makeSkillsShSkill({
+      key: "dev-browser:sawyerhood:dev-browser",
+      name: "dev-browser",
+      directory: "dev-browser",
+      repoOwner: "sawyerhood",
+      repoName: "dev-browser",
+    });
+    setSearchResult("", 0, {
+      skills: [incoming],
+      totalCount: 1,
+      query: "",
+    });
+
+    render(<SkillsPage initialApp="claude" />);
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole("button", { name: "skills.replace" }),
+      ).toBeInTheDocument();
+    });
+    expect(
+      screen.queryByRole("button", { name: "skills.install" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("replaces the occupying skill then installs the incoming one", async () => {
+    installedSkillsMock = [makeInstalledSkill({ id: "old-dev-browser" })];
+    const incoming = makeSkillsShSkill({
+      key: "dev-browser:sawyerhood:dev-browser",
+      name: "dev-browser",
+      directory: "dev-browser",
+      repoOwner: "sawyerhood",
+      repoName: "dev-browser",
+    });
+    setSearchResult("", 0, {
+      skills: [incoming],
+      totalCount: 1,
+      query: "",
+    });
+
+    render(<SkillsPage initialApp="claude" />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: "skills.replace" }));
+
+    await waitFor(() => {
+      expect(uninstallMutateAsyncMock).toHaveBeenCalledWith("old-dev-browser");
+      expect(installMutateAsyncMock).toHaveBeenCalledTimes(1);
+    });
+    expect(installMutateAsyncMock.mock.calls[0][0].skill.repoOwner).toBe(
+      "sawyerhood",
+    );
+  });
+
+  it("offers Replace on the install-conflict toast", async () => {
+    const incoming = makeSkillsShSkill({
+      key: "dev-browser:sawyerhood:dev-browser",
+      name: "dev-browser",
+      directory: "dev-browser",
+      repoOwner: "sawyerhood",
+      repoName: "dev-browser",
+    });
+    setSearchResult("", 0, {
+      skills: [incoming],
+      totalCount: 1,
+      query: "",
+    });
+    installMutateAsyncMock.mockRejectedValue(
+      new Error(
+        JSON.stringify({
+          code: "SKILL_DIRECTORY_CONFLICT",
+          context: {
+            directory: "dev-browser",
+            existing_repo: "unknown/unknown",
+            new_repo: "sawyerhood/dev-browser",
+          },
+          suggestion: "uninstallFirst",
+        }),
+      ),
+    );
+
+    render(<SkillsPage initialApp="claude" />);
+    const user = userEvent.setup();
+
+    await user.click(screen.getByRole("button", { name: "skills.install" }));
+
+    await waitFor(() => {
+      expect(toast.error).toHaveBeenCalled();
+    });
+    const toastOpts = (toast.error as ReturnType<typeof vi.fn>).mock.calls[0][1];
+    expect(toastOpts.action.label).toBe("skills.replace");
   });
 });

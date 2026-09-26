@@ -34,10 +34,7 @@ pub fn get_installed_skills(app_state: State<'_, AppState>) -> Result<Vec<Instal
 
 /// Read an installed Skill's SKILL.md (YAML frontmatter included).
 #[tauri::command]
-pub fn get_skill_content(
-    id: String,
-    app_state: State<'_, AppState>,
-) -> Result<String, String> {
+pub fn get_skill_content(id: String, app_state: State<'_, AppState>) -> Result<String, String> {
     SkillService::read_content(&app_state.db, &id).map_err(|e| e.to_string())
 }
 

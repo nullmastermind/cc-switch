@@ -254,8 +254,12 @@ struct SkillsShApiResponse {
 }
 
 /// skills.sh API 原始技能条目
+///
+/// 搜索接口带 `id`；公开 leaderboard（`initialSkills`）没有该字段，缺省拼
+/// `{source}/{skillId}`，与搜索结果的 id 形态一致。
 #[derive(Debug, Clone, Deserialize)]
 struct SkillsShApiSkill {
+    #[serde(default)]
     pub id: String,
     #[serde(rename = "skillId")]
     pub skill_id: String,
@@ -663,15 +667,10 @@ impl SkillService {
         let skill = db
             .get_installed_skill(id)?
             .ok_or_else(|| anyhow!("Skill not found: {id}"))?;
-        let dir_name = Self::sanitize_install_name(&skill.directory).ok_or_else(|| {
-            anyhow!(
-                "Invalid skill directory '{}'",
-                skill.directory
-            )
-        })?;
+        let dir_name = Self::sanitize_install_name(&skill.directory)
+            .ok_or_else(|| anyhow!("Invalid skill directory '{}'", skill.directory))?;
         let path = Self::get_ssot_dir()?.join(dir_name).join("SKILL.md");
-        fs::read_to_string(&path)
-            .with_context(|| format!("Failed to read {}", path.display()))
+        fs::read_to_string(&path).with_context(|| format!("Failed to read {}", path.display()))
     }
 
     /// Reuse an existing installation or reject a directory owned by another repo.
@@ -4101,12 +4100,18 @@ impl SkillService {
 
     // ========== skills.sh 搜索 ==========
 
-    /// 搜索 skills.sh 公共目录
+    /// 搜索 skills.sh 公共目录。空 query 返回 Trending (24h) leaderboard，
+    /// 因为公开 `/api/search` 强制 2 字符、而 `/api/v1/skills?view=trending`
+    /// 需要 Vercel OIDC，桌面端用不了。
     pub async fn search_skills_sh(
         query: &str,
         limit: usize,
         offset: usize,
     ) -> Result<SkillsShSearchResult> {
+        if query.trim().is_empty() {
+            return Self::list_skills_sh_trending(limit, offset).await;
+        }
+
         let client = crate::proxy::http_client::get();
 
         let url = url::Url::parse_with_params(
@@ -4130,38 +4135,86 @@ impl SkillService {
         let skills = resp
             .skills
             .into_iter()
-            .filter_map(|s| {
-                let parts: Vec<&str> = s.source.splitn(2, '/').collect();
-                if parts.len() != 2 {
-                    return None;
-                }
-                let (owner, repo) = (parts[0].to_string(), parts[1].to_string());
-                // 用与 download_repo 同一套坐标校验，而不是就地写启发式：下面这个
-                // readme_url 最终交给 openExternal 打开，是和 build_skill_doc_url
-                // 同一个 sink。原来的 `contains('.')` 既漏（`splitn(2, '/')` 允许
-                // repo 里带 `/`，`owner/a/b` 能拼出三段路径），又误伤（GitHub 仓库
-                // 名合法含点）。校验 owner 同时也保留了"过滤非 GitHub 来源"的效果
-                // ——`skills.volces.com` 这类带点的 owner 本来就不是合法用户名。
-                if Self::validate_repo_ref(&owner, &repo, "main").is_err() {
-                    return None;
-                }
-                Some(SkillsShDiscoverableSkill {
-                    key: s.id,
-                    name: s.name,
-                    directory: s.skill_id.clone(),
-                    repo_owner: owner.clone(),
-                    repo_name: repo.clone(),
-                    repo_branch: "main".to_string(),
-                    installs: s.installs,
-                    readme_url: Some(format!("https://github.com/{}/{}", owner, repo)),
-                })
-            })
+            .filter_map(Self::map_skills_sh_api_skill)
             .collect();
 
         Ok(SkillsShSearchResult {
             skills,
             total_count: resp.count,
             query: resp.query,
+        })
+    }
+
+    /// skills.sh 公开 `/api/v1/skills?view=trending` 要 OIDC；homepage `/trending`
+    /// 把同一份 leaderboard SSR 进 RSC payload 的 `initialSkills`。解析该数组，
+    /// 再用与搜索相同的 GitHub 坐标过滤（`uizze.sh` 这类非仓库来源装不了）。
+    async fn list_skills_sh_trending(limit: usize, offset: usize) -> Result<SkillsShSearchResult> {
+        let client = crate::proxy::http_client::get();
+        let body = client
+            .get("https://www.skills.sh/trending")
+            .header("RSC", "1")
+            .header("Accept", "text/x-component")
+            .timeout(std::time::Duration::from_secs(10))
+            .send()
+            .await?
+            .error_for_status()?
+            .text()
+            .await?;
+
+        let all: Vec<_> = Self::parse_skills_sh_leaderboard(&body)?
+            .into_iter()
+            .filter_map(Self::map_skills_sh_api_skill)
+            .collect();
+        let total_count = all.len();
+        let skills = all.into_iter().skip(offset).take(limit).collect();
+
+        Ok(SkillsShSearchResult {
+            skills,
+            total_count,
+            query: String::new(),
+        })
+    }
+
+    fn parse_skills_sh_leaderboard(body: &str) -> Result<Vec<SkillsShApiSkill>> {
+        const MARKER: &str = "initialSkills\":";
+        let Some(pos) = body.find(MARKER) else {
+            anyhow::bail!("skills.sh leaderboard payload missing initialSkills");
+        };
+        let rest = body[pos + MARKER.len()..].trim_start();
+        let mut de = serde_json::Deserializer::from_str(rest);
+        Vec::<SkillsShApiSkill>::deserialize(&mut de)
+            .map_err(|e| anyhow!("failed to parse skills.sh leaderboard: {e}"))
+    }
+
+    fn map_skills_sh_api_skill(s: SkillsShApiSkill) -> Option<SkillsShDiscoverableSkill> {
+        let parts: Vec<&str> = s.source.splitn(2, '/').collect();
+        if parts.len() != 2 {
+            return None;
+        }
+        let (owner, repo) = (parts[0].to_string(), parts[1].to_string());
+        // 用与 download_repo 同一套坐标校验，而不是就地写启发式：下面这个
+        // readme_url 最终交给 openExternal 打开，是和 build_skill_doc_url
+        // 同一个 sink。原来的 `contains('.')` 既漏（`splitn(2, '/')` 允许
+        // repo 里带 `/`，`owner/a/b` 能拼出三段路径），又误伤（GitHub 仓库
+        // 名合法含点）。校验 owner 同时也保留了"过滤非 GitHub 来源"的效果
+        // ——`skills.volces.com` 这类带点的 owner 本来就不是合法用户名。
+        if Self::validate_repo_ref(&owner, &repo, "main").is_err() {
+            return None;
+        }
+        let key = if s.id.is_empty() {
+            format!("{owner}/{repo}/{}", s.skill_id)
+        } else {
+            s.id
+        };
+        Some(SkillsShDiscoverableSkill {
+            key,
+            name: s.name,
+            directory: s.skill_id,
+            repo_owner: owner.clone(),
+            repo_name: repo.clone(),
+            repo_branch: "main".to_string(),
+            installs: s.installs,
+            readme_url: Some(format!("https://github.com/{owner}/{repo}")),
         })
     }
 }
@@ -4402,6 +4455,34 @@ mod tests {
         drop(second_reader);
         drop(first_reader);
         assert!(skill_state_lock().try_write().is_ok());
+    }
+
+    #[test]
+    fn parse_skills_sh_leaderboard_reads_initial_skills_array() {
+        let body = r#"1:"$Sreact.fragment"
+0:{"props":{"initialSkills":[{"source":"vercel-labs/skills","skillId":"find-skills","name":"find-skills","installs":123},{"source":"uizze.sh","skillId":"ui-taste","name":"ui-taste","installs":99}]},"rest":true}"#;
+        let parsed = SkillService::parse_skills_sh_leaderboard(body).expect("parse");
+        assert_eq!(parsed.len(), 2);
+        assert_eq!(parsed[0].skill_id, "find-skills");
+        assert!(parsed[0].id.is_empty());
+
+        let mapped: Vec<_> = parsed
+            .into_iter()
+            .filter_map(SkillService::map_skills_sh_api_skill)
+            .collect();
+        assert_eq!(mapped.len(), 1);
+        assert_eq!(mapped[0].key, "vercel-labs/skills/find-skills");
+        assert_eq!(mapped[0].repo_owner, "vercel-labs");
+        assert_eq!(mapped[0].repo_name, "skills");
+        assert_eq!(mapped[0].directory, "find-skills");
+        assert_eq!(mapped[0].installs, 123);
+    }
+
+    #[test]
+    fn parse_skills_sh_leaderboard_rejects_missing_marker() {
+        let err = SkillService::parse_skills_sh_leaderboard("no leaderboard here")
+            .expect_err("missing marker");
+        assert!(err.to_string().contains("initialSkills"));
     }
 
     /// 构造一个模拟 GitHub 归档的 ZIP：带一层 `repo-main/` 根目录，
