@@ -696,7 +696,14 @@ export function ProviderCard({
             </div>
           </div>
 
-          <div className="flex items-center gap-1.5 flex-shrink-0 opacity-0 pointer-events-none group-hover:opacity-100 group-focus-within:opacity-100 group-hover:pointer-events-auto group-focus-within:pointer-events-auto transition-opacity duration-200">
+          <div
+            className={cn(
+              "flex items-center gap-1.5 flex-shrink-0 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100",
+              hasStateHighlight || isInFailoverQueue || isCurrent
+                ? "opacity-30"
+                : "opacity-0 pointer-events-none group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
+            )}
+          >
             <ProviderActions
               appId={appId}
               isCurrent={isCurrent}

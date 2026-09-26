@@ -45,7 +45,7 @@ export function UniversalProviderCard({
         </div>
 
         {/* 操作按钮 */}
-        <div className="flex items-center gap-1 opacity-0 transition-opacity group-hover:opacity-100">
+        <div className="flex items-center gap-1 opacity-30 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
           <Button
             variant="ghost"
             size="icon"
