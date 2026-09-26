@@ -45,7 +45,7 @@ export const SessionMessageItem = memo(function SessionMessageItem({
   return (
     <div
       className={cn(
-        "rounded-lg border px-3 py-2.5 relative group transition-shadow min-w-0",
+        "rounded-[8px] border p-2 relative group transition-shadow min-w-0",
         message.role.toLowerCase() === "user"
           ? "bg-primary/5 border-primary/20 ml-8"
           : message.role.toLowerCase() === "assistant"
@@ -65,7 +65,7 @@ export const SessionMessageItem = memo(function SessionMessageItem({
       >
         <Copy className="size-3" />
       </Button>
-      <div className="flex items-center justify-between text-xs mb-1.5 pr-6">
+      <div className="flex items-center justify-between text-[12.35px] leading-[1.3] mb-2 pr-6">
         <span className={cn("font-semibold", getRoleTone(message.role))}>
           {getRoleLabel(message.role, t)}
         </span>
@@ -75,7 +75,7 @@ export const SessionMessageItem = memo(function SessionMessageItem({
           </span>
         )}
       </div>
-      <div className="whitespace-pre-wrap break-words [overflow-wrap:anywhere] text-sm leading-relaxed min-w-0">
+      <div className="whitespace-pre-wrap break-words [overflow-wrap:anywhere] text-[12.35px] leading-[1.3] min-w-0">
         {searchQuery
           ? highlightText(displayContent, searchQuery)
           : displayContent}

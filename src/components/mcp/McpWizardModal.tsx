@@ -227,33 +227,33 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={(open) => !open && handleClose()}>
       <DialogContent
-        className="max-w-2xl max-h-[90vh] flex flex-col"
+        className="max-w-[480px] max-h-[90vh] flex flex-col p-2 gap-2 rounded-[8px]"
         zIndex="alert"
       >
-        <DialogHeader className="space-y-3 border-b-0 bg-transparent pb-0">
-          <DialogTitle className="text-lg font-semibold">
+        <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
+          <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold">
             {t("mcp.wizard.title")}
           </DialogTitle>
         </DialogHeader>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
+        <div className="flex-1 overflow-y-auto px-2 py-2 space-y-2">
           {/* Hint */}
-          <div className="rounded-lg border border-border-default bg-gray-100/50 dark:bg-gray-800/50 p-3">
-            <p className="text-sm text-muted-foreground">
+          <div className="rounded-[8px] border border-border-default bg-gray-100/50 dark:bg-gray-800/50 p-2">
+            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("mcp.wizard.hint")}
             </p>
           </div>
 
           {/* Form Fields */}
-          <div className="space-y-4 min-h-[400px]">
+          <div className="space-y-2">
             {/* Type */}
             <div>
-              <label className="mb-2 block text-sm font-medium text-foreground">
+              <label className="mb-2 block text-[12.35px] leading-[1.3] font-medium text-foreground">
                 {t("mcp.wizard.type")} <span className="text-red-500">*</span>
               </label>
-              <div className="flex gap-4">
-                <label className="inline-flex items-center gap-2 cursor-pointer">
+              <div className="flex gap-2">
+                <label className="inline-flex items-center gap-2 cursor-pointer text-[12.35px] leading-[1.3]">
                   <input
                     type="radio"
                     value="stdio"
@@ -261,13 +261,13 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) =>
                       setWizardType(e.target.value as "stdio" | "http" | "sse")
                     }
-                    className="w-4 h-4 accent-blue-500"
+                    className="h-4 w-4 shrink-0 appearance-none rounded-full border border-border-default bg-transparent checked:border-[4px] checked:border-blue-600"
                   />
-                  <span className="text-sm text-foreground">
+                  <span className="text-[12.35px] leading-[1.3] text-foreground">
                     {t("mcp.wizard.typeStdio")}
                   </span>
                 </label>
-                <label className="inline-flex items-center gap-2 cursor-pointer">
+                <label className="inline-flex items-center gap-2 cursor-pointer text-[12.35px] leading-[1.3]">
                   <input
                     type="radio"
                     value="http"
@@ -275,13 +275,13 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) =>
                       setWizardType(e.target.value as "stdio" | "http" | "sse")
                     }
-                    className="w-4 h-4 accent-blue-500"
+                    className="h-4 w-4 shrink-0 appearance-none rounded-full border border-border-default bg-transparent checked:border-[4px] checked:border-blue-600"
                   />
-                  <span className="text-sm text-foreground">
+                  <span className="text-[12.35px] leading-[1.3] text-foreground">
                     {t("mcp.wizard.typeHttp")}
                   </span>
                 </label>
-                <label className="inline-flex items-center gap-2 cursor-pointer">
+                <label className="inline-flex items-center gap-2 cursor-pointer text-[12.35px] leading-[1.3]">
                   <input
                     type="radio"
                     value="sse"
@@ -289,9 +289,9 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
                     onChange={(e) =>
                       setWizardType(e.target.value as "stdio" | "http" | "sse")
                     }
-                    className="w-4 h-4 accent-blue-500"
+                    className="h-4 w-4 shrink-0 appearance-none rounded-full border border-border-default bg-transparent checked:border-[4px] checked:border-blue-600"
                   />
-                  <span className="text-sm text-foreground">
+                  <span className="text-[12.35px] leading-[1.3] text-foreground">
                     {t("mcp.wizard.typeSse")}
                   </span>
                 </label>
@@ -300,7 +300,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
 
             {/* Title */}
             <div>
-              <label className="mb-1 block text-sm font-medium text-foreground">
+              <label className="mb-1 block text-[12.35px] leading-[1.3] font-medium text-foreground">
                 {t("mcp.form.title")} <span className="text-red-500">*</span>
               </label>
               <Input
@@ -318,7 +318,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
               <>
                 {/* Command */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label className="mb-1 block text-[12.35px] leading-[1.3] font-medium text-foreground">
                     {t("mcp.wizard.command")}{" "}
                     <span className="text-red-500">*</span>
                   </label>
@@ -334,7 +334,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
 
                 {/* Args */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label className="mb-1 block text-[12.35px] leading-[1.3] font-medium text-foreground">
                     {t("mcp.wizard.args")}
                   </label>
                   <Textarea
@@ -347,7 +347,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
 
                 {/* Env */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label className="mb-1 block text-[12.35px] leading-[1.3] font-medium text-foreground">
                     {t("mcp.wizard.env")}
                   </label>
                   <Textarea
@@ -365,7 +365,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
               <>
                 {/* URL */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label className="mb-1 block text-[12.35px] leading-[1.3] font-medium text-foreground">
                     {t("mcp.wizard.url")}{" "}
                     <span className="text-red-500">*</span>
                   </label>
@@ -381,7 +381,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
 
                 {/* Headers */}
                 <div>
-                  <label className="mb-1 block text-sm font-medium text-foreground">
+                  <label className="mb-1 block text-[12.35px] leading-[1.3] font-medium text-foreground">
                     {t("mcp.wizard.headers")}
                   </label>
                   <Textarea
@@ -401,11 +401,11 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
             wizardEnv ||
             wizardUrl ||
             wizardHeaders) && (
-            <div className="space-y-2 border-t border-border-default pt-4">
-              <h3 className="text-sm font-medium text-foreground">
+            <div className="space-y-2 border-t border-border-default pt-2">
+              <h3 className="text-[12.35px] leading-[1.3] font-medium text-foreground">
                 {t("mcp.wizard.preview")}
               </h3>
-              <pre className="overflow-x-auto rounded-lg bg-gray-100 dark:bg-gray-800 p-3 text-xs font-mono text-gray-700 dark:text-gray-300">
+              <pre className="overflow-x-auto rounded-[8px] bg-gray-100 dark:bg-gray-800 p-2 text-[12.35px] leading-[1.3] font-mono text-gray-700 dark:text-gray-300">
                 {preview}
               </pre>
             </div>
@@ -413,7 +413,7 @@ const McpWizardModal: React.FC<McpWizardModalProps> = ({
         </div>
 
         {/* Footer */}
-        <DialogFooter className="flex gap-2 border-t-0 bg-transparent pt-2 sm:justify-end">
+        <DialogFooter className="p-0 sm:justify-end">
           <Button variant="outline" onClick={handleClose}>
             {t("common.cancel")}
           </Button>

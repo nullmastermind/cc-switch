@@ -32,7 +32,7 @@ export function SessionTocSidebar({
   return (
     <div className="w-64 border-l shrink-0 hidden xl:block">
       <div className="p-3 border-b">
-        <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+        <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground">
           <List className="size-3.5" />
           <span>{t("sessionManager.tocTitle")}</span>
         </div>
@@ -85,7 +85,7 @@ export function SessionTocDialog({
       <DialogTrigger asChild>
         <Button
           size="icon"
-          className="fixed bottom-20 right-4 xl:hidden size-10 rounded-full shadow-lg z-30"
+          className="fixed bottom-8 right-4 xl:hidden rounded-[30px] shadow-lg z-30"
         >
           <List className="size-4" />
         </Button>
@@ -96,8 +96,8 @@ export function SessionTocDialog({
         onInteractOutside={() => onOpenChange(false)}
         onEscapeKeyDown={() => onOpenChange(false)}
       >
-        <DialogHeader className="px-4 py-3 relative border-b">
-          <DialogTitle className="flex items-center gap-2 text-base font-semibold">
+        <DialogHeader className="p-2 relative">
+          <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
             <List className="size-4 text-primary" />
             {t("sessionManager.tocTitle")}
           </DialogTitle>

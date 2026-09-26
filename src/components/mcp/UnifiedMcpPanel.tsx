@@ -316,7 +316,7 @@ const UnifiedMcpPanel = React.forwardRef<
               <p className="text-[12.35px] leading-[1.3]">{t("mcp.unifiedPanel.noSearchResults")}</p>
             </div>
           ) : (
-            <div className="rounded-xl border border-border-default overflow-hidden">
+            <div className="rounded-[8px] border border-border-default overflow-hidden">
               {filteredServerEntries.map(([id, server], index) => (
                 <UnifiedMcpListItem
                   key={id}

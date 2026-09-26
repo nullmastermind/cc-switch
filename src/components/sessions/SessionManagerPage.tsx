@@ -727,7 +727,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
     totalCount: number,
     variant: "secondary" | "outline",
   ) => (
-    <Badge variant={variant} className="shrink-0 text-xs">
+    <Badge variant={variant} className="shrink-0 text-[12.35px] leading-[1.3]">
       {selectionMode
         ? `${selectionState.selectedCount}/${selectionState.selectableCount}`
         : totalCount}
@@ -814,15 +814,15 @@ export function SessionManagerPage({ appId }: { appId: string }) {
   return (
     <>
       <div
-        className="mx-auto px-4 sm:px-6 flex flex-col h-full min-h-0"
+        className="mx-auto px-2 flex flex-col h-full min-h-0"
         onWheel={(e) => e.stopPropagation()}
       >
-        <div className="flex-1 overflow-hidden flex flex-col gap-4">
+        <div className="flex-1 overflow-hidden flex flex-col gap-2">
           {appId === "pi" &&
             piSessionDiscovery.data?.status === "requires_project_context" && (
               <div
                 role="status"
-                className="flex shrink-0 items-start gap-2 rounded-lg border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-sm text-amber-800 dark:text-amber-200"
+                className="flex shrink-0 items-start gap-2 rounded-[8px] border border-amber-500/30 bg-amber-500/10 p-2 text-[12.35px] leading-[1.3] text-amber-800 dark:text-amber-200"
               >
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>
@@ -836,7 +836,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
               piSessionDiscovery.isError) && (
               <div
                 role="alert"
-                className="flex shrink-0 items-start gap-2 rounded-lg border border-red-500/30 bg-red-500/10 px-3 py-2 text-sm text-red-800 dark:text-red-200"
+                className="flex shrink-0 items-start gap-2 rounded-[8px] border border-red-500/30 bg-red-500/10 p-2 text-[12.35px] leading-[1.3] text-red-800 dark:text-red-200"
               >
                 <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>
@@ -850,20 +850,20 @@ export function SessionManagerPage({ appId }: { appId: string }) {
               </div>
             )}
           {/* 主内容区域 - 左右分栏 */}
-          <div className="flex-1 overflow-hidden grid gap-4 md:grid-cols-[320px_1fr]">
+          <div className="flex-1 overflow-hidden grid gap-2 md:grid-cols-[320px_1fr]">
             {/* 左侧会话列表 */}
             <Card className="flex flex-col flex-1 min-h-0 overflow-hidden">
               <CardHeader className="py-2 px-3 border-b">
                 {isSearchOpen ? (
                   <div className="flex items-center gap-2">
                     <div className="relative flex-1">
-                      <Search className="absolute left-2.5 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
+                      <Search className="absolute left-2 top-1/2 -translate-y-1/2 size-3.5 text-muted-foreground" />
                       <Input
                         ref={searchInputRef}
                         value={search}
                         onChange={(event) => setSearch(event.target.value)}
                         placeholder={t("sessionManager.searchPlaceholder")}
-                        className="h-8 pl-8 pr-8 text-sm"
+                        className="pl-8 pr-8"
                         autoFocus
                         onKeyDown={(e) => {
                           if (e.key === "Escape") {
@@ -893,7 +893,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                       <Button
                         variant="secondary"
                         size="icon"
-                        className="size-7 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:hover:bg-blue-950/60"
+                        className="h-6 w-6 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:hover:bg-blue-950/60"
                         aria-label={t("sessionManager.exitBatchModeTooltip", {
                           defaultValue: "退出批量管理",
                         })}
@@ -910,10 +910,10 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2 min-w-0">
-                        <CardTitle className="text-sm font-medium whitespace-nowrap">
+                        <CardTitle className="text-[12.35px] leading-[1.3] font-medium whitespace-nowrap">
                           {t("sessionManager.sessionList")}
                         </CardTitle>
-                        <Badge variant="secondary" className="text-xs">
+                        <Badge variant="secondary" className="text-[12.35px] leading-[1.3]">
                           {filteredSessions.length}
                         </Badge>
                       </div>
@@ -925,8 +925,8 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                             size="icon"
                             className={
                               selectionMode
-                                ? "size-7 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:hover:bg-blue-950/60"
-                                : "size-7"
+                                ? "h-6 w-6 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:hover:bg-blue-950/60"
+                                : "h-6 w-6"
                             }
                             aria-label={
                               selectionMode
@@ -964,7 +964,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           }
                         >
                           <SelectTrigger
-                            className="size-7 p-0 justify-center border-0 bg-transparent hover:bg-muted"
+                            className="h-6 w-6 p-0 justify-center border-0 bg-transparent hover:bg-muted"
                             aria-label={t("sessionManager.viewModeTooltip", {
                               defaultValue: "查看方式",
                             })}
@@ -1008,7 +1008,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           <Button
                             variant="ghost"
                             size="icon"
-                            className="size-7"
+                            className="h-6 w-6"
                             aria-label={t("sessionManager.collapseAllGroups", {
                               defaultValue: "全部收起",
                             })}
@@ -1023,7 +1023,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="size-7"
+                          className="h-6 w-6"
                           title={t("sessionManager.searchSessions")}
                           onClick={() => {
                             setIsSearchOpen(true);
@@ -1043,7 +1043,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           }
                         >
                           <SelectTrigger
-                            className="size-7 p-0 justify-center border-0 bg-transparent hover:bg-muted"
+                            className="h-6 w-6 p-0 justify-center border-0 bg-transparent hover:bg-muted"
                             aria-label={t(
                               "sessionManager.providerFilterTooltip",
                               {
@@ -1166,7 +1166,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="size-7"
+                          className="h-6 w-6"
                           title={t("common.refresh")}
                           onClick={() => void refetch()}
                         >
@@ -1176,8 +1176,8 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                     </div>
                     {selectionMode && (
                       <div className="grid gap-3 rounded-md border bg-muted/40 px-3 py-2.5">
-                        <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <Badge variant="outline" className="text-xs">
+                        <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+                          <Badge variant="outline" className="text-[12.35px] leading-[1.3]">
                             {t("sessionManager.selectedCount", {
                               defaultValue: "已选 {{count}} 项",
                               count: selectedDeletableSessions.length,
@@ -1194,8 +1194,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                             {deletableFilteredSessions.length > 0 && (
                               <Button
                                 variant="ghost"
-                                size="sm"
-                                className="h-7 px-2.5 text-xs whitespace-nowrap"
+                                className="whitespace-nowrap"
                                 onClick={handleToggleSelectAll}
                               >
                                 {allFilteredSelected
@@ -1209,8 +1208,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                             )}
                             <Button
                               variant="ghost"
-                              size="sm"
-                              className="h-7 px-2.5 text-xs whitespace-nowrap"
+                              className="whitespace-nowrap"
                               onClick={() => setSelectedSessionKeys(new Set())}
                             >
                               {t("sessionManager.clearSelection", {
@@ -1220,8 +1218,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           </div>
                           <Button
                             variant="destructive"
-                            size="sm"
-                            className="h-7 gap-1.5 px-2.5 whitespace-nowrap justify-self-start min-[520px]:justify-self-end"
+                            className="gap-2 whitespace-nowrap justify-self-start min-[520px]:justify-self-end"
                             onClick={openBatchDeleteDialog}
                             disabled={
                               isDeleting ||
@@ -1229,7 +1226,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                             }
                           >
                             <Trash2 className="size-3.5" />
-                            <span className="text-xs">
+                            <span className="text-[12.35px] leading-[1.3]">
                               {isBatchDeleting
                                 ? t("sessionManager.batchDeleting", {
                                     defaultValue: "删除中...",
@@ -1255,7 +1252,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                     ) : filteredSessions.length === 0 ? (
                       <div className="flex flex-col items-center justify-center py-12 text-center">
                         <MessageSquare className="size-8 text-muted-foreground/50 mb-2" />
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                           {t("sessionManager.noSessions")}
                         </p>
                       </div>
@@ -1281,7 +1278,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                 toggleProviderGroup(providerGroup.providerId)
                               }
                             >
-                              <div className="flex w-full items-center gap-2 rounded-md border bg-muted/40 px-2.5 py-2 transition-colors hover:bg-muted">
+                              <div className="flex w-full items-center gap-2 rounded-md border bg-muted/40 px-2 py-2 transition-colors hover:bg-muted">
                                 {renderProviderGroupCheckbox(
                                   providerGroup,
                                   providerLabel,
@@ -1313,7 +1310,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                       name={providerGroup.providerId}
                                       size={16}
                                     />
-                                    <span className="min-w-0 flex-1 truncate text-sm font-medium">
+                                    <span className="min-w-0 flex-1 truncate text-[12.35px] leading-[1.3] font-medium">
                                       {providerLabel}
                                     </span>
                                     {renderGroupSelectionBadge(
@@ -1346,7 +1343,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                           )
                                         }
                                       >
-                                        <div className="flex w-full items-center gap-2 rounded-md px-2.5 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
+                                        <div className="flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground">
                                           {renderDirectoryGroupCheckbox(
                                             directoryGroup,
                                             directorySelectionState,
@@ -1373,7 +1370,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                               )}
                                               <FolderOpen className="size-3.5 shrink-0" />
                                               <span
-                                                className="min-w-0 flex-1 truncate text-xs font-medium"
+                                                className="min-w-0 flex-1 truncate text-[12.35px] leading-[1.3] font-medium"
                                                 title={
                                                   directoryGroup.projectDir ??
                                                   t(
@@ -1452,7 +1449,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
               {!selectedSession ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground p-8">
                   <MessageSquare className="size-12 mb-3 opacity-30" />
-                  <p className="text-sm">{t("sessionManager.selectSession")}</p>
+                  <p className="text-[12.35px] leading-[1.3]">{t("sessionManager.selectSession")}</p>
                 </div>
               ) : (
                 <>
@@ -1477,13 +1474,13 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                               size={20}
                             />
                           </span>
-                          <h2 className="text-base font-semibold truncate">
+                          <h2 className="text-[12.35px] leading-[1.3] font-semibold truncate">
                             {formatSessionTitle(selectedSession)}
                           </h2>
                         </div>
 
                         {/* 元信息 */}
-                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted-foreground">
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-[12.35px] leading-[1.3] text-muted-foreground">
                           <div className="flex items-center gap-1">
                             <Clock className="size-3" />
                             <span>
@@ -1503,7 +1500,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                   t("sessionManager.projectDirCopied"),
                                 )
                               }
-                              className="h-auto min-w-0 px-1"
+                              className="h-auto min-w-0 overflow-hidden px-1 whitespace-normal text-left"
                               title={`${selectedSession.projectDir}\n${t("sessionManager.clickToCopyPath")}`}
                             >
                               <FolderOpen className="size-3" />
@@ -1522,7 +1519,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                   t("sessionManager.sourcePathCopied"),
                                 )
                               }
-                              className="h-auto min-w-0 px-1"
+                              className="h-auto min-w-0 overflow-hidden px-1 whitespace-normal text-left"
                               title={`${selectedSession.sourcePath}\n${t("sessionManager.clickToCopyPath")}`}
                             >
                               <FileText className="size-3 shrink-0" />
@@ -1538,8 +1535,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                       <div className="flex items-center gap-2 shrink-0">
                         {isMac() && (
                           <Button
-                            size="sm"
-                            className="gap-1.5"
+                            className="gap-2"
                             onClick={() => void handleResume()}
                             disabled={!selectedSession.resumeCommand}
                             title={
@@ -1561,9 +1557,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           </Button>
                         )}
                         <Button
-                          size="sm"
-                          variant="destructive"
-                          className="gap-1.5"
+                          className="gap-2"
                           onClick={() => setDeleteTargets([selectedSession])}
                           disabled={
                             !selectedSession.sourcePath ||
@@ -1591,13 +1585,13 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                     {/* 恢复命令预览 */}
                     {selectedSession.resumeCommand && (
                       <div className="mt-3 flex items-center gap-2">
-                        <div className="flex-1 rounded-md bg-muted/60 px-3 py-1.5 font-mono text-xs text-muted-foreground truncate">
+                        <div className="flex-1 rounded-md bg-muted/60 px-3 py-1.5 font-mono text-[12.35px] leading-[1.3] text-muted-foreground truncate">
                           {selectedSession.resumeCommand}
                         </div>
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="size-7 shrink-0"
+                          className="h-6 w-6 shrink-0"
                           title={t("sessionManager.copyCommand", {
                             defaultValue: "复制命令",
                           })}
@@ -1622,12 +1616,12 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                         <div className="px-4 pt-4 pb-2 min-w-0">
                           <div className="flex items-center gap-2">
                             <MessageSquare className="size-4 text-muted-foreground" />
-                            <span className="text-sm font-medium">
+                            <span className="text-[12.35px] leading-[1.3] font-medium">
                               {t("sessionManager.conversationHistory", {
                                 defaultValue: "对话记录",
                               })}
                             </span>
-                            <Badge variant="secondary" className="text-xs">
+                            <Badge variant="secondary" className="text-[12.35px] leading-[1.3]">
                               {messages.length}
                             </Badge>
                           </div>
@@ -1643,7 +1637,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           ) : messages.length === 0 ? (
                             <div className="flex flex-col items-center justify-center py-12 text-center">
                               <MessageSquare className="size-8 text-muted-foreground/50 mb-2" />
-                              <p className="text-sm text-muted-foreground">
+                              <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                                 {t("sessionManager.emptySession")}
                               </p>
                             </div>

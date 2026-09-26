@@ -5,6 +5,7 @@ import { Save, Plus, AlertCircle, ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import JsonEditor from "@/components/JsonEditor";
 import type { AppId } from "@/lib/api/types";
 import { McpServer, McpServerSpec } from "@/types";
@@ -450,13 +451,13 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
           </Button>
         }
       >
-        <div className="flex flex-col h-full gap-6">
+        <div className="flex flex-col h-full gap-2">
           {/* 上半部分：表单字段 */}
-          <div className="glass rounded-xl p-6 border border-white/10 space-y-6 flex-shrink-0">
+          <div className="rounded-[8px] p-2 border border-border-default space-y-2 flex-shrink-0">
             {/* 预设选择（仅新增时展示） */}
             {!isEditing && (
               <div>
-                <label className="block text-sm font-medium text-foreground mb-3">
+                <label className="block text-[12.35px] leading-[1.3] font-medium text-foreground mb-2">
                   {t("mcp.presets.title")}
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -488,11 +489,11 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
             {/* ID (标题) */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <label className="block text-sm font-medium text-foreground">
+                <label className="block text-[12.35px] leading-[1.3] font-medium text-foreground">
                   {t("mcp.form.title")} <span className="text-red-500">*</span>
                 </label>
                 {!isEditing && idError && (
-                  <span className="text-xs text-red-500 dark:text-red-400">
+                  <span className="text-[12.35px] leading-[1.3] text-red-500 dark:text-red-400">
                     {idError}
                   </span>
                 )}
@@ -508,7 +509,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
 
             {/* Name */}
             <div>
-              <label className="block text-sm font-medium text-foreground mb-2">
+              <label className="block text-[12.35px] leading-[1.3] font-medium text-foreground mb-2">
                 {t("mcp.form.name")}
               </label>
               <Input
@@ -521,10 +522,10 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
 
             {/* 启用到哪些应用 */}
             <div>
-              <label className="block text-sm font-medium text-foreground mb-3">
+              <label className="block text-[12.35px] leading-[1.3] font-medium text-foreground mb-2">
                 {t("mcp.form.enabledApps")}
               </label>
-              <div className="flex flex-wrap gap-4">
+              <div className="flex flex-wrap gap-2">
                 <div className="flex items-center gap-2">
                   <Checkbox
                     id="enable-claude"
@@ -533,12 +534,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       setEnabledApps({ ...enabledApps, claude: checked })
                     }
                   />
-                  <label
+                  <Label
                     htmlFor="enable-claude"
-                    className="text-sm text-foreground cursor-pointer select-none"
+                    className="cursor-pointer select-none text-foreground"
                   >
                     {t("mcp.unifiedPanel.apps.claude")}
-                  </label>
+                  </Label>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -549,12 +550,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       setEnabledApps({ ...enabledApps, codex: checked })
                     }
                   />
-                  <label
+                  <Label
                     htmlFor="enable-codex"
-                    className="text-sm text-foreground cursor-pointer select-none"
+                    className="cursor-pointer select-none text-foreground"
                   >
                     {t("mcp.unifiedPanel.apps.codex")}
-                  </label>
+                  </Label>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -565,12 +566,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       setEnabledApps({ ...enabledApps, gemini: checked })
                     }
                   />
-                  <label
+                  <Label
                     htmlFor="enable-gemini"
-                    className="text-sm text-foreground cursor-pointer select-none"
+                    className="cursor-pointer select-none text-foreground"
                   >
                     {t("mcp.unifiedPanel.apps.gemini")}
-                  </label>
+                  </Label>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -581,12 +582,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       setEnabledApps({ ...enabledApps, grokbuild: checked })
                     }
                   />
-                  <label
+                  <Label
                     htmlFor="enable-grokbuild"
-                    className="text-sm text-foreground cursor-pointer select-none"
+                    className="cursor-pointer select-none text-foreground"
                   >
                     {t("mcp.unifiedPanel.apps.grokbuild")}
-                  </label>
+                  </Label>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -597,12 +598,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       setEnabledApps({ ...enabledApps, opencode: checked })
                     }
                   />
-                  <label
+                  <Label
                     htmlFor="enable-opencode"
-                    className="text-sm text-foreground cursor-pointer select-none"
+                    className="cursor-pointer select-none text-foreground"
                   >
                     {t("mcp.unifiedPanel.apps.opencode")}
-                  </label>
+                  </Label>
                 </div>
 
                 <div className="flex items-center gap-2">
@@ -613,12 +614,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       setEnabledApps({ ...enabledApps, hermes: checked })
                     }
                   />
-                  <label
+                  <Label
                     htmlFor="enable-hermes"
-                    className="text-sm text-foreground cursor-pointer select-none"
+                    className="cursor-pointer select-none text-foreground"
                   >
                     {t("mcp.unifiedPanel.apps.hermes")}
-                  </label>
+                  </Label>
                 </div>
                 <div className="flex items-center gap-2">
                   <Checkbox
@@ -628,12 +629,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       setEnabledApps({ ...enabledApps, mcode: checked })
                     }
                   />
-                  <label
+                  <Label
                     htmlFor="enable-mcode"
-                    className="text-sm text-foreground cursor-pointer select-none"
+                    className="cursor-pointer select-none text-foreground"
                   >
                     {t("mcp.unifiedPanel.apps.mcode")}
-                  </label>
+                  </Label>
                 </div>
               </div>
             </div>
@@ -658,7 +659,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
             {showMetadata && (
               <>
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
+                  <label className="block text-[12.35px] leading-[1.3] font-medium text-foreground mb-2">
                     {t("mcp.form.description")}
                   </label>
                   <Input
@@ -670,7 +671,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
+                  <label className="block text-[12.35px] leading-[1.3] font-medium text-foreground mb-2">
                     {t("mcp.form.tags")}
                   </label>
                   <Input
@@ -682,7 +683,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
+                  <label className="block text-[12.35px] leading-[1.3] font-medium text-foreground mb-2">
                     {t("mcp.form.homepage")}
                   </label>
                   <Input
@@ -694,7 +695,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">
+                  <label className="block text-[12.35px] leading-[1.3] font-medium text-foreground mb-2">
                     {t("mcp.form.docs")}
                   </label>
                   <Input
@@ -709,9 +710,9 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
           </div>
 
           {/* 下半部分：JSON 配置编辑器 - 自适应剩余高度 */}
-          <div className="glass rounded-xl p-6 border border-white/10 flex flex-col flex-1 min-h-0">
-            <div className="flex items-center justify-between mb-4 flex-shrink-0">
-              <label className="text-sm font-medium text-foreground">
+          <div className="rounded-[8px] p-2 border border-border-default flex flex-col flex-1 min-h-0">
+            <div className="flex items-center justify-between mb-2 flex-shrink-0">
+              <label className="text-[12.35px] leading-[1.3] font-medium text-foreground">
                 {useToml ? t("mcp.form.tomlConfig") : t("mcp.form.jsonConfig")}
               </label>
               {(isEditing || selectedPreset === -1) && (
@@ -742,7 +743,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 />
               </div>
               {configError && (
-                <div className="flex items-center gap-2 mt-2 text-red-500 dark:text-red-400 text-sm flex-shrink-0">
+                <div className="flex items-center gap-2 mt-2 text-red-500 dark:text-red-400 text-[12.35px] leading-[1.3] flex-shrink-0">
                   <AlertCircle size={16} />
                   <span>{configError}</span>
                 </div>

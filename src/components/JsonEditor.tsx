@@ -374,7 +374,7 @@ const JsonEditor: React.FC<JsonEditorProps> = ({
           type="button"
           variant="ghost"
           onClick={handleFormat}
-          className={isFullHeight ? "mt-2 flex-shrink-0" : "mt-2"}
+          className={isFullHeight ? "mt-2 flex-shrink-0 self-start" : "mt-2 self-start"}
         >
           <Wand2 className="h-4 w-4" />
           {t("common.format", { defaultValue: "格式化" })}
