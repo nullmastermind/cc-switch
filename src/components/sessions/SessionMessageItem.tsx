@@ -17,8 +17,8 @@ import {
   highlightText,
 } from "./utils";
 
-const COLLAPSE_THRESHOLD = 3000;
-const COLLAPSED_LENGTH = 1500;
+const COLLAPSE_THRESHOLD = 1200;
+const COLLAPSED_LENGTH = 600;
 
 interface SessionMessageItemProps {
   message: SessionMessage;

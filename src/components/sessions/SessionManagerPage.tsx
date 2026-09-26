@@ -42,7 +42,6 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Collapsible,
   CollapsibleContent,
@@ -203,6 +202,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
   });
   const detailRef = useRef<HTMLDivElement | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
+  const sessionListRef = useRef<HTMLDivElement | null>(null);
   const [activeMessageIndex, setActiveMessageIndex] = useState<number | null>(
     null,
   );
@@ -348,6 +348,14 @@ export function SessionManagerPage({ appId }: { appId: string }) {
     estimateSize: () => 120,
     overscan: 5,
     gap: 12,
+  });
+
+  const sessionVirtualizer = useVirtualizer({
+    count: listViewMode === "flat" ? filteredSessions.length : 0,
+    getScrollElement: () => sessionListRef.current,
+    estimateSize: () => 24,
+    overscan: 10,
+    gap: 4,
   });
 
   useEffect(() => {
@@ -636,9 +644,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
     };
   };
 
-  const toggleSessionChecked = (session: SessionMeta, checked: boolean) => {
-    if (!session.sourcePath || session.providerId === "mcode") return;
-    const key = getSessionKey(session);
+  const toggleSessionChecked = useCallback((key: string, checked: boolean) => {
     setSelectedSessionKeys((current) => {
       const next = new Set(current);
       if (checked) {
@@ -648,7 +654,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
       }
       return next;
     });
-  };
+  }, []);
 
   const toggleSessionGroupChecked = (
     groupSessions: SessionMeta[],
@@ -717,7 +723,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
         isChecked={selectedSessionKeys.has(sessionKey)}
         isCheckDisabled={!session.sourcePath || session.providerId === "mcode"}
         onSelect={setSelectedKey}
-        onToggleChecked={(checked) => toggleSessionChecked(session, checked)}
+        onToggleChecked={toggleSessionChecked}
       />
     );
   };
@@ -1183,7 +1189,16 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                 <span>Gemini CLI</span>
                               </div>
                             </SelectItem>
-                            <SelectItem value="mcode">MiniMax Code</SelectItem>
+                            <SelectItem value="mcode">
+                              <div className="flex items-center gap-2">
+                                <ProviderIcon
+                                  icon="minimax"
+                                  name="mcode"
+                                  size={14}
+                                />
+                                <span>MiniMax Code</span>
+                              </div>
+                            </SelectItem>
                             <SelectItem value="pi">
                               <div className="flex items-center gap-2">
                                 <ProviderIcon icon="pi" name="pi" size={14} />
@@ -1280,7 +1295,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                 )}
               </CardHeader>
               <CardContent className="flex-1 min-h-0 p-0">
-                <ScrollArea className="h-full">
+                <div ref={sessionListRef} className="h-full overflow-y-auto">
                   <div className="p-2">
                     {isLoading ? (
                       <div className="flex items-center justify-center py-12">
@@ -1452,14 +1467,35 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                         })}
                       </div>
                     ) : (
-                      <div className="space-y-1">
-                        {filteredSessions.map((session) =>
-                          renderSessionItem(session),
-                        )}
+                      <div
+                        style={{
+                          height: sessionVirtualizer.getTotalSize(),
+                          position: "relative",
+                        }}
+                      >
+                        {sessionVirtualizer.getVirtualItems().map((virtualRow) => {
+                          const session = filteredSessions[virtualRow.index];
+                          return (
+                            <div
+                              key={virtualRow.key}
+                              data-index={virtualRow.index}
+                              ref={sessionVirtualizer.measureElement}
+                              style={{
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                width: "100%",
+                                transform: `translateY(${virtualRow.start}px)`,
+                              }}
+                            >
+                              {renderSessionItem(session)}
+                            </div>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
-                </ScrollArea>
+                </div>
               </CardContent>
             </Card>
 

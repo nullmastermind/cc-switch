@@ -1,4 +1,5 @@
-import { ChevronRight, Clock } from "lucide-react";
+import { memo } from "react";
+import { ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -7,7 +8,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
 import { ProviderIcon } from "@/components/ProviderIcon";
 import type { SessionMeta } from "@/types";
 import {
@@ -27,10 +27,10 @@ interface SessionItemProps {
   isCheckDisabled?: boolean;
   searchQuery?: string;
   onSelect: (key: string) => void;
-  onToggleChecked: (checked: boolean) => void;
+  onToggleChecked: (key: string, checked: boolean) => void;
 }
 
-export function SessionItem({
+export const SessionItem = memo(function SessionItem({
   session,
   isSelected,
   selectionMode,
@@ -48,65 +48,61 @@ export function SessionItem({
   return (
     <div
       className={cn(
-        "flex items-start gap-2 rounded-lg px-3 py-2.5 transition-all group",
-        isSelected
-          ? "bg-primary/10 border border-primary/30"
-          : "hover:bg-muted/60 border border-transparent",
+        "relative flex h-6 min-w-0 items-center gap-1 px-2 duration-0",
+        isSelected ? "bg-muted" : "hover:bg-muted/40",
       )}
     >
-      {selectionMode && (
-        <div className="shrink-0 pt-0.5">
-          <Checkbox
-            checked={isChecked}
-            disabled={isCheckDisabled}
-            aria-label={t("sessionManager.selectForBatch", {
-              defaultValue: "选择会话",
-            })}
-            onCheckedChange={(checked) => onToggleChecked(Boolean(checked))}
-          />
-        </div>
+      {isSelected && (
+        <span
+          aria-hidden
+          className="absolute left-0 top-1/2 h-4 w-0.5 -translate-y-1/2 bg-primary"
+        />
       )}
-      <Button
+      {selectionMode && (
+        <Checkbox
+          checked={isChecked}
+          disabled={isCheckDisabled}
+          aria-label={t("sessionManager.selectForBatch", {
+            defaultValue: "选择会话",
+          })}
+          onCheckedChange={(checked) =>
+            onToggleChecked(sessionKey, Boolean(checked))
+          }
+        />
+      )}
+      <button
         type="button"
-        variant="ghost"
         onClick={() => onSelect(sessionKey)}
-        className="h-auto min-w-0 flex-1 justify-start"
+        className="flex h-6 min-w-0 flex-1 items-center gap-1 overflow-hidden text-left text-[12.35px] leading-[1.3] text-foreground duration-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
       >
-        <div className="flex items-center gap-2 mb-1">
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <span className="shrink-0">
-                <ProviderIcon
-                  icon={getProviderIconName(session.providerId)}
-                  name={session.providerId}
-                  size={18}
-                />
-              </span>
-            </TooltipTrigger>
-            <TooltipContent>
-              {getProviderLabel(session.providerId, t)}
-            </TooltipContent>
-          </Tooltip>
-          <span className="text-sm font-medium line-clamp-2 flex-1">
-            {searchQuery ? highlightText(title, searchQuery) : title}
-          </span>
-          <ChevronRight
-            className={cn(
-              "size-4 text-muted-foreground/50 shrink-0 transition-transform",
-              isSelected && "text-primary rotate-90",
-            )}
-          />
-        </div>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <span className="flex size-4 shrink-0 items-center justify-center leading-none">
+              <ProviderIcon
+                icon={getProviderIconName(session.providerId)}
+                name={session.providerId}
+                size={16}
+              />
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>
+            {getProviderLabel(session.providerId, t)}
+          </TooltipContent>
+        </Tooltip>
 
-        <div className="flex items-center gap-1 text-[11px] text-muted-foreground">
-          <Clock className="size-3" />
-          <span>
-            {lastActive
-              ? formatRelativeTime(lastActive, t)
-              : t("common.unknown")}
-          </span>
-        </div>
-      </Button>
+        <span
+          title={title}
+          className="min-w-0 flex-1 truncate"
+        >
+          {searchQuery ? highlightText(title, searchQuery) : title}
+        </span>
+
+        <span className="shrink-0 text-muted-foreground">
+          {lastActive ? formatRelativeTime(lastActive, t) : t("common.unknown")}
+        </span>
+
+        <ChevronRight className="size-4 shrink-0 text-muted-foreground/50" />
+      </button>
     </div>
   );
-}
+});

@@ -45,12 +45,17 @@ export function SessionTocSidebar({
               type="button"
               variant="ghost"
               onClick={() => onItemClick(item.index)}
-              className="h-auto w-full items-start justify-start px-2 py-1.5"
+              className="h-auto w-full min-w-0 items-start justify-start gap-1 overflow-hidden whitespace-normal px-2 py-1 text-left text-[12.35px] leading-[1.3] duration-0"
             >
-              <span className="shrink-0 w-4 h-4 rounded-full bg-primary/10 text-primary text-[10px] flex items-center justify-center font-medium">
+              <span className="flex h-4 min-w-4 shrink-0 items-center justify-center rounded-[4px] bg-primary/10 px-1 text-primary text-[12.35px] font-medium">
                 {tocIndex + 1}
               </span>
-              <span className="line-clamp-2 leading-snug">{item.preview}</span>
+              <span
+                title={item.preview}
+                className="min-w-0 flex-1 line-clamp-2 [overflow-wrap:anywhere]"
+              >
+                {item.preview}
+              </span>
             </Button>
           ))}
         </div>
@@ -111,12 +116,15 @@ export function SessionTocDialog({
                 type="button"
                 variant="ghost"
                 onClick={() => onItemClick(item.index)}
-                className="h-auto w-full items-start justify-start px-3 py-2.5"
+                className="h-auto w-full min-w-0 items-start justify-start gap-1 overflow-hidden whitespace-normal px-2 py-1 text-left text-[12.35px] leading-[1.3] duration-0"
               >
-                <span className="shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-semibold">
+                <span className="flex h-4 min-w-4 shrink-0 items-center justify-center rounded-[4px] bg-primary px-1 text-primary-foreground text-[12.35px] font-medium">
                   {tocIndex + 1}
                 </span>
-                <span className="line-clamp-2 leading-relaxed pt-0.5">
+                <span
+                  title={item.preview}
+                  className="min-w-0 flex-1 line-clamp-2 [overflow-wrap:anywhere]"
+                >
                   {item.preview}
                 </span>
               </Button>
