@@ -177,4 +177,22 @@ describe("AppCountBar", () => {
       "focus-visible:ring-2",
     );
   });
+
+  it("aligns optional trailing actions with the app count pills", () => {
+    render(
+      <AppCountBar
+        totalLabel="2 items"
+        totalCount={2}
+        counts={{ claude: 1 }}
+        appIds={["claude"]}
+        onToggleAll={vi.fn()}
+        trailing={<button type="button">skills.updateAll</button>}
+      />,
+    );
+
+    const bar = screen.getByText("2 items").closest(".glass");
+    expect(bar).toContainElement(
+      screen.getByRole("button", { name: "skills.updateAll" }),
+    );
+  });
 });

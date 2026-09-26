@@ -105,6 +105,13 @@ export interface SkillUpdateInfo {
   remoteHash: string;
 }
 
+export interface SkillAutoUpdateStatus {
+  lastRunAt?: number | null;
+  running: boolean;
+  updatedCount: number;
+  failures: string[];
+}
+
 /** 存储位置迁移结果 */
 export interface MigrationResult {
   migratedCount: number;
@@ -215,6 +222,10 @@ export const skillsApi = {
   /** 更新单个 Skill */
   async updateSkill(id: string): Promise<InstalledSkill> {
     return await invoke("update_skill", { id });
+  },
+
+  async getAutoUpdateStatus(): Promise<SkillAutoUpdateStatus> {
+    return await invoke("get_skill_auto_update_status");
   },
 
   /** 迁移 Skill 存储位置 */

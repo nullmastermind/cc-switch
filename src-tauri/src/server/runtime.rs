@@ -232,9 +232,13 @@ fn manage_auxiliary_state(app: &tauri::App<AppRuntime>) {
     };
     use tokio::sync::RwLock;
 
-    app.manage(SkillServiceState(Arc::new(
-        crate::services::SkillService::new(),
-    )));
+    let skill_service = Arc::new(crate::services::SkillService::new());
+    app.manage(SkillServiceState(skill_service.clone()));
+    crate::services::skill_auto_update::start_worker(
+        app.state::<AppState>().db.clone(),
+        skill_service,
+        app.handle().clone(),
+    );
 
     let app_config_dir = crate::config::get_app_config_dir();
     app.manage(CopilotAuthState(Arc::new(RwLock::new(

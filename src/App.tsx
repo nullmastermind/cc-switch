@@ -25,8 +25,6 @@ import {
   Shield,
   Cpu,
   LayoutDashboard,
-  Loader2,
-  RefreshCw,
   MoreHorizontal,
 } from "lucide-react";
 import { getCurrentWindow } from "@tauri-apps/api/window";
@@ -86,9 +84,7 @@ import {
   getSkillsPageHeaderActions,
   type SkillsPageSource,
 } from "@/components/skills/SkillsPage";
-import UnifiedSkillsPanel, {
-  type SkillsCheckUpdatesState,
-} from "@/components/skills/UnifiedSkillsPanel";
+import UnifiedSkillsPanel from "@/components/skills/UnifiedSkillsPanel";
 import { DeepLinkImportDialog } from "@/components/DeepLinkImportDialog";
 import { FirstRunNoticeDialog } from "@/components/FirstRunNoticeDialog";
 import { LanguagePickerDialog } from "@/components/LanguagePickerDialog";
@@ -239,11 +235,6 @@ function App() {
   const [skillsNavigationBusy, setSkillsNavigationBusy] = useState(false);
   const [promptManagementBusy, setPromptManagementBusy] = useState(false);
   const [promptNavigationBusy, setPromptNavigationBusy] = useState(false);
-  const [skillsCheckUpdatesState, setSkillsCheckUpdatesState] =
-    useState<SkillsCheckUpdatesState>({
-      isChecking: false,
-      hasSkills: false,
-    });
 
   useEffect(() => {
     localStorage.setItem(VIEW_STORAGE_KEY, currentView);
@@ -1103,7 +1094,6 @@ function App() {
               onOpenDiscovery={handleOpenSkillsDiscovery}
               onInteractionBlockedChange={setSkillsManagementBusy}
               onNavigationBlockedChange={setSkillsNavigationBusy}
-              onCheckUpdatesStateChange={setSkillsCheckUpdatesState}
               currentApp={
                 sharedFeatureApp === "openclaw" ? "claude" : sharedFeatureApp
               }
@@ -1561,24 +1551,6 @@ function App() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem
-                          disabled={
-                            skillsCheckUpdatesState.isChecking ||
-                            !skillsCheckUpdatesState.hasSkills
-                          }
-                          onSelect={() =>
-                            unifiedSkillsPanelRef.current?.checkUpdates()
-                          }
-                        >
-                          {skillsCheckUpdatesState.isChecking ? (
-                            <Loader2 className="h-4 w-4 animate-spin" />
-                          ) : (
-                            <RefreshCw className="h-4 w-4" />
-                          )}
-                          {skillsCheckUpdatesState.isChecking
-                            ? t("skills.checkingUpdates")
-                            : t("skills.checkUpdates")}
-                        </DropdownMenuItem>
                         <DropdownMenuItem
                           onSelect={() =>
                             unifiedSkillsPanelRef.current?.openRestoreFromBackup()

@@ -233,6 +233,7 @@ pub struct MigrationResult {
 enum PiSkillDeployment {
     Symlink { expected_target: PathBuf },
     Copy { expected_hash: String },
+    ForceReplace,
 }
 
 // ========== skills.sh API 类型 ==========
@@ -1453,10 +1454,18 @@ impl SkillService {
             if skill.apps.is_enabled_for(&app) {
                 let destination =
                     Self::get_distinct_app_skills_dir(&ssot_dir, &app)?.join(&skill.directory);
-                if let Some(deployment) =
-                    Self::inspect_pi_skill_destination(&dest, &destination, &skill.directory)?
-                {
-                    deployments.push((destination, deployment));
+                if Self::paths_alias(&dest, &destination) {
+                    continue;
+                }
+                match Self::inspect_pi_skill_destination_inner(
+                    &dest,
+                    &destination,
+                    &skill.directory,
+                    true,
+                ) {
+                    Ok(Some(deployment)) => deployments.push((destination, deployment)),
+                    Ok(None) => {}
+                    Err(_) => deployments.push((destination, PiSkillDeployment::ForceReplace)),
                 }
             }
         }
@@ -1547,7 +1556,9 @@ impl SkillService {
         let native = Self::get_app_skills_dir(&AppType::Mcode)?.join(directory);
         let mut targets = vec![(ssot.to_path_buf(), false)];
         for (destination, deployment) in deployments {
-            Self::ensure_pi_skill_destination_matches(ssot, destination, directory)?;
+            if !matches!(deployment, PiSkillDeployment::ForceReplace) {
+                Self::ensure_pi_skill_destination_matches(ssot, destination, directory)?;
+            }
             targets.push((
                 destination.clone(),
                 matches!(deployment, PiSkillDeployment::Symlink { .. }),
@@ -2281,6 +2292,15 @@ impl SkillService {
         destination: &Path,
         directory: &str,
     ) -> Result<Option<PiSkillDeployment>> {
+        Self::inspect_pi_skill_destination_inner(source, destination, directory, false)
+    }
+
+    fn inspect_pi_skill_destination_inner(
+        source: &Path,
+        destination: &Path,
+        directory: &str,
+        allow_divergent_copy: bool,
+    ) -> Result<Option<PiSkillDeployment>> {
         if !destination.exists() && !Self::is_symlink(destination) {
             return Ok(None);
         }
@@ -2303,17 +2323,27 @@ impl SkillService {
                     expected_target: resolved,
                 }));
             }
+            if allow_divergent_copy {
+                return Ok(Some(PiSkillDeployment::ForceReplace));
+            }
         } else if destination.is_dir() {
-            if let (Ok(destination_hash), Ok(source_hash)) = (
-                Self::compute_pi_deployment_hash(destination),
-                Self::compute_pi_deployment_hash(source),
-            ) {
+            let destination_hash = Self::compute_pi_deployment_hash(destination);
+            let source_hash = Self::compute_pi_deployment_hash(source);
+            if let (Ok(destination_hash), Ok(source_hash)) = (&destination_hash, &source_hash) {
                 if destination_hash == source_hash {
                     return Ok(Some(PiSkillDeployment::Copy {
-                        expected_hash: destination_hash,
+                        expected_hash: destination_hash.clone(),
                     }));
                 }
             }
+            if allow_divergent_copy {
+                return Ok(Some(match destination_hash {
+                    Ok(expected_hash) => PiSkillDeployment::Copy { expected_hash },
+                    Err(_) => PiSkillDeployment::ForceReplace,
+                }));
+            }
+        } else if allow_divergent_copy {
+            return Ok(Some(PiSkillDeployment::ForceReplace));
         }
 
         Err(anyhow!(
@@ -2375,6 +2405,12 @@ impl SkillService {
                     return Err(anyhow!(
                         "Pi 中的 Skill 已在操作期间发生变化，拒绝覆盖: {directory}"
                     ));
+                }
+                Self::replace_dest_with_copy(source, destination, directory)?;
+            }
+            PiSkillDeployment::ForceReplace => {
+                if destination.exists() || Self::is_symlink(destination) {
+                    Self::remove_path(destination)?;
                 }
                 Self::replace_dest_with_copy(source, destination, directory)?;
             }
@@ -5521,6 +5557,65 @@ mod tests {
 
         assert!(fs::read_to_string(destination.join("SKILL.md"))
             .expect("read refreshed copy")
+            .contains("name: new"));
+    }
+
+    #[test]
+    fn update_inspect_treats_divergent_pi_copy_as_refreshable() {
+        let temp = tempdir().expect("tempdir");
+        let source = temp.path().join("source");
+        let destination = temp.path().join("pi-skill");
+        write_skill(&source, "ssot");
+        write_skill(&destination, "pi-old");
+
+        assert!(
+            SkillService::inspect_pi_skill_destination(&source, &destination, "test-skill")
+                .is_err(),
+            "strict inspect must still reject divergent copies"
+        );
+
+        let deployment = SkillService::inspect_pi_skill_destination_inner(
+            &source,
+            &destination,
+            "test-skill",
+            true,
+        )
+        .expect("inspect divergent copy for update")
+        .expect("copy deployment");
+
+        fs::remove_dir_all(&source).expect("replace old source");
+        write_skill(&source, "new");
+        SkillService::refresh_pi_skill_destination(
+            &source,
+            &destination,
+            "test-skill",
+            &deployment,
+        )
+        .expect("refresh divergent copy during update");
+
+        assert!(fs::read_to_string(destination.join("SKILL.md"))
+            .expect("read refreshed copy")
+            .contains("name: new"));
+    }
+
+    #[test]
+    fn force_replace_overwrites_divergent_pi_copy() {
+        let temp = tempdir().expect("tempdir");
+        let source = temp.path().join("source");
+        let destination = temp.path().join("pi-skill");
+        write_skill(&source, "new");
+        write_skill(&destination, "pi-old");
+
+        SkillService::refresh_pi_skill_destination(
+            &source,
+            &destination,
+            "test-skill",
+            &PiSkillDeployment::ForceReplace,
+        )
+        .expect("force replace divergent copy");
+
+        assert!(fs::read_to_string(destination.join("SKILL.md"))
+            .expect("read replaced copy")
             .contains("name: new"));
     }
 

@@ -8,8 +8,8 @@ import UnifiedSkillsPanel, {
 } from "@/components/skills/UnifiedSkillsPanel";
 import type {
   InstalledSkill,
+  SkillAutoUpdateStatus,
   SkillBackupEntry,
-  SkillUpdateInfo,
 } from "@/lib/api/skills";
 
 const scanUnmanagedMock = vi.fn();
@@ -20,8 +20,6 @@ const installFromZipMock = vi.fn();
 const deleteSkillBackupMock = vi.fn();
 const restoreSkillBackupMock = vi.fn();
 const bulkToggleSkillAppMock = vi.fn();
-const checkUpdatesMock = vi.fn();
-const updateSkillMock = vi.fn();
 const refetchSkillBackupsMock = vi.fn();
 const { toastErrorMock, toastSuccessMock, toastWarningMock } = vi.hoisted(
   () => ({
@@ -32,16 +30,13 @@ const { toastErrorMock, toastSuccessMock, toastWarningMock } = vi.hoisted(
 );
 let installedSkillsMock: InstalledSkill[] = [];
 let skillBackupsMock: SkillBackupEntry[] = [];
-let skillUpdatesMock: SkillUpdateInfo[] = [];
-let checkUpdatesFetching = false;
+let autoUpdateStatusMock: SkillAutoUpdateStatus | undefined;
 let toggleSkillAppPending = false;
 let toggleSkillAppVariables:
-  | { id: string; app: "claude"; enabled: boolean }
-  | undefined;
+  { id: string; app: "claude"; enabled: boolean } | undefined;
 let bulkToggleSkillAppPending = false;
 let bulkToggleSkillAppVariables:
-  | { ids: string[]; app: "claude"; enabled: boolean }
-  | undefined;
+  { ids: string[]; app: "claude"; enabled: boolean } | undefined;
 
 vi.mock("sonner", () => ({
   toast: {
@@ -50,6 +45,10 @@ vi.mock("sonner", () => ({
     warning: toastWarningMock,
     info: vi.fn(),
   },
+}));
+
+vi.mock("@/components/skills/SkillPreviewDialog", () => ({
+  SkillPreviewDialog: () => null,
 }));
 
 vi.mock("@/hooks/useSkills", () => ({
@@ -101,14 +100,8 @@ vi.mock("@/hooks/useSkills", () => ({
   useInstallSkillsFromZip: () => ({
     mutateAsync: installFromZipMock,
   }),
-  useCheckSkillUpdates: () => ({
-    data: skillUpdatesMock,
-    refetch: checkUpdatesMock,
-    isFetching: checkUpdatesFetching,
-  }),
-  useUpdateSkill: () => ({
-    mutateAsync: updateSkillMock,
-    isPending: false,
+  useSkillAutoUpdateStatus: () => ({
+    data: autoUpdateStatusMock,
   }),
 }));
 
@@ -153,8 +146,7 @@ describe("UnifiedSkillsPanel", () => {
   beforeEach(() => {
     installedSkillsMock = [];
     skillBackupsMock = [];
-    skillUpdatesMock = [];
-    checkUpdatesFetching = false;
+    autoUpdateStatusMock = undefined;
     toggleSkillAppPending = false;
     toggleSkillAppVariables = undefined;
     bulkToggleSkillAppPending = false;
@@ -185,12 +177,6 @@ describe("UnifiedSkillsPanel", () => {
     refetchSkillBackupsMock.mockReset();
     refetchSkillBackupsMock.mockResolvedValue({ data: skillBackupsMock });
     restoreSkillBackupMock.mockReset();
-    checkUpdatesMock.mockReset();
-    checkUpdatesMock.mockResolvedValue({ data: [] });
-    updateSkillMock.mockReset();
-    updateSkillMock.mockImplementation(async (id: string) =>
-      makeInstalledSkill({ id }),
-    );
   });
 
   it("opens the import dialog without crashing when app toggles render", async () => {
@@ -487,104 +473,56 @@ describe("UnifiedSkillsPanel", () => {
       }
       renderPanel();
 
-      const row = screen.getByText("Alpha Skill").closest(".group");
-      const appToggleButtons = Array.from(
-        row!.querySelectorAll<HTMLButtonElement>("button"),
-      ).slice(0, 7);
-
-      expect(appToggleButtons).toHaveLength(7);
-      appToggleButtons.forEach((button) => expect(button).toBeDisabled());
+      expect(screen.getByText("Claude:").closest("button")).toBeDisabled();
       expect(screen.getByTitle("skills.uninstall")).toBeDisabled();
-      await userEvent.setup().click(appToggleButtons[0]);
+      await userEvent
+        .setup()
+        .click(screen.getByText("Claude:").closest("button")!);
       expect(toggleSkillAppMock).not.toHaveBeenCalled();
     },
   );
 
-  it("reports check-update availability and clears it on unmount", async () => {
+  it("shows daily auto-update status instead of manual update actions", () => {
     installedSkillsMock = [makeInstalledSkill()];
-    const onCheckUpdatesStateChange = vi.fn();
+    autoUpdateStatusMock = {
+      lastRunAt: 1_700_000_000,
+      running: false,
+      updatedCount: 2,
+      failures: [],
+    };
+    renderPanel();
 
-    const { unmount } = render(
-      <UnifiedSkillsPanel
-        onOpenDiscovery={() => {}}
-        currentApp="claude"
-        onCheckUpdatesStateChange={onCheckUpdatesStateChange}
-      />,
-    );
-
-    await waitFor(() => {
-      expect(onCheckUpdatesStateChange).toHaveBeenLastCalledWith({
-        isChecking: false,
-        hasSkills: true,
-      });
-    });
-    expect(screen.queryByText("skills.checkUpdates")).not.toBeInTheDocument();
-
-    unmount();
-    expect(onCheckUpdatesStateChange).toHaveBeenLastCalledWith({
-      isChecking: false,
-      hasSkills: false,
-    });
+    expect(screen.getByText("skills.autoUpdateOk")).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "skills.updateAll" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByText("skills.updateAvailable"),
+    ).not.toBeInTheDocument();
+    expect(screen.queryByTitle("skills.update")).not.toBeInTheDocument();
   });
 
-  it("ignores rapid duplicate check-update ref calls", async () => {
+  it("shows running and failed auto-update states", () => {
     installedSkillsMock = [makeInstalledSkill()];
-    let resolveCheck!: (value: { data: never[] }) => void;
-    checkUpdatesMock.mockReturnValue(
-      new Promise((resolve) => {
-        resolveCheck = resolve;
-      }),
+    autoUpdateStatusMock = {
+      lastRunAt: null,
+      running: true,
+      updatedCount: 0,
+      failures: [],
+    };
+    const { rerender } = renderPanel();
+    expect(screen.getByText("skills.autoUpdateRunning")).toBeInTheDocument();
+
+    autoUpdateStatusMock = {
+      lastRunAt: 99,
+      running: false,
+      updatedCount: 0,
+      failures: ["humanizer: conflict"],
+    };
+    rerender(
+      <UnifiedSkillsPanel onOpenDiscovery={() => {}} currentApp="claude" />,
     );
-    const ref = createRef<UnifiedSkillsPanelHandle>();
-
-    render(
-      <UnifiedSkillsPanel
-        ref={ref}
-        onOpenDiscovery={() => {}}
-        currentApp="claude"
-      />,
-    );
-
-    act(() => {
-      ref.current?.checkUpdates();
-      ref.current?.checkUpdates();
-    });
-    expect(checkUpdatesMock).toHaveBeenCalledTimes(1);
-
-    await act(async () => {
-      resolveCheck({ data: [] });
-      await Promise.resolve();
-    });
-  });
-
-  it("blocks actions but not navigation while checking updates", async () => {
-    installedSkillsMock = [makeInstalledSkill()];
-    checkUpdatesFetching = true;
-    const ref = createRef<UnifiedSkillsPanelHandle>();
-    const onInteractionBlockedChange = vi.fn();
-    const onNavigationBlockedChange = vi.fn();
-
-    render(
-      <UnifiedSkillsPanel
-        ref={ref}
-        onOpenDiscovery={() => {}}
-        currentApp="claude"
-        onInteractionBlockedChange={onInteractionBlockedChange}
-        onNavigationBlockedChange={onNavigationBlockedChange}
-      />,
-    );
-
-    await waitFor(() => {
-      expect(onInteractionBlockedChange).toHaveBeenLastCalledWith(true);
-      expect(onNavigationBlockedChange).toHaveBeenLastCalledWith(false);
-    });
-    expect(screen.getByText("Claude:").closest("button")).toBeDisabled();
-    expect(screen.getByTitle("skills.uninstall")).toBeDisabled();
-
-    await act(async () => {
-      await ref.current?.openImport();
-    });
-    expect(scanUnmanagedMock).not.toHaveBeenCalled();
+    expect(screen.getByText("skills.autoUpdateFailed")).toBeInTheDocument();
   });
 
   it("closes the backup dialog and reports an explicit refresh failure", async () => {
@@ -611,67 +549,6 @@ describe("UnifiedSkillsPanel", () => {
     expect(
       screen.queryByText("skills.restoreFromBackup.title"),
     ).not.toBeInTheDocument();
-  });
-
-  it("blocks writes immediately when an update check starts", async () => {
-    installedSkillsMock = [makeInstalledSkill()];
-    let resolveCheck!: (value: { data: never[] }) => void;
-    checkUpdatesMock.mockReturnValue(
-      new Promise((resolve) => {
-        resolveCheck = resolve;
-      }),
-    );
-    const ref = createRef<UnifiedSkillsPanelHandle>();
-    render(
-      <UnifiedSkillsPanel
-        ref={ref}
-        onOpenDiscovery={() => {}}
-        currentApp="claude"
-      />,
-    );
-
-    act(() => {
-      ref.current?.checkUpdates();
-    });
-    expect(checkUpdatesMock).toHaveBeenCalledTimes(1);
-
-    await act(async () => {
-      await ref.current?.openImport();
-    });
-    await userEvent.setup().click(screen.getByTitle("skills.uninstall"));
-    await userEvent
-      .setup()
-      .click(screen.getByText("Claude:").closest("button")!);
-
-    expect(scanUnmanagedMock).not.toHaveBeenCalled();
-    expect(screen.queryByRole("dialog")).not.toBeInTheDocument();
-    expect(bulkToggleSkillAppMock).not.toHaveBeenCalled();
-
-    await act(async () => {
-      resolveCheck({ data: [] });
-      await Promise.resolve();
-    });
-  });
-
-  it("ignores stale update entries for uninstalled Skills", async () => {
-    installedSkillsMock = [makeInstalledSkill({ id: "installed-id" })];
-    skillUpdatesMock = [
-      { id: "removed-id", name: "Removed Skill", remoteHash: "removed" },
-      { id: "installed-id", name: "Alpha Skill", remoteHash: "current" },
-    ];
-    renderPanel();
-
-    expect(screen.getAllByText("skills.updateAvailable")).toHaveLength(1);
-    await userEvent.setup().click(
-      screen.getByRole("button", {
-        name: "skills.updateAll",
-      }),
-    );
-
-    await waitFor(() => {
-      expect(updateSkillMock).toHaveBeenCalledTimes(1);
-      expect(updateSkillMock).toHaveBeenCalledWith("installed-id");
-    });
   });
 
   it("waits for an explicit backup refresh before reporting deletion failure", async () => {

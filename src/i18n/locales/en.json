@@ -2464,6 +2464,10 @@
     "updateAll": "Update All ({{count}})",
     "updatingAll": "Updating...",
     "updateAllSuccess": "Successfully updated {{count}} skill(s)",
+    "autoUpdateRunning": "Updating in background…",
+    "autoUpdateNever": "Auto-updates daily",
+    "autoUpdateOk": "Auto-updated {{count}}",
+    "autoUpdateFailed": "Auto-update failed ({{count}})",
     "error": {
       "skillNotFound": "Skill not found: {{directory}}",
       "missingRepoInfo": "Missing repository info (owner or name)",

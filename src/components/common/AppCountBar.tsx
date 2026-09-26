@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { Badge, badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ interface AppCountBarProps {
   onToggleAll?: (app: AppId, enabled: boolean) => void | Promise<void>;
   pendingApp?: AppId | null;
   disabled?: boolean;
+  trailing?: ReactNode;
 }
 
 export const AppCountBar: React.FC<AppCountBarProps> = ({
@@ -24,6 +25,7 @@ export const AppCountBar: React.FC<AppCountBarProps> = ({
   onToggleAll,
   pendingApp,
   disabled = false,
+  trailing,
 }) => {
   const { t } = useTranslation();
   const bulkToggleEnabled = totalCount !== undefined && !!onToggleAll;
@@ -106,6 +108,9 @@ export const AppCountBar: React.FC<AppCountBarProps> = ({
           })}
         </div>
       </div>
+      {trailing ? (
+        <div className="flex h-6 shrink-0 items-center">{trailing}</div>
+      ) : null}
     </div>
   );
 };

@@ -2464,6 +2464,10 @@
     "updateAll": "すべて更新 ({{count}})",
     "updatingAll": "更新中...",
     "updateAllSuccess": "{{count}} 個のスキルを更新しました",
+    "autoUpdateRunning": "バックグラウンドで更新中…",
+    "autoUpdateNever": "毎日自動更新",
+    "autoUpdateOk": "{{count}} 件を自動更新済み",
+    "autoUpdateFailed": "自動更新に失敗 ({{count}})",
     "error": {
       "skillNotFound": "スキルが見つかりません: {{directory}}",
       "missingRepoInfo": "リポジトリ情報（owner または name）が不足しています",

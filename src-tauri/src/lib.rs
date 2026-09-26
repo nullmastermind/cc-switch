@@ -1165,8 +1165,13 @@ pub fn run() {
             app.manage(app_state);
 
             // 初始化 SkillService
-            let skill_service = SkillService::new();
-            app.manage(commands::skill::SkillServiceState(Arc::new(skill_service)));
+            let skill_service = Arc::new(SkillService::new());
+            app.manage(commands::skill::SkillServiceState(skill_service.clone()));
+            crate::services::skill_auto_update::start_worker(
+                app.state::<crate::store::AppState>().db.clone(),
+                skill_service,
+                app.handle().clone(),
+            );
 
             // 初始化 CopilotAuthManager
             {
@@ -1568,6 +1573,7 @@ pub fn run() {
             commands::discover_available_skills,
             commands::check_skill_updates,
             commands::update_skill,
+            commands::get_skill_auto_update_status,
             commands::migrate_skill_storage,
             commands::search_skills_sh,
             // Skill management (legacy API compatibility)

@@ -149,6 +149,11 @@ pub async fn check_skill_updates(
         .map_err(|e| e.to_string())
 }
 
+#[tauri::command]
+pub fn get_skill_auto_update_status() -> crate::services::skill_auto_update::AutoUpdateStatus {
+    crate::services::skill_auto_update::current_status()
+}
+
 /// 更新单个 Skill
 #[tauri::command]
 pub async fn update_skill(

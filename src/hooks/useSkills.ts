@@ -10,12 +10,14 @@ import {
   type DiscoverableSkill,
   type ImportSkillSelection,
   type InstalledSkill,
+  type SkillAutoUpdateStatus,
   type SkillUpdateInfo,
   type SkillsShSearchResult,
 } from "@/lib/api/skills";
 import type { AppId } from "@/lib/api/types";
 import { mergeImportedSkills } from "@/hooks/useSkills.helpers";
 import { runSequentialBulkAction } from "@/lib/utils/sequentialBulkAction";
+import { useTauriEvent } from "@/hooks/useTauriEvent";
 
 /**
  * 查询所有已安装的 Skills
@@ -313,6 +315,33 @@ export function useInstallSkillsFromZip() {
 
 // ========== 更新检测 ==========
 
+const AUTO_UPDATE_STATUS_KEY = ["skills", "autoUpdateStatus"] as const;
+
+export function useSkillAutoUpdateStatus() {
+  const queryClient = useQueryClient();
+  const query = useQuery({
+    queryKey: AUTO_UPDATE_STATUS_KEY,
+    queryFn: () => skillsApi.getAutoUpdateStatus(),
+    staleTime: 15 * 1000,
+    refetchOnWindowFocus: true,
+    refetchInterval: (query) => (query.state.data?.running ? 5_000 : false),
+  });
+
+  useTauriEvent<SkillAutoUpdateStatus>(
+    "skill-auto-update-status",
+    (payload) => {
+      queryClient.setQueryData(AUTO_UPDATE_STATUS_KEY, payload);
+      if (!payload.running) {
+        void queryClient.invalidateQueries({
+          queryKey: ["skills", "installed"],
+        });
+      }
+    },
+  );
+
+  return query;
+}
+
 /**
  * 检查 Skills 更新（手动触发）
  */
@@ -384,6 +413,7 @@ export type {
   DiscoverableSkill,
   ImportSkillSelection,
   SkillBackupEntry,
+  SkillAutoUpdateStatus,
   SkillUpdateInfo,
   SkillsShSearchResult,
   AppId,

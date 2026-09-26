@@ -2464,6 +2464,10 @@
     "updateAll": "全部更新 ({{count}})",
     "updatingAll": "更新中...",
     "updateAllSuccess": "已成功更新 {{count}} 个技能",
+    "autoUpdateRunning": "正在后台更新…",
+    "autoUpdateNever": "每天自动更新",
+    "autoUpdateOk": "已自动更新 {{count}}",
+    "autoUpdateFailed": "自动更新失败 ({{count}})",
     "error": {
       "skillNotFound": "技能不存在：{{directory}}",
       "missingRepoInfo": "缺少仓库信息（owner 或 name）",

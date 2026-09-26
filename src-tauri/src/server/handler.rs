@@ -188,6 +188,7 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::discover_available_skills,
         commands::check_skill_updates,
         commands::update_skill,
+        commands::get_skill_auto_update_status,
         commands::migrate_skill_storage,
         commands::search_skills_sh,
         // Skill management (legacy API compatibility)

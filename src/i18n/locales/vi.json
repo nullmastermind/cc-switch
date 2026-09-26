@@ -2464,6 +2464,10 @@
     "updateAll": "Update tất cả ({{count}})",
     "updatingAll": "Đang cập nhật...",
     "updateAllSuccess": "Đã update {{count}} Skill",
+    "autoUpdateRunning": "Đang cập nhật nền…",
+    "autoUpdateNever": "Tự cập nhật mỗi ngày",
+    "autoUpdateOk": "Đã tự cập nhật {{count}}",
+    "autoUpdateFailed": "Tự cập nhật lỗi ({{count}})",
     "error": {
       "skillNotFound": "Không thấy Skill: {{directory}}",
       "missingRepoInfo": "Thiếu thông tin repo (owner hoặc name)",
