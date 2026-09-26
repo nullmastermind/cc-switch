@@ -33,7 +33,7 @@ export const AppCountBar: React.FC<AppCountBarProps> = ({
   const hasPendingBulkToggle = pendingApp !== undefined && pendingApp !== null;
 
   return (
-    <div className="mb-4 flex flex-shrink-0 items-center gap-4 overflow-hidden rounded-xl border border-white/10 px-6 py-4 glass">
+    <div className="mb-2 flex min-w-0 w-full flex-shrink-0 items-center gap-2 overflow-hidden rounded-[8px] border border-border-default px-2 py-2">
       <Badge
         variant="outline"
         className="h-6 shrink-0 whitespace-nowrap border-black/10 bg-black/[0.04] px-2 text-[12.35px] font-medium leading-[1.3] text-muted-foreground dark:border-white/10 dark:bg-white/[0.04]"
@@ -41,7 +41,7 @@ export const AppCountBar: React.FC<AppCountBarProps> = ({
         {totalLabel}
       </Badge>
       <div className="app-count-bar-scroll min-w-0 flex-1 overflow-x-auto">
-        <div className="ml-auto flex w-max min-w-full items-center justify-end gap-2">
+        <div className="ml-auto flex w-max items-center justify-end gap-2">
           {appIds.map((app) => {
             const count = counts[app] ?? 0;
             const allEnabled =

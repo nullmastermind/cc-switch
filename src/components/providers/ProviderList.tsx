@@ -402,7 +402,7 @@ export function ProviderList({
 
   if (sortedProviders.length === 0) {
     return (
-      <div className="mt-2 space-y-4">
+      <div className="mt-2 space-y-2">
         {piStateErrorNotice}
         <ProviderEmptyState
           appId={appId}
@@ -515,17 +515,17 @@ export function ProviderList({
   );
 
   return (
-    <div className="mt-4 space-y-4">
+    <div className="mt-2 space-y-2">
       {piStateErrorNotice}
       {claudeDesktopStatusMessages.length > 0 && (
-        <div className="rounded-lg border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-sm text-amber-900 dark:text-amber-200">
+        <div className="rounded-[8px] border border-amber-500/30 bg-amber-500/10 p-2 text-[12.35px] leading-[1.3] text-amber-900 dark:text-amber-200">
           <div className="flex items-center gap-2 font-medium">
             <AlertTriangle className="h-4 w-4 shrink-0" />
             {t("claudeDesktop.statusTitle", {
               defaultValue: "Claude Desktop 配置需要检查",
             })}
           </div>
-          <ul className="mt-2 space-y-1 text-xs leading-relaxed">
+          <ul className="mt-2 space-y-1 text-[12.35px] leading-[1.3]">
             {claudeDesktopStatusMessages.map((message) => (
               <li key={message}>{message}</li>
             ))}

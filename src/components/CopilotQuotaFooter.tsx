@@ -63,7 +63,7 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
   if (!quota.success) {
     if (inline) {
       return (
-        <div className="inline-flex items-center gap-2 text-xs rounded-lg border border-border-default bg-card px-3 py-2 shadow-sm">
+        <div className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] rounded-[8px] border border-border-default bg-card px-2 py-2 shadow-sm">
           <div className="flex items-center gap-1.5 text-red-500 dark:text-red-400">
             <AlertCircle size={12} />
             <span>{quota.error || t("subscription.queryFailed")}</span>
@@ -89,14 +89,14 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
 
   if (inline) {
     return (
-      <div className="flex flex-col items-end gap-1 text-xs whitespace-nowrap flex-shrink-0">
+      <div className="flex flex-col items-end gap-1 text-[12.35px] leading-[1.3] whitespace-nowrap flex-shrink-0">
         <div className="flex items-center gap-2 justify-end">
           {quota.plan && (
-            <span className="text-[10px] text-muted-foreground/70">
+            <span className="text-[12.35px] leading-[1.3] text-muted-foreground/70">
               {quota.plan}
             </span>
           )}
-          <span className="text-[10px] text-muted-foreground/70 flex items-center gap-1">
+          <span className="text-[12.35px] leading-[1.3] text-muted-foreground/70 flex items-center gap-1">
             <Clock size={10} />
             {quota.queriedAt
               ? formatRelativeTime(quota.queriedAt, now, t)
@@ -128,14 +128,14 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
 
   // 展开模式
   return (
-    <div className="mt-3 rounded-xl border border-border-default bg-card px-4 py-3 shadow-sm">
+    <div className="mt-3 rounded-[8px] border border-border-default bg-card p-2 shadow-sm">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+        <span className="text-[12.35px] leading-[1.3] text-gray-500 dark:text-gray-400 font-medium">
           {quota.plan || t("subscription.title")}
         </span>
         <div className="flex items-center gap-2">
           {quota.queriedAt && (
-            <span className="text-[10px] text-muted-foreground/70 flex items-center gap-1">
+            <span className="text-[12.35px] leading-[1.3] text-muted-foreground/70 flex items-center gap-1">
               <Clock size={10} />
               {formatRelativeTime(quota.queriedAt, now, t)}
             </span>
@@ -159,7 +159,7 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
             defaultValue: "Premium",
           });
           return (
-            <div key={tier.name} className="flex items-center gap-3 text-xs">
+            <div key={tier.name} className="flex items-center gap-3 text-[12.35px] leading-[1.3]">
               <span
                 className="text-gray-500 dark:text-gray-400 min-w-0 font-medium"
                 style={{ width: "25%" }}

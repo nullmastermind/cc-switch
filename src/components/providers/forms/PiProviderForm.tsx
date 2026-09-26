@@ -1311,7 +1311,7 @@ export function PiProviderForm({
         onChangeCapture={() => {
           if (formError) setFormError(null);
         }}
-        className="space-y-3 glass rounded-xl p-4 border border-white/10"
+        className="space-y-2 rounded-[8px] p-2 border border-border-default"
       >
         {!isEdit && (
           <ProviderPresetSelector

@@ -704,7 +704,7 @@ export function ClaudeFormFields({
               defaultValue: `${templatePresetName} 参数配置`,
             })}
           </FormLabel>
-          <div className="space-y-4">
+          <div className="space-y-2">
             {templateValueEntries.map(([key, config]) => (
               <div key={key} className="space-y-2">
                 <FormLabel htmlFor={`template-${key}`}>
@@ -782,14 +782,13 @@ export function ClaudeFormFields({
         <Collapsible
           open={advancedExpanded}
           onOpenChange={setAdvancedExpanded}
-          className="rounded-lg border border-border-default p-4"
+          className="rounded-[8px] border border-border-default p-2"
         >
           <CollapsibleTrigger asChild>
             <Button
               type="button"
               variant={null}
-              size="sm"
-              className="h-8 w-full justify-start gap-1.5 px-0 text-ui font-medium text-foreground hover:opacity-70"
+              className="h-6 w-full justify-start gap-2 px-0 text-[12.35px] leading-[1.3] font-medium text-foreground hover:opacity-70"
             >
               {advancedExpanded ? (
                 <ChevronDown className="h-4 w-4" />
@@ -804,7 +803,7 @@ export function ClaudeFormFields({
               {t("providerForm.advancedOptionsHint")}
             </p>
           )}
-          <CollapsibleContent className="space-y-4 pt-2">
+          <CollapsibleContent className="space-y-2 pt-2">
             {/* 上游格式选择（仅非云服务商显示） */}
             {category !== "cloud_provider" && !isXaiOauthPreset && (
               <div className="space-y-2">

@@ -104,20 +104,20 @@ export const CodexCommonConfigModal: React.FC<CodexCommonConfigModalProps> = ({
           <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
             {t("commonConfig.guideTitle")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
             {t("commonConfig.guidePurpose")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
             {t("commonConfig.guideUsage")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
             {t("commonConfig.guideReExtract")}
           </p>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
             {t("commonConfig.guideReassurance")}
           </p>
         </div>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
           {t("codexConfig.commonConfigHint")}
         </p>
         {(!draftValue || draftValue.trim() === "") && (
@@ -126,7 +126,7 @@ export const CodexCommonConfigModal: React.FC<CodexCommonConfigModalProps> = ({
             <p className="text-sm font-medium">
               {t("commonConfig.emptyTitle")}
             </p>
-            <p className="text-xs mt-1">{t("commonConfig.emptyHint")}</p>
+            <p className="text-[12.35px] leading-[1.3] mt-1">{t("commonConfig.emptyHint")}</p>
           </div>
         )}
 

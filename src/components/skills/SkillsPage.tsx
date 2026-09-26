@@ -459,7 +459,7 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
     }, [effectiveSource, onSourceChange]);
 
     return (
-      <div className="px-6 flex flex-col flex-1 min-h-0 overflow-hidden bg-background/50">
+      <div className="px-2 flex flex-col flex-1 min-h-0 overflow-hidden bg-background/50">
         {/* 技能网格（可滚动详情区域） */}
         <div className="flex-1 overflow-y-auto overflow-x-hidden animate-fade-in">
           <div className="py-4">
@@ -578,7 +578,7 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                     </Select>
                   </div>
                   {searchQuery && (
-                    <p className="mt-2 text-sm text-muted-foreground">
+                    <p className="mt-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                       {t("skills.count", { count: filteredSkills.length })}
                     </p>
                   )}
@@ -631,20 +631,20 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
               /* ===== 仓库模式 ===== */
               loading ? (
                 <div className="flex items-center justify-center h-64">
-                  <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
+                  <RefreshCw className="h-6 w-6 animate-spin text-muted-foreground" />
                 </div>
               ) : skills.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-64 text-center">
                   <p className="text-lg font-medium text-foreground">
                     {t("skills.empty")}
                   </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
+                  <p className="mt-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                     {t("skills.emptyDescription")}
                   </p>
                   <Button
                     variant="link"
                     onClick={() => setRepoManagerOpen(true)}
-                    className="mt-3 text-sm font-normal"
+                    className="mt-3 text-[12.35px] leading-[1.3] font-normal"
                   >
                     {t("skills.addRepo")}
                   </Button>
@@ -654,7 +654,7 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                   <p className="text-lg font-medium text-foreground">
                     {t("skills.noResults")}
                   </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
+                  <p className="mt-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                     {t("skills.emptyDescription")}
                   </p>
                 </div>
@@ -677,8 +677,8 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
               <>
                 {searchingSkillsSh ? (
                   <div className="flex items-center justify-center h-64">
-                    <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-                    <span className="ml-3 text-sm text-muted-foreground">
+                    <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+                    <span className="ml-3 text-[12.35px] leading-[1.3] text-muted-foreground">
                       {t("skills.skillssh.loading")}
                     </span>
                   </div>
@@ -695,7 +695,7 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                 ) : (
                   <>
                     {skillsShQuery.length < 2 && (
-                      <p className="mb-3 text-sm font-medium text-muted-foreground">
+                      <p className="mb-3 text-[12.35px] leading-[1.3] font-medium text-muted-foreground">
                         {t("skills.skillssh.trending")}
                       </p>
                     )}
@@ -743,7 +743,7 @@ export const SkillsPage = forwardRef<SkillsPageHandle, SkillsPageProps>(
                           {t("skills.skillssh.loadMore")}
                         </Button>
                       )}
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                         {t("skills.skillssh.poweredBy")}
                       </p>
                     </div>

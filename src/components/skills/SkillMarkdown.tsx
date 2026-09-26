@@ -43,7 +43,7 @@ function renderInline(text: string): ReactNode[] {
       nodes.push(
         <code
           key={key++}
-          className="rounded-[3px] bg-muted px-1 py-px font-mono text-[11.5px]"
+          className="rounded-[3px] bg-muted px-1 py-px font-mono text-[12.35px] leading-[1.3]"
         >
           {token.slice(1, -1)}
         </code>,
@@ -156,8 +156,8 @@ function parseBlocks(lines: string[], keyStart = 0): { nodes: ReactNode[]; nextK
           key={key++}
           className={
             ordered
-              ? "mb-2 list-decimal space-y-0.5 pl-4 text-[12.35px] leading-[1.45]"
-              : "mb-2 list-disc space-y-0.5 pl-4 text-[12.35px] leading-[1.45]"
+              ? "mb-2 list-decimal space-y-0.5 pl-4 text-[12.35px] leading-[1.3]"
+              : "mb-2 list-disc space-y-0.5 pl-4 text-[12.35px] leading-[1.3]"
           }
         >
           {items.map((item, index) => (
@@ -180,7 +180,7 @@ function parseBlocks(lines: string[], keyStart = 0): { nodes: ReactNode[]; nextK
       blocks.push(
         <blockquote
           key={key++}
-          className="mb-2 border-l-2 border-border-default pl-2 text-[12.35px] leading-[1.45] text-muted-foreground"
+          className="mb-2 border-l-2 border-border-default pl-2 text-[12.35px] leading-[1.3] text-muted-foreground"
         >
           {nested.nodes}
         </blockquote>,
@@ -203,7 +203,7 @@ function parseBlocks(lines: string[], keyStart = 0): { nodes: ReactNode[]; nextK
     blocks.push(
       <p
         key={key++}
-        className="mb-1.5 text-[12.35px] leading-[1.45] text-foreground"
+        className="mb-1.5 text-[12.35px] leading-[1.3] text-foreground"
       >
         {renderInline(para.join(" "))}
       </p>,

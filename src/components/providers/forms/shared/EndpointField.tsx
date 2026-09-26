@@ -56,7 +56,7 @@ export function EndpointField({
         <div className="flex flex-wrap items-center gap-3">
           <FormLabel htmlFor={id}>{label}</FormLabel>
           {showFullUrlToggle && onFullUrlChange ? (
-            <div className="flex items-center gap-2 rounded-full border border-border/70 bg-muted/30 px-2.5 py-1">
+            <div className="flex items-center gap-2 rounded-[8px] border border-border/70 bg-muted/30 px-2 py-1">
               <Link2
                 className={`h-3.5 w-3.5 ${
                   isFullUrl ? "text-primary" : "text-muted-foreground"
@@ -77,7 +77,6 @@ export function EndpointField({
                 aria-label={t("providerForm.fullUrlLabel", {
                   defaultValue: "完整 URL",
                 })}
-                className="h-5 w-9"
               />
             </div>
           ) : null}
@@ -102,7 +101,7 @@ export function EndpointField({
         autoComplete="off"
       />
       {effectiveHint ? (
-        <div className="p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-lg">
+        <div className="p-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-[8px]">
           <p className="text-ui text-amber-600 dark:text-amber-400">
             {effectiveHint}
           </p>

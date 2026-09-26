@@ -447,13 +447,13 @@ export function ProviderCard({
               </h3>
 
               {isOmo && (
-                <span className="inline-flex items-center rounded-md bg-violet-100 px-1.5 py-0.5 text-[10px] font-semibold text-violet-700 dark:bg-violet-900/40 dark:text-violet-300">
+                <span className="inline-flex items-center rounded-md bg-violet-100 px-2 py-0.5 text-[12.35px] leading-[1.3] font-semibold text-violet-700 dark:bg-violet-900/40 dark:text-violet-300">
                   OMO
                 </span>
               )}
 
               {isOmoSlim && (
-                <span className="inline-flex items-center rounded-md bg-indigo-100 px-1.5 py-0.5 text-[10px] font-semibold text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">
+                <span className="inline-flex items-center rounded-md bg-indigo-100 px-2 py-0.5 text-[12.35px] leading-[1.3] font-semibold text-indigo-700 dark:bg-indigo-900/40 dark:text-indigo-300">
                   Slim
                 </span>
               )}
@@ -513,7 +513,7 @@ export function ProviderCard({
 
               {isHermesReadOnly && (
                 <span
-                  className="inline-flex items-center rounded-md bg-slate-200 px-1.5 py-0.5 text-[10px] font-semibold text-slate-700 dark:bg-slate-700/60 dark:text-slate-200"
+                  className="inline-flex items-center rounded-md bg-slate-200 px-2 py-0.5 text-[12.35px] leading-[1.3] font-semibold text-slate-700 dark:bg-slate-700/60 dark:text-slate-200"
                   title={t("provider.managedByHermesHint", {
                     defaultValue: "由 Hermes 管理，请在 Hermes Web UI 中编辑",
                   })}
@@ -565,7 +565,7 @@ export function ProviderCard({
                   </span>
                 ) : isCodexAuthStatusSuccess ? (
                   <>
-                    <span className="inline-flex min-w-0 items-center gap-1 text-sm text-amber-700 dark:text-amber-300">
+                    <span className="inline-flex min-w-0 items-center gap-1 text-[12.35px] leading-[1.3] text-amber-700 dark:text-amber-300">
                       <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
                       <span className="truncate">
                         {t("codex.boundAccountUnavailable", {
@@ -598,13 +598,15 @@ export function ProviderCard({
                 variant="link"
                 onClick={handleOpenWebsite}
                 className={cn(
-                  "h-auto max-w-full min-w-0 px-0 py-0 leading-[1.3]",
+                  "h-auto max-w-full min-w-0 overflow-hidden px-0 py-0 text-left leading-[1.3] whitespace-normal",
                   !isClickableUrl && "text-muted-foreground no-underline",
                 )}
                 title={displayUrl}
                 disabled={!isClickableUrl}
               >
-                <span className="min-w-0 truncate">{displayUrl}</span>
+                <span className="min-w-0 truncate [overflow-wrap:anywhere]">
+                  {displayUrl}
+                </span>
               </Button>
             ) : null}
           </div>
@@ -650,7 +652,7 @@ export function ProviderCard({
                   />
                 ) : null
               ) : hasMultiplePlans ? (
-                <div className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-400">
+                <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] text-gray-600 dark:text-gray-400">
                   <span className="font-medium">
                     {t("usage.multiplePlans", {
                       count: usage?.data?.length || 0,
@@ -752,7 +754,7 @@ export function ProviderCard({
       </div>
 
       {isExpanded && hasMultiplePlans && (
-        <div className="mt-4 pt-4 border-t border-border-default">
+        <div className="mt-2 pt-2 border-t border-border-default">
           <UsageFooter
             provider={provider}
             providerId={provider.id}

@@ -659,7 +659,7 @@ const UnifiedSkillsPanel = React.forwardRef<
   }));
 
   return (
-    <div className="px-6 flex flex-col flex-1 min-h-0 overflow-hidden">
+    <div className="px-2 flex flex-col flex-1 min-h-0 overflow-hidden">
       <div className="flex items-center justify-between gap-2">
         <div className="min-w-0 flex-1">
           <AppCountBar
@@ -672,7 +672,7 @@ const UnifiedSkillsPanel = React.forwardRef<
             disabled={interactionBlocked}
             trailing={
               <span
-                className="max-w-[220px] truncate text-xs text-muted-foreground"
+                className="max-w-[220px] truncate text-[12.35px] leading-[1.3] text-muted-foreground"
                 title={autoUpdateCopy.title}
               >
                 {autoUpdateCopy.text}
@@ -724,14 +724,14 @@ const UnifiedSkillsPanel = React.forwardRef<
               <h3 className="text-lg font-medium text-foreground mb-2">
                 {t("skills.noInstalled")}
               </h3>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-muted-foreground text-[12.35px] leading-[1.3]">
                 {t("skills.noInstalledDescription")}
               </p>
             </div>
           ) : filteredSkills.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
               <Search className="mb-4 h-10 w-10 opacity-40" />
-              <p className="text-sm">{t("skills.noInstalledSearchResults")}</p>
+              <p className="text-[12.35px] leading-[1.3]">{t("skills.noInstalledSearchResults")}</p>
             </div>
           ) : (
             <div className="rounded-xl border border-border-default overflow-hidden">
@@ -848,7 +848,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
     <ListItemRow isLast={isLast}>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <span className="font-medium text-sm text-foreground truncate">
+          <span className="font-medium text-[12.35px] leading-[1.3] text-foreground truncate">
             {skill.name}
           </span>
           <Button
@@ -871,13 +871,13 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
               <ExternalLink size={12} />
             </Button>
           )}
-          <span className="text-xs text-muted-foreground/50 flex-shrink-0">
+          <span className="text-[12.35px] leading-[1.3] text-muted-foreground/50 flex-shrink-0">
             {sourceLabel}
           </span>
           {hasUpdate && (
             <Badge
               variant="outline"
-              className="shrink-0 text-[10px] px-1.5 py-0 h-4 border-amber-500 text-amber-600 dark:text-amber-400"
+              className="shrink-0 text-[12.35px] leading-[1.3] px-2 py-0 h-5 border-amber-500 text-amber-600 dark:text-amber-400"
             >
               {t("skills.updateAvailable")}
             </Badge>
@@ -885,7 +885,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
         </div>
         {skill.description && (
           <p
-            className="text-xs text-muted-foreground truncate"
+            className="text-[12.35px] leading-[1.3] text-muted-foreground truncate"
             title={skill.description}
           >
             {skill.description}
@@ -912,7 +912,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
             variant="ghost"
             size="icon"
             className={cn(
-              "h-7 w-7 hover:text-blue-500 hover:bg-blue-100 dark:hover:text-blue-400 dark:hover:bg-blue-500/10",
+              "hover:text-blue-500 hover:bg-blue-100 dark:hover:text-blue-400 dark:hover:bg-blue-500/10",
               actionsDisabled && !isUpdating && "disabled:opacity-100",
             )}
             onClick={onUpdate}
@@ -930,7 +930,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7 hover:text-red-500 hover:bg-red-100 disabled:opacity-100 dark:hover:text-red-400 dark:hover:bg-red-500/10"
+          className="hover:text-red-500 hover:bg-red-100 disabled:opacity-100 dark:hover:text-red-400 dark:hover:bg-red-500/10"
           onClick={onUninstall}
           disabled={actionsDisabled}
           title={t("skills.uninstall")}
@@ -997,11 +997,11 @@ const RestoreSkillsDialog: React.FC<RestoreSkillsDialogProps> = ({
 
         <div className="flex-1 overflow-y-auto px-6 py-4">
           {isLoading ? (
-            <div className="py-10 text-center text-sm text-muted-foreground">
+            <div className="py-10 text-center text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("common.loading")}
             </div>
           ) : backups.length === 0 ? (
-            <div className="py-10 text-center text-sm text-muted-foreground">
+            <div className="py-10 text-center text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("skills.restoreFromBackup.empty")}
             </div>
           ) : (
@@ -1014,7 +1014,7 @@ const RestoreSkillsDialog: React.FC<RestoreSkillsDialogProps> = ({
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <div className="font-medium text-sm text-foreground">
+                        <div className="font-medium text-[12.35px] leading-[1.3] text-foreground">
                           {backup.skill.name}
                         </div>
                         <div className="rounded-md bg-muted px-2 py-0.5 text-[11px] text-muted-foreground">
@@ -1022,11 +1022,11 @@ const RestoreSkillsDialog: React.FC<RestoreSkillsDialogProps> = ({
                         </div>
                       </div>
                       {backup.skill.description && (
-                        <div className="mt-2 text-sm text-muted-foreground">
+                        <div className="mt-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                           {backup.skill.description}
                         </div>
                       )}
-                      <div className="mt-3 space-y-1.5 text-xs text-muted-foreground">
+                      <div className="mt-3 space-y-1.5 text-[12.35px] leading-[1.3] text-muted-foreground">
                         <div>
                           {t("skills.restoreFromBackup.createdAt")}:{" "}
                           {formatSkillBackupDate(backup.createdAt)}
@@ -1146,7 +1146,7 @@ const ImportSkillsDialog: React.FC<ImportSkillsDialogProps> = ({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-background rounded-xl p-6 max-w-lg w-full mx-4 shadow-xl max-h-[80vh] flex flex-col">
         <h2 className="text-lg font-semibold mb-2">{t("skills.import")}</h2>
-        <p className="text-sm text-muted-foreground mb-4">
+        <p className="text-[12.35px] leading-[1.3] text-muted-foreground mb-4">
           {t("skills.importDescription")}
         </p>
 
@@ -1166,7 +1166,7 @@ const ImportSkillsDialog: React.FC<ImportSkillsDialogProps> = ({
               <div className="flex-1 min-w-0">
                 <div className="font-medium">{skill.name}</div>
                 {skill.description && (
-                  <div className="text-sm text-muted-foreground line-clamp-1">
+                  <div className="text-[12.35px] leading-[1.3] text-muted-foreground line-clamp-1">
                     {skill.description}
                   </div>
                 )}
@@ -1208,7 +1208,7 @@ const ImportSkillsDialog: React.FC<ImportSkillsDialogProps> = ({
                   />
                 </div>
                 <div
-                  className="mt-1 truncate text-xs text-muted-foreground"
+                  className="mt-1 truncate text-[12.35px] leading-[1.3] text-muted-foreground"
                   title={skill.path}
                 >
                   {skill.path}

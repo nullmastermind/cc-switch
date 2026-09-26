@@ -132,7 +132,7 @@ export const SubscriptionQuotaView: React.FC<SubscriptionQuotaViewProps> = ({
   if (quota.credentialStatus === "expired" && !quota.success) {
     if (inline) {
       return (
-        <div className="inline-flex items-center gap-2 text-xs rounded-lg border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 px-3 py-2 shadow-sm">
+        <div className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] rounded-[8px] border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 px-2 py-2 shadow-sm">
           <div className="flex items-center gap-1.5 text-amber-600 dark:text-amber-400">
             <AlertCircle size={12} />
             <span>{t("subscription.expired")}</span>
@@ -151,8 +151,8 @@ export const SubscriptionQuotaView: React.FC<SubscriptionQuotaViewProps> = ({
       );
     }
     return (
-      <div className="mt-3 rounded-xl border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 px-4 py-3 shadow-sm">
-        <div className="flex items-center justify-between gap-2 text-xs">
+      <div className="mt-3 rounded-[8px] border border-amber-200 dark:border-amber-800 bg-amber-50 dark:bg-amber-900/20 p-2 shadow-sm">
+        <div className="flex items-center justify-between gap-2 text-[12.35px] leading-[1.3]">
           <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
             <AlertCircle size={14} />
             <div>
@@ -181,7 +181,7 @@ export const SubscriptionQuotaView: React.FC<SubscriptionQuotaViewProps> = ({
   if (!quota.success) {
     if (inline) {
       return (
-        <div className="inline-flex items-center gap-2 text-xs rounded-lg border border-border-default bg-card px-3 py-2 shadow-sm">
+        <div className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] rounded-[8px] border border-border-default bg-card px-2 py-2 shadow-sm">
           <div className="flex items-center gap-1.5 text-red-500 dark:text-red-400">
             <AlertCircle size={12} />
             <span>{t("subscription.queryFailed")}</span>
@@ -200,8 +200,8 @@ export const SubscriptionQuotaView: React.FC<SubscriptionQuotaViewProps> = ({
       );
     }
     return (
-      <div className="mt-3 rounded-xl border border-border-default bg-card px-4 py-3 shadow-sm">
-        <div className="flex items-center justify-between gap-2 text-xs">
+      <div className="mt-3 rounded-[8px] border border-border-default bg-card p-2 shadow-sm">
+        <div className="flex items-center justify-between gap-2 text-[12.35px] leading-[1.3]">
           <div className="flex items-center gap-2 text-red-500 dark:text-red-400">
             <AlertCircle size={14} />
             <span>{quota.error || t("subscription.queryFailed")}</span>
@@ -230,10 +230,10 @@ export const SubscriptionQuotaView: React.FC<SubscriptionQuotaViewProps> = ({
   // ── inline 模式：紧凑两行显示 ──
   if (inline) {
     return (
-      <div className="flex flex-col items-end gap-1 text-xs whitespace-nowrap flex-shrink-0">
+      <div className="flex flex-col items-end gap-1 text-[12.35px] leading-[1.3] whitespace-nowrap flex-shrink-0">
         {/* 第一行：查询时间 + 刷新 */}
         <div className="flex items-center gap-2 justify-end">
-          <span className="text-[10px] text-muted-foreground/70 flex items-center gap-1">
+          <span className="text-[12.35px] leading-[1.3] text-muted-foreground/70 flex items-center gap-1">
             <Clock size={10} />
             {quota.queriedAt
               ? formatRelativeTime(quota.queriedAt, now, t)
@@ -268,14 +268,14 @@ export const SubscriptionQuotaView: React.FC<SubscriptionQuotaViewProps> = ({
 
   // ── 展开模式：详细信息 ──
   return (
-    <div className="mt-3 rounded-xl border border-border-default bg-card px-4 py-3 shadow-sm">
+    <div className="mt-3 rounded-[8px] border border-border-default bg-card p-2 shadow-sm">
       <div className="flex items-center justify-between mb-2">
-        <span className="text-xs text-gray-500 dark:text-gray-400 font-medium">
+        <span className="text-[12.35px] leading-[1.3] text-gray-500 dark:text-gray-400 font-medium">
           {t("subscription.title", { defaultValue: "Subscription Quota" })}
         </span>
         <div className="flex items-center gap-2">
           {quota.queriedAt && (
-            <span className="text-[10px] text-muted-foreground/70 flex items-center gap-1">
+            <span className="text-[12.35px] leading-[1.3] text-muted-foreground/70 flex items-center gap-1">
               <Clock size={10} />
               {formatRelativeTime(quota.queriedAt, now, t)}
             </span>
@@ -301,7 +301,7 @@ export const SubscriptionQuotaView: React.FC<SubscriptionQuotaViewProps> = ({
 
       {/* 超额使用 */}
       {quota.extraUsage?.isEnabled && (
-        <div className="mt-2 pt-2 border-t border-border-default text-xs text-gray-500 dark:text-gray-400">
+        <div className="mt-2 pt-2 border-t border-border-default text-[12.35px] leading-[1.3] text-gray-500 dark:text-gray-400">
           <span className="font-medium">{t("subscription.extraUsage")}: </span>
           <span className="tabular-nums">
             {quota.extraUsage.currency === "USD" ? "$" : ""}
@@ -366,7 +366,7 @@ const TierBar: React.FC<{
   const resetText = formatResetTime(tier.resetsAt, t);
 
   return (
-    <div className="flex items-center gap-3 text-xs">
+    <div className="flex items-center gap-3 text-[12.35px] leading-[1.3]">
       <span
         className="text-gray-500 dark:text-gray-400 min-w-0 font-medium"
         style={{ width: "25%" }}
@@ -399,7 +399,7 @@ const TierBar: React.FC<{
         </span>
         {resetText && (
           <span
-            className="text-[10px] text-muted-foreground/70 truncate"
+            className="text-[12.35px] leading-[1.3] text-muted-foreground/70 truncate"
             title={resetText}
           >
             {resetText}

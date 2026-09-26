@@ -852,7 +852,7 @@ export function ClaudeDesktopProviderForm({
       <form
         id="provider-form"
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-3 glass rounded-xl p-4 border border-white/10"
+        className="space-y-2 rounded-[8px] p-2 border border-border-default"
       >
         {!initialData && (
           <ProviderPresetSelector
@@ -867,7 +867,7 @@ export function ClaudeDesktopProviderForm({
         <BasicFormFields form={form} />
 
         {isOfficial && (
-          <div className="rounded-lg border border-border-default bg-muted/20 p-3 text-sm text-muted-foreground">
+          <div className="rounded-[8px] border border-border-default bg-muted/20 p-2 text-[12.35px] leading-[1.3] text-muted-foreground">
             {t("claudeDesktop.officialNotice", {
               defaultValue:
                 "Claude Desktop 官方供应商使用应用内置的 1P 登录，无需配置 API Key 和接口地址。",
@@ -878,7 +878,7 @@ export function ClaudeDesktopProviderForm({
         {!isOfficial && (
           <>
             {usesManagedOAuth ? (
-              <div className="rounded-lg border border-border-default bg-muted/20 p-3">
+              <div className="rounded-[8px] border border-border-default bg-muted/20 p-2">
                 {activeProviderType === "github_copilot" ? (
                   <CopilotAuthSection
                     mode="select"
@@ -939,7 +939,7 @@ export function ClaudeDesktopProviderForm({
               showManageButton={false}
             />
 
-            <div className="space-y-4 border-l border-border-default pl-3">
+            <div className="space-y-2 border-l border-border-default pl-2">
               <div className="flex items-stretch justify-between gap-4">
                 <div className="min-w-0 flex-1 space-y-1 pr-3">
                   <Label>
@@ -947,7 +947,7 @@ export function ClaudeDesktopProviderForm({
                       defaultValue: "模型配置",
                     })}
                   </Label>
-                  <p className="text-xs leading-relaxed text-muted-foreground">
+                  <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                     {needsModelMapping
                       ? t("claudeDesktop.modelMappingOnHint", {
                           defaultValue:
@@ -962,7 +962,7 @@ export function ClaudeDesktopProviderForm({
                 <div className="flex shrink-0 items-center gap-2 border-l border-border-default pl-4">
                   <Label
                     htmlFor="claude-desktop-model-mode"
-                    className="text-sm font-normal text-muted-foreground"
+                    className="text-[12.35px] leading-[1.3] font-normal text-muted-foreground"
                   >
                     {t("claudeDesktop.modelModeLabel", {
                       defaultValue: "接入方式",
@@ -1001,7 +1001,7 @@ export function ClaudeDesktopProviderForm({
               </div>
 
               {needsModelMapping && (
-                <div className="space-y-4 border-t border-border-default pt-4">
+                <div className="space-y-2 border-t border-border-default pt-2">
                   {activeProviderType !== "xai_oauth" && (
                     <div className="space-y-2">
                       <Label>
@@ -1072,7 +1072,7 @@ export function ClaudeDesktopProviderForm({
                           </Button>
                         )}
                       </div>
-                      <p className="text-xs leading-relaxed text-muted-foreground">
+                      <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                         {t("claudeDesktop.routeMapHint", {
                           defaultValue:
                             "为 Sonnet、Opus、Haiku 三档分别填写实际请求模型；菜单显示名可写 DeepSeek、Kimi 等品牌名。留空的档会自动沿用 Sonnet（或第一个已填档）的模型，确保子 agent 调用的 Haiku 始终可用。",
@@ -1214,7 +1214,7 @@ export function ClaudeDesktopProviderForm({
                     )}
                   </div>
 
-                  <p className="text-xs leading-relaxed text-muted-foreground">
+                  <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                     {t("claudeDesktop.directModelListHint", {
                       defaultValue:
                         "配置 Claude Desktop 可用的 Sonnet、Opus、Haiku 模型。留空时 Claude Desktop 会自动读取 /v1/models；勾选 1M 会声明支持 1M 上下文。",

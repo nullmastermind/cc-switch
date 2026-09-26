@@ -149,7 +149,7 @@ export function McodeProviderForm({
     <Form {...form}>
       <form
         id="provider-form"
-        className="space-y-3 glass rounded-xl p-4 border border-white/10"
+        className="space-y-2 rounded-[8px] p-2 border border-border-default"
         onSubmit={form.handleSubmit(async (identity) => {
           if (!ready || busy) return;
           setBusy(true);

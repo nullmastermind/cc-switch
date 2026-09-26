@@ -180,7 +180,7 @@ export function CommonConfigEditor({
         <div className="flex items-center justify-between">
           <Label htmlFor="settingsConfig">{t("provider.configJson")}</Label>
           <div className="flex items-center gap-2">
-            <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+            <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
               <input
                 type="checkbox"
                 id="useCommonConfig"
@@ -208,12 +208,12 @@ export function CommonConfigEditor({
           </Button>
         </div>
         {commonConfigError && !isModalOpen && (
-          <p className="text-xs text-red-500 dark:text-red-400 text-right">
+          <p className="text-[12.35px] leading-[1.3] text-red-500 dark:text-red-400 text-right">
             {commonConfigError}
           </p>
         )}
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
             <input
               type="checkbox"
               checked={toggleStates.hideAttribution}
@@ -224,7 +224,7 @@ export function CommonConfigEditor({
             />
             <span>{t("claudeConfig.hideAttribution")}</span>
           </label>
-          <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
             <input
               type="checkbox"
               checked={toggleStates.teammates}
@@ -233,7 +233,7 @@ export function CommonConfigEditor({
             />
             <span>{t("claudeConfig.enableTeammates")}</span>
           </label>
-          <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
             <input
               type="checkbox"
               checked={toggleStates.enableToolSearch}
@@ -244,7 +244,7 @@ export function CommonConfigEditor({
             />
             <span>{t("claudeConfig.enableToolSearch")}</span>
           </label>
-          <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
             <input
               type="checkbox"
               checked={toggleStates.effortMax}
@@ -253,7 +253,7 @@ export function CommonConfigEditor({
             />
             <span>{t("claudeConfig.effortMax")}</span>
           </label>
-          <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
             <input
               type="checkbox"
               checked={toggleStates.disableAutoUpgrade}
@@ -264,7 +264,7 @@ export function CommonConfigEditor({
             />
             <span>{t("claudeConfig.disableAutoUpgrade")}</span>
           </label>
-          <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+          <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
             <input
               type="checkbox"
               checked={toggleStates.disableArtifact}
@@ -331,19 +331,19 @@ export function CommonConfigEditor({
       >
         <div className="space-y-4">
           <div className="rounded-lg border border-blue-200 dark:border-blue-800 bg-blue-50/50 dark:bg-blue-950/30 p-3 space-y-1.5">
-            <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
+            <p className="text-[12.35px] leading-[1.3] font-medium text-blue-800 dark:text-blue-300">
               {t("commonConfig.guideTitle")}
             </p>
-            <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+            <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
               {t("commonConfig.guidePurpose")}
             </p>
-            <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+            <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
               {t("commonConfig.guideUsage")}
             </p>
-            <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+            <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
               {t("commonConfig.guideReExtract")}
             </p>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("commonConfig.guideReassurance")}
             </p>
           </div>
@@ -352,10 +352,10 @@ export function CommonConfigEditor({
             commonConfigSnippet.trim() === "{}") && (
             <div className="flex flex-col items-center justify-center py-6 text-center text-muted-foreground">
               <Package className="h-8 w-8 mb-2 opacity-40" />
-              <p className="text-sm font-medium">
+              <p className="text-[12.35px] leading-[1.3] font-medium">
                 {t("commonConfig.emptyTitle")}
               </p>
-              <p className="text-xs mt-1">{t("commonConfig.emptyHint")}</p>
+              <p className="text-[12.35px] leading-[1.3] mt-1">{t("commonConfig.emptyHint")}</p>
             </div>
           )}
           <JsonEditor
@@ -373,7 +373,7 @@ export function CommonConfigEditor({
             language="json"
           />
           {commonConfigError && (
-            <p className="text-sm text-red-500 dark:text-red-400">
+            <p className="text-[12.35px] leading-[1.3] text-red-500 dark:text-red-400">
               {commonConfigError}
             </p>
           )}

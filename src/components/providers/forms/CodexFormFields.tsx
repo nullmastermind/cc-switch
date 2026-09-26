@@ -868,14 +868,13 @@ export function CodexFormFields({
         <Collapsible
           open={advancedExpanded}
           onOpenChange={setAdvancedExpanded}
-          className="rounded-lg border border-border-default p-4"
+          className="rounded-[8px] border border-border-default p-2"
         >
           <CollapsibleTrigger asChild>
             <Button
               type="button"
               variant={null}
-              size="sm"
-              className="h-8 w-full justify-start gap-1.5 px-0 text-ui font-medium text-foreground hover:opacity-70"
+              className="h-6 w-full justify-start gap-2 px-0 text-[12.35px] leading-[1.3] font-medium text-foreground hover:opacity-70"
             >
               {advancedExpanded ? (
                 <ChevronDown className="h-4 w-4" />
@@ -900,7 +899,7 @@ export function CodexFormFields({
                   })}
             </p>
           )}
-          <CollapsibleContent className="space-y-3 pt-3">
+          <CollapsibleContent className="space-y-2 pt-2">
             {/* 上游格式 —— Chat 需开启路由接管（走代理转换），Responses 原生直连。
                 沿用 shouldShowSpeedTest 门控，cloud_provider 保持不可切换；
                 xAI OAuth 托管预设格式钉死 Responses，不可切换。 */}
@@ -1178,7 +1177,7 @@ export function CodexFormFields({
             {canEditCatalog && (
               <div
                 className={cn(
-                  "space-y-4",
+                  "space-y-2",
                   (shouldShowSpeedTest || (isChatFormat && canEditReasoning)) &&
                     "border-t border-border-default pt-3",
                 )}

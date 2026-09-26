@@ -40,16 +40,16 @@ export function ProviderAdvancedConfig({
   }, [pricingConfig.enabled]);
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* 计费配置 */}
-      <div className="rounded-lg border border-border/50 bg-muted/20">
+      <div className="rounded-[8px] border border-border/50 bg-muted/20">
         <Button
           type="button"
           variant="ghost"
-          className="h-auto w-full justify-between rounded-none p-4"
+          className="h-6 w-full justify-between rounded-none px-2"
           onClick={() => setIsPricingConfigOpen(!isPricingConfigOpen)}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <Coins className="h-4 w-4 text-muted-foreground" />
             <span className="font-medium">
               {t("providerAdvanced.pricingConfig", {
@@ -57,7 +57,7 @@ export function ProviderAdvancedConfig({
               })}
             </span>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <div
               className="flex items-center gap-2"
               onClick={(e) => e.stopPropagation()}
@@ -94,14 +94,14 @@ export function ProviderAdvancedConfig({
               : "max-h-0 opacity-0",
           )}
         >
-          <div className="border-t border-border/50 p-4 space-y-4">
-            <p className="text-ui text-muted-foreground">
+          <div className="border-t border-border/50 p-2 space-y-2">
+            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("providerAdvanced.pricingConfigDesc", {
                 defaultValue:
                   "为此供应商配置单独的计费参数，不启用时使用全局默认配置。",
               })}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               <div className="space-y-2">
                 <Label htmlFor="cost-multiplier">
                   {t("providerAdvanced.costMultiplier", {
@@ -126,7 +126,7 @@ export function ProviderAdvancedConfig({
                   })}
                   disabled={!pricingConfig.enabled}
                 />
-                <p className="text-ui text-muted-foreground">
+                <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                   {t("providerAdvanced.costMultiplierHint", {
                     defaultValue: "实际成本 = 基础成本 × 倍率，支持小数如 1.5",
                   })}
@@ -169,7 +169,7 @@ export function ProviderAdvancedConfig({
                     </SelectItem>
                   </SelectContent>
                 </Select>
-                <p className="text-ui text-muted-foreground">
+                <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
                   {t("providerAdvanced.pricingModelSourceHint", {
                     defaultValue: "选择按请求模型还是返回模型进行定价匹配",
                   })}

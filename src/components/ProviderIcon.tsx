@@ -47,8 +47,6 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
     return {
       width: sizeValue,
       height: sizeValue,
-      fontSize: sizeValue,
-      lineHeight: 1,
     };
   }, [size]);
 
@@ -106,25 +104,17 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
       .join("")
       .toUpperCase()
       .slice(0, 2);
-    const fallbackFontSize =
-      typeof size === "number" ? `${Math.max(size * 0.5, 12)}px` : "0.5em";
     return (
       <span
         className={cn(
-          "inline-flex items-center justify-center flex-shrink-0 rounded-lg",
-          "bg-muted text-muted-foreground font-semibold",
+          "inline-flex items-center justify-center flex-shrink-0 rounded-[4px]",
+          "bg-muted text-[12.35px] leading-[1.3] font-semibold text-muted-foreground",
           className,
         )}
         title={name}
         style={sizeStyle}
       >
-        <span
-          style={{
-            fontSize: fallbackFontSize,
-          }}
-        >
-          {initials}
-        </span>
+        {initials}
       </span>
     );
   }

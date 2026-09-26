@@ -170,7 +170,7 @@ export function AppSwitcher({
   return (
     <div
       ref={rootRef}
-      className="inline-flex bg-muted rounded-xl p-1 gap-1"
+      className="inline-flex bg-muted rounded-[8px] p-1 gap-1"
       style={{ WebkitAppRegion: "no-drag" } as any}
     >
       {visibleList.map((app) => {
@@ -184,7 +184,7 @@ export function AppSwitcher({
             title={APP_DISPLAY_NAME[app]}
             aria-label={APP_DISPLAY_NAME[app]}
             className={cn(
-              "h-8 min-w-0 rounded-lg px-3",
+              "h-6 min-w-0 rounded-[4px] px-2",
               isActive
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/50",
@@ -203,7 +203,7 @@ export function AppSwitcher({
               title={t("appSwitcher.more")}
               aria-label={t("appSwitcher.more")}
               className={cn(
-                "h-8 min-w-0 rounded-lg px-3",
+                "h-6 min-w-0 rounded-[4px] px-2",
                 moreOpen
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground hover:bg-background/50",

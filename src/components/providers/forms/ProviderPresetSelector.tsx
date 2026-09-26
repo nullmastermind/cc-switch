@@ -392,7 +392,7 @@ export function ProviderPresetSelector({
         type="button"
         variant={isSelected ? "default" : "secondary"}
         onClick={() => onPresetChange(entry.id)}
-        className="w-full justify-start overflow-hidden"
+        className="w-full min-w-0 justify-start overflow-hidden whitespace-normal text-left"
         style={getPresetButtonStyle(isSelected, entry.preset)}
         title={
           presetCategoryLabels[presetCategory] ?? t("providerPreset.other")
@@ -421,7 +421,7 @@ export function ProviderPresetSelector({
   };
 
   return (
-    <div ref={searchContainerRef} className="space-y-3">
+    <div ref={searchContainerRef} className="space-y-2">
       <div className="flex items-center justify-between gap-2">
         <Label>{t("providerPreset.label")}</Label>
         <div className="flex items-center gap-2">
@@ -503,14 +503,14 @@ export function ProviderPresetSelector({
           type="button"
           variant={selectedPresetId === "custom" ? "default" : "secondary"}
           onClick={() => onPresetChange("custom")}
-          className="w-full justify-start overflow-hidden"
+          className="w-full min-w-0 justify-start overflow-hidden whitespace-normal text-left"
         >
           <span className="inline-block w-4 h-4 flex-shrink-0" aria-hidden />
           <span className="min-w-0 truncate">{t("providerPreset.custom")}</span>
         </Button>
 
         {visiblePresetEntries.length === 0 && (
-          <div className="col-span-full rounded-md border border-dashed border-border-default px-3 py-2 text-xs text-muted-foreground">
+          <div className="col-span-full rounded-[8px] border border-dashed border-border-default px-2 py-2 text-[12.35px] leading-[1.3] text-muted-foreground">
             {t("providerPreset.noSearchResults", {
               defaultValue: "No matching presets.",
             })}
@@ -560,7 +560,7 @@ export function ProviderPresetSelector({
               type="button"
               variant="secondary"
               onClick={() => onUniversalPresetSelect(preset)}
-              className="w-full justify-start overflow-hidden"
+              className="w-full min-w-0 justify-start overflow-hidden whitespace-normal text-left"
               title={t("universalProvider.hint", {
                 defaultValue: "跨应用统一配置，自动同步到 Claude/Codex/Gemini",
               })}
@@ -580,7 +580,7 @@ export function ProviderPresetSelector({
               type="button"
               variant="secondary"
               onClick={onManageUniversalProviders}
-              className="w-full justify-start overflow-hidden"
+              className="w-full min-w-0 justify-start overflow-hidden whitespace-normal text-left"
               title={t("universalProvider.manage", {
                 defaultValue: "管理统一供应商",
               })}
@@ -596,7 +596,7 @@ export function ProviderPresetSelector({
         </div>
       )}
 
-      <p className="text-xs text-muted-foreground">{getCategoryHint()}</p>
+      <p className="text-[12.35px] leading-[1.3] text-muted-foreground">{getCategoryHint()}</p>
     </div>
   );
 }

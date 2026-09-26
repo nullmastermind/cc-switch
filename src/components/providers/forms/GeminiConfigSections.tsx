@@ -57,12 +57,12 @@ export const GeminiEnvSection: React.FC<GeminiEnvSectionProps> = ({
       <div className="flex items-center justify-between">
         <label
           htmlFor="geminiEnv"
-          className="block text-sm font-medium text-foreground"
+          className="block text-[12.35px] leading-[1.3] font-medium text-foreground"
         >
           {t("geminiConfig.envFile", { defaultValue: "环境变量 (.env)" })}
         </label>
 
-        <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+        <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
           <input
             type="checkbox"
             checked={useCommonConfig}
@@ -152,7 +152,7 @@ export const GeminiConfigSection: React.FC<GeminiConfigSectionProps> = ({
     <div className="space-y-2">
       <label
         htmlFor="geminiConfig"
-        className="block text-sm font-medium text-foreground"
+        className="block text-[12.35px] leading-[1.3] font-medium text-foreground"
       >
         {t("geminiConfig.configJson", {
           defaultValue: "配置文件 (config.json)",

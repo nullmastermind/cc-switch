@@ -64,7 +64,7 @@ export const CodexAuthSection: React.FC<CodexAuthSectionProps> = ({
     <div className="space-y-2">
       <label
         htmlFor="codexAuth"
-        className="block text-sm font-medium text-foreground"
+        className="block text-[12.35px] leading-[1.3] font-medium text-foreground"
       >
         {t("codexConfig.authJson")}
       </label>
@@ -251,7 +251,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <label
           htmlFor="codexConfig"
-          className="block text-sm font-medium text-foreground"
+          className="block text-[12.35px] leading-[1.3] font-medium text-foreground"
         >
           {t("codexConfig.configToml")}
         </label>
@@ -259,7 +259,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
         <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1">
           {showRemoteCompaction && (
             <label
-              className="inline-flex cursor-pointer items-center gap-2 text-sm text-muted-foreground"
+              className="inline-flex cursor-pointer items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground"
               title={t("codexConfig.remoteCompactionHint")}
             >
               <input
@@ -272,7 +272,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
             </label>
           )}
 
-          <label className="inline-flex cursor-pointer items-center gap-2 text-sm text-muted-foreground">
+          <label className="inline-flex cursor-pointer items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
             <input
               type="checkbox"
               checked={useCommonConfig}
@@ -297,7 +297,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
       )}
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-        <label className="inline-flex items-center gap-2 text-sm text-muted-foreground cursor-pointer">
+        <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
           <input
             type="checkbox"
             checked={toggleStates.contextWindow1M}
@@ -306,7 +306,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
           />
           <span>{t("codexConfig.contextWindow1M")}</span>
         </label>
-        <label className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+        <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
           <span>{t("codexConfig.autoCompactLimit")}:</span>
           <Input
             type="text"

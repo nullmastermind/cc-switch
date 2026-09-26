@@ -90,11 +90,11 @@ export function RepoManagerPanel({
       onClose={onClose}
     >
       {/* 添加仓库表单 */}
-      <div className="space-y-4 glass-card rounded-xl p-6">
-        <h3 className="text-base font-semibold text-foreground">
+      <div className="space-y-2 rounded-[8px] border border-border-default p-2">
+        <h3 className="text-[12.35px] leading-[1.3] font-semibold text-foreground">
           {t("skills.addRepo")}
         </h3>
-        <div className="space-y-4">
+        <div className="space-y-2">
           <div>
             <Label htmlFor="repo-url" className="text-foreground">
               {t("skills.repo.url")}
@@ -120,44 +120,44 @@ export function RepoManagerPanel({
             />
           </div>
           {error && (
-            <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+            <p className="text-[12.35px] leading-[1.3] text-red-600 dark:text-red-400">{error}</p>
           )}
           <Button
             onClick={handleAdd}
             className="bg-primary text-primary-foreground hover:bg-primary/90"
             type="button"
           >
-            <Plus className="h-4 w-4 mr-2" />
+            <Plus className="h-4 w-4" />
             {t("skills.repo.add")}
           </Button>
         </div>
       </div>
 
       {/* 仓库列表 */}
-      <div className="space-y-4">
-        <h3 className="text-base font-semibold text-foreground">
+      <div className="space-y-2">
+        <h3 className="text-[12.35px] leading-[1.3] font-semibold text-foreground">
           {t("skills.repo.list")}
         </h3>
         {repos.length === 0 ? (
-          <div className="text-center py-12 glass-card rounded-xl">
-            <p className="text-sm text-muted-foreground">
+          <div className="text-center py-8 rounded-[8px] border border-border-default">
+            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
               {t("skills.repo.empty")}
             </p>
           </div>
         ) : (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {repos.map((repo) => (
               <div
                 key={`${repo.owner}/${repo.name}`}
-                className="flex items-center justify-between glass-card rounded-xl px-4 py-3"
+                className="flex items-center justify-between rounded-[8px] border border-border-default px-2 py-2"
               >
                 <div>
-                  <div className="text-sm font-medium text-foreground">
+                  <div className="text-[12.35px] leading-[1.3] font-medium text-foreground">
                     {repo.owner}/{repo.name}
                   </div>
-                  <div className="mt-1 text-xs text-muted-foreground">
+                  <div className="mt-1 text-[12.35px] leading-[1.3] text-muted-foreground">
                     {t("skills.repo.branch")}: {repo.branch || "main"}
-                    <span className="ml-3 inline-flex items-center rounded-full border border-border-default px-2 py-0.5 text-[11px]">
+                    <span className="ml-2 inline-flex items-center rounded-full border border-border-default px-2 py-0.5 text-[12.35px] leading-[1.3]">
                       {t("skills.repo.skillCount", {
                         count: getSkillCount(repo),
                       })}

@@ -359,7 +359,7 @@ export function AddProviderDialog({
   const footer =
     !showUniversalTab || activeTab === "app-specific" ? (
       <>
-        <span className="mr-auto min-w-0 text-xs text-muted-foreground truncate">
+        <span className="mr-auto min-w-0 text-[12.35px] leading-[1.3] text-muted-foreground truncate">
           {t("provider.addFooterHint")}
         </span>
         <Button
@@ -396,7 +396,7 @@ export function AddProviderDialog({
           onClick={() => setUniversalFormOpen(true)}
           className="bg-primary text-primary-foreground hover:bg-primary/90"
         >
-          <Plus className="h-4 w-4 mr-2" />
+          <Plus className="h-4 w-4" />
           {t("universalProvider.add")}
         </Button>
       </>
@@ -415,7 +415,7 @@ export function AddProviderDialog({
           value={activeTab}
           onValueChange={(v) => setActiveTab(v as "app-specific" | "universal")}
         >
-          <TabsList className="grid w-full grid-cols-2 mb-6">
+          <TabsList className="grid w-full grid-cols-2 mb-2">
             <TabsTrigger value="app-specific">
               {t(`apps.${appId}`)} {t("provider.tabProvider")}
             </TabsTrigger>

@@ -214,9 +214,9 @@ function HeaderNavButton({
       title={title ?? label}
       aria-label={title ?? label}
       className={cn(
-        "h-8 min-w-0 gap-1 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5",
+        "h-6 min-w-0 gap-1 rounded-[4px] px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5",
         "transition-all duration-200 ease-in-out",
-        !showLabel && "w-8",
+        !showLabel && "w-6",
         visible
           ? "opacity-100"
           : "pointer-events-none ml-0 w-0 min-w-0 scale-75 overflow-hidden px-0 opacity-0",
@@ -342,7 +342,7 @@ function App() {
   const { data: unmanagedSkills } = useScanUnmanagedSkills();
   const hasUnmanagedSkills = (unmanagedSkills?.length ?? 0) > 0;
   const addActionButtonClass =
-    "bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30 dark:shadow-orange-500/40 rounded-full w-8 h-8";
+    "bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30 dark:shadow-orange-500/40 rounded-full";
 
   const {
     isRunning: isProxyRunning,
@@ -1160,7 +1160,7 @@ function App() {
           );
         case "universal":
           return (
-            <div className="px-6 pt-4">
+            <div className="px-2 pt-2">
               <UniversalProviderPanel />
             </div>
           );
@@ -1182,7 +1182,7 @@ function App() {
           return <AgentsDefaultsPanel />;
         default:
           return (
-            <div className="px-6 flex flex-col flex-1 min-h-0 overflow-hidden">
+            <div className="px-2 flex flex-col flex-1 min-h-0 overflow-hidden">
               <div
                 ref={providerScrollContainerRef}
                 className="flex-1 overflow-y-auto overflow-x-hidden pb-12 px-1"
@@ -1366,7 +1366,7 @@ function App() {
         }
       >
         <div
-          className="flex h-full items-center justify-between gap-2 px-6"
+          className="flex h-full items-center justify-between gap-2 px-2"
           {...DRAG_REGION_ATTR}
           style={{ ...DRAG_REGION_STYLE } as any}
         >
@@ -1545,7 +1545,6 @@ function App() {
                   <>
                     <Button
                       variant="ghost"
-                      size="sm"
                       disabled={skillsManagementBusy}
                       onClick={() =>
                         unifiedSkillsPanelRef.current?.openImport()
@@ -1557,7 +1556,7 @@ function App() {
                           : undefined
                       }
                     >
-                      <Download className="w-4 h-4 mr-2" />
+                      <Download className="w-4 h-4" />
                       {t("skills.import")}
                       {hasUnmanagedSkills && (
                         <span
@@ -1568,19 +1567,17 @@ function App() {
                     </Button>
                     <Button
                       variant="ghost"
-                      size="sm"
                       disabled={skillsManagementBusy}
                       onClick={() =>
                         unifiedSkillsPanelRef.current?.openDiscovery()
                       }
                       className="hover:bg-black/5 disabled:opacity-100 dark:hover:bg-white/5"
                     >
-                      <Search className="w-4 h-4 mr-2" />
+                      <Search className="w-4 h-4" />
                       {t("skills.discover")}
                     </Button>
                     <Button
                       variant="ghost"
-                      size="sm"
                       disabled={
                         skillsManagementBusy ||
                         skillsCheckUpdatesState.isChecking ||
@@ -1592,9 +1589,9 @@ function App() {
                       className="hover:bg-black/5 disabled:opacity-100 dark:hover:bg-white/5"
                     >
                       {skillsCheckUpdatesState.isChecking ? (
-                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        <Loader2 className="w-4 h-4 animate-spin" />
                       ) : (
-                        <RefreshCw className="w-4 h-4 mr-2" />
+                        <RefreshCw className="w-4 h-4" />
                       )}
                       {skillsCheckUpdatesState.isChecking
                         ? t("skills.checkingUpdates")
@@ -1641,11 +1638,10 @@ function App() {
                         <Button
                           key={key}
                           variant="ghost"
-                          size="sm"
                           onClick={() => execute(skillsPageRef.current)}
                           className="hover:bg-black/5 dark:hover:bg-white/5"
                         >
-                          <Icon className="w-4 h-4 mr-2" />
+                          <Icon className="w-4 h-4" />
                           {t(labelKey)}
                         </Button>
                       ),
@@ -1654,7 +1650,7 @@ function App() {
                 )}
                 {currentView === "providers" && (
                   <>
-                    <div className="flex items-center gap-1 p-1 bg-muted rounded-xl">
+                    <div className="flex items-center gap-1 p-1 bg-muted rounded-[8px]">
                       <AnimatePresence mode="wait">
                         <motion.div
                           key={
@@ -1678,7 +1674,7 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("skills")}
-                                className="h-8 w-8 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("skills.manage")}
                               >
                                 <Wrench className="w-4 h-4" />
@@ -1687,7 +1683,7 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("hermesMemory")}
-                                className="h-8 w-8 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("hermes.memory.title")}
                               >
                                 <Brain className="w-4 h-4" />
@@ -1696,7 +1692,7 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => void openHermesWebUI()}
-                                className="h-8 w-8 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("hermes.webui.open")}
                               >
                                 <LayoutDashboard className="w-4 h-4" />
@@ -1709,7 +1705,7 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("workspace")}
-                                className="h-8 w-8 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("workspace.manage")}
                               >
                                 <FolderOpen className="w-4 h-4" />
@@ -1718,7 +1714,7 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("openclawEnv")}
-                                className="h-8 w-8 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("openclaw.env.title")}
                               >
                                 <KeyRound className="w-4 h-4" />
@@ -1727,7 +1723,7 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("openclawTools")}
-                                className="h-8 w-8 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("openclaw.tools.title")}
                               >
                                 <Shield className="w-4 h-4" />
@@ -1736,7 +1732,7 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("openclawAgents")}
-                                className="h-8 w-8 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("openclaw.agents.title")}
                               >
                                 <Cpu className="w-4 h-4" />
@@ -1746,7 +1742,7 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("sessions")}
-                                className="h-8 w-8 rounded-lg px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("sessionManager.title")}
                               >
                                 <History className="w-4 h-4" />

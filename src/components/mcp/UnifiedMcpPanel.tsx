@@ -306,14 +306,14 @@ const UnifiedMcpPanel = React.forwardRef<
               <h3 className="text-lg font-medium text-foreground mb-2">
                 {t("mcp.unifiedPanel.noServers")}
               </h3>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-muted-foreground text-[12.35px] leading-[1.3]">
                 {t("mcp.emptyDescription")}
               </p>
             </div>
           ) : filteredServerEntries.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
               <Search className="mb-4 h-10 w-10 opacity-40" />
-              <p className="text-sm">{t("mcp.unifiedPanel.noSearchResults")}</p>
+              <p className="text-[12.35px] leading-[1.3]">{t("mcp.unifiedPanel.noSearchResults")}</p>
             </div>
           ) : (
             <div className="rounded-xl border border-border-default overflow-hidden">
@@ -408,7 +408,7 @@ const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
     <ListItemRow isLast={isLast}>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <span className="font-medium text-sm text-foreground truncate">
+          <span className="font-medium text-[12.35px] leading-[1.3] text-foreground truncate">
             {name}
           </span>
           {docsUrl && (
@@ -425,14 +425,14 @@ const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
         </div>
         {description && (
           <p
-            className="text-xs text-muted-foreground truncate"
+            className="text-[12.35px] leading-[1.3] text-muted-foreground truncate"
             title={description}
           >
             {description}
           </p>
         )}
         {!description && tags && tags.length > 0 && (
-          <p className="text-xs text-muted-foreground/60 truncate">
+          <p className="text-[12.35px] leading-[1.3] text-muted-foreground/60 truncate">
             {tags.join(", ")}
           </p>
         )}
@@ -455,7 +455,7 @@ const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7 disabled:opacity-100"
+          className="disabled:opacity-100"
           onClick={() => onEdit(id)}
           disabled={disabled}
           title={t("common.edit")}
@@ -466,7 +466,7 @@ const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
           type="button"
           variant="ghost"
           size="icon"
-          className="h-7 w-7 hover:text-red-500 hover:bg-red-100 disabled:opacity-100 dark:hover:text-red-400 dark:hover:bg-red-500/10"
+          className="hover:text-red-500 hover:bg-red-100 disabled:opacity-100 dark:hover:text-red-400 dark:hover:bg-red-500/10"
           onClick={() => onDelete(id)}
           disabled={disabled}
           title={t("common.delete")}

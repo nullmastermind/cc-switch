@@ -100,20 +100,20 @@ export const GeminiCommonConfigModal: React.FC<
           <p className="text-sm font-medium text-blue-800 dark:text-blue-300">
             {t("commonConfig.guideTitle")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
             {t("commonConfig.guidePurpose")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
             {t("commonConfig.guideUsage")}
           </p>
-          <p className="text-xs text-blue-700/80 dark:text-blue-400/80">
+          <p className="text-[12.35px] leading-[1.3] text-blue-700/80 dark:text-blue-400/80">
             {t("commonConfig.guideReExtract")}
           </p>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
             {t("commonConfig.guideReassurance")}
           </p>
         </div>
-        <p className="text-xs text-amber-600 dark:text-amber-400">
+        <p className="text-[12.35px] leading-[1.3] text-amber-600 dark:text-amber-400">
           {t("geminiConfig.commonConfigHint", {
             defaultValue:
               "该片段会写入 Gemini 的 .env（不允许包含 GOOGLE_GEMINI_BASE_URL、GEMINI_API_KEY）",
@@ -127,7 +127,7 @@ export const GeminiCommonConfigModal: React.FC<
             <p className="text-sm font-medium">
               {t("commonConfig.emptyTitle")}
             </p>
-            <p className="text-xs mt-1">{t("commonConfig.emptyHint")}</p>
+            <p className="text-[12.35px] leading-[1.3] mt-1">{t("commonConfig.emptyHint")}</p>
           </div>
         )}
 
