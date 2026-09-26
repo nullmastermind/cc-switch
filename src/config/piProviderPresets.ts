@@ -39,6 +39,7 @@ export interface PiProviderPreset {
     models: PiPresetModel[];
   };
   category?: ProviderCategory;
+  isOfficial?: boolean;
   isPartner?: boolean;
   primePartner?: boolean;
   partnerPromotionKey?: string;

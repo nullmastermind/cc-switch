@@ -81,6 +81,29 @@ describe("useSettingsForm Hook", () => {
     expect(changeLanguageSpy).toHaveBeenCalledWith("ja");
   });
 
+  it("should support vietnamese language preference from server data", async () => {
+    useSettingsQueryMock.mockReturnValue({
+      data: {
+        showInTray: true,
+        minimizeToTrayOnClose: true,
+        enableClaudePluginIntegration: false,
+        claudeConfigDir: "/Users/demo",
+        codexConfigDir: null,
+        language: "vi",
+      },
+      isLoading: false,
+    });
+
+    const { result } = renderHook(() => useSettingsForm());
+
+    await waitFor(() => {
+      expect(result.current.settings?.language).toBe("vi");
+    });
+
+    expect(result.current.initialLanguage).toBe("vi");
+    expect(changeLanguageSpy).toHaveBeenCalledWith("vi");
+  });
+
   it("should support traditional chinese language preference aliases", async () => {
     useSettingsQueryMock.mockReturnValue({
       data: {

@@ -6,6 +6,8 @@ import { Input } from "@/components/ui/input";
 import { ClaudeIcon, CodexIcon, GeminiIcon } from "@/components/BrandIcons";
 import {
   ArrowUpAZ,
+  ChevronDown,
+  ChevronRight,
   Search,
   Zap,
   Star,
@@ -13,6 +15,11 @@ import {
   Layers,
   Settings2,
 } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import type { ProviderPreset } from "@/config/claudeProviderPresets";
 import type { CodexProviderPreset } from "@/config/codexProviderPresets";
 import type { GeminiProviderPreset } from "@/config/geminiProviderPresets";
@@ -97,27 +104,28 @@ export function sortPresetEntries(
     );
 
   if (sortMode === PresetSortMode.Original) {
-    // 置顶优先级：官方分类 > 尊享合作伙伴（Kimi）> 其余赞助商 > 非赞助商。
+    // 置顶优先级：官方分类/isOfficial > 尊享合作伙伴（Kimi）> 其余赞助商 > 非赞助商。
     // 前三组用分区拼接而非排序，保持各自在预设文件里的相对顺序
     // （赞助商的文件顺序与 README 赞助商表对齐）；非赞助商按显示名排序。
     // 排他条件保证同时命中多组的预设只归入最前面的组、不被重复。
-    const official = entries.filter(
-      (entry) => entry.preset.category === "official",
-    );
+    const isPinnedOfficial = (preset: AnyPreset) =>
+      preset.category === "official" ||
+      ("isOfficial" in preset && Boolean(preset.isOfficial));
+    const official = entries.filter((entry) => isPinnedOfficial(entry.preset));
     const prime = entries.filter(
       (entry) =>
-        entry.preset.category !== "official" && entry.preset.primePartner,
+        !isPinnedOfficial(entry.preset) && entry.preset.primePartner,
     );
     const partner = entries.filter(
       (entry) =>
-        entry.preset.category !== "official" &&
+        !isPinnedOfficial(entry.preset) &&
         !entry.preset.primePartner &&
         entry.preset.isPartner,
     );
     const rest = entries
       .filter(
         (entry) =>
-          entry.preset.category !== "official" &&
+          !isPinnedOfficial(entry.preset) &&
           !entry.preset.primePartner &&
           !entry.preset.isPartner,
       )
@@ -141,6 +149,52 @@ export function getVisiblePresetEntries(
   const { query, sortMode, t } = options;
 
   return sortPresetEntries(filterPresetEntries(entries, query, t), sortMode, t);
+}
+
+const OFFICIAL_COMPANY_CATEGORIES: ReadonlySet<ProviderCategory> = new Set([
+  "official",
+  "cn_official",
+  "cloud_provider",
+]);
+
+const OFFICIAL_COMPANY_NAMES = new Set([
+  "gemini native",
+  "github copilot",
+  "codex",
+  "xai (grok)",
+  "nvidia",
+  "opencode go",
+  "siliconflow",
+  "siliconflow en",
+  "modelscope",
+  "openrouter",
+]);
+
+const PRESET_GRID_CLASS =
+  "grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2";
+
+export function isOfficialCompanyPreset(preset: AnyPreset): boolean {
+  if ("isOfficial" in preset && preset.isOfficial) return true;
+  if (preset.category && OFFICIAL_COMPANY_CATEGORIES.has(preset.category)) {
+    return true;
+  }
+  return OFFICIAL_COMPANY_NAMES.has(preset.name.trim().toLowerCase());
+}
+
+export function partitionPresetEntries(entries: PresetEntry[]): {
+  official: PresetEntry[];
+  unofficial: PresetEntry[];
+} {
+  const official: PresetEntry[] = [];
+  const unofficial: PresetEntry[] = [];
+  for (const entry of entries) {
+    if (isOfficialCompanyPreset(entry.preset)) {
+      official.push(entry);
+    } else {
+      unofficial.push(entry);
+    }
+  }
+  return { official, unofficial };
 }
 
 interface ProviderPresetSelectorProps {
@@ -170,6 +224,7 @@ export function ProviderPresetSelector({
   const [sortMode, setSortMode] = useState<PresetSortMode>(
     PresetSortMode.Original,
   );
+  const [unofficialOpen, setUnofficialOpen] = useState(false);
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -219,6 +274,24 @@ export function ProviderPresetSelector({
       }),
     [presetEntries, searchQuery, sortMode, t],
   );
+
+  const { official: officialEntries, unofficial: unofficialEntries } = useMemo(
+    () => partitionPresetEntries(visiblePresetEntries),
+    [visiblePresetEntries],
+  );
+
+  useEffect(() => {
+    const selectedInUnofficial = unofficialEntries.some(
+      (entry) => entry.id === selectedPresetId,
+    );
+    const searchingUnofficial =
+      searchQuery.trim() !== "" && unofficialEntries.length > 0;
+    if (selectedInUnofficial || searchingUnofficial) {
+      setUnofficialOpen(true);
+    } else if (!searchQuery.trim() && !selectedInUnofficial) {
+      setUnofficialOpen(false);
+    }
+  }, [searchQuery, selectedPresetId, unofficialEntries]);
 
   const getCategoryHint = (): ReactNode => {
     if (categoryHint !== undefined) return categoryHint;
@@ -304,6 +377,45 @@ export function ProviderPresetSelector({
     };
   };
 
+  const renderPresetButton = (entry: PresetEntry) => {
+    const isSelected = selectedPresetId === entry.id;
+    const isPartner = entry.preset.isPartner;
+    const isPrimePartner = entry.preset.primePartner;
+    const presetCategory = entry.preset.category ?? "others";
+    return (
+      <Button
+        key={entry.id}
+        type="button"
+        variant={isSelected ? "default" : "secondary"}
+        onClick={() => onPresetChange(entry.id)}
+        className="w-full justify-start overflow-hidden"
+        style={getPresetButtonStyle(isSelected, entry.preset)}
+        title={
+          presetCategoryLabels[presetCategory] ?? t("providerPreset.other")
+        }
+      >
+        {renderPresetIcon(entry.preset)}
+        <span className="min-w-0 truncate">
+          {getPresetDisplayName(entry.preset, t)}
+        </span>
+        {isPrimePartner ? (
+          <Heart
+            className="ml-auto h-3 w-3 shrink-0 fill-amber-500 text-amber-500"
+            strokeWidth={0}
+            aria-hidden
+          />
+        ) : (
+          isPartner && (
+            <Star
+              className="ml-auto h-3 w-3 shrink-0 fill-amber-500 text-amber-500"
+              aria-hidden
+            />
+          )
+        )}
+      </Button>
+    );
+  };
+
   return (
     <div ref={searchContainerRef} className="space-y-3">
       <div className="flex items-center justify-between gap-2">
@@ -382,7 +494,7 @@ export function ProviderPresetSelector({
           </Button>
         </div>
       </div>
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2">
+      <div className={PRESET_GRID_CLASS}>
         <Button
           type="button"
           variant={selectedPresetId === "custom" ? "default" : "secondary"}
@@ -401,46 +513,40 @@ export function ProviderPresetSelector({
           </div>
         )}
 
-        {visiblePresetEntries.map((entry) => {
-          const isSelected = selectedPresetId === entry.id;
-          const isPartner = entry.preset.isPartner;
-          const isPrimePartner = entry.preset.primePartner;
-          const presetCategory = entry.preset.category ?? "others";
-          return (
-            <Button
-              key={entry.id}
-              type="button"
-              variant={isSelected ? "default" : "secondary"}
-              onClick={() => onPresetChange(entry.id)}
-              className="w-full justify-start overflow-hidden"
-              style={getPresetButtonStyle(isSelected, entry.preset)}
-              title={
-                presetCategoryLabels[presetCategory] ??
-                t("providerPreset.other")
-              }
-            >
-              {renderPresetIcon(entry.preset)}
-              <span className="min-w-0 truncate">
-                {getPresetDisplayName(entry.preset, t)}
-              </span>
-              {isPrimePartner ? (
-                <Heart
-                  className="ml-auto h-3 w-3 shrink-0 fill-amber-500 text-amber-500"
-                  strokeWidth={0}
-                  aria-hidden
-                />
-              ) : (
-                isPartner && (
-                  <Star
-                    className="ml-auto h-3 w-3 shrink-0 fill-amber-500 text-amber-500"
-                    aria-hidden
-                  />
-                )
-              )}
-            </Button>
-          );
-        })}
+        {officialEntries.map(renderPresetButton)}
       </div>
+
+      {unofficialEntries.length > 0 && (
+        <Collapsible open={unofficialOpen} onOpenChange={setUnofficialOpen}>
+          <CollapsibleTrigger asChild>
+            <button
+              type="button"
+              aria-expanded={unofficialOpen}
+              aria-label={t("providerPreset.unofficialAriaLabel", {
+                defaultValue: "Toggle unofficial provider presets",
+              })}
+              className="flex h-6 w-full min-w-0 items-center justify-start gap-1.5 rounded-[4px] px-2 text-left text-[12.35px] font-medium leading-[1.3] text-muted-foreground hover:bg-muted hover:text-foreground"
+            >
+              {unofficialOpen ? (
+                <ChevronDown className="h-3.5 w-3.5 shrink-0" />
+              ) : (
+                <ChevronRight className="h-3.5 w-3.5 shrink-0" />
+              )}
+              <span className="min-w-0 truncate">
+                {t("providerPreset.unofficial", {
+                  defaultValue: "Unofficial",
+                })}{" "}
+                ({unofficialEntries.length})
+              </span>
+            </button>
+          </CollapsibleTrigger>
+          <CollapsibleContent>
+            <div className={`${PRESET_GRID_CLASS} pt-2`}>
+              {unofficialEntries.map(renderPresetButton)}
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      )}
 
       {onUniversalPresetSelect && universalProviderPresets.length > 0 && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2">

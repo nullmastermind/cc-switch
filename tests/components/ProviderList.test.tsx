@@ -337,8 +337,8 @@ describe("ProviderList Component", () => {
     expect(await screen.findByText("pi.empty.title")).toBeInTheDocument();
     expect(providerCardRenderSpy).not.toHaveBeenCalled();
     expect(
-      screen.queryByRole("button", { name: "provider.addProvider" }),
-    ).not.toBeInTheDocument();
+      screen.getByRole("button", { name: "provider.addProvider" }),
+    ).toBeInTheDocument();
   });
 
   it("does not expose proxy or failover actions on Pi provider cards", async () => {
@@ -546,7 +546,8 @@ describe("ProviderList Component", () => {
     });
   });
 
-  it("keeps Pi provider creation on the page-level add action", async () => {
+  it("shows Add Provider on Pi empty state without import", async () => {
+    const handleCreate = vi.fn();
     server.use(
       http.post(`${TAURI_ENDPOINT}/get_pi_current_state`, () =>
         HttpResponse.json({
@@ -565,7 +566,7 @@ describe("ProviderList Component", () => {
         onDelete={vi.fn()}
         onDuplicate={vi.fn()}
         onOpenWebsite={vi.fn()}
-        onCreate={vi.fn()}
+        onCreate={handleCreate}
       />,
     );
 
@@ -573,8 +574,47 @@ describe("ProviderList Component", () => {
     expect(
       screen.queryByRole("button", { name: "provider.importCurrent" }),
     ).not.toBeInTheDocument();
-    expect(
-      screen.queryByRole("button", { name: "provider.addProvider" }),
-    ).not.toBeInTheDocument();
+    fireEvent.click(
+      screen.getByRole("button", { name: "provider.addProvider" }),
+    );
+    expect(handleCreate).toHaveBeenCalledTimes(1);
+  });
+
+  it("shows dashed Add Provider on Pi when providers exist", async () => {
+    const handleCreate = vi.fn();
+    const provider = createProvider({ id: "pi-1", name: "Pi One" });
+    useDragSortMock.mockReturnValue({
+      sortedProviders: [provider],
+      sensors: [],
+      handleDragEnd: vi.fn(),
+    });
+    server.use(
+      http.post(`${TAURI_ENDPOINT}/get_pi_current_state`, () =>
+        HttpResponse.json({
+          enabledProviderIds: ["pi-1"],
+        }),
+      ),
+    );
+
+    renderWithQueryClient(
+      <ProviderList
+        providers={{ [provider.id]: provider }}
+        currentProviderId=""
+        appId="pi"
+        onSwitch={vi.fn()}
+        onEdit={vi.fn()}
+        onDelete={vi.fn()}
+        onDuplicate={vi.fn()}
+        onOpenWebsite={vi.fn()}
+        onCreate={handleCreate}
+      />,
+    );
+
+    const addButton = await screen.findByRole("button", {
+      name: "provider.addProvider",
+    });
+    expect(addButton).toHaveClass("border-dashed");
+    fireEvent.click(addButton);
+    expect(handleCreate).toHaveBeenCalledTimes(1);
   });
 });

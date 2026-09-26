@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import en from "@/i18n/locales/en.json";
 import ja from "@/i18n/locales/ja.json";
+import vi from "@/i18n/locales/vi.json";
 import zhTW from "@/i18n/locales/zh-TW.json";
 import zh from "@/i18n/locales/zh.json";
 
@@ -50,9 +51,17 @@ const locales = [
   ["zh", zh],
   ["ja", ja],
   ["zh-TW", zhTW],
+  ["vi", vi],
 ] as const;
 
 describe("locale coverage", () => {
+  it("covers every English key in vi", () => {
+    const translations = flattenStrings(vi as TranslationTree);
+    const missing = [...reference.keys()].filter((key) => !translations.has(key));
+
+    expect(missing).toEqual([]);
+  });
+
   it.each(locales)("covers every Pi translation key in %s", (_name, tree) => {
     const translations = flattenStrings(tree as TranslationTree);
     const missing = [...piReference.keys()].filter(

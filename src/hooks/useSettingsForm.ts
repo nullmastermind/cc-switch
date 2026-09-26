@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSettingsQuery } from "@/lib/query";
 import type { Settings } from "@/types";
 
-type Language = "zh" | "zh-TW" | "en" | "ja";
+type Language = "zh" | "zh-TW" | "en" | "ja" | "vi";
 
 export type SettingsFormState = Omit<Settings, "language"> & {
   language: Language;
@@ -30,6 +30,10 @@ const normalizeLanguage = (lang?: string | null): Language => {
     return normalized;
   }
 
+  if (normalized === "vi" || normalized.startsWith("vi-")) {
+    return "vi";
+  }
+
   if (normalized.startsWith("zh")) {
     return "zh";
   }
@@ -41,7 +45,11 @@ const isSupportedLanguage = (lang?: string | null): boolean => {
   if (!lang) return false;
   const normalized = lang.toLowerCase().replace(/_/g, "-");
   return (
-    normalized === "en" || normalized === "ja" || normalized.startsWith("zh")
+    normalized === "en" ||
+    normalized === "ja" ||
+    normalized === "vi" ||
+    normalized.startsWith("vi") ||
+    normalized.startsWith("zh")
   );
 };
 

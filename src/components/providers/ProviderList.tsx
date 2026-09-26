@@ -406,7 +406,7 @@ export function ProviderList({
         {piStateErrorNotice}
         <ProviderEmptyState
           appId={appId}
-          onCreate={appId === "pi" ? undefined : onCreate}
+          onCreate={onCreate}
           onImport={
             appId === "pi" || appId === "mcode"
               ? undefined
@@ -554,7 +554,7 @@ export function ProviderList({
       ) : (
         renderProviderList()
       )}
-      {onCreate && appId !== "pi" && (
+      {onCreate && (
         <Button
           type="button"
           variant="outline"

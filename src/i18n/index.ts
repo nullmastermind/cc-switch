@@ -3,10 +3,11 @@ import { initReactI18next } from "react-i18next";
 
 import en from "./locales/en.json";
 import ja from "./locales/ja.json";
+import vi from "./locales/vi.json";
 import zh from "./locales/zh.json";
 import zhTW from "./locales/zh-TW.json";
 
-type Language = "zh" | "zh-TW" | "en" | "ja";
+type Language = "zh" | "zh-TW" | "en" | "ja" | "vi";
 
 const DEFAULT_LANGUAGE: Language = "zh";
 
@@ -18,7 +19,8 @@ const getInitialLanguage = (): Language => {
         stored === "zh" ||
         stored === "zh-TW" ||
         stored === "en" ||
-        stored === "ja"
+        stored === "ja" ||
+        stored === "vi"
       ) {
         return stored;
       }
@@ -54,6 +56,10 @@ const getInitialLanguage = (): Language => {
     return "ja";
   }
 
+  if (navigatorLang?.startsWith("vi")) {
+    return "vi";
+  }
+
   if (navigatorLang?.startsWith("en")) {
     return "en";
   }
@@ -68,6 +74,9 @@ const resources = {
   ja: {
     translation: ja,
   },
+  vi: {
+    translation: vi,
+  },
   zh: {
     translation: zh,
   },
@@ -81,13 +90,18 @@ const HTML_LANG: Record<Language, string> = {
   "zh-TW": "zh-TW",
   en: "en",
   ja: "ja",
+  vi: "vi",
 };
 
 const applyDocumentMeta = (lng?: string) => {
   if (typeof document === "undefined") return;
   document.title = i18n.t("app.title");
   const resolved: Language =
-    lng === "zh" || lng === "zh-TW" || lng === "en" || lng === "ja"
+    lng === "zh" ||
+    lng === "zh-TW" ||
+    lng === "en" ||
+    lng === "ja" ||
+    lng === "vi"
       ? lng
       : "en";
   document.documentElement.lang = HTML_LANG[resolved];

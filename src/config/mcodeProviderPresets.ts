@@ -32,6 +32,10 @@ export const mcodeProviderPresets: McodeProviderPreset[] = piProviderPresets
   )
   .map((preset) => ({
     ...preset,
+    isOfficial:
+      preset.name === "MiniMax" ||
+      preset.name === "MiniMax en" ||
+      Boolean(preset.isOfficial),
     settingsConfig: {
       name: preset.name,
       kind: "custom",

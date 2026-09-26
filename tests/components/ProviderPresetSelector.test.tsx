@@ -11,6 +11,8 @@ import {
   getPresetDisplayName,
   getPresetSearchText,
   getVisiblePresetEntries,
+  isOfficialCompanyPreset,
+  partitionPresetEntries,
   sortPresetEntries,
   type PresetSortMode,
 } from "@/components/providers/forms/ProviderPresetSelector";
@@ -62,6 +64,7 @@ type TestPresetEntry = {
     category: ProviderCategory;
     primePartner?: boolean;
     isPartner?: boolean;
+    isOfficial?: boolean;
   };
 };
 
@@ -321,14 +324,142 @@ describe("ProviderPresetSelector pure helpers", () => {
       "restZulu",
     ]);
   });
+
+  it("original 模式将 isOfficial 预设与官方分类一并置顶（OpenCode Go）", () => {
+    const mixed: TestPresetEntry[] = [
+      {
+        id: "kimi",
+        preset: {
+          name: "Kimi",
+          websiteUrl: "https://kimi.example.com",
+          settingsConfig: {},
+          category: "cn_official",
+          primePartner: true,
+        },
+      },
+      {
+        id: "opencode-go",
+        preset: {
+          name: "OpenCode Go",
+          websiteUrl: "https://opencode.ai/go",
+          settingsConfig: {},
+          category: "third_party",
+          isOfficial: true,
+        },
+      },
+      {
+        id: "nvidia",
+        preset: {
+          name: "Nvidia",
+          websiteUrl: "https://build.nvidia.com",
+          settingsConfig: {},
+          category: "aggregator",
+        },
+      },
+    ];
+
+    expect(getIds(sortPresetEntries(mixed, "original", t))).toEqual([
+      "opencode-go",
+      "kimi",
+      "nvidia",
+    ]);
+  });
+
+  it("官方公司组包含 official/cn_official/cloud_provider 以及 Nvidia 等一线厂商，聚合转售归入非官方", () => {
+    expect(
+      isOfficialCompanyPreset({
+        name: "Alpha Raw",
+        websiteUrl: "https://alpha.example.com",
+        settingsConfig: {},
+        category: "official",
+      }),
+    ).toBe(true);
+    expect(
+      isOfficialCompanyPreset({
+        name: "Beta Gateway",
+        websiteUrl: "https://beta.example.com",
+        settingsConfig: {},
+        category: "cn_official",
+      }),
+    ).toBe(true);
+    expect(
+      isOfficialCompanyPreset({
+        name: "AWS Bedrock",
+        websiteUrl: "https://aws.example.com",
+        settingsConfig: {},
+        category: "cloud_provider",
+      }),
+    ).toBe(true);
+    expect(
+      isOfficialCompanyPreset({
+        name: "Nvidia",
+        websiteUrl: "https://build.nvidia.com",
+        settingsConfig: {},
+        category: "aggregator",
+      }),
+    ).toBe(true);
+    expect(
+      isOfficialCompanyPreset({
+        name: "OpenCode Go",
+        websiteUrl: "https://opencode.ai",
+        settingsConfig: {},
+        category: "third_party",
+      }),
+    ).toBe(true);
+    expect(
+      isOfficialCompanyPreset({
+        name: "OpenRouter",
+        websiteUrl: "https://openrouter.ai",
+        settingsConfig: {},
+        category: "aggregator",
+      }),
+    ).toBe(true);
+    expect(
+      isOfficialCompanyPreset({
+        name: "PackyCode",
+        websiteUrl: "https://packy.example.com",
+        settingsConfig: {},
+        category: "third_party",
+      }),
+    ).toBe(false);
+
+    const { official, unofficial } = partitionPresetEntries(presetEntries);
+    expect(getIds(official)).toEqual(["alpha", "beta"]);
+    expect(getIds(unofficial)).toEqual(["gamma", "delta"]);
+  });
 });
 
+function getUnofficialToggle() {
+  return screen.getByRole("button", {
+    name: /providerPreset\.unofficialAriaLabel|unofficial|非官方|không chính thức/i,
+  });
+}
+
 describe("ProviderPresetSelector", () => {
-  it("默认（original 模式）将官方分类置顶，非赞助商按显示名排序", () => {
+  it("默认只展示官方公司预设，非官方默认折叠", () => {
     renderSelector();
 
-    // 组件内 t() 未配置翻译资源，显示名回退为 key 字面量：
-    // Beta Gateway < Delta Mirror < preset.gamma。
+    expect(getPresetButtonTexts()).toEqual([
+      "providerPreset.custom",
+      "preset.alpha",
+      "Beta Gateway",
+    ]);
+    expect(
+      screen.queryByRole("button", { name: "preset.gamma" }),
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "Delta Mirror" }),
+    ).not.toBeInTheDocument();
+    expect(getUnofficialToggle()).toHaveAttribute("aria-expanded", "false");
+  });
+
+  it("展开非官方后显示聚合/转售预设，再折叠隐藏", async () => {
+    const user = userEvent.setup();
+    renderSelector();
+
+    await user.click(getUnofficialToggle());
+
+    expect(getUnofficialToggle()).toHaveAttribute("aria-expanded", "true");
     expect(getPresetButtonTexts()).toEqual([
       "providerPreset.custom",
       "preset.alpha",
@@ -336,9 +467,62 @@ describe("ProviderPresetSelector", () => {
       "Delta Mirror",
       "preset.gamma",
     ]);
+
+    await user.click(getUnofficialToggle());
+
+    expect(getUnofficialToggle()).toHaveAttribute("aria-expanded", "false");
+    expect(
+      screen.queryByRole("button", { name: "preset.gamma" }),
+    ).not.toBeInTheDocument();
   });
 
-  it("点击排序按钮后普通 preset A-Z，再点恢复原顺序", async () => {
+  it("Nvidia 等一线厂商即使 category 为 aggregator 也放在官方组", () => {
+    renderSelector({
+      entries: [
+        {
+          id: "nvidia",
+          preset: {
+            name: "Nvidia",
+            websiteUrl: "https://build.nvidia.com",
+            settingsConfig: {},
+            category: "aggregator",
+          },
+        },
+        {
+          id: "packy",
+          preset: {
+            name: "PackyCode",
+            websiteUrl: "https://packy.example.com",
+            settingsConfig: {},
+            category: "third_party",
+          },
+        },
+      ],
+    });
+
+    expect(screen.getByRole("button", { name: "Nvidia" })).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "PackyCode" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("搜索命中非官方时自动展开该组", async () => {
+    const user = userEvent.setup();
+    renderSelector();
+
+    await user.click(getSearchButton());
+    await user.type(getSearchInput(), "gamma");
+
+    expect(getUnofficialToggle()).toHaveAttribute("aria-expanded", "true");
+    expect(
+      screen.getByRole("button", { name: "preset.gamma" }),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "preset.alpha" }),
+    ).not.toBeInTheDocument();
+  });
+
+  it("点击排序按钮后官方预设 A-Z，再点恢复原顺序", async () => {
     const user = userEvent.setup();
     renderSelector();
 
@@ -347,9 +531,7 @@ describe("ProviderPresetSelector", () => {
     expect(getPresetButtonTexts()).toEqual([
       "providerPreset.custom",
       "Beta Gateway",
-      "Delta Mirror",
       "preset.alpha",
-      "preset.gamma",
     ]);
 
     await user.click(getSortButton());
@@ -358,8 +540,6 @@ describe("ProviderPresetSelector", () => {
       "providerPreset.custom",
       "preset.alpha",
       "Beta Gateway",
-      "Delta Mirror",
-      "preset.gamma",
     ]);
   });
 
@@ -424,8 +604,8 @@ describe("ProviderPresetSelector", () => {
       btn.className.includes("w-full"),
     );
 
-    // 至少包含 custom + 4 个预设 = 5 个等宽按钮(搜索/排序按钮为 size-8 不计入)
-    expect(fullWidthButtons.length).toBeGreaterThanOrEqual(5);
+    // 至少包含 custom + 2 个官方预设 = 3 个等宽按钮(搜索/排序/非官方折叠按钮不计入)
+    expect(fullWidthButtons.length).toBeGreaterThanOrEqual(3);
   });
 
   it("preset.icon 存在时按钮内渲染图标元素(img/svg)", () => {
@@ -512,10 +692,13 @@ describe("ProviderPresetSelector", () => {
         name: /providerPreset\.(searchInput|searchPlaceholder)|搜索预设|search/i,
       }),
     ).not.toBeInTheDocument();
-    // 收起后所有预设恢复显示
+    // 收起后官方预设恢复显示；非官方仍默认折叠
     expect(
-      screen.getByRole("button", { name: "preset.gamma" }),
+      screen.getByRole("button", { name: "preset.alpha" }),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "preset.gamma" }),
+    ).not.toBeInTheDocument();
   });
 
   it("按 Ctrl+F 快捷键打开搜索输入框", async () => {
@@ -598,9 +781,12 @@ describe("ProviderPresetSelector", () => {
         name: /providerPreset\.(searchInput|searchPlaceholder)|搜索预设|search/i,
       }),
     ).not.toBeInTheDocument();
-    // 收起后清空 query,所有预设恢复显示
+    // 收起后清空 query,官方预设恢复显示；非官方仍默认折叠
     expect(
-      screen.getByRole("button", { name: "preset.gamma" }),
+      screen.getByRole("button", { name: "preset.alpha" }),
     ).toBeInTheDocument();
+    expect(
+      screen.queryByRole("button", { name: "preset.gamma" }),
+    ).not.toBeInTheDocument();
   });
 });
