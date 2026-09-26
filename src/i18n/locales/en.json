@@ -810,8 +810,9 @@
     "portableMode": "Portable mode.",
     "officialWebsite": "Official Website",
     "github": "GitHub",
+    "starPrompt": "If Cli-Switch has helped you, please star us on GitHub — it means a lot to us",
     "manualInstallCommands": "Manual Install Commands",
-    "oneClickInstallHint": "Install or upgrade Claude Code / Codex / Gemini CLI / OpenCode / OpenClaw / Hermes / Pi",
+    "oneClickInstallHint": "Install or upgrade Claude Code / Codex / Gemini CLI / Grok Build / OpenCode / OpenClaw / Hermes / Pi / MiniMax Code",
     "localEnvCheck": "Local environment check",
     "updateAllTools": "Update All ({{count}})",
     "currentVersion": "Current Version",
@@ -842,6 +843,8 @@
     "toolUpgradeWillRun": "Will run:",
     "toolUpgradeConfirmBtn": "Confirm upgrade",
     "toolUpgradeUnanchoredHint": "Can't determine which install your command line uses; will run the default upgrade command (may install to the first npm on PATH).",
+    "toolUpgradeUnmanagedTitle": "Skipped upgrading these tools",
+    "toolUpgradeUnmanagedDetail": "{{tool}} ({{path}}) wasn't installed by npm or a recognized installer, so Cli-Switch can't tell how to upgrade it. Upgrade it the way you installed it (e.g. winget, Scoop, or re-running the official install script).",
     "envBadge": {
       "wsl": "WSL",
       "windows": "Win",
@@ -904,6 +907,12 @@
     "hermes": "Hermes",
     "pi": "Pi",
     "mcode": "MiniMax Code"
+  },
+  "mcode": {
+    "empty": {
+      "title": "No custom providers yet",
+      "description": "Your MiniMax account sign-in is managed by MiniMax Code itself, so there is nothing to import. Custom providers already in config.yaml appear here automatically. Use the + button in the top-right corner to add a preset or custom provider."
+    }
   },
   "pi": {
     "empty": {
@@ -1291,6 +1300,9 @@
     "searchModelEmpty": "No matching models.",
     "searchModelAriaLabel": "Select model",
     "fetchModelsSuccess": "Found {{count}} models",
+    "fetchedModelsTitle": "Available models ({{count}})",
+    "modelAlreadyAdded": "Already added",
+    "addSelectedModels": "Add selected ({{count}})",
     "fetchModelsFailed": "Failed to fetch models",
     "fetchModelsEmpty": "No models found",
     "fetchModelsNeedApiKey": "Please fill in API Key first",

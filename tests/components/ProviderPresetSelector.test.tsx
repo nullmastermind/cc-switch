@@ -24,11 +24,13 @@ vi.mock("@/components/ProviderIcon", () => ({
     name,
     color,
     size,
+    className,
   }: {
     icon?: string;
     name: string;
     color?: string;
     size?: number;
+    className?: string;
   }) => (
     <span
       data-testid="provider-icon"
@@ -36,6 +38,7 @@ vi.mock("@/components/ProviderIcon", () => ({
       data-name={name}
       data-color={color}
       data-size={size}
+      className={className}
     />
   ),
 }));
@@ -116,9 +119,11 @@ function getIds(entries: ReadonlyArray<{ id: string }>) {
 function renderSelector({
   entries = presetEntries,
   onPresetChange = vi.fn(),
+  selectedPresetId = "custom",
 }: {
   entries?: TestPresetEntry[];
   onPresetChange?: (value: string) => void;
+  selectedPresetId?: string;
 } = {}) {
   const Wrapper = () => {
     const form = useForm();
@@ -126,7 +131,7 @@ function renderSelector({
     return (
       <Form {...form}>
         <ProviderPresetSelector
-          selectedPresetId="custom"
+          selectedPresetId={selectedPresetId}
           presetEntries={entries}
           presetCategoryLabels={presetCategoryLabels}
           onPresetChange={onPresetChange}
@@ -630,6 +635,32 @@ describe("ProviderPresetSelector", () => {
     expect(icon).not.toBeNull();
     expect(icon?.getAttribute("data-icon")).toBe("claude-api");
     expect(icon?.getAttribute("data-color")).toBe("#D4915D");
+  });
+
+  it("未选中的预设图标取前景色(不继承按钮的 muted 文字色),选中后交还给按钮的 text-white", () => {
+    const entriesWithIcon = [
+      {
+        id: "mono-icon",
+        preset: {
+          name: "Mono Icon",
+          websiteUrl: "https://mono.example.com",
+          settingsConfig: {},
+          category: "official" as ProviderCategory,
+          icon: "9527code",
+        },
+      },
+    ];
+    const getIcon = () =>
+      screen
+        .getByRole("button", { name: /mono icon/i })
+        .querySelector('[data-testid="provider-icon"]');
+
+    const { unmount } = renderSelector({ entries: entriesWithIcon });
+    expect(getIcon()?.className).toContain("text-foreground");
+    unmount();
+
+    renderSelector({ entries: entriesWithIcon, selectedPresetId: "mono-icon" });
+    expect(getIcon()?.className).not.toContain("text-foreground");
   });
 
   it("preset 无 icon 且无 theme.icon 时,按钮内仍渲染占位元素保持文字对齐", () => {

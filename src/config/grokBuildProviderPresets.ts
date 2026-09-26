@@ -479,7 +479,10 @@ export const grokBuildProviderPresets: GrokBuildProviderPreset[] = [
     apiKeyUrl: "https://sudocode.chat/sign-up",
     auth: grokAuth(),
     config: grokPresetConfig("SudoCode.chat", "https://api.sudocode.chat/v1"),
-    endpointCandidates: ["https://api.sudocode.chat/v1"],
+    endpointCandidates: [
+      "https://api.sudocode.chat/v1",
+      "https://api.sudorelay.com/v1",
+    ],
     apiFormat: "openai_responses",
     category: "third_party",
     isPartner: true,
