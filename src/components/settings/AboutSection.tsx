@@ -2,7 +2,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Download,
   Copy,
-  Globe,
   Info,
   Loader2,
   RefreshCw,
@@ -443,10 +442,6 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleOpenGithub = useCallback(() => {
-    void settingsApi.openExternal("https://github.com/nullmastermind/cc-switch");
-  }, []);
-
   const handleCopyInstallCommands = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(ONE_CLICK_INSTALL_COMMANDS);
@@ -818,11 +813,11 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="space-y-6"
+      className="space-y-2"
     >
       <header className="space-y-1">
-        <h3 className="text-sm font-medium">{t("common.about")}</h3>
-        <p className="text-xs text-muted-foreground">
+        <h3 className="text-ui font-semibold">{t("common.about")}</h3>
+        <p className="text-ui text-muted-foreground">
           {t("settings.aboutHint")}
         </p>
       </header>
@@ -833,68 +828,39 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
         transition={{ duration: 0.3, delay: 0.1 }}
         className="rounded-xl border border-border bg-gradient-to-br from-card/80 to-card/40 p-6 space-y-5 shadow-sm"
       >
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-8">
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-2">
-                <img src={appIcon} alt="Cli-Switch" className="h-5 w-5" />
-                <h4 className="text-lg font-semibold text-foreground">
-                  Cli-Switch
-                </h4>
-              </div>
-              <div className="flex items-center gap-2">
-                <Badge variant="outline" className="gap-1.5 bg-background/80">
-                  <span className="text-muted-foreground">
-                    {t("common.version")}
-                  </span>
-                  {isLoadingVersion ? (
-                    <Loader2 className="h-3 w-3 animate-spin" />
-                  ) : (
-                    <span className="font-medium">{`v${displayVersion}`}</span>
-                  )}
-                </Badge>
-                {isPortable && (
-                  <Badge variant="secondary" className="gap-1.5">
-                    <Info className="h-3 w-3" />
-                    {t("settings.portableMode")}
-                  </Badge>
-                )}
-              </div>
+        <div className="flex items-center gap-8">
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-2">
+              <img src={appIcon} alt="Cli-Switch" className="h-5 w-5" />
+              <h4 className="text-lg font-semibold text-foreground">
+                Cli-Switch
+              </h4>
             </div>
-          </div>
-
-          <p className="min-w-0 flex-1 text-xs leading-relaxed sm:text-right">
-            <a
-              href="https://github.com/nullmastermind/cc-switch"
-              onClick={(event) => {
-                event.preventDefault();
-                handleOpenGithub();
-              }}
-              className="font-medium text-primary hover:underline"
-            >
-              {t("settings.starPrompt")}
-            </a>
-            <span aria-hidden="true" className="ml-1.5">
-              👉
-            </span>
-          </p>
-
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => settingsApi.openExternal("https://viber.vn")}
-            >
-              <Globe className="h-4 w-4" />
-              {t("settings.officialWebsite")}
-            </Button>
+            <div className="flex items-center gap-2">
+              <Badge variant="outline" className="gap-1.5 bg-background/80">
+                <span className="text-muted-foreground">
+                  {t("common.version")}
+                </span>
+                {isLoadingVersion ? (
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                ) : (
+                  <span className="font-medium">{`v${displayVersion}`}</span>
+                )}
+              </Badge>
+              {isPortable && (
+                <Badge variant="secondary" className="gap-1.5">
+                  <Info className="h-3 w-3" />
+                  {t("settings.portableMode")}
+                </Badge>
+              )}
+            </div>
           </div>
         </div>
       </motion.div>
 
       <div className="space-y-3">
         <div className="flex flex-col gap-2 px-1 sm:flex-row sm:items-center sm:justify-between">
-          <h3 className="text-sm font-medium">{t("settings.localEnvCheck")}</h3>
+          <h3 className="text-ui font-semibold">{t("settings.localEnvCheck")}</h3>
           <div className="flex flex-wrap items-center gap-2">
             <Button
               variant="outline"
@@ -991,7 +957,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                       {appConfig?.icon ?? <Terminal className="h-4 w-4" />}
                     </span>
                     <div className="min-w-0">
-                      <div className="truncate text-sm font-medium">
+                      <div className="truncate text-ui font-semibold">
                         {displayName}
                       </div>
                       {tool?.env_type && ENV_BADGE_CONFIG[tool.env_type] && (
@@ -1061,7 +1027,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                       onValueChange={(v) => handleToolShellChange(toolName, v)}
                       disabled={isToolVersionLoading || isAnyBusy}
                     >
-                      <SelectTrigger className="h-7 w-[82px] text-xs">
+                      <SelectTrigger className="w-[82px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1080,7 +1046,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                       }
                       disabled={isToolVersionLoading || isAnyBusy}
                     >
-                      <SelectTrigger className="h-7 w-[82px] text-xs">
+                      <SelectTrigger className="w-[82px]">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -1116,7 +1082,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
 
                 <div className="mt-auto flex items-center justify-end">
                   {isToolVersionLoading ? (
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-ui text-muted-foreground">
                       {t("common.loading")}
                     </span>
                   ) : installedButBroken ? (
@@ -1142,7 +1108,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                         : t("settings.toolUpdate")}
                     </Button>
                   ) : (
-                    <span className="text-xs text-muted-foreground">
+                    <span className="text-ui text-muted-foreground">
                       {t("settings.toolReady")}
                     </span>
                   )}
@@ -1176,7 +1142,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
         {showInstallCommands && (
           <div className="rounded-xl border border-border bg-gradient-to-br from-card/80 to-card/40 p-4 space-y-3 shadow-sm">
             <div className="flex items-center justify-between gap-2">
-              <p className="text-xs text-muted-foreground">
+              <p className="text-ui text-muted-foreground">
                 {t("settings.oneClickInstallHint")}
               </p>
               <Button

@@ -124,7 +124,7 @@ export function RequestLogTable({
               setPage(0);
             }}
           >
-            <SelectTrigger className="h-8 w-[100px] bg-background text-xs">
+            <SelectTrigger className="w-[100px] bg-background">
               <SelectValue placeholder={t("usage.statusCode")} />
             </SelectTrigger>
             <SelectContent>
@@ -332,11 +332,11 @@ export function RequestLogTable({
             </Table>
           </div>
 
-          <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <div className="flex items-center justify-between text-ui text-muted-foreground">
             <span>{t("usage.totalRecords", { total })}</span>
             <div className="flex items-center gap-1">
               <Button
-                size="sm"
+                size="icon"
                 variant="outline"
                 disabled={page === 0}
                 onClick={() => setPage((p) => Math.max(0, p - 1))}
@@ -375,8 +375,7 @@ export function RequestLogTable({
                     <Button
                       key={p}
                       variant={p === page ? "default" : "outline"}
-                      size="sm"
-                      className="h-8 w-8 p-0"
+                      size="icon"
                       onClick={() => setPage(p)}
                     >
                       {p + 1}
@@ -385,7 +384,7 @@ export function RequestLogTable({
                 );
               })()}
               <Button
-                size="sm"
+                size="icon"
                 variant="outline"
                 disabled={page >= totalPages - 1}
                 onClick={() => setPage((p) => Math.min(totalPages - 1, p + 1))}
@@ -401,9 +400,9 @@ export function RequestLogTable({
                     if (e.key === "Enter") handleGoToPage();
                   }}
                   placeholder={t("usage.pageInputPlaceholder")}
-                  className="h-8 w-16 text-center text-xs"
+                  className="w-16 text-center"
                 />
-                <Button variant="outline" size="sm" onClick={handleGoToPage}>
+                <Button variant="outline" onClick={handleGoToPage}>
                   {t("usage.goToPage")}
                 </Button>
               </div>

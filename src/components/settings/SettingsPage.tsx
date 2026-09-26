@@ -224,7 +224,7 @@ export function SettingsPage({
           onValueChange={setActiveTab}
           className="flex flex-col h-full"
         >
-          <TabsList className="grid w-full grid-cols-6 mb-6">
+          <TabsList className="grid w-full grid-cols-6 mb-2">
             <TabsTrigger value="general">
               {t("settings.tabGeneral")}
             </TabsTrigger>
@@ -244,13 +244,13 @@ export function SettingsPage({
               ref={tabScrollContainerRef}
               className="flex-1 overflow-y-auto overflow-x-hidden pr-2"
             >
-              <TabsContent value="general" className="space-y-6 mt-0">
+              <TabsContent value="general" className="space-y-2 mt-0">
                 {settings ? (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="space-y-6"
+                    className="space-y-2"
                   >
                     <LanguageSettings
                       value={settings.language}
@@ -292,7 +292,7 @@ export function SettingsPage({
                 ) : null}
               </TabsContent>
 
-              <TabsContent value="proxy" className="space-y-6 mt-0 pb-4">
+              <TabsContent value="proxy" className="space-y-2 mt-0 pb-4">
                 {settings ? (
                   <ProxyTabContent
                     settings={settings}
@@ -301,48 +301,48 @@ export function SettingsPage({
                 ) : null}
               </TabsContent>
 
-              <TabsContent value="auth" className="space-y-6 mt-0 pb-4">
+              <TabsContent value="auth" className="space-y-2 mt-0 pb-4">
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.3 }}
-                  className="space-y-6"
+                  className="space-y-2"
                 >
                   <AuthCenterPanel />
                 </motion.div>
               </TabsContent>
 
-              <TabsContent value="advanced" className="space-y-6 mt-0 pb-4">
+              <TabsContent value="advanced" className="space-y-2 mt-0 pb-4">
                 {settings ? (
                   <motion.div
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="space-y-4"
+                    className="space-y-2"
                   >
                     <Accordion
                       type="multiple"
                       defaultValue={[]}
-                      className="w-full space-y-4"
+                      className="w-full space-y-2"
                     >
                       <AccordionItem
                         value="directory"
-                        className="rounded-xl glass-card overflow-hidden"
+                        className="rounded-[8px] glass-card overflow-hidden"
                       >
-                        <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-3">
-                            <FolderSearch className="h-5 w-5 text-primary" />
+                        <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+                          <div className="flex items-center gap-1">
+                            <FolderSearch className="h-4 w-4 text-primary" />
                             <div className="text-left">
-                              <h3 className="text-base font-semibold">
+                              <h3 className="text-ui font-semibold">
                                 {t("settings.advanced.configDir.title")}
                               </h3>
-                              <p className="text-sm text-muted-foreground font-normal">
+                              <p className="text-ui text-muted-foreground font-normal">
                                 {t("settings.advanced.configDir.description")}
                               </p>
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+                        <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
                           <DirectorySettings
                             appConfigDir={appConfigDir}
                             resolvedDirs={resolvedDirs}
@@ -366,22 +366,22 @@ export function SettingsPage({
 
                       <AccordionItem
                         value="data"
-                        className="rounded-xl glass-card overflow-hidden"
+                        className="rounded-[8px] glass-card overflow-hidden"
                       >
-                        <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-3">
-                            <Database className="h-5 w-5 text-blue-500" />
+                        <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+                          <div className="flex items-center gap-1">
+                            <Database className="h-4 w-4 text-blue-500" />
                             <div className="text-left">
-                              <h3 className="text-base font-semibold">
+                              <h3 className="text-ui font-semibold">
                                 {t("settings.advanced.data.title")}
                               </h3>
-                              <p className="text-sm text-muted-foreground font-normal">
+                              <p className="text-ui text-muted-foreground font-normal">
                                 {t("settings.advanced.data.description")}
                               </p>
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+                        <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
                           <ImportExportSection
                             status={importStatus}
                             selectedFile={selectedFile}
@@ -398,18 +398,18 @@ export function SettingsPage({
 
                       <AccordionItem
                         value="backup"
-                        className="rounded-xl glass-card overflow-hidden"
+                        className="rounded-[8px] glass-card overflow-hidden"
                       >
-                        <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-3">
-                            <HardDriveDownload className="h-5 w-5 text-amber-500" />
+                        <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+                          <div className="flex items-center gap-1">
+                            <HardDriveDownload className="h-4 w-4 text-amber-500" />
                             <div className="text-left">
-                              <h3 className="text-base font-semibold">
+                              <h3 className="text-ui font-semibold">
                                 {t("settings.advanced.backup.title", {
                                   defaultValue: "Backup & Restore",
                                 })}
                               </h3>
-                              <p className="text-sm text-muted-foreground font-normal">
+                              <p className="text-ui text-muted-foreground font-normal">
                                 {t("settings.advanced.backup.description", {
                                   defaultValue:
                                     "Manage automatic backups, view and restore database snapshots",
@@ -418,7 +418,7 @@ export function SettingsPage({
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+                        <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
                           <BackupListSection
                             backupIntervalHours={settings.backupIntervalHours}
                             backupRetainCount={settings.backupRetainCount}
@@ -431,22 +431,22 @@ export function SettingsPage({
 
                       <AccordionItem
                         value="cloudSync"
-                        className="rounded-xl glass-card overflow-hidden"
+                        className="rounded-[8px] glass-card overflow-hidden"
                       >
-                        <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-3">
-                            <Cloud className="h-5 w-5 text-blue-500" />
+                        <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+                          <div className="flex items-center gap-1">
+                            <Cloud className="h-4 w-4 text-blue-500" />
                             <div className="text-left">
-                              <h3 className="text-base font-semibold">
+                              <h3 className="text-ui font-semibold">
                                 {t("settings.advanced.cloudSync.title")}
                               </h3>
-                              <p className="text-sm text-muted-foreground font-normal">
+                              <p className="text-ui text-muted-foreground font-normal">
                                 {t("settings.advanced.cloudSync.description")}
                               </p>
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+                        <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
                           <WebdavSyncSection
                             config={settings?.webdavSync}
                             s3Config={settings?.s3Sync}
@@ -458,16 +458,16 @@ export function SettingsPage({
 
                       <AccordionItem
                         value="connectivityCheck"
-                        className="rounded-xl glass-card overflow-hidden"
+                        className="rounded-[8px] glass-card overflow-hidden"
                       >
-                        <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-3">
-                            <FlaskConical className="h-5 w-5 text-emerald-500" />
+                        <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+                          <div className="flex items-center gap-1">
+                            <FlaskConical className="h-4 w-4 text-emerald-500" />
                             <div className="text-left">
-                              <h3 className="text-base font-semibold">
+                              <h3 className="text-ui font-semibold">
                                 {t("settings.advanced.connectivityCheck.title")}
                               </h3>
-                              <p className="text-sm text-muted-foreground font-normal">
+                              <p className="text-ui text-muted-foreground font-normal">
                                 {t(
                                   "settings.advanced.connectivityCheck.description",
                                 )}
@@ -475,29 +475,29 @@ export function SettingsPage({
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+                        <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
                           <ConnectivityCheckConfigPanel />
                         </AccordionContent>
                       </AccordionItem>
 
                       <AccordionItem
                         value="logConfig"
-                        className="rounded-xl glass-card overflow-hidden"
+                        className="rounded-[8px] glass-card overflow-hidden"
                       >
-                        <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-3">
-                            <ScrollText className="h-5 w-5 text-cyan-500" />
+                        <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+                          <div className="flex items-center gap-1">
+                            <ScrollText className="h-4 w-4 text-cyan-500" />
                             <div className="text-left">
-                              <h3 className="text-base font-semibold">
+                              <h3 className="text-ui font-semibold">
                                 {t("settings.advanced.logConfig.title")}
                               </h3>
-                              <p className="text-sm text-muted-foreground font-normal">
+                              <p className="text-ui text-muted-foreground font-normal">
                                 {t("settings.advanced.logConfig.description")}
                               </p>
                             </div>
                           </div>
                         </AccordionTrigger>
-                        <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+                        <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
                           <LogConfigPanel />
                         </AccordionContent>
                       </AccordionItem>
@@ -528,10 +528,10 @@ export function SettingsPage({
 
             {activeTab === "advanced" && settings && (
               <div
-                className="flex-shrink-0 pt-4 border-t border-border-default"
+                className="flex-shrink-0 pt-2 border-t border-border-default"
                 style={{ backgroundColor: "hsl(var(--background))" }}
               >
-                <div className="px-6 flex items-center justify-end gap-3">
+                <div className="flex items-center justify-end gap-2">
                   <Button onClick={handleSave} disabled={isSaving}>
                     {isSaving ? (
                       <span className="inline-flex items-center gap-2">
@@ -561,7 +561,7 @@ export function SettingsPage({
             <DialogTitle>{t("settings.restartRequired")}</DialogTitle>
           </DialogHeader>
           <div className="px-6">
-            <p className="text-sm text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               {t("settings.restartRequiredMessage")}
             </p>
           </div>

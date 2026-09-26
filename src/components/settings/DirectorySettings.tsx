@@ -48,12 +48,12 @@ export function DirectorySettings({
   const { t } = useTranslation();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {/* Cli-Switch 配置目录 - 独立区块 */}
       <section className="space-y-4">
         <header className="space-y-1">
-          <h3 className="text-sm font-medium">{t("settings.appConfigDir")}</h3>
-          <p className="text-xs text-muted-foreground">
+          <h3 className="text-ui font-semibold">{t("settings.appConfigDir")}</h3>
+          <p className="text-ui text-muted-foreground">
             {t("settings.appConfigDirDescription")}
           </p>
         </header>
@@ -89,10 +89,10 @@ export function DirectorySettings({
       {/* Claude/Codex 配置目录 - 独立区块 */}
       <section className="space-y-4">
         <header className="space-y-1">
-          <h3 className="text-sm font-medium">
+          <h3 className="text-ui font-semibold">
             {t("settings.configDirectoryOverride")}
           </h3>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-ui text-muted-foreground">
             {t("settings.configDirectoryDescription")}
           </p>
         </header>
@@ -219,9 +219,9 @@ function DirectoryInput({
   return (
     <div className="space-y-1.5">
       <div className="space-y-1">
-        <p className="text-xs font-medium text-foreground">{label}</p>
+        <p className="text-ui font-semibold text-foreground">{label}</p>
         {description ? (
-          <p className="text-xs text-muted-foreground">{description}</p>
+          <p className="text-ui text-muted-foreground">{description}</p>
         ) : null}
       </div>
       <div className="flex items-center gap-2">

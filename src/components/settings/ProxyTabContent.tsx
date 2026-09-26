@@ -93,22 +93,22 @@ export function ProxyTabContent({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3 }}
-      className="space-y-4"
+      className="space-y-2"
     >
-      <Accordion type="multiple" defaultValue={[]} className="w-full space-y-4">
+      <Accordion type="multiple" defaultValue={[]} className="w-full space-y-2">
         {/* Local Proxy */}
         <AccordionItem
           value="proxy"
-          className="rounded-xl glass-card overflow-hidden"
+          className="rounded-[8px] glass-card overflow-hidden"
         >
-          <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-            <div className="flex items-center gap-3">
-              <Server className="h-5 w-5 text-green-500" />
+          <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+            <div className="flex items-center gap-1">
+              <Server className="h-4 w-4 text-green-500" />
               <div className="text-left">
-                <h3 className="text-base font-semibold">
+                <h3 className="text-ui font-semibold">
                   {t("settings.advanced.proxy.title")}
                 </h3>
-                <p className="text-sm text-muted-foreground font-normal">
+                <p className="text-ui text-muted-foreground font-normal">
                   {t("settings.advanced.proxy.description")}
                 </p>
               </div>
@@ -125,7 +125,7 @@ export function ProxyTabContent({
               </Badge>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+          <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
             <ProxyPanel
               enableLocalProxy={settings?.enableLocalProxy ?? false}
               onEnableLocalProxyChange={(checked) =>
@@ -140,23 +140,23 @@ export function ProxyTabContent({
         {/* Auto Failover */}
         <AccordionItem
           value="failover"
-          className="rounded-xl glass-card overflow-hidden"
+          className="rounded-[8px] glass-card overflow-hidden"
         >
-          <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-            <div className="flex items-center gap-3">
-              <Activity className="h-5 w-5 text-orange-500" />
+          <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+            <div className="flex items-center gap-1">
+              <Activity className="h-4 w-4 text-orange-500" />
               <div className="text-left">
-                <h3 className="text-base font-semibold">
+                <h3 className="text-ui font-semibold">
                   {t("settings.advanced.failover.title")}
                 </h3>
-                <p className="text-sm text-muted-foreground font-normal">
+                <p className="text-ui text-muted-foreground font-normal">
                   {t("settings.advanced.failover.description")}
                 </p>
               </div>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
-            <div className="space-y-6">
+          <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
+            <div className="space-y-2">
               <ToggleRow
                 icon={<ShieldAlert className="h-4 w-4 text-orange-500" />}
                 title={t("settings.advanced.proxy.enableFailoverToggle")}
@@ -169,7 +169,7 @@ export function ProxyTabContent({
 
               {!isRunning && (
                 <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
-                  <p className="text-sm text-yellow-600 dark:text-yellow-400">
+                  <p className="text-ui text-yellow-600 dark:text-yellow-400">
                     {t("proxy.failover.proxyRequired", {
                       defaultValue: "需要先启动代理服务才能配置故障转移",
                     })}
@@ -192,14 +192,14 @@ export function ProxyTabContent({
                     <TabsContent
                       key={appType}
                       value={appType}
-                      className="mt-4 space-y-6"
+                      className="mt-2 space-y-2"
                     >
                       <div className="space-y-4">
                         <div>
-                          <h4 className="text-sm font-semibold">
+                          <h4 className="text-ui font-semibold">
                             {t("proxy.failoverQueue.title")}
                           </h4>
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-ui text-muted-foreground">
                             {t("proxy.failoverQueue.description")}
                           </p>
                         </div>
@@ -225,22 +225,22 @@ export function ProxyTabContent({
         {/* Rectifier */}
         <AccordionItem
           value="rectifier"
-          className="rounded-xl glass-card overflow-hidden"
+          className="rounded-[8px] glass-card overflow-hidden"
         >
-          <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-            <div className="flex items-center gap-3">
-              <Zap className="h-5 w-5 text-purple-500" />
+          <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+            <div className="flex items-center gap-1">
+              <Zap className="h-4 w-4 text-purple-500" />
               <div className="text-left">
-                <h3 className="text-base font-semibold">
+                <h3 className="text-ui font-semibold">
                   {t("settings.advanced.rectifier.title")}
                 </h3>
-                <p className="text-sm text-muted-foreground font-normal">
+                <p className="text-ui text-muted-foreground font-normal">
                   {t("settings.advanced.rectifier.description")}
                 </p>
               </div>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+          <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
             <RectifierConfigPanel />
           </AccordionContent>
         </AccordionItem>
@@ -248,22 +248,22 @@ export function ProxyTabContent({
         {/* Global Outbound Proxy */}
         <AccordionItem
           value="globalProxy"
-          className="rounded-xl glass-card overflow-hidden"
+          className="rounded-[8px] glass-card overflow-hidden"
         >
-          <AccordionTrigger className="px-6 py-4 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-            <div className="flex items-center gap-3">
-              <Globe className="h-5 w-5 text-cyan-500" />
+          <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
+            <div className="flex items-center gap-1">
+              <Globe className="h-4 w-4 text-cyan-500" />
               <div className="text-left">
-                <h3 className="text-base font-semibold">
+                <h3 className="text-ui font-semibold">
                   {t("settings.advanced.globalProxy.title")}
                 </h3>
-                <p className="text-sm text-muted-foreground font-normal">
+                <p className="text-ui text-muted-foreground font-normal">
                   {t("settings.advanced.globalProxy.description")}
                 </p>
               </div>
             </div>
           </AccordionTrigger>
-          <AccordionContent className="px-6 pb-6 pt-4 border-t border-border/50">
+          <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
             <GlobalProxySettings />
           </AccordionContent>
         </AccordionItem>

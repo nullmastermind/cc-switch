@@ -89,10 +89,10 @@ export function CodexAuthSettings({
   };
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-2">
       <div className="flex items-center gap-2 pb-2 border-b border-border/40">
         <KeyRound className="h-4 w-4 text-primary" />
-        <h3 className="text-sm font-medium">{t("settings.codexAuth")}</h3>
+        <h3 className="text-ui font-semibold">{t("settings.codexAuth")}</h3>
       </div>
 
       <ToggleRow

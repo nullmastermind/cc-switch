@@ -333,7 +333,7 @@ function ReasoningLevelsEditor({
                 )
               }
             >
-              <SelectTrigger className="mt-1 h-8 w-full">
+              <SelectTrigger className="mt-1 w-full">
                 <SelectValue
                   placeholder={t(
                     "codexConfig.defaultReasoningLevelPlaceholder",

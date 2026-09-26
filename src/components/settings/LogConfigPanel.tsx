@@ -45,11 +45,11 @@ export function LogConfigPanel() {
   if (isLoading) return null;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       <div className="flex items-center justify-between">
         <div className="space-y-0.5">
           <Label>{t("settings.advanced.logConfig.enabled")}</Label>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-ui text-muted-foreground">
             {t("settings.advanced.logConfig.enabledDescription")}
           </p>
         </div>
@@ -62,7 +62,7 @@ export function LogConfigPanel() {
       <div className="flex items-center justify-between">
         <div className="space-y-0.5">
           <Label>{t("settings.advanced.logConfig.level")}</Label>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-ui text-muted-foreground">
             {t("settings.advanced.logConfig.levelDescription")}
           </p>
         </div>

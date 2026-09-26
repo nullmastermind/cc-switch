@@ -90,8 +90,8 @@ export function TerminalSettings({ value, onChange }: TerminalSettingsProps) {
   return (
     <section className="space-y-2">
       <header className="space-y-1">
-        <h3 className="text-sm font-medium">{t("settings.terminal.title")}</h3>
-        <p className="text-xs text-muted-foreground">
+        <h3 className="text-ui font-semibold">{t("settings.terminal.title")}</h3>
+        <p className="text-ui text-muted-foreground">
           {t("settings.terminal.description")}
         </p>
       </header>
@@ -107,7 +107,7 @@ export function TerminalSettings({ value, onChange }: TerminalSettingsProps) {
           ))}
         </SelectContent>
       </Select>
-      <p className="text-xs text-muted-foreground">
+      <p className="text-ui text-muted-foreground">
         {t("settings.terminal.fallbackHint")}
       </p>
     </section>

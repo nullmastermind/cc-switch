@@ -14,13 +14,13 @@ export function WindowSettings({ settings, onChange }: WindowSettingsProps) {
   const { t } = useTranslation();
 
   return (
-    <section className="space-y-4">
+    <section className="space-y-2">
       <div className="flex items-center gap-2 pb-2 border-b border-border/40">
         <AppWindow className="h-4 w-4 text-primary" />
-        <h3 className="text-sm font-medium">{t("settings.windowBehavior")}</h3>
+        <h3 className="text-ui font-semibold">{t("settings.windowBehavior")}</h3>
       </div>
 
-      <div className="space-y-3">
+      <div className="space-y-2">
         <ToggleRow
           icon={<Power className="h-4 w-4 text-orange-500" />}
           title={t("settings.launchOnStartup")}

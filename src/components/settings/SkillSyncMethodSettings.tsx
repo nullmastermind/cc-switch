@@ -20,8 +20,8 @@ export function SkillSyncMethodSettings({
   return (
     <section className="space-y-2">
       <header className="space-y-1">
-        <h3 className="text-sm font-medium">{t("settings.skillSync.title")}</h3>
-        <p className="text-xs text-muted-foreground">
+        <h3 className="text-ui font-semibold">{t("settings.skillSync.title")}</h3>
+        <p className="text-ui text-muted-foreground">
           {t("settings.skillSync.description")}
         </p>
       </header>
@@ -40,7 +40,7 @@ export function SkillSyncMethodSettings({
         </SyncMethodButton>
       </div>
       {displayValue === "symlink" && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {t("settings.skillSync.symlinkHint")}
         </p>
       )}

@@ -167,12 +167,12 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
                 size="icon"
                 onClick={onClose}
                 aria-label={t("common.back")}
-                className="rounded-lg select-none"
+                className="rounded-[3px] select-none"
                 style={{ WebkitAppRegion: "no-drag" } as React.CSSProperties}
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
-              <h2 className="text-lg font-semibold text-foreground select-none">
+              <h2 className="text-ui font-semibold text-foreground select-none">
                 {title}
               </h2>
             </div>

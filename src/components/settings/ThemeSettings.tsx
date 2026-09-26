@@ -11,8 +11,8 @@ export function ThemeSettings() {
   return (
     <section className="space-y-2">
       <header className="space-y-1">
-        <h3 className="text-sm font-medium">{t("settings.theme")}</h3>
-        <p className="text-xs text-muted-foreground">
+        <h3 className="text-ui font-semibold">{t("settings.theme")}</h3>
+        <p className="text-ui text-muted-foreground">
           {t("settings.themeHint")}
         </p>
       </header>

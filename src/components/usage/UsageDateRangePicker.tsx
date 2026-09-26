@@ -322,12 +322,12 @@ export function UsageDateRangePicker({
         <Button
           type="button"
           variant={selection.preset === "custom" ? "default" : "outline"}
-          className="h-9 w-[100px] justify-start gap-1.5 text-xs"
+          className="w-[100px] justify-start gap-1"
           title={triggerLabel}
         >
           <CalendarDays className="h-4 w-4 shrink-0" />
           <span className="truncate flex-1">{triggerLabel}</span>
-          <ChevronDown className="h-3.5 w-3.5 shrink-0 opacity-50" />
+          <ChevronDown className="h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent

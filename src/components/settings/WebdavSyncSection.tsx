@@ -961,10 +961,10 @@ export function WebdavSyncSection({
   return (
     <section className="space-y-4">
       <header className="space-y-2">
-        <h3 className="text-base font-semibold text-foreground">
+        <h3 className="text-ui font-semibold text-foreground">
           {t("settings.webdavSync.title")}
         </h3>
-        <p className="text-sm text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {t("settings.webdavSync.description")}
         </p>
       </header>
@@ -1066,7 +1066,7 @@ export function WebdavSyncSection({
 
             {/* Preset hint */}
             {activePreset?.hint && (
-              <div className="flex items-start gap-2 pl-44 text-xs text-muted-foreground">
+              <div className="flex items-start gap-2 pl-44 text-ui text-muted-foreground">
                 <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
                 <span>{t(activePreset.hint)}</span>
               </div>
@@ -1126,7 +1126,7 @@ export function WebdavSyncSection({
 
           {/* Last sync time */}
           {lastSyncDisplay && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               {t("settings.webdavSync.lastSync", { time: lastSyncDisplay })}
             </p>
           )}
@@ -1219,7 +1219,7 @@ export function WebdavSyncSection({
             />
           </div>
           {!hasSavedConfig && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               {t("settings.webdavSync.saveBeforeSync")}
             </p>
           )}
@@ -1255,7 +1255,7 @@ export function WebdavSyncSection({
 
             {/* Preset hint */}
             {activeS3Preset?.hint && (
-              <div className="flex items-start gap-2 pl-44 text-xs text-muted-foreground">
+              <div className="flex items-start gap-2 pl-44 text-ui text-muted-foreground">
                 <Info className="h-3.5 w-3.5 shrink-0 mt-0.5" />
                 <span>{t(activeS3Preset.hint)}</span>
               </div>
@@ -1437,7 +1437,7 @@ export function WebdavSyncSection({
 
           {/* Last sync time */}
           {s3LastSyncDisplay && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               {t("settings.s3Sync.lastSync", { time: s3LastSyncDisplay })}
             </p>
           )}
@@ -1532,7 +1532,7 @@ export function WebdavSyncSection({
             />
           </div>
           {!hasS3SavedConfig && (
-            <p className="text-xs text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               {t("settings.s3Sync.saveBeforeSync")}
             </p>
           )}
@@ -1571,7 +1571,7 @@ export function WebdavSyncSection({
                     <p className="text-xs font-medium text-foreground">
                       {t("settings.webdavSync.confirmUpload.existingData")}
                     </p>
-                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-xs text-muted-foreground">
+                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-ui text-muted-foreground">
                       <dt className="font-medium text-foreground">
                         {t("settings.webdavSync.confirmUpload.deviceName")}
                       </dt>
@@ -1732,7 +1732,7 @@ export function WebdavSyncSection({
                     <p className="text-xs font-medium text-foreground">
                       {t("settings.s3Sync.confirmUpload.existingData")}
                     </p>
-                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-xs text-muted-foreground">
+                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-ui text-muted-foreground">
                       <dt className="font-medium text-foreground">
                         {t("settings.s3Sync.confirmUpload.deviceName")}
                       </dt>

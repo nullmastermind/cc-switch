@@ -181,7 +181,7 @@ export function BackupListSection({
               onSettingsChange({ backupIntervalHours: Number(v) })
             }
           >
-            <SelectTrigger className="h-9">
+            <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -236,7 +236,7 @@ export function BackupListSection({
               onSettingsChange({ backupRetainCount: Number(v) })
             }
           >
-            <SelectTrigger className="h-9">
+            <SelectTrigger>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -253,7 +253,7 @@ export function BackupListSection({
       {/* Backup list */}
       <div>
         <div className="flex items-center justify-between mb-2">
-          <h4 className="text-sm font-medium">
+          <h4 className="text-ui font-semibold">
             {t("settings.backupManager.title", {
               defaultValue: "Database Backups",
             })}
@@ -293,9 +293,9 @@ export function BackupListSection({
         </div>
 
         {isLoading ? (
-          <div className="text-sm text-muted-foreground py-2">Loading...</div>
+          <div className="text-ui text-muted-foreground py-2">Loading...</div>
         ) : backups.length === 0 ? (
-          <div className="text-sm text-muted-foreground py-2">
+          <div className="text-ui text-muted-foreground py-2">
             {t("settings.backupManager.empty", {
               defaultValue: "No backups yet",
             })}
@@ -349,7 +349,7 @@ export function BackupListSection({
                       <div className="font-mono text-xs truncate">
                         {getDisplayName(backup.filename)}
                       </div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-ui text-muted-foreground">
                         {formatBackupDate(backup.createdAt)} &middot;{" "}
                         {formatBytes(backup.sizeBytes)}
                       </div>

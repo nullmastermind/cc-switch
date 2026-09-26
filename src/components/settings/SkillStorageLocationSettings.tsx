@@ -70,10 +70,10 @@ export function SkillStorageLocationSettings({
   return (
     <section className="space-y-2">
       <header className="space-y-1">
-        <h3 className="text-sm font-medium">
+        <h3 className="text-ui font-semibold">
           {t("settings.skillStorage.title")}
         </h3>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {t("settings.skillStorage.description")}
         </p>
       </header>
@@ -96,7 +96,7 @@ export function SkillStorageLocationSettings({
           {t("settings.skillStorage.unified")}
         </StorageButton>
       </div>
-      <p className="text-xs text-muted-foreground">
+      <p className="text-ui text-muted-foreground">
         {value === "unified"
           ? t("settings.skillStorage.unifiedHint")
           : t("settings.skillStorage.ccSwitchHint")}

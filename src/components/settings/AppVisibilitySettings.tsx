@@ -62,10 +62,10 @@ export function AppVisibilitySettings({
   return (
     <section className="space-y-2">
       <header className="space-y-1">
-        <h3 className="text-sm font-medium">
+        <h3 className="text-ui font-semibold">
           {t("settings.appVisibility.title")}
         </h3>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {t("settings.appVisibility.description")}
         </p>
       </header>

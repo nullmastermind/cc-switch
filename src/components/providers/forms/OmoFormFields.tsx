@@ -497,7 +497,7 @@ export function OmoFormFields({
         }
       >
         <SelectTrigger
-          className="w-28 min-w-0 h-8 overflow-hidden text-xs shrink-0"
+          className="w-28 min-w-0 overflow-hidden shrink-0"
           title={selectedVariantLabel}
         >
           <span className="min-w-0 flex-1 truncate text-left">

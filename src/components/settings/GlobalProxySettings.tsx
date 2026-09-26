@@ -150,7 +150,7 @@ export function GlobalProxySettings() {
   return (
     <div className="space-y-3">
       {/* 描述 */}
-      <p className="text-sm text-muted-foreground">
+      <p className="text-ui text-muted-foreground">
         {t("settings.globalProxy.hint")}
       </p>
 

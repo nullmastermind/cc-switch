@@ -207,11 +207,11 @@ export function UsageTrendChart({
       const heading = point?.tooltipLabel ?? point?.label ?? "";
       return (
         <div className="rounded-lg border bg-background/95 p-3 shadow-lg backdrop-blur-md">
-          <p className="mb-2 font-medium">{heading}</p>
+          <p className="mb-2 text-ui font-semibold">{heading}</p>
           {payload.map((entry: any, index: number) => (
             <div
               key={index}
-              className="flex items-center gap-2 text-sm"
+              className="flex items-center gap-2 text-ui"
               style={{ color: entry.color }}
             >
               <div
@@ -235,7 +235,7 @@ export function UsageTrendChart({
   return (
     <div className="rounded-xl border border-border/50 bg-card/40 p-6 backdrop-blur-sm">
       <div className="mb-6 flex items-center justify-between">
-        <h3 className="text-lg font-semibold">
+        <h3 className="text-ui font-semibold">
           {t("usage.trends", "使用趋势")}
         </h3>
         <p className="text-sm text-muted-foreground">{rangeLabel}</p>
@@ -245,7 +245,7 @@ export function UsageTrendChart({
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart
             data={chartData}
-            margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
+            margin={{ top: 10, right: 10, left: 0, bottom: 8 }}
           >
             <defs>
               <linearGradient id="colorInput" x1="0" y1="0" x2="0" y2="1">
@@ -281,7 +281,7 @@ export function UsageTrendChart({
               dataKey="xKey"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12.35 }}
               dy={10}
               tickFormatter={(value) =>
                 formatUsageTrendTickLabel(String(value), chartData)
@@ -294,7 +294,7 @@ export function UsageTrendChart({
               axisLine={false}
               tickLine={false}
               tickMargin={8}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12.35 }}
               tickFormatter={(value) =>
                 formatUsageTrendTokenTickLabel(value, tokenTickFormatter)
               }
@@ -306,11 +306,13 @@ export function UsageTrendChart({
               axisLine={false}
               tickLine={false}
               tickMargin={8}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12.35 }}
               tickFormatter={(value) => `$${value}`}
             />
             <Tooltip content={<CustomTooltip />} />
-            <Legend />
+            <Legend
+              wrapperStyle={{ fontSize: 12.35, lineHeight: 1.3, paddingTop: 8 }}
+            />
             <Area
               yAxisId="tokens"
               type="monotone"

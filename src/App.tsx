@@ -1389,13 +1389,13 @@ function App() {
                     )
                   }
                   className={cn(
-                    "mr-2 rounded-lg",
+                    "mr-2 rounded-[3px]",
                     managementBusy && "disabled:opacity-100",
                   )}
                 >
                   <ArrowLeft className="w-4 h-4" />
                 </Button>
-                <h1 className="text-lg font-semibold">
+                <h1 className="text-ui font-semibold">
                   {currentView === "settings" && t("settings.title")}
                   {currentView === "prompts" &&
                     t("prompts.title", {

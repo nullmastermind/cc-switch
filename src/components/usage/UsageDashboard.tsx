@@ -329,7 +329,7 @@ export function UsageDashboard({
             onValueChange={(v) => changeProviderName(decodeOptionValue(v))}
           >
             <SelectTrigger
-              className="h-9 w-[100px] bg-background text-xs focus:border-border-default [&>span]:min-w-0 [&>span]:truncate"
+              className="w-[100px] bg-background focus:border-border-default [&>span]:min-w-0 [&>span]:truncate"
               title={providerName ?? t("usage.filterBySource")}
             >
               <SelectValue />
@@ -354,7 +354,7 @@ export function UsageDashboard({
             onValueChange={(v) => setModel(decodeOptionValue(v))}
           >
             <SelectTrigger
-              className="h-9 w-[100px] bg-background text-xs focus:border-border-default [&>span]:min-w-0 [&>span]:truncate"
+              className="w-[100px] bg-background focus:border-border-default [&>span]:min-w-0 [&>span]:truncate"
               title={model ?? t("usage.filterByModel")}
             >
               <SelectValue />
@@ -380,7 +380,7 @@ export function UsageDashboard({
               onValueChange={(v) => changeRefreshInterval(Number(v))}
             >
               <SelectTrigger
-                className="h-9 w-[100px] bg-background text-xs focus:border-border-default"
+                className="w-[100px] bg-background focus:border-border-default"
                 title={t("usage.refreshInterval")}
                 aria-label={t("usage.refreshInterval")}
               >
