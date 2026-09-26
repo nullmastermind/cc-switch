@@ -3213,5 +3213,9 @@
     "expiredHint": "{{tool}}コマンドを実行してログインを更新してください",
     "queryFailed": "クエリに失敗しました",
     "refresh": "更新"
+  },
+  "languagePicker": {
+    "title": "言語を選択",
+    "hint": "あとから設定で変更できます。"
   }
 }

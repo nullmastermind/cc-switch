@@ -91,6 +91,7 @@ import UnifiedSkillsPanel, {
 } from "@/components/skills/UnifiedSkillsPanel";
 import { DeepLinkImportDialog } from "@/components/DeepLinkImportDialog";
 import { FirstRunNoticeDialog } from "@/components/FirstRunNoticeDialog";
+import { LanguagePickerDialog } from "@/components/LanguagePickerDialog";
 import { AgentsPanel } from "@/components/agents/AgentsPanel";
 import { UniversalProviderPanel } from "@/components/universal";
 import { McpIcon } from "@/components/BrandIcons";
@@ -1843,6 +1844,7 @@ function App() {
       />
 
       <DeepLinkImportDialog />
+      <LanguagePickerDialog />
       <FirstRunNoticeDialog />
     </div>
   );

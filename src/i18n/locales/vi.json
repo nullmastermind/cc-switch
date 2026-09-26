@@ -291,7 +291,7 @@
     "openclawModelNotFound": "Model đã chọn không còn. Làm mới rồi thử lại.",
     "backfillWarning": "Đã chuyển, nhưng không lưu lại thay đổi vào Provider trước đó",
     "codexAuthCleanupFailed": "Đã chuyển, nhưng không xóa được auth.json. Credential login official vẫn còn trên disk; xóa auth.json trong thư mục config Codex để gỡ",
-    "windowControlFailed": "Điều khiển cửa sổ thất bại: {{error}}",
+    "windowControlFailed": "Không chỉnh được cửa sổ: {{error}}",
     "officialBlockedByProxy": "Không chuyển sang Provider official khi local routing đang bật. Dùng routing với API official có thể bị khóa tài khoản.",
     "proxyOfficialWarning": "Provider hiện tại {{name}} là official. Nên chuyển sang Provider third-party trước khi dùng local routing.",
     "proxyReasonClaudeDesktop": "Đang dùng chế độ local routing Claude Desktop"
@@ -710,7 +710,7 @@
     "preserveCodexOfficialAuthOnSwitch": "Giữ login official khi chuyển trực tiếp",
     "preserveCodexOfficialAuthOnSwitchDescription": "Khi local routing tắt, quyết định có chuyển third-party không. Takeover routing luôn giữ login official của Codex.",
     "unifyCodexSessionHistory": "Gộp session history Codex",
-    "unifyCodexSessionHistoryDescription": "Khi bật, subscription official chạy dưới provider id \"custom\" dùng chung nên session official và third-party nằm cùng một history, có thể migrate session official hiện có (backup trước). Khi tắt, session đã migrate restore được từ backup. Lưu ý: resume session cũ giữa các Provider có thể thất bại vì encrypted_content reasoning chỉ giải mã được ở backend đã tạo nó.",
+    "unifyCodexSessionHistoryDescription": "Khi bật, subscription official chạy dưới provider id \"custom\" dùng chung nên session official và third-party nằm cùng một history, có thể migrate session official hiện có (backup trước). Khi tắt, session đã migrate restore được từ backup. Resume session cũ giữa các Provider có thể thất bại vì encrypted_content reasoning chỉ giải mã được ở backend đã tạo nó.",
     "unifyCodexHistoryRestoreCompleted": "Đã restore session history official từ backup ({{files}} file session, {{rows}} hàng index)",
     "unifyCodexHistoryRestoreFailed": "Không restore được session history official, thử lại",
     "unifyCodexHistoryRestoreNothing": "Không có backup migrate để restore cho thư mục Codex hiện tại",
@@ -1058,7 +1058,7 @@
     "invalidToml": "config.toml không hợp lệ: {{error}}",
     "defaultModelPlaceholder": "vd. grok-4.5",
     "defaultModelHint": "Model mà Grok Build request mặc định; đổi bất cứ lúc nào, không cần đợi preset update.",
-    "advancedSectionHint": "Gồm format upstream, ghi đè reasoning và User-Agent tùy chỉnh. Provider dùng protocol Chat Completions hoặc Anthropic Messages cần bật routing takeover.",
+    "advancedSectionHint": "Format upstream, ghi đè reasoning, User-Agent tùy chỉnh. Provider dùng protocol Chat Completions hoặc Anthropic Messages cần bật routing takeover.",
     "reasoningEffortHint": "Bật khi upstream hỗ trợ chỉnh độ sâu thinking như low/high/max. Bật mục này cũng bật thinking mode và đổi reasoning effort của request thành tham số Chat phía upstream.",
     "maxOutputTokensHint": "Giới hạn mặc định 8192 có thể cắt response dài hoặc nặng thinking (stop_reason=max_tokens). Giá trị này ghi đè max_tokens của request trên đường Anthropic. Đừng vượt giới hạn output thật của model/gateway, dễ bị 400. Để trống thì dùng 8192."
   },
@@ -1526,7 +1526,7 @@
     "reasoningEffortHint": "Bật khi upstream hỗ trợ chỉnh độ sâu thinking như low/high/max. Bật mục này cũng bật thinking mode và đổi reasoning.effort của Codex thành tham số Chat phía upstream.",
     "reasoningGroupTitle": "Khả năng reasoning",
     "reasoningSectionHint": "Provider preset được cấu hình sẵn. Provider tùy chỉnh được đoán từ tên/URL. Chỉ ghi đè tay khi đoán sai.",
-    "advancedSectionHint": "Gồm format upstream, model mapping, ghi đè reasoning và User-Agent tùy chỉnh. Provider dùng Chat Completions cần bật routing takeover.",
+    "advancedSectionHint": "Format upstream, model mapping, ghi đè reasoning, User-Agent tùy chỉnh. Provider dùng Chat Completions cần bật routing takeover.",
     "noCommonConfigToApply": "Common Config snippet trống hoặc không có gì để ghi"
   },
   "geminiConfig": {
@@ -3213,5 +3213,9 @@
     "expiredHint": "Chạy lệnh {{tool}} để làm mới login",
     "queryFailed": "Query thất bại",
     "refresh": "Làm mới"
+  },
+  "languagePicker": {
+    "title": "Chọn ngôn ngữ",
+    "hint": "Sau này đổi trong Cài đặt được."
   }
 }

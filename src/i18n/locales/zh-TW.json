@@ -3214,5 +3214,9 @@
     "expiredHint": "請執行 {{tool}} 命令重新整理登入",
     "queryFailed": "查詢失敗",
     "refresh": "重新整理"
+  },
+  "languagePicker": {
+    "title": "選擇語言",
+    "hint": "之後可在設定中更改。"
   }
 }

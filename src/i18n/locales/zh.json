@@ -3213,5 +3213,9 @@
     "expiredHint": "请运行 {{tool}} 命令刷新登录",
     "queryFailed": "查询失败",
     "refresh": "刷新"
+  },
+  "languagePicker": {
+    "title": "选择语言",
+    "hint": "之后可在设置中更改。"
   }
 }

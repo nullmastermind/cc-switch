@@ -3213,5 +3213,9 @@
     "expiredHint": "Run the {{tool}} command to refresh your login",
     "queryFailed": "Query failed",
     "refresh": "Refresh"
+  },
+  "languagePicker": {
+    "title": "Choose language",
+    "hint": "You can change this later in Settings."
   }
 }
