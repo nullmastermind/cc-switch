@@ -102,7 +102,7 @@ export function ProxyTabContent({
           className="rounded-[8px] glass-card overflow-hidden"
         >
           <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <Server className="h-4 w-4 text-green-500" />
               <div className="text-left">
                 <h3 className="text-ui font-semibold">
@@ -143,7 +143,7 @@ export function ProxyTabContent({
           className="rounded-[8px] glass-card overflow-hidden"
         >
           <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <Activity className="h-4 w-4 text-orange-500" />
               <div className="text-left">
                 <h3 className="text-ui font-semibold">
@@ -168,7 +168,7 @@ export function ProxyTabContent({
               />
 
               {!isRunning && (
-                <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                <div className="p-2 rounded-[8px] bg-yellow-500/10 border border-yellow-500/20">
                   <p className="text-ui text-yellow-600 dark:text-yellow-400">
                     {t("proxy.failover.proxyRequired", {
                       defaultValue: "需要先启动代理服务才能配置故障转移",
@@ -194,7 +194,7 @@ export function ProxyTabContent({
                       value={appType}
                       className="mt-2 space-y-2"
                     >
-                      <div className="space-y-4">
+                      <div className="space-y-2">
                         <div>
                           <h4 className="text-ui font-semibold">
                             {t("proxy.failoverQueue.title")}
@@ -208,7 +208,7 @@ export function ProxyTabContent({
                           disabled={failoverDisabled}
                         />
                       </div>
-                      <div className="border-t border-border/50 pt-6">
+                      <div className="border-t border-border/50 pt-2">
                         <AutoFailoverConfigPanel
                           appType={appType}
                           disabled={failoverDisabled}
@@ -228,7 +228,7 @@ export function ProxyTabContent({
           className="rounded-[8px] glass-card overflow-hidden"
         >
           <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <Zap className="h-4 w-4 text-purple-500" />
               <div className="text-left">
                 <h3 className="text-ui font-semibold">
@@ -251,7 +251,7 @@ export function ProxyTabContent({
           className="rounded-[8px] glass-card overflow-hidden"
         >
           <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
               <Globe className="h-4 w-4 text-cyan-500" />
               <div className="text-left">
                 <h3 className="text-ui font-semibold">

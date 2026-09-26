@@ -254,6 +254,23 @@ describe("useDirectorySettings", () => {
     );
   });
 
+  it("applies the debug dir suffix to a stored app config override", async () => {
+    getDirSuffixMock.mockResolvedValue("-dev");
+    getAppConfigDirOverrideMock.mockResolvedValue(
+      "C:\\Users\\0x317\\.cc-switch",
+    );
+
+    const { result } = renderHook(() =>
+      useDirectorySettings({ settings: createSettings(), onUpdateSettings }),
+    );
+    await waitFor(() => expect(result.current.isLoading).toBe(false));
+
+    expect(result.current.appConfigDir).toBe("C:\\Users\\0x317\\.cc-switch");
+    expect(result.current.resolvedDirs.appConfig).toBe(
+      "C:\\Users\\0x317\\.cc-switch-dev",
+    );
+  });
+
   it("updates openclaw directory when browsing succeeds", async () => {
     selectConfigDirectoryMock.mockResolvedValue("/picked/openclaw");
 

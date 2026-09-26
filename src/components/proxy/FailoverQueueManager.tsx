@@ -106,7 +106,7 @@ export function FailoverQueueManager({
 
   if (isQueueLoading) {
     return (
-      <div className="flex items-center justify-center p-8">
+      <div className="flex items-center justify-center p-2">
         <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
       </div>
     );
@@ -122,23 +122,23 @@ export function FailoverQueueManager({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-2">
       {/* 自动故障转移开关 */}
-      <div className="flex items-center justify-between p-4 rounded-lg bg-muted/50 border border-border/50">
+      <div className="flex items-center justify-between gap-2 px-2 py-2">
         <div className="space-y-0.5">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-medium">
+            <span className="text-ui font-medium">
               {t("proxy.failover.autoSwitch", {
                 defaultValue: "自动故障转移",
               })}
             </span>
             {isFailoverEnabled && (
-              <span className="px-2 py-0.5 text-xs rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
+              <span className="px-1 py-0 text-ui rounded-[3px] bg-emerald-500/20 text-emerald-600 dark:text-emerald-400">
                 {t("common.enabled", { defaultValue: "已开启" })}
               </span>
             )}
           </div>
-          <p className="text-xs text-muted-foreground">
+          <p className="text-ui text-muted-foreground">
             {t("proxy.failover.autoSwitchDescription", {
               defaultValue:
                 "开启后将立即切换到队列 P1，并在请求失败时自动切换到队列中的下一个供应商",
@@ -155,7 +155,7 @@ export function FailoverQueueManager({
       {/* 说明信息 */}
       <Alert className="border-blue-500/40 bg-blue-500/10">
         <Info className="h-4 w-4" />
-        <AlertDescription className="text-sm">
+        <AlertDescription className="text-ui">
           {t(
             "proxy.failoverQueue.info",
             "队列顺序与首页供应商列表顺序一致。当请求失败时，系统会按顺序依次尝试队列中的供应商。",
@@ -183,14 +183,14 @@ export function FailoverQueueManager({
               <SelectItem key={provider.id} value={provider.id}>
                 {provider.name}
                 {provider.notes && (
-                  <span className="ml-1 text-xs text-muted-foreground">
+                  <span className="ml-1 text-ui text-muted-foreground">
                     ({provider.notes})
                   </span>
                 )}
               </SelectItem>
             ))}
             {(!availableProviders || availableProviders.length === 0) && (
-              <div className="px-2 py-4 text-center text-sm text-muted-foreground">
+              <div className="px-2 py-2 text-center text-ui text-muted-foreground">
                 {t(
                   "proxy.failoverQueue.noAvailableProviders",
                   "没有可添加的供应商",
@@ -215,8 +215,8 @@ export function FailoverQueueManager({
 
       {/* 队列列表 */}
       {!queue || queue.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-muted-foreground/40 p-8 text-center">
-          <p className="text-sm text-muted-foreground">
+        <div className="rounded-[8px] border border-dashed border-muted-foreground/40 p-4 text-center">
+          <p className="text-ui text-muted-foreground">
             {t(
               "proxy.failoverQueue.empty",
               "故障转移队列为空。添加供应商以启用自动故障转移。",
@@ -240,7 +240,7 @@ export function FailoverQueueManager({
 
       {/* 队列说明 */}
       {queue && queue.length > 0 && (
-        <p className="text-xs text-muted-foreground">
+        <p className="text-ui text-muted-foreground">
           {t(
             "proxy.failoverQueue.orderHint",
             "队列顺序与首页供应商列表顺序一致，可在首页拖拽调整顺序。",
@@ -271,20 +271,20 @@ function QueueItem({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 rounded-lg border border-black/10 bg-card p-3 transition-colors dark:border-white/10",
+        "flex items-center gap-2 rounded-[4px] border border-black/10 bg-card px-2 py-1 transition-colors dark:border-white/10",
       )}
     >
       {/* 序号 */}
-      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-medium">
+      <div className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-ui font-medium">
         {index + 1}
       </div>
 
       {/* 供应商名称 */}
       <div className="flex-1 min-w-0">
-        <span className="text-sm font-medium truncate block">
+        <span className="text-ui font-medium truncate block">
           {item.providerName}
           {item.providerNotes && (
-            <span className="ml-1 text-xs text-muted-foreground">
+            <span className="ml-1 text-ui text-muted-foreground">
               ({item.providerNotes})
             </span>
           )}
@@ -295,7 +295,7 @@ function QueueItem({
       <Button
         variant="ghost"
         size="icon"
-        className="h-8 w-8 text-muted-foreground hover:text-destructive"
+        className="text-muted-foreground hover:text-destructive"
         onClick={() => onRemove(item.providerId)}
         disabled={disabled || isRemoving}
         aria-label={t("common.delete", "删除")}

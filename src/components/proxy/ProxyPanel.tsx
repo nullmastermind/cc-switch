@@ -227,7 +227,7 @@ export function ProxyPanel({
 
   return (
     <>
-      <section className="space-y-4">
+      <section className="space-y-2">
         {/* [1] Enable proxy button on main page — always visible */}
         <ToggleRow
           icon={<Zap className="h-4 w-4 text-green-500" />}
@@ -238,30 +238,22 @@ export function ProxyPanel({
         />
 
         {/* [2] Proxy service toggle — always visible */}
-        <div className="flex items-center justify-between rounded-xl border border-border bg-card/50 p-4 transition-colors hover:bg-muted/50">
-          <div className="flex items-center gap-3">
-            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-background ring-1 ring-border">
-              <Power className="h-4 w-4 text-green-500" />
-            </div>
-            <div className="space-y-1">
-              <p className="text-sm font-medium leading-none">
-                {t("proxyConfig.proxyEnabled", {
-                  defaultValue: "代理服务",
-                })}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {isRunning
-                  ? t("settings.advanced.proxy.running")
-                  : t("settings.advanced.proxy.stopped")}
-              </p>
-            </div>
-          </div>
-          <Switch
-            checked={isRunning}
-            onCheckedChange={onToggleProxy}
-            disabled={isProxyPending}
-          />
-        </div>
+        <ToggleRow
+          icon={<Power className="h-4 w-4 text-green-500" />}
+          title={t("proxyConfig.proxyEnabled", {
+            defaultValue: "代理服务",
+          })}
+          description={
+            isRunning
+              ? t("settings.advanced.proxy.running")
+              : t("settings.advanced.proxy.stopped")
+          }
+          checked={isRunning}
+          onCheckedChange={(checked) => {
+            void onToggleProxy(checked);
+          }}
+          disabled={isProxyPending}
+        />
 
         {/* [3] App takeover switches — animated, visible only when proxy is running */}
         <AnimatePresence>
@@ -273,8 +265,8 @@ export function ProxyPanel({
               transition={{ duration: 0.25, ease: "easeInOut" }}
               className="overflow-hidden"
             >
-              <div className="rounded-xl border-2 border-primary/20 bg-primary/5 p-4 space-y-3">
-                <p className="text-xs font-medium text-primary">
+              <div className="rounded-[8px] border border-primary/20 bg-primary/5 p-2 space-y-2">
+                <p className="text-ui font-medium text-primary">
                   {t("proxyConfig.appTakeover", {
                     defaultValue: "应用接管",
                   })}
@@ -285,9 +277,9 @@ export function ProxyPanel({
                     return (
                       <div
                         key={appType}
-                        className="flex items-center justify-between rounded-md border border-primary/20 bg-background/60 px-3 py-2"
+                        className="flex items-center justify-between rounded-[4px] border border-primary/20 bg-background/60 px-2 py-1"
                       >
-                        <span className="text-sm font-medium">
+                        <span className="text-ui font-medium">
                           {getAppLabel(appType)}
                         </span>
                         <Switch
@@ -301,7 +293,7 @@ export function ProxyPanel({
                     );
                   })}
                 </div>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-ui text-muted-foreground">
                   {t("proxy.takeover.hint", {
                     defaultValue:
                       "选择要接管的应用，启用后该应用的请求将通过本地代理转发",
@@ -314,21 +306,20 @@ export function ProxyPanel({
 
         {/* Running state: service info + stats */}
         {isRunning && status ? (
-          <div className="space-y-6">
+          <div className="space-y-2">
             {/* [4] Running info: address + current provider */}
-            <div className="rounded-lg border border-border bg-muted/40 p-4 space-y-4">
+            <div className="rounded-[8px] border border-border bg-muted/40 p-2 space-y-2">
               <div>
-                <p className="text-xs text-muted-foreground mb-2">
+                <p className="text-ui text-muted-foreground mb-2">
                   {t("proxy.panel.serviceAddress", {
                     defaultValue: "服务地址",
                   })}
                 </p>
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
-                  <code className="flex-1 text-sm bg-background px-3 py-2 rounded border border-border/60">
+                  <code className="flex-1 text-ui bg-background px-2 py-1 rounded border border-border/60">
                     {formatAddressForUrl(status.address, status.port)}
                   </code>
                   <Button
-                    size="sm"
                     variant="outline"
                     onClick={() => {
                       navigator.clipboard.writeText(
@@ -345,15 +336,15 @@ export function ProxyPanel({
                     {t("common.copy")}
                   </Button>
                 </div>
-                <p className="text-xs text-muted-foreground mt-2">
+                <p className="text-ui text-muted-foreground mt-2">
                   {t("proxy.settings.restartRequired", {
                     defaultValue: "修改监听地址/端口需要先停止代理服务",
                   })}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-border space-y-2">
-                <p className="text-xs text-muted-foreground">
+              <div className="pt-2 border-t border-border space-y-2">
+                <p className="text-ui text-muted-foreground">
                   {t("provider.inUse")}
                 </p>
                 {status.active_targets && status.active_targets.length > 0 ? (
@@ -361,7 +352,7 @@ export function ProxyPanel({
                     {status.active_targets.map((target) => (
                       <div
                         key={target.app_type}
-                        className="flex items-center justify-between rounded-md border border-border bg-background/60 px-2 py-1.5 text-xs"
+                        className="flex items-center justify-between rounded-[4px] border border-border bg-background/60 px-2 py-1 text-ui"
                       >
                         <span className="text-muted-foreground">
                           {target.app_type}
@@ -376,7 +367,7 @@ export function ProxyPanel({
                     ))}
                   </div>
                 ) : status.current_provider ? (
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-ui text-muted-foreground">
                     {t("proxy.panel.currentProvider", {
                       defaultValue: "当前 Provider：",
                     })}{" "}
@@ -385,7 +376,7 @@ export function ProxyPanel({
                     </span>
                   </p>
                 ) : (
-                  <p className="text-sm text-yellow-600 dark:text-yellow-400">
+                  <p className="text-ui text-yellow-600 dark:text-yellow-400">
                     {t("proxy.panel.waitingFirstRequest", {
                       defaultValue: "当前 Provider：等待首次请求…",
                     })}
@@ -394,15 +385,15 @@ export function ProxyPanel({
               </div>
 
               {/* [5] Logging toggle */}
-              <div className="pt-3 border-t border-border">
-                <div className="flex items-center justify-between rounded-md border border-border bg-background/60 px-3 py-2">
+              <div className="pt-2 border-t border-border">
+                <div className="flex items-center justify-between rounded-[4px] border border-border bg-background/60 px-2 py-1">
                   <div className="space-y-0.5">
-                    <Label className="text-sm font-medium">
+                    <Label className="font-medium">
                       {t("proxy.settings.fields.enableLogging.label", {
                         defaultValue: "启用日志记录",
                       })}
                     </Label>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-ui text-muted-foreground">
                       {t("proxy.settings.fields.enableLogging.description", {
                         defaultValue: "记录所有代理请求，便于排查问题",
                       })}
@@ -421,10 +412,10 @@ export function ProxyPanel({
                 codexQueue.length > 0 ||
                 geminiQueue.length > 0 ||
                 grokQueue.length > 0) && (
-                <div className="pt-3 border-t border-border space-y-3">
+                <div className="pt-2 border-t border-border space-y-2">
                   <div className="flex items-center gap-2">
-                    <ListOrdered className="h-3.5 w-3.5 text-muted-foreground" />
-                    <p className="text-xs text-muted-foreground">
+                    <ListOrdered className="h-4 w-4 text-muted-foreground" />
+                    <p className="text-ui text-muted-foreground">
                       {t("proxy.failoverQueue.title")}
                     </p>
                   </div>
@@ -514,23 +505,23 @@ export function ProxyPanel({
             </div>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-2">
             {/* [8] Basic settings — address/port (only when stopped) */}
-            <div className="rounded-lg border border-border bg-muted/40 p-4 space-y-4">
+            <div className="rounded-[8px] border border-border bg-muted/40 p-2 space-y-2">
               <div>
-                <h4 className="text-sm font-semibold">
+                <h4 className="text-ui font-semibold">
                   {t("proxy.settings.basic.title", {
                     defaultValue: "基础设置",
                   })}
                 </h4>
-                <p className="text-xs text-muted-foreground">
+                <p className="text-ui text-muted-foreground">
                   {t("proxy.settings.basic.description", {
                     defaultValue: "配置代理服务监听的地址与端口。",
                   })}
                 </p>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-2 md:grid-cols-2">
                 <div className="space-y-2">
                   <Label htmlFor="listen-address">
                     {t("proxy.settings.fields.listenAddress.label", {
@@ -548,7 +539,7 @@ export function ProxyPanel({
                       },
                     )}
                   />
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-ui text-muted-foreground">
                     {t("proxy.settings.fields.listenAddress.description", {
                       defaultValue:
                         "代理服务器监听的 IP 地址（推荐 127.0.0.1）",
@@ -574,7 +565,7 @@ export function ProxyPanel({
                       },
                     )}
                   />
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-ui text-muted-foreground">
                     {t("proxy.settings.fields.listenPort.description", {
                       defaultValue: "代理服务器监听的端口号（1024 ~ 65535）",
                     })}
@@ -603,16 +594,16 @@ export function ProxyPanel({
             </div>
 
             {/* Stopped hint */}
-            <div className="text-center py-6 text-muted-foreground">
-              <div className="mx-auto w-16 h-16 rounded-full bg-muted flex items-center justify-center mb-4">
-                <Server className="h-8 w-8" />
+            <div className="text-center py-4 text-muted-foreground">
+              <div className="mx-auto w-8 h-8 rounded-full bg-muted flex items-center justify-center mb-2">
+                <Server className="h-4 w-4" />
               </div>
-              <p className="text-base font-medium text-foreground mb-1">
+              <p className="text-ui font-medium text-foreground mb-1">
                 {t("proxy.panel.stoppedTitle", {
                   defaultValue: "代理服务已停止",
                 })}
               </p>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-ui text-muted-foreground">
                 {t("proxy.panel.stoppedDescription", {
                   defaultValue: "使用上方开关即可启动服务",
                 })}
@@ -641,13 +632,13 @@ function StatCard({ icon, label, value, variant = "default" }: StatCardProps) {
 
   return (
     <div
-      className={`rounded-lg border border-border bg-card/60 p-4 text-sm text-muted-foreground ${variantStyles[variant]}`}
+      className={`rounded-[8px] border border-border bg-card/60 p-2 text-ui text-muted-foreground ${variantStyles[variant]}`}
     >
       <div className="flex items-center gap-2 text-muted-foreground mb-2">
         {icon}
-        <span className="text-xs">{label}</span>
+        <span className="text-ui">{label}</span>
       </div>
-      <p className="text-xl font-semibold text-foreground">{value}</p>
+      <p className="text-ui font-semibold text-foreground">{value}</p>
     </div>
   );
 }
@@ -677,7 +668,7 @@ function ProviderQueueGroup({
     <div className="space-y-2">
       {/* 应用类型标题 */}
       <div className="flex items-center gap-2 px-2">
-        <span className="text-xs font-semibold text-foreground/80">
+        <span className="text-ui font-semibold text-foreground/80">
           {appLabel}
         </span>
         <div className="flex-1 h-px bg-border/50" />
@@ -720,7 +711,7 @@ function ProviderQueueItem({
 
   return (
     <div
-      className={`flex items-center justify-between rounded-md border px-3 py-2 text-sm transition-colors ${
+      className={`flex items-center justify-between rounded-[4px] border px-2 py-1 text-ui transition-colors ${
         isCurrent
           ? "border-primary/40 bg-primary/10 text-primary font-medium"
           : "border-border bg-background/60"
@@ -728,7 +719,7 @@ function ProviderQueueItem({
     >
       <div className="flex items-center gap-2">
         <span
-          className={`flex-shrink-0 flex items-center justify-center w-5 h-5 rounded-full text-xs font-bold ${
+          className={`flex-shrink-0 flex items-center justify-center w-4 h-4 rounded-full text-ui font-bold ${
             isCurrent
               ? "bg-primary text-primary-foreground"
               : "bg-muted text-muted-foreground"
@@ -740,7 +731,7 @@ function ProviderQueueItem({
           {provider.name}
         </span>
         {isCurrent && (
-          <span className="text-xs px-1.5 py-0.5 rounded bg-primary/20 text-primary">
+          <span className="text-ui px-1 py-0 rounded-[3px] bg-primary/20 text-primary">
             {t("provider.inUse")}
           </span>
         )}

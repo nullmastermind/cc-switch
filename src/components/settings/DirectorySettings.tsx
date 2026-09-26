@@ -60,7 +60,7 @@ export function DirectorySettings({
 
         <div className="flex items-center gap-2">
           <Input
-            value={appConfigDir ?? resolvedDirs.appConfig ?? ""}
+            value={resolvedDirs.appConfig || appConfigDir || ""}
             placeholder={t("settings.browsePlaceholderApp")}
             className="text-xs"
             onChange={(event) => onAppConfigChange(event.target.value)}

@@ -65,7 +65,7 @@ export function RectifierConfigPanel() {
 
   return (
     <div className="space-y-2">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between gap-2 px-2 py-2">
         <div className="space-y-0.5">
           <Label>{t("settings.advanced.rectifier.enabled")}</Label>
           <p className="text-ui text-muted-foreground">
@@ -78,11 +78,11 @@ export function RectifierConfigPanel() {
         />
       </div>
 
-      <div className="space-y-4">
+      <div className="space-y-2">
         <h4 className="text-ui font-semibold text-muted-foreground">
           {t("settings.advanced.rectifier.requestGroup")}
         </h4>
-        <div className="flex items-center justify-between pl-4">
+        <div className="flex items-center justify-between gap-2 py-2 pl-6 pr-2">
           <div className="space-y-0.5">
             <Label>{t("settings.advanced.rectifier.thinkingSignature")}</Label>
             <p className="text-ui text-muted-foreground">
@@ -97,7 +97,7 @@ export function RectifierConfigPanel() {
             }
           />
         </div>
-        <div className="flex items-center justify-between pl-4">
+        <div className="flex items-center justify-between gap-2 py-2 pl-6 pr-2">
           <div className="space-y-0.5">
             <Label>{t("settings.advanced.rectifier.thinkingBudget")}</Label>
             <p className="text-ui text-muted-foreground">
@@ -112,7 +112,7 @@ export function RectifierConfigPanel() {
             }
           />
         </div>
-        <div className="flex items-center justify-between pl-4">
+        <div className="flex items-center justify-between gap-2 py-2 pl-6 pr-2">
           <div className="space-y-0.5">
             <Label>{t("settings.advanced.rectifier.mediaFallback")}</Label>
             <p className="text-ui text-muted-foreground">
@@ -127,7 +127,7 @@ export function RectifierConfigPanel() {
             }
           />
         </div>
-        <div className="flex items-center justify-between pl-8">
+        <div className="flex items-center justify-between gap-2 py-2 pl-8 pr-2">
           <div className="space-y-0.5">
             <Label>{t("settings.advanced.rectifier.mediaHeuristic")}</Label>
             <p className="text-ui text-muted-foreground">
@@ -144,8 +144,8 @@ export function RectifierConfigPanel() {
         </div>
       </div>
 
-      <div className="border-t pt-6 mt-6">
-        <div className="space-y-1 mb-4">
+      <div className="border-t pt-2 mt-2">
+        <div className="space-y-1 mb-2">
           <h3 className="text-ui font-semibold">
             {t("settings.advanced.optimizer.title")}
           </h3>
@@ -154,8 +154,8 @@ export function RectifierConfigPanel() {
           </p>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <div className="flex items-center justify-between gap-2 px-2 py-2">
             <div className="space-y-0.5">
               <Label>{t("settings.advanced.optimizer.enabled")}</Label>
             </div>
@@ -167,8 +167,8 @@ export function RectifierConfigPanel() {
             />
           </div>
 
-          <div className="space-y-4 pl-4">
-            <div className="flex items-center justify-between">
+          <div className="space-y-2 pl-4">
+            <div className="flex items-center justify-between gap-2 px-2 py-2">
               <div className="space-y-0.5">
                 <Label>
                   {t("settings.advanced.optimizer.thinkingOptimizer")}
@@ -188,7 +188,7 @@ export function RectifierConfigPanel() {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between gap-2 px-2 py-2">
               <div className="space-y-0.5">
                 <Label>{t("settings.advanced.optimizer.cacheInjection")}</Label>
                 <p className="text-ui text-muted-foreground">

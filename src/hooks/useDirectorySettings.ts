@@ -404,7 +404,7 @@ export function useDirectorySettings({
       if (fallback) {
         defaultsRef.current = {
           ...defaultsRef.current,
-          appConfig: fallback,
+          appConfig: applyDirSuffix(fallback, dirSuffixRef.current),
         };
       }
     }
@@ -415,8 +415,10 @@ export function useDirectorySettings({
     (overrides?: ResolvedAppDirectoryOverrides) => {
       setAppConfigDir(initialAppConfigDirRef.current);
       setResolvedDirs({
-        appConfig:
+        appConfig: applyDirSuffix(
           initialAppConfigDirRef.current ?? defaultsRef.current.appConfig,
+          dirSuffixRef.current,
+        ),
         claude: overrides?.claude ?? defaultsRef.current.claude,
         codex: overrides?.codex ?? defaultsRef.current.codex,
         gemini: overrides?.gemini ?? defaultsRef.current.gemini,
