@@ -65,12 +65,10 @@ pub struct TrayTexts {
     pub no_project_label: &'static str,
 }
 
-/// 将系统区域标识映射为托盘支持的语言码。
+/// Map a system locale to a tray language code.
 ///
-/// 镜像前端 `i18n/getInitialLanguage` 的判定顺序，确保首次安装
-/// （`settings.language` 尚未写入）时托盘语言与界面语言一致：
-/// 繁中系统（zh-TW/HK/MO/Hant）→ `zh-TW`，其余 zh → `zh`，
-/// 日文 → `ja`，英文 → `en`，未知区域回退到 `zh`（与前端默认一致）。
+/// zh-TW/HK/MO/Hant → `zh-TW`, other zh → `zh`, ja → `ja`, en → `en`.
+/// Everything else (including `vi`) falls back to `en`.
 fn map_locale_to_tray_language(locale: &str) -> &'static str {
     let locale = locale.to_lowercase();
     if locale == "zh" {
@@ -85,34 +83,22 @@ fn map_locale_to_tray_language(locale: &str) -> &'static str {
         "zh"
     } else if locale.starts_with("ja") {
         "ja"
-    } else if locale.starts_with("en") {
-        "en"
     } else {
-        "zh"
+        "en"
     }
 }
 
-/// 读取系统区域并映射为托盘语言码；取不到区域时回退到 `zh`。
+/// Read the system locale and map it to a tray language code; `en` if unknown.
 fn detect_system_tray_language() -> &'static str {
     sys_locale::get_locale()
         .as_deref()
         .map(map_locale_to_tray_language)
-        .unwrap_or("zh")
+        .unwrap_or("en")
 }
 
 impl TrayTexts {
     pub fn from_language(language: &str) -> Self {
         match language {
-            "en" => Self {
-                show_main: "Open main window",
-                open_website: "Open Official Website",
-                no_providers_label: "(no providers)",
-                lightweight_mode: "Lightweight Mode",
-                quit: "Quit",
-                _auto_label: "Auto (Failover)",
-                projects_label: "Projects",
-                no_project_label: "No project",
-            },
             "ja" => Self {
                 show_main: "メインウィンドウを開く",
                 open_website: "公式サイトを開く",
@@ -133,7 +119,7 @@ impl TrayTexts {
                 projects_label: "專案",
                 no_project_label: "不使用專案",
             },
-            _ => Self {
+            "zh" => Self {
                 show_main: "打开主界面",
                 open_website: "打开官方网站",
                 no_providers_label: "(无供应商)",
@@ -142,6 +128,16 @@ impl TrayTexts {
                 _auto_label: "自动 (故障转移)",
                 projects_label: "项目",
                 no_project_label: "不使用项目",
+            },
+            _ => Self {
+                show_main: "Open main window",
+                open_website: "Open Official Website",
+                no_providers_label: "(no providers)",
+                lightweight_mode: "Lightweight Mode",
+                quit: "Quit",
+                _auto_label: "Auto (Failover)",
+                projects_label: "Projects",
+                no_project_label: "No project",
             },
         }
     }
@@ -1454,16 +1450,29 @@ mod tests {
     }
 
     #[test]
-    fn locale_unknown_falls_back_to_zh() {
+    fn locale_unknown_falls_back_to_en() {
         use super::map_locale_to_tray_language;
-        // 与前端 getInitialLanguage 的默认值保持一致。
-        for locale in ["de-DE", "fr", "ko-KR", ""] {
+        for locale in ["de-DE", "fr", "ko-KR", "vi-VN", "vi", ""] {
             assert_eq!(
                 map_locale_to_tray_language(locale),
-                "zh",
-                "expected {locale} -> zh (default)"
+                "en",
+                "expected {locale} -> en (default)"
             );
         }
+    }
+
+    #[test]
+    fn tray_texts_default_and_vi_use_english() {
+        use super::TrayTexts;
+        let en = TrayTexts::from_language("en");
+        assert_eq!(en.show_main, "Open main window");
+        assert_eq!(en.quit, "Quit");
+        assert_eq!(TrayTexts::from_language("vi").show_main, en.show_main);
+        assert_eq!(
+            TrayTexts::from_language("de").lightweight_mode,
+            en.lightweight_mode
+        );
+        assert_eq!(TrayTexts::from_language("zh").show_main, "打开主界面");
     }
 
     #[test]
