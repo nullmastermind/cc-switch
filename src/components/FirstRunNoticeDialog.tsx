@@ -23,7 +23,7 @@ export function FirstRunNoticeDialog() {
   // 所以前端这里只需要判空即可——与其他既有确认标记的模式一致。
   const isOpen =
     settings != null &&
-    Boolean(settings.language) &&
+    settings.languagePickerConfirmed === true &&
     settings.firstRunNoticeConfirmed !== true;
 
   const handleAcknowledge = async () => {

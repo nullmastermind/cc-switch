@@ -1,10 +1,4 @@
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 export type ProviderStatusBadgeTone = "info" | "muted" | "success" | "warning";
 
@@ -33,7 +27,7 @@ export function ProviderStatusBadge({
   title,
   className,
 }: ProviderStatusBadgeProps) {
-  const badge = (
+  return (
     <span
       className={cn(
         "inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-semibold",
@@ -43,21 +37,9 @@ export function ProviderStatusBadge({
         className,
       )}
       tabIndex={title ? 0 : undefined}
+      title={title}
     >
       {label}
     </span>
-  );
-
-  if (!title) return badge;
-
-  return (
-    <TooltipProvider delayDuration={250}>
-      <Tooltip>
-        <TooltipTrigger asChild>{badge}</TooltipTrigger>
-        <TooltipContent className="max-w-xs leading-relaxed">
-          {title}
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
   );
 }

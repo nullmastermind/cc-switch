@@ -3,11 +3,6 @@ import { ChevronDown, ChevronUp, Copy } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
 import { Button } from "@/components/ui/button";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import type { SessionMessage } from "@/types";
 import {
@@ -59,23 +54,17 @@ export const SessionMessageItem = memo(function SessionMessageItem({
         isActive && "ring-2 ring-primary ring-offset-2",
       )}
     >
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="absolute top-2 right-2 size-6 opacity-0 group-hover:opacity-100 transition-opacity"
-            onClick={() => onCopy(message.content)}
-          >
-            <Copy className="size-3" />
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          {t("sessionManager.copyMessage", {
-            defaultValue: "复制内容",
-          })}
-        </TooltipContent>
-      </Tooltip>
+      <Button
+        variant="ghost"
+        size="icon"
+        className="absolute top-2 right-2 size-6 opacity-0 group-hover:opacity-100 transition-opacity"
+        onClick={() => onCopy(message.content)}
+        title={t("sessionManager.copyMessage", {
+          defaultValue: "复制内容",
+        })}
+      >
+        <Copy className="size-3" />
+      </Button>
       <div className="flex items-center justify-between text-xs mb-1.5 pr-6">
         <span className={cn("font-semibold", getRoleTone(message.role))}>
           {getRoleLabel(message.role, t)}

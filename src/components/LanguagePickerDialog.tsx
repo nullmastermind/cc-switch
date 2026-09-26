@@ -23,19 +23,24 @@ const LANGUAGE_OPTIONS: { value: LanguageOption; labelKey: string }[] = [
   { value: "vi", labelKey: "settings.languageOptionVietnamese" },
 ];
 
-/** First launch: pick a language when settings.language has never been saved. */
+/** Shown until the user picks a language, including existing installs after update. */
 export function LanguagePickerDialog() {
   const { t, i18n } = useTranslation();
   const queryClient = useQueryClient();
   const { data: settings } = useSettingsQuery();
 
-  const isOpen = settings != null && !settings.language;
+  const isOpen = settings != null && settings.languagePickerConfirmed !== true;
+  const currentLanguage = settings?.language;
 
   const handleSelect = async (language: LanguageOption) => {
     if (!settings) return;
     try {
       const { webdavSync: _, ...rest } = settings;
-      await settingsApi.save({ ...rest, language });
+      await settingsApi.save({
+        ...rest,
+        language,
+        languagePickerConfirmed: true,
+      });
       try {
         window.localStorage.setItem("language", language);
       } catch (error) {
@@ -69,7 +74,7 @@ export function LanguagePickerDialog() {
                 key={option.value}
                 type="button"
                 size="sm"
-                variant="outline"
+                variant={option.value === currentLanguage ? "default" : "outline"}
                 className={cn("min-w-[96px]")}
                 onClick={() => void handleSelect(option.value)}
               >

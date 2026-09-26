@@ -58,12 +58,24 @@ describe("LanguagePickerDialog", () => {
     expect(screen.queryByText("languagePicker.title")).not.toBeInTheDocument();
   });
 
-  it("stays closed when language is already saved", () => {
+  it("stays closed after the picker has been confirmed", () => {
+    useSettingsQueryMock.mockReturnValue({
+      data: {
+        showInTray: true,
+        language: "en",
+        languagePickerConfirmed: true,
+      },
+    });
+    render(<LanguagePickerDialog />, { wrapper: Wrapper });
+    expect(screen.queryByText("languagePicker.title")).not.toBeInTheDocument();
+  });
+
+  it("shows for existing users who already have a language but have not confirmed the picker", () => {
     useSettingsQueryMock.mockReturnValue({
       data: { showInTray: true, language: "en" },
     });
     render(<LanguagePickerDialog />, { wrapper: Wrapper });
-    expect(screen.queryByText("languagePicker.title")).not.toBeInTheDocument();
+    expect(screen.getByText("languagePicker.title")).toBeInTheDocument();
   });
 
   it("shows the language list when language has never been chosen", () => {
@@ -98,7 +110,10 @@ describe("LanguagePickerDialog", () => {
 
     await waitFor(() => {
       expect(saveMock).toHaveBeenCalledWith(
-        expect.objectContaining({ language: "en" }),
+        expect.objectContaining({
+          language: "en",
+          languagePickerConfirmed: true,
+        }),
       );
     });
     expect(window.localStorage.getItem("language")).toBe("en");

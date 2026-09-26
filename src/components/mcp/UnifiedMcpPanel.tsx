@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import { Edit3, ExternalLink, Search, Server, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   useAllMcpServers,
   useBulkToggleMcpApp,
@@ -317,22 +316,20 @@ const UnifiedMcpPanel = React.forwardRef<
               <p className="text-sm">{t("mcp.unifiedPanel.noSearchResults")}</p>
             </div>
           ) : (
-            <TooltipProvider delayDuration={300}>
-              <div className="rounded-xl border border-border-default overflow-hidden">
-                {filteredServerEntries.map(([id, server], index) => (
-                  <UnifiedMcpListItem
-                    key={id}
-                    id={id}
-                    server={server}
-                    onToggleApp={handleToggleApp}
-                    onEdit={handleEdit}
-                    onDelete={handleDelete}
-                    disabled={interactionBlocked}
-                    isLast={index === filteredServerEntries.length - 1}
-                  />
-                ))}
-              </div>
-            </TooltipProvider>
+            <div className="rounded-xl border border-border-default overflow-hidden">
+              {filteredServerEntries.map(([id, server], index) => (
+                <UnifiedMcpListItem
+                  key={id}
+                  id={id}
+                  server={server}
+                  onToggleApp={handleToggleApp}
+                  onEdit={handleEdit}
+                  onDelete={handleDelete}
+                  disabled={interactionBlocked}
+                  isLast={index === filteredServerEntries.length - 1}
+                />
+              ))}
+            </div>
           )}
         </div>
       </ScrollArea>

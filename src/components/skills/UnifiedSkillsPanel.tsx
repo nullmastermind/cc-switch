@@ -11,7 +11,6 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { TooltipProvider } from "@/components/ui/tooltip";
 import {
   type ImportSkillSelection,
   type SkillBackupEntry,
@@ -50,7 +49,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-
 
 interface UnifiedSkillsPanelProps {
   onOpenDiscovery: () => void;
@@ -689,28 +687,26 @@ const UnifiedSkillsPanel = React.forwardRef<
               <p className="text-sm">{t("skills.noInstalledSearchResults")}</p>
             </div>
           ) : (
-            <TooltipProvider delayDuration={300}>
-              <div className="rounded-xl border border-border-default overflow-hidden">
-                {filteredSkills.map((skill, index) => (
-                  <InstalledSkillListItem
-                    key={skill.id}
-                    skill={skill}
-                    hasUpdate={!!updatesMap[skill.id]}
-                    isUpdating={
-                      updateSkillMutation.isPending &&
-                      updateSkillMutation.variables === skill.id
-                    }
-                    actionsDisabled={interactionBlocked}
-                    appIds={visibleSkillAppIds}
-                    onToggleApp={handleToggleApp}
-                    onUninstall={() => handleUninstall(skill)}
-                    onPreview={() => setPreviewSkill(skill)}
-                    onUpdate={() => handleUpdateSkill(skill)}
-                    isLast={index === filteredSkills.length - 1}
-                  />
-                ))}
-              </div>
-            </TooltipProvider>
+            <div className="rounded-xl border border-border-default overflow-hidden">
+              {filteredSkills.map((skill, index) => (
+                <InstalledSkillListItem
+                  key={skill.id}
+                  skill={skill}
+                  hasUpdate={!!updatesMap[skill.id]}
+                  isUpdating={
+                    updateSkillMutation.isPending &&
+                    updateSkillMutation.variables === skill.id
+                  }
+                  actionsDisabled={interactionBlocked}
+                  appIds={visibleSkillAppIds}
+                  onToggleApp={handleToggleApp}
+                  onUninstall={() => handleUninstall(skill)}
+                  onPreview={() => setPreviewSkill(skill)}
+                  onUpdate={() => handleUpdateSkill(skill)}
+                  isLast={index === filteredSkills.length - 1}
+                />
+              ))}
+            </div>
           )}
         </div>
       </ScrollArea>
@@ -1100,96 +1096,94 @@ const ImportSkillsDialog: React.FC<ImportSkillsDialogProps> = ({
   };
 
   return (
-    <TooltipProvider delayDuration={300}>
-      <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div className="bg-background rounded-xl p-6 max-w-lg w-full mx-4 shadow-xl max-h-[80vh] flex flex-col">
-          <h2 className="text-lg font-semibold mb-2">{t("skills.import")}</h2>
-          <p className="text-sm text-muted-foreground mb-4">
-            {t("skills.importDescription")}
-          </p>
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-background rounded-xl p-6 max-w-lg w-full mx-4 shadow-xl max-h-[80vh] flex flex-col">
+        <h2 className="text-lg font-semibold mb-2">{t("skills.import")}</h2>
+        <p className="text-sm text-muted-foreground mb-4">
+          {t("skills.importDescription")}
+        </p>
 
-          <div className="flex-1 overflow-y-auto space-y-2 mb-4">
-            {skills.map((skill) => (
-              <div
-                key={skill.directory}
-                className="flex items-start gap-3 rounded-lg border border-black/10 p-3 hover:bg-muted dark:border-white/10"
-              >
-                <input
-                  type="checkbox"
-                  checked={selected.has(skill.directory)}
-                  onChange={() => toggleSelect(skill.directory)}
-                  aria-label={skill.name}
-                  className="mt-1"
-                />
-                <div className="flex-1 min-w-0">
-                  <div className="font-medium">{skill.name}</div>
-                  {skill.description && (
-                    <div className="text-sm text-muted-foreground line-clamp-1">
-                      {skill.description}
-                    </div>
-                  )}
-                  <div className="mt-2">
-                    <AppToggleGroup
-                      apps={
-                        selectedApps[skill.directory] ?? {
-                          claude: false,
-                          codex: false,
-                          gemini: false,
-                          grokbuild: false,
-                          opencode: false,
-                          openclaw: false,
-                          hermes: false,
-                          pi: false,
-                          mcode: false,
-                        }
+        <div className="flex-1 overflow-y-auto space-y-2 mb-4">
+          {skills.map((skill) => (
+            <div
+              key={skill.directory}
+              className="flex items-start gap-3 rounded-lg border border-black/10 p-3 hover:bg-muted dark:border-white/10"
+            >
+              <input
+                type="checkbox"
+                checked={selected.has(skill.directory)}
+                onChange={() => toggleSelect(skill.directory)}
+                aria-label={skill.name}
+                className="mt-1"
+              />
+              <div className="flex-1 min-w-0">
+                <div className="font-medium">{skill.name}</div>
+                {skill.description && (
+                  <div className="text-sm text-muted-foreground line-clamp-1">
+                    {skill.description}
+                  </div>
+                )}
+                <div className="mt-2">
+                  <AppToggleGroup
+                    apps={
+                      selectedApps[skill.directory] ?? {
+                        claude: false,
+                        codex: false,
+                        gemini: false,
+                        grokbuild: false,
+                        opencode: false,
+                        openclaw: false,
+                        hermes: false,
+                        pi: false,
+                        mcode: false,
                       }
-                      onToggle={(app, enabled) => {
-                        setSelectedApps((prev) => ({
-                          ...prev,
-                          [skill.directory]: {
-                            ...(prev[skill.directory] ?? {
-                              claude: false,
-                              codex: false,
-                              gemini: false,
-                              grokbuild: false,
-                              opencode: false,
-                              openclaw: false,
-                              hermes: false,
-                              pi: false,
-                              mcode: false,
-                            }),
-                            [app]: enabled,
-                          },
-                        }));
-                      }}
-                      appIds={SKILLS_APP_IDS}
-                    />
-                  </div>
-                  <div
-                    className="mt-1 truncate text-xs text-muted-foreground"
-                    title={skill.path}
-                  >
-                    {skill.path}
-                  </div>
+                    }
+                    onToggle={(app, enabled) => {
+                      setSelectedApps((prev) => ({
+                        ...prev,
+                        [skill.directory]: {
+                          ...(prev[skill.directory] ?? {
+                            claude: false,
+                            codex: false,
+                            gemini: false,
+                            grokbuild: false,
+                            opencode: false,
+                            openclaw: false,
+                            hermes: false,
+                            pi: false,
+                            mcode: false,
+                          }),
+                          [app]: enabled,
+                        },
+                      }));
+                    }}
+                    appIds={SKILLS_APP_IDS}
+                  />
+                </div>
+                <div
+                  className="mt-1 truncate text-xs text-muted-foreground"
+                  title={skill.path}
+                >
+                  {skill.path}
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
 
-          <div className="flex justify-end gap-3">
-            <Button variant="outline" onClick={onClose} disabled={isImporting}>
-              {t("common.cancel")}
-            </Button>
-            <Button
-              onClick={handleImport}
-              disabled={selected.size === 0 || isImporting}
-            >
-              {t("skills.importSelected", { count: selected.size })}
-            </Button>
-          </div>
+        <div className="flex justify-end gap-3">
+          <Button variant="outline" onClick={onClose} disabled={isImporting}>
+            {t("common.cancel")}
+          </Button>
+          <Button
+            onClick={handleImport}
+            disabled={selected.size === 0 || isImporting}
+          >
+            {t("skills.importSelected", { count: selected.size })}
+          </Button>
         </div>
       </div>
-    </TooltipProvider>
+    </div>
   );
 };
 

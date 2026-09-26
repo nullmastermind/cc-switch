@@ -2,11 +2,6 @@ import { memo } from "react";
 import { ChevronRight } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 import { ProviderIcon } from "@/components/ProviderIcon";
 import type { SessionMeta } from "@/types";
@@ -75,25 +70,18 @@ export const SessionItem = memo(function SessionItem({
         onClick={() => onSelect(sessionKey)}
         className="flex h-6 min-w-0 flex-1 items-center gap-1 overflow-hidden text-left text-[12.35px] leading-[1.3] text-foreground duration-0 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
       >
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <span className="flex size-4 shrink-0 items-center justify-center leading-none">
-              <ProviderIcon
-                icon={getProviderIconName(session.providerId)}
-                name={session.providerId}
-                size={16}
-              />
-            </span>
-          </TooltipTrigger>
-          <TooltipContent>
-            {getProviderLabel(session.providerId, t)}
-          </TooltipContent>
-        </Tooltip>
-
         <span
-          title={title}
-          className="min-w-0 flex-1 truncate"
+          className="flex size-4 shrink-0 items-center justify-center leading-none"
+          title={getProviderLabel(session.providerId, t)}
         >
+          <ProviderIcon
+            icon={getProviderIconName(session.providerId)}
+            name={session.providerId}
+            size={16}
+          />
+        </span>
+
+        <span title={title} className="min-w-0 flex-1 truncate">
           {searchQuery ? highlightText(title, searchQuery) : title}
         </span>
 

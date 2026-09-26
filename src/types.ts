@@ -392,6 +392,8 @@ export interface Settings {
   commonConfigConfirmed?: boolean;
   // 首选语言（可选，默认中文）
   language?: "en" | "zh" | "zh-TW" | "ja" | "vi";
+  // User has confirmed the first-run / new-language picker
+  languagePickerConfirmed?: boolean;
 
   // 主页面显示的应用（默认全部显示）
   visibleApps?: VisibleApps;

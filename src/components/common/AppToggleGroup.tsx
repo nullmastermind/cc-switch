@@ -1,9 +1,4 @@
 import React from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import type { AppId } from "@/lib/api/types";
 import { APP_IDS, APP_ICON_MAP } from "@/config/appConfig";
 import { Button } from "@/components/ui/button";
@@ -27,28 +22,20 @@ export const AppToggleGroup: React.FC<AppToggleGroupProps> = ({
         const { label, icon, activeClass } = APP_ICON_MAP[app];
         const enabled = apps[app];
         return (
-          <Tooltip key={app}>
-            <TooltipTrigger asChild>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                onClick={() => onToggle(app, !enabled)}
-                disabled={disabled}
-                aria-label={label}
-                aria-pressed={Boolean(enabled)}
-                className={enabled ? activeClass : "opacity-70 hover:opacity-90"}
-              >
-                {icon}
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">
-              <p>
-                {label}
-                {enabled ? " ✓" : ""}
-              </p>
-            </TooltipContent>
-          </Tooltip>
+          <Button
+            key={app}
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={() => onToggle(app, !enabled)}
+            disabled={disabled}
+            aria-label={label}
+            aria-pressed={Boolean(enabled)}
+            title={`${label}${enabled ? " ✓" : ""}`}
+            className={enabled ? activeClass : "opacity-70 hover:opacity-90"}
+          >
+            {icon}
+          </Button>
         );
       })}
     </div>

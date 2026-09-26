@@ -48,12 +48,6 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import { extractErrorMessage } from "@/utils/errorUtils";
 import { isMac } from "@/lib/platform";
 import { ProviderIcon } from "@/components/ProviderIcon";
@@ -818,7 +812,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
   };
 
   return (
-    <TooltipProvider>
+    <>
       <div
         className="mx-auto px-4 sm:px-6 flex flex-col h-full min-h-0"
         onWheel={(e) => e.stopPropagation()}
@@ -896,29 +890,20 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                       </Button>
                     </div>
                     {selectionMode && (
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            variant="secondary"
-                            size="icon"
-                            className="size-7 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:hover:bg-blue-950/60"
-                            aria-label={t(
-                              "sessionManager.exitBatchModeTooltip",
-                              {
-                                defaultValue: "退出批量管理",
-                              },
-                            )}
-                            onClick={exitSelectionMode}
-                          >
-                            <CheckSquare className="size-3.5" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          {t("sessionManager.exitBatchModeTooltip", {
-                            defaultValue: "退出批量管理",
-                          })}
-                        </TooltipContent>
-                      </Tooltip>
+                      <Button
+                        variant="secondary"
+                        size="icon"
+                        className="size-7 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:hover:bg-blue-950/60"
+                        aria-label={t("sessionManager.exitBatchModeTooltip", {
+                          defaultValue: "退出批量管理",
+                        })}
+                        title={t("sessionManager.exitBatchModeTooltip", {
+                          defaultValue: "退出批量管理",
+                        })}
+                        onClick={exitSelectionMode}
+                      >
+                        <CheckSquare className="size-3.5" />
+                      </Button>
                     )}
                   </div>
                 ) : (
@@ -935,46 +920,42 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                       <div className="flex items-center gap-1 shrink-0">
                         {(selectionMode ||
                           deletableFilteredSessions.length > 0) && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                variant={selectionMode ? "secondary" : "ghost"}
-                                size="icon"
-                                className={
-                                  selectionMode
-                                    ? "size-7 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:hover:bg-blue-950/60"
-                                    : "size-7"
-                                }
-                                aria-label={
-                                  selectionMode
-                                    ? t("sessionManager.exitBatchModeTooltip", {
-                                        defaultValue: "退出批量管理",
-                                      })
-                                    : t("sessionManager.manageBatchTooltip", {
-                                        defaultValue: "批量管理",
-                                      })
-                                }
-                                onClick={() => {
-                                  if (selectionMode) {
-                                    exitSelectionMode();
-                                  } else {
-                                    setSelectionMode(true);
-                                  }
-                                }}
-                              >
-                                <CheckSquare className="size-3.5" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {selectionMode
+                          <Button
+                            variant={selectionMode ? "secondary" : "ghost"}
+                            size="icon"
+                            className={
+                              selectionMode
+                                ? "size-7 bg-blue-50 text-blue-600 hover:bg-blue-100 dark:bg-blue-950/40 dark:text-blue-300 dark:hover:bg-blue-950/60"
+                                : "size-7"
+                            }
+                            aria-label={
+                              selectionMode
                                 ? t("sessionManager.exitBatchModeTooltip", {
                                     defaultValue: "退出批量管理",
                                   })
                                 : t("sessionManager.manageBatchTooltip", {
                                     defaultValue: "批量管理",
-                                  })}
-                            </TooltipContent>
-                          </Tooltip>
+                                  })
+                            }
+                            title={
+                              selectionMode
+                                ? t("sessionManager.exitBatchModeTooltip", {
+                                    defaultValue: "退出批量管理",
+                                  })
+                                : t("sessionManager.manageBatchTooltip", {
+                                    defaultValue: "批量管理",
+                                  })
+                            }
+                            onClick={() => {
+                              if (selectionMode) {
+                                exitSelectionMode();
+                              } else {
+                                setSelectionMode(true);
+                              }
+                            }}
+                          >
+                            <CheckSquare className="size-3.5" />
+                          </Button>
                         )}
                         <Select
                           value={listViewMode}
@@ -982,31 +963,24 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                             setListViewMode(value as SessionListViewMode)
                           }
                         >
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <SelectTrigger
-                                className="size-7 p-0 justify-center border-0 bg-transparent hover:bg-muted"
-                                aria-label={t(
-                                  "sessionManager.viewModeTooltip",
-                                  {
-                                    defaultValue: "查看方式",
-                                  },
-                                )}
-                              >
-                                <span className="sr-only">
-                                  {t("sessionManager.viewModeTooltip", {
-                                    defaultValue: "查看方式",
-                                  })}
-                                </span>
-                                {listViewMode === "grouped" ? (
-                                  <ListTree className="size-3.5" />
-                                ) : (
-                                  <List className="size-3.5" />
-                                )}
-                              </SelectTrigger>
-                            </TooltipTrigger>
-                            <TooltipContent>{listViewModeLabel}</TooltipContent>
-                          </Tooltip>
+                          <SelectTrigger
+                            className="size-7 p-0 justify-center border-0 bg-transparent hover:bg-muted"
+                            aria-label={t("sessionManager.viewModeTooltip", {
+                              defaultValue: "查看方式",
+                            })}
+                            title={listViewModeLabel}
+                          >
+                            <span className="sr-only">
+                              {t("sessionManager.viewModeTooltip", {
+                                defaultValue: "查看方式",
+                              })}
+                            </span>
+                            {listViewMode === "grouped" ? (
+                              <ListTree className="size-3.5" />
+                            ) : (
+                              <List className="size-3.5" />
+                            )}
+                          </SelectTrigger>
                           <SelectContent className="w-40">
                             <SelectItem value="flat">
                               <div className="flex items-center gap-2">
@@ -1031,51 +1005,36 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           </SelectContent>
                         </Select>
                         {listViewMode === "grouped" && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="size-7"
-                                aria-label={t(
-                                  "sessionManager.collapseAllGroups",
-                                  {
-                                    defaultValue: "全部收起",
-                                  },
-                                )}
-                                onClick={handleCollapseAllGroups}
-                              >
-                                <ChevronsDownUp className="size-3.5" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {t("sessionManager.collapseAllGroups", {
-                                defaultValue: "全部收起",
-                              })}
-                            </TooltipContent>
-                          </Tooltip>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="size-7"
+                            aria-label={t("sessionManager.collapseAllGroups", {
+                              defaultValue: "全部收起",
+                            })}
+                            title={t("sessionManager.collapseAllGroups", {
+                              defaultValue: "全部收起",
+                            })}
+                            onClick={handleCollapseAllGroups}
+                          >
+                            <ChevronsDownUp className="size-3.5" />
+                          </Button>
                         )}
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="size-7"
-                              onClick={() => {
-                                setIsSearchOpen(true);
-                                setTimeout(
-                                  () => searchInputRef.current?.focus(),
-                                  0,
-                                );
-                              }}
-                            >
-                              <Search className="size-3.5" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            {t("sessionManager.searchSessions")}
-                          </TooltipContent>
-                        </Tooltip>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="size-7"
+                          title={t("sessionManager.searchSessions")}
+                          onClick={() => {
+                            setIsSearchOpen(true);
+                            setTimeout(
+                              () => searchInputRef.current?.focus(),
+                              0,
+                            );
+                          }}
+                        >
+                          <Search className="size-3.5" />
+                        </Button>
 
                         <Select
                           value={providerFilter}
@@ -1083,39 +1042,35 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                             setProviderFilter(value as ProviderFilter)
                           }
                         >
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <SelectTrigger
-                                className="size-7 p-0 justify-center border-0 bg-transparent hover:bg-muted"
-                                aria-label={t(
-                                  "sessionManager.providerFilterTooltip",
-                                  {
-                                    defaultValue: "供应商筛选",
-                                  },
-                                )}
-                              >
-                                <span className="sr-only">
-                                  {t("sessionManager.providerFilterTooltip", {
-                                    defaultValue: "供应商筛选",
-                                  })}
-                                </span>
-                                <ProviderIcon
-                                  icon={
-                                    providerFilter === "all"
-                                      ? "apps"
-                                      : getProviderIconName(providerFilter)
-                                  }
-                                  name={providerFilter}
-                                  size={14}
-                                />
-                              </SelectTrigger>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {providerFilter === "all"
+                          <SelectTrigger
+                            className="size-7 p-0 justify-center border-0 bg-transparent hover:bg-muted"
+                            aria-label={t(
+                              "sessionManager.providerFilterTooltip",
+                              {
+                                defaultValue: "供应商筛选",
+                              },
+                            )}
+                            title={
+                              providerFilter === "all"
                                 ? t("sessionManager.providerFilterAll")
-                                : providerFilter}
-                            </TooltipContent>
-                          </Tooltip>
+                                : providerFilter
+                            }
+                          >
+                            <span className="sr-only">
+                              {t("sessionManager.providerFilterTooltip", {
+                                defaultValue: "供应商筛选",
+                              })}
+                            </span>
+                            <ProviderIcon
+                              icon={
+                                providerFilter === "all"
+                                  ? "apps"
+                                  : getProviderIconName(providerFilter)
+                              }
+                              name={providerFilter}
+                              size={14}
+                            />
+                          </SelectTrigger>
                           <SelectContent>
                             <SelectItem value="all">
                               <div className="flex items-center gap-2">
@@ -1208,19 +1163,15 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           </SelectContent>
                         </Select>
 
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="size-7"
-                              onClick={() => void refetch()}
-                            >
-                              <RefreshCw className="size-3.5" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>{t("common.refresh")}</TooltipContent>
-                        </Tooltip>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="size-7"
+                          title={t("common.refresh")}
+                          onClick={() => void refetch()}
+                        >
+                          <RefreshCw className="size-3.5" />
+                        </Button>
                       </div>
                     </div>
                     {selectionMode && (
@@ -1421,28 +1372,20 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                                 <ChevronRight className="size-3.5 shrink-0" />
                                               )}
                                               <FolderOpen className="size-3.5 shrink-0" />
-                                              <Tooltip>
-                                                <TooltipTrigger asChild>
-                                                  <span className="min-w-0 flex-1 truncate text-xs font-medium">
-                                                    {directoryGroup.label}
-                                                  </span>
-                                                </TooltipTrigger>
-                                                <TooltipContent
-                                                  side="bottom"
-                                                  className="max-w-xs"
-                                                >
-                                                  <p className="font-mono text-xs break-all">
-                                                    {directoryGroup.projectDir ??
-                                                      t(
-                                                        "sessionManager.unknownDirectory",
-                                                        {
-                                                          defaultValue:
-                                                            "未知目录",
-                                                        },
-                                                      )}
-                                                  </p>
-                                                </TooltipContent>
-                                              </Tooltip>
+                                              <span
+                                                className="min-w-0 flex-1 truncate text-xs font-medium"
+                                                title={
+                                                  directoryGroup.projectDir ??
+                                                  t(
+                                                    "sessionManager.unknownDirectory",
+                                                    {
+                                                      defaultValue: "未知目录",
+                                                    },
+                                                  )
+                                                }
+                                              >
+                                                {directoryGroup.label}
+                                              </span>
                                               {renderGroupSelectionBadge(
                                                 directorySelectionState,
                                                 directoryGroup.sessions.length,
@@ -1473,25 +1416,27 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           position: "relative",
                         }}
                       >
-                        {sessionVirtualizer.getVirtualItems().map((virtualRow) => {
-                          const session = filteredSessions[virtualRow.index];
-                          return (
-                            <div
-                              key={virtualRow.key}
-                              data-index={virtualRow.index}
-                              ref={sessionVirtualizer.measureElement}
-                              style={{
-                                position: "absolute",
-                                top: 0,
-                                left: 0,
-                                width: "100%",
-                                transform: `translateY(${virtualRow.start}px)`,
-                              }}
-                            >
-                              {renderSessionItem(session)}
-                            </div>
-                          );
-                        })}
+                        {sessionVirtualizer
+                          .getVirtualItems()
+                          .map((virtualRow) => {
+                            const session = filteredSessions[virtualRow.index];
+                            return (
+                              <div
+                                key={virtualRow.key}
+                                data-index={virtualRow.index}
+                                ref={sessionVirtualizer.measureElement}
+                                style={{
+                                  position: "absolute",
+                                  top: 0,
+                                  left: 0,
+                                  width: "100%",
+                                  transform: `translateY(${virtualRow.start}px)`,
+                                }}
+                              >
+                                {renderSessionItem(session)}
+                              </div>
+                            );
+                          })}
                       </div>
                     )}
                   </div>
@@ -1517,22 +1462,21 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                       {/* 左侧：会话信息 */}
                       <div className="min-w-0 flex-1">
                         <div className="flex items-center gap-2 mb-1">
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <span className="shrink-0">
-                                <ProviderIcon
-                                  icon={getProviderIconName(
-                                    selectedSession.providerId,
-                                  )}
-                                  name={selectedSession.providerId}
-                                  size={20}
-                                />
-                              </span>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {getProviderLabel(selectedSession.providerId, t)}
-                            </TooltipContent>
-                          </Tooltip>
+                          <span
+                            className="shrink-0"
+                            title={getProviderLabel(
+                              selectedSession.providerId,
+                              t,
+                            )}
+                          >
+                            <ProviderIcon
+                              icon={getProviderIconName(
+                                selectedSession.providerId,
+                              )}
+                              name={selectedSession.providerId}
+                              size={20}
+                            />
+                          </span>
                           <h2 className="text-base font-semibold truncate">
                             {formatSessionTitle(selectedSession)}
                           </h2>
@@ -1550,70 +1494,42 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                             </span>
                           </div>
                           {selectedSession.projectDir && (
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  onClick={() =>
-                                    void handleCopy(
-                                      selectedSession.projectDir!,
-                                      t("sessionManager.projectDirCopied"),
-                                    )
-                                  }
-                                  className="h-auto min-w-0 px-1"
-                                >
-                                  <FolderOpen className="size-3" />
-                                  <span className="truncate max-w-[200px]">
-                                    {getBaseName(selectedSession.projectDir)}
-                                  </span>
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent
-                                side="bottom"
-                                className="max-w-xs"
-                              >
-                                <p className="font-mono text-xs break-all">
-                                  {selectedSession.projectDir}
-                                </p>
-                                <p className="text-muted-foreground mt-1">
-                                  {t("sessionManager.clickToCopyPath")}
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              onClick={() =>
+                                void handleCopy(
+                                  selectedSession.projectDir!,
+                                  t("sessionManager.projectDirCopied"),
+                                )
+                              }
+                              className="h-auto min-w-0 px-1"
+                              title={`${selectedSession.projectDir}\n${t("sessionManager.clickToCopyPath")}`}
+                            >
+                              <FolderOpen className="size-3" />
+                              <span className="truncate max-w-[200px]">
+                                {getBaseName(selectedSession.projectDir)}
+                              </span>
+                            </Button>
                           )}
                           {selectedSession.sourcePath && (
-                            <Tooltip>
-                              <TooltipTrigger asChild>
-                                <Button
-                                  type="button"
-                                  variant="ghost"
-                                  onClick={() =>
-                                    void handleCopy(
-                                      selectedSession.sourcePath!,
-                                      t("sessionManager.sourcePathCopied"),
-                                    )
-                                  }
-                                  className="h-auto min-w-0 px-1"
-                                >
-                                  <FileText className="size-3 shrink-0" />
-                                  <span className="font-mono truncate max-w-[200px]">
-                                    {getBaseName(selectedSession.sourcePath)}
-                                  </span>
-                                </Button>
-                              </TooltipTrigger>
-                              <TooltipContent
-                                side="bottom"
-                                className="max-w-xs"
-                              >
-                                <p className="font-mono text-xs break-all">
-                                  {selectedSession.sourcePath}
-                                </p>
-                                <p className="text-muted-foreground mt-1">
-                                  {t("sessionManager.clickToCopyPath")}
-                                </p>
-                              </TooltipContent>
-                            </Tooltip>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              onClick={() =>
+                                void handleCopy(
+                                  selectedSession.sourcePath!,
+                                  t("sessionManager.sourcePathCopied"),
+                                )
+                              }
+                              className="h-auto min-w-0 px-1"
+                              title={`${selectedSession.sourcePath}\n${t("sessionManager.clickToCopyPath")}`}
+                            >
+                              <FileText className="size-3 shrink-0" />
+                              <span className="font-mono truncate max-w-[200px]">
+                                {getBaseName(selectedSession.sourcePath)}
+                              </span>
+                            </Button>
                           )}
                         </div>
                       </div>
@@ -1621,66 +1537,54 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                       {/* 右侧：操作按钮组 */}
                       <div className="flex items-center gap-2 shrink-0">
                         {isMac() && (
-                          <Tooltip>
-                            <TooltipTrigger asChild>
-                              <Button
-                                size="sm"
-                                className="gap-1.5"
-                                onClick={() => void handleResume()}
-                                disabled={!selectedSession.resumeCommand}
-                              >
-                                <Play className="size-3.5" />
-                                <span className="hidden sm:inline">
-                                  {t("sessionManager.resume", {
-                                    defaultValue: "恢复会话",
-                                  })}
-                                </span>
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              {selectedSession.resumeCommand
+                          <Button
+                            size="sm"
+                            className="gap-1.5"
+                            onClick={() => void handleResume()}
+                            disabled={!selectedSession.resumeCommand}
+                            title={
+                              selectedSession.resumeCommand
                                 ? t("sessionManager.resumeTooltip", {
                                     defaultValue: "在终端中恢复此会话",
                                   })
                                 : t("sessionManager.noResumeCommand", {
                                     defaultValue: "此会话无法恢复",
-                                  })}
-                            </TooltipContent>
-                          </Tooltip>
+                                  })
+                            }
+                          >
+                            <Play className="size-3.5" />
+                            <span className="hidden sm:inline">
+                              {t("sessionManager.resume", {
+                                defaultValue: "恢复会话",
+                              })}
+                            </span>
+                          </Button>
                         )}
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              className="gap-1.5"
-                              onClick={() =>
-                                setDeleteTargets([selectedSession])
-                              }
-                              disabled={
-                                !selectedSession.sourcePath ||
-                                selectedSession.providerId === "mcode" ||
-                                isDeleting
-                              }
-                            >
-                              <Trash2 className="size-3.5" />
-                              <span className="hidden sm:inline">
-                                {isDeleting
-                                  ? t("sessionManager.deleting", {
-                                      defaultValue: "删除中...",
-                                    })
-                                  : t("sessionManager.delete", {
-                                      defaultValue: "删除会话",
-                                    })}
-                              </span>
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            {t("sessionManager.deleteTooltip", {
-                              defaultValue: "永久删除此本地会话记录",
-                            })}
-                          </TooltipContent>
-                        </Tooltip>
+                        <Button
+                          size="sm"
+                          variant="destructive"
+                          className="gap-1.5"
+                          onClick={() => setDeleteTargets([selectedSession])}
+                          disabled={
+                            !selectedSession.sourcePath ||
+                            selectedSession.providerId === "mcode" ||
+                            isDeleting
+                          }
+                          title={t("sessionManager.deleteTooltip", {
+                            defaultValue: "永久删除此本地会话记录",
+                          })}
+                        >
+                          <Trash2 className="size-3.5" />
+                          <span className="hidden sm:inline">
+                            {isDeleting
+                              ? t("sessionManager.deleting", {
+                                  defaultValue: "删除中...",
+                                })
+                              : t("sessionManager.delete", {
+                                  defaultValue: "删除会话",
+                                })}
+                          </span>
+                        </Button>
                       </div>
                     </div>
 
@@ -1690,28 +1594,22 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                         <div className="flex-1 rounded-md bg-muted/60 px-3 py-1.5 font-mono text-xs text-muted-foreground truncate">
                           {selectedSession.resumeCommand}
                         </div>
-                        <Tooltip>
-                          <TooltipTrigger asChild>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              className="size-7 shrink-0"
-                              onClick={() =>
-                                void handleCopy(
-                                  selectedSession.resumeCommand!,
-                                  t("sessionManager.resumeCommandCopied"),
-                                )
-                              }
-                            >
-                              <Copy className="size-3.5" />
-                            </Button>
-                          </TooltipTrigger>
-                          <TooltipContent>
-                            {t("sessionManager.copyCommand", {
-                              defaultValue: "复制命令",
-                            })}
-                          </TooltipContent>
-                        </Tooltip>
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="size-7 shrink-0"
+                          title={t("sessionManager.copyCommand", {
+                            defaultValue: "复制命令",
+                          })}
+                          onClick={() =>
+                            void handleCopy(
+                              selectedSession.resumeCommand!,
+                              t("sessionManager.resumeCommandCopied"),
+                            )
+                          }
+                        >
+                          <Copy className="size-3.5" />
+                        </Button>
                       </div>
                     )}
                   </CardHeader>
@@ -1852,6 +1750,6 @@ export function SessionManagerPage({ appId }: { appId: string }) {
           }
         }}
       />
-    </TooltipProvider>
+    </>
   );
 }

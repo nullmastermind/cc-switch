@@ -415,6 +415,9 @@ pub struct AppSettings {
     pub common_config_confirmed: Option<bool>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub language: Option<String>,
+    /// User has confirmed the language picker (shown once per install/update).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub language_picker_confirmed: Option<bool>,
 
     // ===== 主页面显示的应用 =====
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -545,6 +548,7 @@ impl Default for AppSettings {
             first_run_notice_confirmed: None,
             common_config_confirmed: None,
             language: None,
+            language_picker_confirmed: None,
             visible_apps: None,
             claude_config_dir: None,
             codex_config_dir: None,
