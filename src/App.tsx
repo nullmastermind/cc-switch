@@ -214,9 +214,9 @@ function HeaderNavButton({
       title={title ?? label}
       aria-label={title ?? label}
       className={cn(
-        "h-6 min-w-0 gap-1 rounded-[4px] px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5",
+        "h-7 min-w-0 gap-1 rounded-[8px] px-2 text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5",
         "transition-all duration-200 ease-in-out",
-        !showLabel && "w-6",
+        !showLabel && "w-7 px-1",
         visible
           ? "opacity-100"
           : "pointer-events-none ml-0 w-0 min-w-0 scale-75 overflow-hidden px-0 opacity-0",
@@ -342,7 +342,7 @@ function App() {
   const { data: unmanagedSkills } = useScanUnmanagedSkills();
   const hasUnmanagedSkills = (unmanagedSkills?.length ?? 0) > 0;
   const addActionButtonClass =
-    "bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30 dark:shadow-orange-500/40 rounded-full";
+    "bg-orange-500 hover:bg-orange-600 dark:bg-orange-500 dark:hover:bg-orange-600 text-white shadow-lg shadow-orange-500/30 dark:shadow-orange-500/40 rounded-full w-7 h-7";
 
   const {
     isRunning: isProxyRunning,
@@ -402,7 +402,7 @@ function App() {
         disabled={!hasMcpSupport}
         onClick={() => setCurrentView("mcp")}
       >
-        <McpIcon size={16} />
+        <McpIcon size={20} />
       </HeaderNavButton>
     </span>
   );
@@ -1371,7 +1371,7 @@ function App() {
           style={{ ...DRAG_REGION_STYLE } as any}
         >
           <div
-            className="flex items-center gap-1"
+            className="flex shrink-0 items-center gap-2"
             style={{ WebkitAppRegion: "no-drag" } as any}
           >
             {currentView !== "providers" ? (
@@ -1451,25 +1451,9 @@ function App() {
                 )}
               </div>
             )}
-          </div>
-
-          <div className="flex flex-1 min-w-0 items-center justify-end gap-1.5">
-            {currentView === "providers" &&
-              activeApp !== "mcode" &&
-              (settingsData?.showProfileSwitcher ?? true) && (
-                <div
-                  className="flex shrink-0 items-center"
-                  style={{ WebkitAppRegion: "no-drag" } as any}
-                >
-                  <ProfileSwitcher activeApp={activeApp} />
-                </div>
-              )}
             {currentView === "providers" &&
               (activeApp === "claude-desktop" || proxyAppId) && (
-                <div
-                  className="flex shrink-0 items-center gap-1.5"
-                  style={{ WebkitAppRegion: "no-drag" } as any}
-                >
+                <div className="relative z-10 flex shrink-0 items-center gap-1.5">
                   {activeApp === "claude-desktop" ? (
                     <ClaudeDesktopRouteToggle />
                   ) : proxyAppId ? (
@@ -1482,6 +1466,19 @@ function App() {
                       )}
                     </>
                   ) : null}
+                </div>
+              )}
+          </div>
+
+          <div className="flex flex-1 min-w-0 items-center gap-1.5 overflow-hidden">
+            {currentView === "providers" &&
+              activeApp !== "mcode" &&
+              (settingsData?.showProfileSwitcher ?? true) && (
+                <div
+                  className="flex shrink-0 items-center"
+                  style={{ WebkitAppRegion: "no-drag" } as any}
+                >
+                  <ProfileSwitcher activeApp={activeApp} />
                 </div>
               )}
             {/* 弹性中段：空间不足时由 AppSwitcher 自行收纳溢出应用；
@@ -1674,28 +1671,28 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("skills")}
-                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="h-7 w-7 rounded-[8px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("skills.manage")}
                               >
-                                <Wrench className="w-4 h-4" />
+                                <Wrench className="h-5 w-5" />
                               </Button>
                               <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("hermesMemory")}
-                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="h-7 w-7 rounded-[8px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("hermes.memory.title")}
                               >
-                                <Brain className="w-4 h-4" />
+                                <Brain className="h-5 w-5" />
                               </Button>
                               <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => void openHermesWebUI()}
-                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="h-7 w-7 rounded-[8px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("hermes.webui.open")}
                               >
-                                <LayoutDashboard className="w-4 h-4" />
+                                <LayoutDashboard className="h-5 w-5" />
                               </Button>
                               {mcpToolbarButton}
                             </>
@@ -1705,47 +1702,47 @@ function App() {
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("workspace")}
-                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="h-7 w-7 rounded-[8px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("workspace.manage")}
                               >
-                                <FolderOpen className="w-4 h-4" />
+                                <FolderOpen className="h-5 w-5" />
                               </Button>
                               <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("openclawEnv")}
-                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="h-7 w-7 rounded-[8px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("openclaw.env.title")}
                               >
-                                <KeyRound className="w-4 h-4" />
+                                <KeyRound className="h-5 w-5" />
                               </Button>
                               <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("openclawTools")}
-                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="h-7 w-7 rounded-[8px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("openclaw.tools.title")}
                               >
-                                <Shield className="w-4 h-4" />
+                                <Shield className="h-5 w-5" />
                               </Button>
                               <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("openclawAgents")}
-                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="h-7 w-7 rounded-[8px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("openclaw.agents.title")}
                               >
-                                <Cpu className="w-4 h-4" />
+                                <Cpu className="h-5 w-5" />
                               </Button>
                               {mcpToolbarButton}
                               <Button
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => setCurrentView("sessions")}
-                                className="text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                                className="h-7 w-7 rounded-[8px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
                                 title={t("sessionManager.title")}
                               >
-                                <History className="w-4 h-4" />
+                                <History className="h-5 w-5" />
                               </Button>
                             </>
                           ) : (
@@ -1755,7 +1752,7 @@ function App() {
                                 visible={hasSkillsSupport}
                                 onClick={() => setCurrentView("skills")}
                               >
-                                <Wrench className="h-4 w-4 shrink-0" />
+                                <Wrench className="h-5 w-5 shrink-0" />
                               </HeaderNavButton>
                               {/* Fork: keep Prompts out of the header toolbar. Do not restore on upstream merge.
                               <HeaderNavButton
@@ -1772,7 +1769,7 @@ function App() {
                                 visible={hasSessionSupport}
                                 onClick={() => setCurrentView("sessions")}
                               >
-                                <History className="h-4 w-4 shrink-0" />
+                                <History className="h-5 w-5 shrink-0" />
                               </HeaderNavButton>
                             </>
                           )}
@@ -1787,7 +1784,7 @@ function App() {
                       aria-label={t("provider.addNewProvider")}
                       title={t("provider.addNewProvider")}
                     >
-                      <Plus className="w-5 h-5" />
+                      <Plus className="h-5 w-5" />
                     </Button>
                   </>
                 )}

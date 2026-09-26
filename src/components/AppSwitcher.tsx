@@ -69,6 +69,7 @@ function AppGlyph({ app, isActive }: { app: AppId; isActive: boolean }) {
         name={APP_DISPLAY_NAME[app]}
         size={20}
         className={cn(
+          "[&>svg]:h-full [&>svg]:w-full",
           !isActive &&
             !CURRENT_COLOR_APPS.has(app) &&
             "grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100",
@@ -77,7 +78,7 @@ function AppGlyph({ app, isActive }: { app: AppId; isActive: boolean }) {
       {BadgeIcon && (
         <span
           className={cn(
-            "absolute -bottom-0.5 -right-0.5 flex items-center justify-center rounded-[3px] border h-[11px] w-[11px]",
+            "absolute -bottom-0.5 -right-0.5 flex items-center justify-center rounded-[3px] border h-3 w-3",
             isActive
               ? "bg-background border-border text-foreground"
               : "bg-muted border-background text-muted-foreground group-hover:bg-background group-hover:text-foreground",
@@ -142,16 +143,21 @@ export function AppSwitcher({
         (parseFloat(rootStyle.paddingLeft) || 0) +
         (parseFloat(rootStyle.paddingRight) || 0);
       const available = slot.clientWidth;
-      const widthAll = padding + appCount * itemWidth + (appCount - 1) * gap;
-      if (widthAll <= available) {
+      const rowWidth = (buttonCount: number) => {
+        if (buttonCount <= 0) return padding;
+        return padding + buttonCount * itemWidth + (buttonCount - 1) * gap;
+      };
+      if (rowWidth(appCount) <= available) {
         setVisibleCount(appCount);
         return;
       }
-      // 「更多」按钮与应用按钮同宽（同 padding + 同尺寸图标）
-      const fit = Math.floor(
-        (available - padding - itemWidth) / (itemWidth + gap),
-      );
-      setVisibleCount(Math.max(1, Math.min(appCount - 1, fit)));
+      // Need the more button. Total buttons = visible apps + 1.
+      // visible can be 0 — only the ⋯ menu — so the island never clips.
+      let visible = appCount - 1;
+      while (visible >= 0 && rowWidth(visible + 1) > available) {
+        visible -= 1;
+      }
+      setVisibleCount(Math.max(0, visible));
     };
 
     compute();
@@ -160,9 +166,13 @@ export function AppSwitcher({
     return () => observer.disconnect();
   }, [appCount]);
 
-  const visibleList = appsToShow.slice(0, Math.max(1, visibleCount));
+  const visibleList = appsToShow.slice(0, Math.max(0, visibleCount));
   // 激活应用被收进溢出区时，顶替最后一个可见位，保证始终可点亮
-  if (appsToShow.includes(activeApp) && !visibleList.includes(activeApp)) {
+  if (
+    visibleList.length > 0 &&
+    appsToShow.includes(activeApp) &&
+    !visibleList.includes(activeApp)
+  ) {
     visibleList[visibleList.length - 1] = activeApp;
   }
   const overflowList = appsToShow.filter((app) => !visibleList.includes(app));
@@ -184,7 +194,7 @@ export function AppSwitcher({
             title={APP_DISPLAY_NAME[app]}
             aria-label={APP_DISPLAY_NAME[app]}
             className={cn(
-              "h-6 min-w-0 rounded-[4px] px-2",
+              "h-7 min-w-0 shrink-0 rounded-[8px] px-2",
               isActive
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/50",
@@ -203,7 +213,7 @@ export function AppSwitcher({
               title={t("appSwitcher.more")}
               aria-label={t("appSwitcher.more")}
               className={cn(
-                "h-6 min-w-0 rounded-[4px] px-2",
+                "h-7 min-w-0 shrink-0 rounded-[8px] px-2",
                 moreOpen
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground hover:bg-background/50",
