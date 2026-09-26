@@ -1421,18 +1421,6 @@ function App() {
             ) : (
               <div className="flex items-center gap-2">
                 <ViberSwitchLogo />
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => {
-                    setSettingsDefaultTab("general");
-                    setCurrentView("settings");
-                  }}
-                  title={t("common.settings")}
-                  className="hover:bg-black/5 dark:hover:bg-white/5"
-                >
-                  <Settings className="w-4 h-4" />
-                </Button>
                 {isCurrentAppTakeoverActive && (
                   <Button
                     variant="ghost"
@@ -1788,7 +1776,22 @@ function App() {
                     </Button>
                   </>
                 )}
-                <ThemeToggle />
+                <div className="inline-flex shrink-0 items-center gap-1 px-1.5 h-7 rounded-[8px] bg-muted/50">
+                  <ThemeToggle />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => {
+                      setSettingsDefaultTab("general");
+                      setCurrentView("settings");
+                    }}
+                    title={t("common.settings")}
+                    aria-label={t("common.settings")}
+                    className="h-5 w-5 p-0 shrink-0 rounded-[4px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+                  >
+                    <Settings className="h-4 w-4" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>

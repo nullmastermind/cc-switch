@@ -125,7 +125,7 @@ export interface UpdateCommonConfigResult {
 // 验证JSON配置格式
 export const validateJsonConfig = (
   value: string,
-  fieldName: string = "配置",
+  fieldName: string = "Config",
 ): string => {
   if (!value.trim()) {
     return "";
@@ -133,11 +133,11 @@ export const validateJsonConfig = (
   try {
     const parsed = JSON.parse(value);
     if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-      return `${fieldName}必须是 JSON 对象`;
+      return `${fieldName} must be a JSON object`;
     }
     return "";
   } catch {
-    return `${fieldName}JSON格式错误，请检查语法`;
+    return `${fieldName} JSON is invalid; check the syntax`;
   }
 };
 
@@ -153,7 +153,7 @@ export const updateCommonConfigSnippet = (
   } catch (err) {
     return {
       updatedConfig: jsonString,
-      error: "配置 JSON 解析失败，无法应用通用配置",
+      error: "Failed to parse config JSON; cannot apply common config",
     };
   }
 
@@ -164,7 +164,7 @@ export const updateCommonConfigSnippet = (
   }
 
   // 使用统一的验证函数
-  const snippetError = validateJsonConfig(snippetString, "通用配置片段");
+  const snippetError = validateJsonConfig(snippetString, "Common config snippet");
   if (snippetError) {
     return {
       updatedConfig: JSON.stringify(config, null, 2),

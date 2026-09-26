@@ -102,7 +102,7 @@ impl ProxyServer {
         let addr: SocketAddr =
             format!("{}:{}", self.config.listen_address, self.config.listen_port)
                 .parse()
-                .map_err(|e| ProxyError::BindFailed(format!("无效的地址: {e}")))?;
+                .map_err(|e| ProxyError::BindFailed(format!("Invalid address: {e}")))?;
 
         if listen_addr_in_use(addr).await {
             return Err(ProxyError::BindFailed(port_in_use_message(addr.port())));
@@ -457,7 +457,7 @@ fn probe_socket_addr(addr: SocketAddr) -> SocketAddr {
 }
 
 fn port_in_use_message(port: u16) -> String {
-    format!("端口 {port} 已被占用，启动已取消（不会关闭占用该端口的进程）")
+    format!("Port {port} is already in use; startup cancelled (the process holding the port was not killed)")
 }
 
 fn map_bind_error(port: u16, err: std::io::Error) -> String {
@@ -1314,7 +1314,7 @@ mod tests {
                     "error should name the port: {msg}"
                 );
                 assert!(
-                    msg.contains("已被占用"),
+                    msg.contains("already in use"),
                     "error should say the port is in use: {msg}"
                 );
             }

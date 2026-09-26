@@ -2860,7 +2860,7 @@ wire_api = "responses"
             assert!(
                 error
                     .to_string()
-                    .contains("无法安全判断 refresh token 新旧"),
+                    .contains("Cannot safely tell which refresh token is newer"),
                 "update should explain the safe-write rejection: {error}"
             );
 
@@ -2952,7 +2952,7 @@ wire_api = "responses"
                 assert!(
                     error
                         .to_string()
-                        .contains("无法安全判断 refresh token 新旧"),
+                        .contains("Cannot safely tell which refresh token is newer"),
                     "attempt {attempt} should remain ambiguous: {error}"
                 );
                 let live_after: Value = read_json_file(&crate::codex_config::get_codex_auth_path())
@@ -3170,7 +3170,7 @@ wire_api = "responses"
                             .block_on(state.proxy_service.set_takeover_for_app("codex", true))
                             .unwrap_err()
                     };
-                    assert!(error.contains("选择账号"), "{mode}: {error}");
+                    assert!(error.contains("Select account"), "{mode}: {error}");
                     if let Some(auth) = &native_auth {
                         assert_eq!(
                             &read_json_file::<Value>(&crate::codex_config::get_codex_auth_path())
@@ -4756,7 +4756,7 @@ impl ProviderService {
             if let Err(rollback_error) =
                 crate::settings::set_current_provider(app_type, previous_local_current)
             {
-                rollback_failures.push(format!("恢复本地 current 失败: {rollback_error}"));
+                rollback_failures.push(format!("Failed to restore local current: {rollback_error}"));
             }
         }
         if let Err(rollback_error) = snapshot.restore_preserving_newer_same_account_auth() {
@@ -4767,7 +4767,7 @@ impl ProviderService {
             error
         } else {
             AppError::Message(format!(
-                "{operation}失败: {error}; 回滚同时失败: {}",
+                "{operation} failed: {error}; rollback also failed: {}",
                 rollback_failures.join("; ")
             ))
         }
@@ -4804,7 +4804,7 @@ impl ProviderService {
             error
         } else {
             AppError::Message(format!(
-                "{operation}失败: {error}; 回滚同时失败: {}",
+                "{operation} failed: {error}; rollback also failed: {}",
                 rollback_failures.join("; ")
             ))
         }
@@ -4823,7 +4823,7 @@ impl ProviderService {
             if let Err(rollback_error) =
                 crate::settings::set_current_provider(app_type, previous_local_current)
             {
-                rollback_failures.push(format!("恢复本地 current 失败: {rollback_error}"));
+                rollback_failures.push(format!("Failed to restore local current: {rollback_error}"));
             }
         }
         let backup_restore = match previous_backup {
@@ -4837,7 +4837,7 @@ impl ProviderService {
             }
         };
         if let Err(rollback_error) = backup_restore {
-            rollback_failures.push(format!("恢复 Codex Live 备份失败: {rollback_error}"));
+            rollback_failures.push(format!("Failed to restore Codex Live back up: {rollback_error}"));
         }
         if let Err(rollback_error) = snapshot.restore_preserving_newer_same_account_auth() {
             rollback_failures.push(rollback_error.to_string());
@@ -4847,7 +4847,7 @@ impl ProviderService {
             error
         } else {
             AppError::Message(format!(
-                "{operation}失败: {error}; 回滚同时失败: {}",
+                "{operation} failed: {error}; rollback also failed: {}",
                 rollback_failures.join("; ")
             ))
         }
@@ -5456,7 +5456,7 @@ impl ProviderService {
 
                 if let Err(err) = McpService::sync_enabled_for_app(state, &app_type) {
                     log::warn!(
-                        "保存供应商后重投影 {app_type:?} MCP 失败（将在下次同步时自愈）: {err}"
+                        "Failed to reproject {app_type:?} MCP after saving provider (will self-heal on next sync): {err}"
                     );
                 }
                 return Ok(true);
@@ -5474,7 +5474,7 @@ impl ProviderService {
                         outgoing_managed_codex_account_id.as_deref(),
                     ),
                 )
-                .map_err(|error| AppError::Message(format!("更新 Live 备份失败: {error}")))?;
+                .map_err(|error| AppError::Message(format!("Failed to update Live back up: {error}")))?;
 
                 if live_taken_over {
                     futures::executor::block_on(
@@ -5487,7 +5487,7 @@ impl ProviderService {
                             ),
                     )
                     .map_err(|error| {
-                        AppError::Message(format!("同步 Codex Live 配置失败: {error}"))
+                        AppError::Message(format!("Failed to sync Codex live config: {error}"))
                     })?;
                 } else {
                     // A backup without a takeover marker is a recoverable
@@ -5543,7 +5543,7 @@ impl ProviderService {
                 // itself is not reported as failed when MCP projection can retry.
                 if let Err(err) = McpService::sync_enabled_for_app(state, &app_type) {
                     log::warn!(
-                        "保存供应商后重投影 {app_type:?} MCP 失败（将在下次同步时自愈）: {err}"
+                        "Failed to reproject {app_type:?} MCP after saving provider (will self-heal on next sync): {err}"
                     );
                 }
             }
@@ -5624,7 +5624,7 @@ impl ProviderService {
 
         if local_current.as_deref() == Some(id) || db_current.as_deref() == Some(id) {
             return Err(AppError::Message(
-                "无法删除当前正在使用的供应商".to_string(),
+                "Cannot delete the provider currently in use".to_string(),
             ));
         }
 
@@ -5718,7 +5718,7 @@ impl ProviderService {
         let providers = state.db.get_all_providers(app_type.as_str())?;
         let _provider = providers
             .get(id)
-            .ok_or_else(|| AppError::Message(format!("供应商 {id} 不存在")))?;
+            .ok_or_else(|| AppError::Message(format!("Provider {id} not found")))?;
 
         // OMO providers are switched through their own exclusive path.
         if matches!(app_type, AppType::OpenCode) && _provider.category.as_deref() == Some("omo") {
@@ -5770,7 +5770,7 @@ impl ProviderService {
         {
             return Err(AppError::localized(
                 "switch.official_blocked_by_proxy",
-                "代理接管模式下不能切换到官方供应商，使用代理访问官方 API 可能导致账号被封禁。请先关闭代理接管，或选择第三方供应商。",
+                "Cannot switch to official provider while proxy takeover is active. Using proxy with official APIs may cause account bans.",
                 "Cannot switch to official provider while proxy takeover is active. Using proxy with official APIs may cause account bans.",
             ));
         }
@@ -5790,7 +5790,7 @@ impl ProviderService {
                     .proxy_service
                     .hot_switch_provider_inner(app_type.as_str(), id),
             )
-            .map_err(|e| AppError::Message(format!("热切换失败: {e}")))?;
+            .map_err(|e| AppError::Message(format!("Hot-switch failed: {e}")))?;
 
             // The proxy server will route requests to the new provider via is_current.
             // MCP sync is intentionally skipped while Live config is owned by takeover.
@@ -5810,7 +5810,7 @@ impl ProviderService {
     ) -> Result<SwitchResult, AppError> {
         let provider = providers
             .get(id)
-            .ok_or_else(|| AppError::Message(format!("供应商 {id} 不存在")))?;
+            .ok_or_else(|| AppError::Message(format!("Provider {id} not found")))?;
 
         // OMO ↔ OMO Slim are mutually exclusive; activating one removes the other's config file.
         if matches!(app_type, AppType::OpenCode) {
@@ -6762,7 +6762,7 @@ impl ProviderService {
         //    片段和标记都原样留着，下次启动照原样重来。
         if let Some(backup) = state.db.get_live_backup(app.as_str()).await? {
             let original: Value = serde_json::from_str(&backup.original_config)
-                .map_err(|e| AppError::Message(format!("解析 Gemini 代理接管备份失败: {e}")))?;
+                .map_err(|e| AppError::Message(format!("Failed to parse Gemini proxy-takeover backup: {e}")))?;
             let cleaned = live::remove_common_config_from_settings(&app, &original, &poison_text)?;
             if cleaned != original {
                 let text = serde_json::to_string(&cleaned)
@@ -6988,7 +6988,7 @@ impl ProviderService {
                 if !provider.settings_config.is_object() {
                     return Err(AppError::localized(
                         "provider.claude.settings.not_object",
-                        "Claude 配置必须是 JSON 对象",
+                        "Claude configuration must be a JSON object",
                         "Claude configuration must be a JSON object",
                     ));
                 }
@@ -7000,7 +7000,7 @@ impl ProviderService {
                 let settings = provider.settings_config.as_object().ok_or_else(|| {
                     AppError::localized(
                         "provider.codex.settings.not_object",
-                        "Codex 配置必须是 JSON 对象",
+                        "Codex configuration must be a JSON object",
                         "Codex configuration must be a JSON object",
                     )
                 })?;
@@ -7008,14 +7008,14 @@ impl ProviderService {
                 let auth = settings.get("auth").ok_or_else(|| {
                     AppError::localized(
                         "provider.codex.auth.missing",
-                        format!("供应商 {} 缺少 auth 配置", provider.id),
+                        format!("Provider {} is missing auth config", provider.id),
                         format!("Provider {} is missing auth configuration", provider.id),
                     )
                 })?;
                 if !auth.is_object() {
                     return Err(AppError::localized(
                         "provider.codex.auth.not_object",
-                        format!("供应商 {} 的 auth 配置必须是 JSON 对象", provider.id),
+                        format!("Auth config for provider {} must be a JSON object", provider.id),
                         format!(
                             "Provider {} auth configuration must be a JSON object",
                             provider.id
@@ -7027,7 +7027,7 @@ impl ProviderService {
                     if !(config_value.is_string() || config_value.is_null()) {
                         return Err(AppError::localized(
                             "provider.codex.config.invalid_type",
-                            "Codex config 字段必须是字符串",
+                            "Codex config field must be a string",
                             "Codex config field must be a string",
                         ));
                     }
@@ -7044,7 +7044,7 @@ impl ProviderService {
                 let settings = provider.settings_config.as_object().ok_or_else(|| {
                     AppError::localized(
                         "provider.grokbuild.settings.not_object",
-                        "Grok Build 配置必须是 JSON 对象",
+                        "Grok Build configuration must be a JSON object",
                         "Grok Build configuration must be a JSON object",
                     )
                 })?;
@@ -7054,7 +7054,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.grokbuild.config.missing",
-                            "Grok Build 配置缺少 config 字段",
+                            "Grok Build config is missing the config field",
                             "Grok Build configuration is missing the config field",
                         )
                     })?;
@@ -7072,7 +7072,7 @@ impl ProviderService {
                 if !provider.settings_config.is_object() {
                     return Err(AppError::localized(
                         "provider.opencode.settings.not_object",
-                        "OpenCode 配置必须是 JSON 对象",
+                        "OpenCode configuration must be a JSON object",
                         "OpenCode configuration must be a JSON object",
                     ));
                 }
@@ -7083,7 +7083,7 @@ impl ProviderService {
                 if !provider.settings_config.is_object() {
                     return Err(AppError::localized(
                         "provider.openclaw.settings.not_object",
-                        "OpenClaw 配置必须是 JSON 对象",
+                        "OpenClaw configuration must be a JSON object",
                         "OpenClaw configuration must be a JSON object",
                     ));
                 }
@@ -7093,7 +7093,7 @@ impl ProviderService {
                 if !provider.settings_config.is_object() {
                     return Err(AppError::localized(
                         "provider.hermes.settings.not_object",
-                        "Hermes 配置必须是 JSON 对象",
+                        "Hermes configuration must be a JSON object",
                         "Hermes configuration must be a JSON object",
                     ));
                 }
@@ -7136,7 +7136,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.claude.env.missing",
-                            "配置格式错误: 缺少 env",
+                            "Invalid configuration: missing env section",
                             "Invalid configuration: missing env section",
                         )
                     })?;
@@ -7148,7 +7148,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.claude.api_key.missing",
-                            "缺少 API Key",
+                            "API key is missing",
                             "API key is missing",
                         )
                     })?
@@ -7160,7 +7160,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.claude.base_url.missing",
-                            "缺少 ANTHROPIC_BASE_URL 配置",
+                            "Missing ANTHROPIC_BASE_URL configuration",
                             "Missing ANTHROPIC_BASE_URL configuration",
                         )
                     })?
@@ -7176,7 +7176,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.grokbuild.config.missing",
-                            "Grok Build 配置缺少 config 字段",
+                            "Grok Build config is missing the config field",
                             "Grok Build configuration is missing the config field",
                         )
                     })?;
@@ -7184,7 +7184,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.grokbuild.credentials.missing",
-                            "Grok Build 配置缺少 Base URL 或 API Key",
+                            "Grok Build configuration is missing the base URL or API key",
                             "Grok Build configuration is missing the base URL or API key",
                         )
                     })?;
@@ -7203,7 +7203,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.codex.auth.missing",
-                            "配置格式错误: 缺少 auth",
+                            "Invalid configuration: missing auth section",
                             "Invalid configuration: missing auth section",
                         )
                     })?;
@@ -7221,7 +7221,7 @@ impl ProviderService {
                 .ok_or_else(|| {
                     AppError::localized(
                         "provider.codex.api_key.missing",
-                        "缺少 API Key",
+                        "API key is missing",
                         "API key is missing",
                     )
                 })?;
@@ -7230,7 +7230,7 @@ impl ProviderService {
                     let re = Regex::new(r#"base_url\s*=\s*["']([^"']+)["']"#).map_err(|e| {
                         AppError::localized(
                             "provider.regex_init_failed",
-                            format!("正则初始化失败: {e}"),
+                            format!("Failed to initialize regex: {e}"),
                             format!("Failed to initialize regex: {e}"),
                         )
                     })?;
@@ -7240,14 +7240,14 @@ impl ProviderService {
                         .ok_or_else(|| {
                             AppError::localized(
                                 "provider.codex.base_url.invalid",
-                                "config.toml 中 base_url 格式错误",
+                                "base_url in config.toml has invalid format",
                                 "base_url in config.toml has invalid format",
                             )
                         })?
                 } else {
                     return Err(AppError::localized(
                         "provider.codex.base_url.missing",
-                        "config.toml 中缺少 base_url 配置",
+                        "base_url is missing from config.toml",
                         "base_url is missing from config.toml",
                     ));
                 };
@@ -7262,7 +7262,7 @@ impl ProviderService {
                 let api_key = env_map.get("GEMINI_API_KEY").cloned().ok_or_else(|| {
                     AppError::localized(
                         "gemini.missing_api_key",
-                        "缺少 GEMINI_API_KEY",
+                        "Missing GEMINI_API_KEY",
                         "Missing GEMINI_API_KEY",
                     )
                 })?;
@@ -7283,7 +7283,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.opencode.options.missing",
-                            "配置格式错误: 缺少 options",
+                            "Invalid configuration: missing options section",
                             "Invalid configuration: missing options section",
                         )
                     })?;
@@ -7294,7 +7294,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.opencode.api_key.missing",
-                            "缺少 API Key",
+                            "API key is missing",
                             "API key is missing",
                         )
                     })?
@@ -7317,7 +7317,7 @@ impl ProviderService {
                     .ok_or_else(|| {
                         AppError::localized(
                             "provider.openclaw.api_key.missing",
-                            "缺少 API Key",
+                            "API key is missing",
                             "API key is missing",
                         )
                     })?
@@ -7483,7 +7483,7 @@ impl ProviderService {
         let provider = state
             .db
             .get_universal_provider(id)?
-            .ok_or_else(|| AppError::Message(format!("统一供应商 {id} 不存在")))?;
+            .ok_or_else(|| AppError::Message(format!("Unified provider {id} not found")))?;
 
         // Keep DB and live projections in sync independently per application:
         // one broken config file must not prevent the other two apps from being
@@ -7567,7 +7567,7 @@ impl ProviderService {
             Ok(true)
         } else {
             Err(AppError::Message(format!(
-                "统一供应商已保存到数据库，但以下应用的配置文件未能写入，仍是旧内容：{}。请重试同步，或切换一次该应用的供应商。",
+                "Unified provider saved to the database, but these apps still have old config files: {}. Retry sync, or switch that app's provider once.",
                 live_failures.join("、")
             )))
         }
@@ -7587,7 +7587,7 @@ impl ProviderService {
             Ok(current) => current.as_deref() == Some(child_id),
             Err(err) => {
                 log::warn!(
-                    "读取 {} 当前供应商失败，跳过统一供应商的 live 重投影: {err}",
+                    "Failed to read {} current provider; skipping unified-provider live reproject: {err}",
                     app_type.as_str()
                 );
                 failures.push(app_type.as_str().to_string());

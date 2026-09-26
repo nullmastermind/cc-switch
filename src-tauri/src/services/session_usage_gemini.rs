@@ -67,7 +67,7 @@ pub fn sync_gemini_usage(db: &Database) -> Result<SessionSyncResult, AppError> {
                 result.skipped += skipped;
             }
             Err(e) => {
-                let msg = format!("Gemini 会话文件解析失败 {}: {e}", file_path.display());
+                let msg = format!("Failed to Gemini session file parse {}: {e}", file_path.display());
                 log::warn!("[GEMINI-SYNC] {msg}");
                 result.errors.push(msg);
             }
@@ -140,7 +140,7 @@ fn sync_single_gemini_file(
 
     // 获取文件元数据
     let metadata = fs::metadata(file_path)
-        .map_err(|e| AppError::Config(format!("无法读取文件元数据: {e}")))?;
+        .map_err(|e| AppError::Config(format!("Cannot read file metadata: {e}")))?;
     let file_modified = metadata_modified_nanos(&metadata);
 
     // 文件未变化则跳过
@@ -150,9 +150,9 @@ fn sync_single_gemini_file(
 
     // 读取并解析整个 JSON 文件
     let content = fs::read_to_string(file_path)
-        .map_err(|e| AppError::Config(format!("无法读取文件: {e}")))?;
+        .map_err(|e| AppError::Config(format!("Cannot read file: {e}")))?;
     let value: serde_json::Value = serde_json::from_str(&content)
-        .map_err(|e| AppError::Config(format!("JSON 解析失败: {e}")))?;
+        .map_err(|e| AppError::Config(format!("JSON parse failed: {e}")))?;
 
     // 提取顶层 sessionId
     let session_id = value
@@ -357,7 +357,7 @@ fn insert_gemini_session_entry(
             "gemini_session",    // data_source
         ],
     )
-    .map_err(|e| AppError::Database(format!("插入 Gemini 会话日志失败: {e}")))?;
+    .map_err(|e| AppError::Database(format!("Failed to insert Gemini session log: {e}")))?;
 
     // changes() > 0 表示新插入或已更新，== 0 表示值完全相同（无实际变更）
     let changed = conn.changes() > 0;

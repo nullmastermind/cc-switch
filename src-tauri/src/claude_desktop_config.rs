@@ -298,7 +298,7 @@ pub fn direct_gateway_credentials(
         .ok_or_else(|| {
             AppError::localized(
                 "claude_desktop.provider.env_missing",
-                "Claude Desktop 直连供应商缺少 env 配置",
+                "Claude Desktop direct provider is missing env configuration",
                 "Claude Desktop direct provider is missing env configuration",
             )
         })?;
@@ -311,7 +311,7 @@ pub fn direct_gateway_credentials(
         .ok_or_else(|| {
             AppError::localized(
                 "claude_desktop.provider.base_url_missing",
-                "Claude Desktop 直连供应商缺少 ANTHROPIC_BASE_URL",
+                "Claude Desktop direct provider is missing ANTHROPIC_BASE_URL",
                 "Claude Desktop direct provider is missing ANTHROPIC_BASE_URL",
             )
         })?
@@ -325,7 +325,7 @@ pub fn direct_gateway_credentials(
         .ok_or_else(|| {
             AppError::localized(
                 "claude_desktop.provider.auth_token_missing",
-                "Claude Desktop 直连供应商缺少 ANTHROPIC_AUTH_TOKEN（Bearer Token）",
+                "Claude Desktop direct provider is missing ANTHROPIC_AUTH_TOKEN (Bearer Token)",
                 "Claude Desktop direct provider is missing ANTHROPIC_AUTH_TOKEN (Bearer Token)",
             )
         })?
@@ -342,7 +342,7 @@ pub fn validate_direct_provider(provider: &Provider) -> Result<(), AppError> {
     if !provider.settings_config.is_object() {
         return Err(AppError::localized(
             "claude_desktop.provider.settings_not_object",
-            "Claude Desktop 直连供应商配置必须是 JSON 对象",
+            "Claude Desktop direct provider configuration must be a JSON object",
             "Claude Desktop direct provider configuration must be a JSON object",
         ));
     }
@@ -352,7 +352,7 @@ pub fn validate_direct_provider(provider: &Provider) -> Result<(), AppError> {
             if !api_format.trim().is_empty() && api_format != "anthropic" {
                 return Err(AppError::localized(
                     "claude_desktop.provider.api_format_unsupported",
-                    "Claude Desktop 第一阶段只支持原生 Anthropic Messages API",
+                    "Claude Desktop phase 1 only supports native Anthropic Messages API",
                     "Claude Desktop phase 1 only supports native Anthropic Messages API",
                 ));
             }
@@ -364,7 +364,7 @@ pub fn validate_direct_provider(provider: &Provider) -> Result<(), AppError> {
         ) {
             return Err(AppError::localized(
                 "claude_desktop.provider.mode_unsupported",
-                "该供应商是 Claude Desktop 本地路由模式，不能按直连模式写入",
+                "This Claude Desktop provider uses proxy mode and cannot be written as direct mode",
                 "This Claude Desktop provider uses proxy mode and cannot be written as direct mode",
             ));
         }
@@ -375,7 +375,7 @@ pub fn validate_direct_provider(provider: &Provider) -> Result<(), AppError> {
         ) {
             return Err(AppError::localized(
                 "claude_desktop.provider.type_unsupported",
-                "Claude Desktop 直连模式不支持需要本地代理转换的供应商",
+                "Claude Desktop direct mode does not support providers that require local proxy conversion",
                 "Claude Desktop direct mode does not support providers that require local proxy conversion",
             ));
         }
@@ -383,7 +383,7 @@ pub fn validate_direct_provider(provider: &Provider) -> Result<(), AppError> {
         if meta.is_full_url == Some(true) {
             return Err(AppError::localized(
                 "claude_desktop.provider.full_url_unsupported",
-                "Claude Desktop 直连模式不支持完整 URL 端点配置",
+                "Claude Desktop direct mode does not support full URL endpoint configuration",
                 "Claude Desktop direct mode does not support full URL endpoint configuration",
             ));
         }
@@ -402,7 +402,7 @@ pub fn validate_proxy_provider(provider: &Provider) -> Result<(), AppError> {
     if !provider.settings_config.is_object() {
         return Err(AppError::localized(
             "claude_desktop.provider.settings_not_object",
-            "Claude Desktop 本地路由供应商配置必须是 JSON 对象",
+            "Claude Desktop proxy provider configuration must be a JSON object",
             "Claude Desktop proxy provider configuration must be a JSON object",
         ));
     }
@@ -415,7 +415,7 @@ pub fn validate_proxy_provider(provider: &Provider) -> Result<(), AppError> {
             ) {
                 return Err(AppError::localized(
                     "claude_desktop.provider.api_format_unsupported",
-                    format!("Claude Desktop 本地路由模式不支持 API 格式: {api_format}"),
+                    format!("Claude Desktop local routing mode does not support API format: {api_format}"),
                     format!("Claude Desktop proxy mode does not support API format: {api_format}"),
                 ));
             }
@@ -427,7 +427,7 @@ pub fn validate_proxy_provider(provider: &Provider) -> Result<(), AppError> {
     if !has_proxy_base_url_and_key(provider) {
         return Err(AppError::localized(
             "claude_desktop.provider.credentials_missing",
-            "Claude Desktop 本地路由供应商缺少 Base URL 或 API Key",
+            "Claude Desktop proxy provider is missing Base URL or API key",
             "Claude Desktop proxy provider is missing Base URL or API key",
         ));
     }
@@ -515,7 +515,7 @@ fn direct_inference_model_specs(provider: &Provider) -> Result<Vec<InferenceMode
             return Err(AppError::localized(
                 "claude_desktop.provider.route_invalid",
                 format!(
-                    "Claude Desktop 直连模型必须使用 claude-* 或 anthropic/claude-* 名称: {route_id}"
+                    "Claude Desktop direct models must use claude-* or anthropic/claude-* names: {route_id}"
                 ),
                 format!(
                     "Claude Desktop direct model must use a claude-* or anthropic/claude-* name: {route_id}"
@@ -527,7 +527,7 @@ fn direct_inference_model_specs(provider: &Provider) -> Result<Vec<InferenceMode
             return Err(AppError::localized(
                 "claude_desktop.provider.direct_mapping_unsupported",
                 format!(
-                    "Claude Desktop 直连模式不能映射模型: {route_id} -> {upstream_model}；非 Claude 官方模型请使用本地路由模式"
+                    "Claude Desktop direct mode cannot map models: {route_id} -> {upstream_model}; use proxy mode for non-Claude official models"
                 ),
                 format!(
                     "Claude Desktop direct mode cannot map models: {route_id} -> {upstream_model}; use proxy mode for non-Claude official models"
@@ -565,7 +565,7 @@ pub fn proxy_model_routes(provider: &Provider) -> Result<Vec<ResolvedModelRoute>
         .ok_or_else(|| {
             AppError::localized(
                 "claude_desktop.provider.routes_missing",
-                "Claude Desktop 本地路由模式缺少模型路由映射",
+                "Claude Desktop proxy mode is missing model route mappings",
                 "Claude Desktop proxy mode is missing model route mappings",
             )
         })?;
@@ -613,7 +613,7 @@ pub fn proxy_model_routes(provider: &Provider) -> Result<Vec<ResolvedModelRoute>
     if result.is_empty() {
         return Err(AppError::localized(
             "claude_desktop.provider.routes_missing",
-            "Claude Desktop 本地路由模式至少需要一个模型路由映射",
+            "Claude Desktop proxy mode requires at least one model route mapping",
             "Claude Desktop proxy mode requires at least one model route mapping",
         ));
     }
@@ -693,7 +693,7 @@ pub fn map_proxy_request_model(mut body: Value, provider: &Provider) -> Result<V
         .ok_or_else(|| {
             AppError::localized(
                 "claude_desktop.provider.model_missing",
-                "Claude Desktop 请求缺少 model 字段",
+                "Claude Desktop request is missing the model field",
                 "Claude Desktop request is missing the model field",
             )
         })?;
@@ -741,7 +741,7 @@ pub fn map_proxy_request_model(mut body: Value, provider: &Provider) -> Result<V
         .ok_or_else(|| {
             AppError::localized(
                 "claude_desktop.provider.route_unknown",
-                format!("Claude Desktop 模型路由未配置: {requested_raw}"),
+                format!("Claude Desktop model route is not configured: {requested_raw}"),
                 format!("Claude Desktop model route is not configured: {requested_raw}"),
             )
         })?;
@@ -923,7 +923,7 @@ pub fn proxy_gateway_base_url_from_db(db: &Database) -> Result<String, AppError>
     let config = futures::executor::block_on(db.get_proxy_config())?;
     if config.listen_port == 0 {
         return Err(AppError::Config(
-            "Claude Desktop 代理地址需要真实监听端口；请先启动本地代理或使用固定端口".to_string(),
+            "Claude Desktop proxy URL needs a real listen port; start local proxy first or use a fixed port".to_string(),
         ));
     }
     Ok(format!(
@@ -1361,7 +1361,7 @@ fn proxy_origin_from_parts(listen_address: &str, listen_port: u16) -> String {
 fn unsupported_platform_error() -> AppError {
     AppError::localized(
         "claude_desktop.unsupported_platform",
-        "当前平台暂不支持 Claude Desktop 3P 配置。支持的平台：macOS、Windows 和 Linux。",
+        "Claude Desktop 3P configuration is not supported on this platform yet. Supported platforms: macOS, Windows, and Linux.",
         "Claude Desktop 3P configuration is not supported on this platform yet. Supported platforms: macOS, Windows, and Linux.",
     )
 }
@@ -1464,7 +1464,7 @@ mod tests {
         let err = proxy_gateway_base_url_from_db(&db)
             .expect_err("unresolved ephemeral port should not produce a :0 URL");
         assert!(
-            err.to_string().contains("真实监听端口"),
+            err.to_string().contains("real listen port"),
             "unexpected error: {err}"
         );
     }
@@ -1637,7 +1637,7 @@ mod tests {
             .model = "mimo-v2.5-pro".to_string();
 
         let err = validate_provider(&provider).expect_err("direct mapping should fail");
-        assert!(err.to_string().contains("本地路由模式"));
+        assert!(err.to_string().contains("proxy mode"));
     }
 
     #[test]

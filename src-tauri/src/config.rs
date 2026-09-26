@@ -418,7 +418,7 @@ pub fn get_provider_config_path(provider_id: &str, provider_name: Option<&str>) 
 /// 读取 JSON 配置文件
 pub fn read_json_file<T: for<'a> Deserialize<'a>>(path: &Path) -> Result<T, AppError> {
     if !path.exists() {
-        return Err(AppError::Config(format!("文件不存在: {}", path.display())));
+        return Err(AppError::Config(format!("File not found: {}", path.display())));
     }
 
     let content = fs::read_to_string(path).map_err(|e| AppError::io(path, e))?;
@@ -500,10 +500,10 @@ fn atomic_write_with_unix_mode(
 
     let parent = path
         .parent()
-        .ok_or_else(|| AppError::Config("无效的路径".to_string()))?;
+        .ok_or_else(|| AppError::Config("Invalid path".to_string()))?;
     let file_name = path
         .file_name()
-        .ok_or_else(|| AppError::Config("无效的文件名".to_string()))?
+        .ok_or_else(|| AppError::Config("Invalid file name".to_string()))?
         .to_string_lossy()
         .to_string();
     let ts = std::time::SystemTime::now()
@@ -632,7 +632,7 @@ fn atomic_write_with_unix_mode(
             let source = last_error.unwrap_or_else(std::io::Error::last_os_error);
             let _ = fs::remove_file(&tmp);
             return Err(AppError::IoContext {
-                context: format!("原子替换失败: {} -> {}", tmp.display(), path.display()),
+                context: format!("Atomic replace failed: {} -> {}", tmp.display(), path.display()),
                 source,
             });
         }
@@ -643,7 +643,7 @@ fn atomic_write_with_unix_mode(
         if let Err(source) = fs::rename(&tmp, path) {
             let _ = fs::remove_file(&tmp);
             return Err(AppError::IoContext {
-                context: format!("原子替换失败: {} -> {}", tmp.display(), path.display()),
+                context: format!("Atomic replace failed: {} -> {}", tmp.display(), path.display()),
                 source,
             });
         }
@@ -1082,7 +1082,7 @@ mod tests {
 /// 复制文件
 pub fn copy_file(from: &Path, to: &Path) -> Result<(), AppError> {
     fs::copy(from, to).map_err(|e| AppError::IoContext {
-        context: format!("复制文件失败 ({} -> {})", from.display(), to.display()),
+        context: format!("Failed to copy file ({} -> {})", from.display(), to.display()),
         source: e,
     })?;
     Ok(())

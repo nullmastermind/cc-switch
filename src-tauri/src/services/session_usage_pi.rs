@@ -133,7 +133,7 @@ struct PiRequestIdentity {
 /// browser's current root and layout rules.
 pub fn sync_pi_usage(db: &Database) -> Result<SessionSyncResult, AppError> {
     let files = crate::session_manager::providers::pi::session_files()
-        .map_err(|error| AppError::Config(format!("无法发现 Pi 会话: {error}")))?;
+        .map_err(|error| AppError::Config(format!("Cannot discover Pi sessions: {error}")))?;
     Ok(sync_pi_files(db, &files))
 }
 
@@ -147,7 +147,7 @@ fn sync_pi_files(db: &Database, files: &[PathBuf]) -> SessionSyncResult {
     let cursors = match crate::services::session_usage::load_sync_cursors(db) {
         Ok(cursors) => cursors,
         Err(error) => {
-            result.errors.push(format!("预取同步游标失败: {error}"));
+            result.errors.push(format!("Failed to prefetch sync cursor: {error}"));
             return result;
         }
     };
@@ -180,17 +180,17 @@ fn sync_single_pi_file(
     cursors: &std::collections::HashMap<String, crate::services::session_usage::SyncCursor>,
 ) -> Result<SessionSyncResult, AppError> {
     let metadata = fs::symlink_metadata(file_path)
-        .map_err(|error| AppError::Config(format!("无法读取 Pi 会话文件元数据: {error}")))?;
+        .map_err(|error| AppError::Config(format!("Cannot read Pi session file metadata: {error}")))?;
     if !metadata.file_type().is_file()
         || file_path.extension().and_then(|value| value.to_str()) != Some("jsonl")
     {
         return Err(AppError::Config(
-            "Pi 会话路径不是普通 JSONL 文件".to_string(),
+            "Pi session path is not a regular JSONL file".to_string(),
         ));
     }
     if metadata.len() > crate::session_manager::providers::pi::MAX_SESSION_BYTES {
         return Err(AppError::Config(format!(
-            "Pi 会话文件超过 {} 字节安全上限",
+            "Pi session file exceeds the {} byte safety limit",
             crate::session_manager::providers::pi::MAX_SESSION_BYTES
         )));
     }
@@ -227,7 +227,7 @@ fn sync_single_pi_file(
     let conn = lock_conn!(db.conn);
     let tx = conn
         .unchecked_transaction()
-        .map_err(|error| AppError::Database(format!("启动 Pi 用量导入事务失败: {error}")))?;
+        .map_err(|error| AppError::Database(format!("Failed to begin Pi usage import transaction: {error}")))?;
     let mut result = SessionSyncResult::default();
     for record in &parsed.records {
         if insert_pi_record(&tx, record)? {
@@ -239,7 +239,7 @@ fn sync_single_pi_file(
 
     update_pi_sync_state_on_conn(&tx, &file_path_string, revision, parsed.last_complete_line)?;
     tx.commit()
-        .map_err(|error| AppError::Database(format!("提交 Pi 用量导入事务失败: {error}")))?;
+        .map_err(|error| AppError::Database(format!("Failed to commit Pi usage import transaction: {error}")))?;
     if parsed.incomplete_tail {
         result.deferred_files = 1;
     }
@@ -287,7 +287,7 @@ fn update_pi_sync_state_on_conn(
         "UPDATE session_log_sync SET last_synced_at = ?2 WHERE file_path = ?1",
         rusqlite::params![file_path, revision.encoded()],
     )
-    .map_err(|error| AppError::Database(format!("更新 Pi 会话同步状态失败: {error}")))?;
+    .map_err(|error| AppError::Database(format!("Failed to update Pi session sync status: {error}")))?;
     Ok(())
 }
 
@@ -300,10 +300,10 @@ fn pi_file_revision(
     let mut tail = vec![0; tail_len as usize];
     if tail_len > 0 {
         let mut file = File::open(file_path)
-            .map_err(|error| AppError::Config(format!("无法打开 Pi 会话文件: {error}")))?;
+            .map_err(|error| AppError::Config(format!("Cannot open Pi session file: {error}")))?;
         file.seek(SeekFrom::Start(metadata.len() - tail_len))
             .and_then(|_| file.read_exact(&mut tail))
-            .map_err(|error| AppError::Config(format!("无法读取 Pi 会话文件尾部: {error}")))?;
+            .map_err(|error| AppError::Config(format!("Cannot read Pi session file tail: {error}")))?;
     }
 
     let complete = tail.last() == Some(&b'\n');
@@ -321,10 +321,10 @@ fn pi_prefix_tail_matches(file_path: &Path, previous: PiFileRevision) -> Result<
     let mut tail = vec![0; tail_len as usize];
     if tail_len > 0 {
         let mut file = File::open(file_path)
-            .map_err(|error| AppError::Config(format!("无法打开 Pi 会话文件: {error}")))?;
+            .map_err(|error| AppError::Config(format!("Cannot open Pi session file: {error}")))?;
         file.seek(SeekFrom::Start(previous.file_size - tail_len))
             .and_then(|_| file.read_exact(&mut tail))
-            .map_err(|error| AppError::Config(format!("无法校验 Pi 会话追加边界: {error}")))?;
+            .map_err(|error| AppError::Config(format!("Cannot verify Pi session append boundary: {error}")))?;
     }
     Ok(pi_tail_fingerprint(&tail) == previous.tail_fingerprint)
 }
@@ -345,7 +345,7 @@ fn parse_pi_file(
     file_modified_nanos: i64,
 ) -> Result<ParsedPiFile, AppError> {
     let file = File::open(file_path)
-        .map_err(|error| AppError::Config(format!("无法打开 Pi 会话文件: {error}")))?;
+        .map_err(|error| AppError::Config(format!("Cannot open Pi session file: {error}")))?;
     let mut reader = BufReader::new(file);
     let mut buffer = String::new();
     let mut line_number = 0i64;
@@ -364,14 +364,14 @@ fn parse_pi_file(
         let read = Read::by_ref(&mut reader)
             .take(remaining)
             .read_line(&mut buffer)
-            .map_err(|error| AppError::Config(format!("无法读取 Pi 会话文件: {error}")))?;
+            .map_err(|error| AppError::Config(format!("Cannot read Pi session file: {error}")))?;
         if read == 0 {
-            return Err(AppError::Config("Pi 会话文件在读取期间被截断".to_string()));
+            return Err(AppError::Config("Pi session file was truncated while reading".to_string()));
         }
         bytes_read = bytes_read.saturating_add(read as u64);
         if bytes_read > crate::session_manager::providers::pi::MAX_SESSION_BYTES {
             return Err(AppError::Config(
-                "Pi 会话文件读取时超过安全上限".to_string(),
+                "Pi session file exceeded the safety limit while reading".to_string(),
             ));
         }
         let has_newline = buffer.ends_with('\n');
@@ -391,7 +391,7 @@ fn parse_pi_file(
         line_number = line_number.saturating_add(1);
         if line_number > crate::session_manager::providers::pi::MAX_TREE_ENTRIES as i64 + 1 {
             return Err(AppError::Config(format!(
-                "Pi 会话超过 {} 条 entry 安全上限",
+                "Pi session exceeds the {}-entry safety limit",
                 crate::session_manager::providers::pi::MAX_TREE_ENTRIES
             )));
         }
@@ -409,7 +409,7 @@ fn parse_pi_file(
         if session_id.is_none() {
             if value.get("type").and_then(Value::as_str) != Some("session") {
                 return Err(AppError::Config(
-                    "Pi 会话的首条有效 JSON 不是 session header".to_string(),
+                    "First valid JSON in the Pi session is not a session header".to_string(),
                 ));
             }
             session_id = value
@@ -418,13 +418,13 @@ fn parse_pi_file(
                 .filter(|id| crate::session_manager::providers::pi::is_valid_tree_id(id))
                 .map(str::to_string);
             if session_id.is_none() {
-                return Err(AppError::Config("Pi 会话 header 缺少 id".to_string()));
+                return Err(AppError::Config("Pi session header is missing id".to_string()));
             }
             let header_timestamp_millis = value.get("timestamp").and_then(parse_timestamp_millis);
             session_timestamp = header_timestamp_millis.map(|timestamp| timestamp / 1000);
             if let Some(byte_offset) = start_at_byte.filter(|offset| *offset >= bytes_read) {
                 reader.seek(SeekFrom::Start(byte_offset)).map_err(|error| {
-                    AppError::Config(format!("无法定位 Pi 会话增量边界: {error}"))
+                    AppError::Config(format!("Cannot locate Pi session incremental boundary: {error}"))
                 })?;
                 bytes_read = byte_offset;
                 line_number = start_after_line;
@@ -442,7 +442,7 @@ fn parse_pi_file(
     }
 
     if session_id.is_none() && !incomplete_tail {
-        return Err(AppError::Config("Pi 会话没有有效 header".to_string()));
+        return Err(AppError::Config("Pi session has no valid header".to_string()));
     }
     Ok(ParsedPiFile {
         records,
@@ -765,7 +765,7 @@ fn insert_pi_record(conn: &rusqlite::Connection, record: &PiUsageRecord) -> Resu
             rusqlite::params![DATA_SOURCE, record.request_id],
             |row| row.get(0),
         )
-        .map_err(|error| AppError::Database(format!("查询 Pi 用量去重账本失败: {error}")))?;
+        .map_err(|error| AppError::Database(format!("Failed to query Pi usage dedup ledger: {error}")))?;
     let already_seen = request_seen
         || conn
             .query_row(
@@ -777,7 +777,7 @@ fn insert_pi_record(conn: &rusqlite::Connection, record: &PiUsageRecord) -> Resu
                 rusqlite::params![DATA_SOURCE, record.semantic_id],
                 |row| row.get(0),
             )
-            .map_err(|error| AppError::Database(format!("查询 Pi 用量去重账本失败: {error}")))?;
+            .map_err(|error| AppError::Database(format!("Failed to query Pi usage dedup ledger: {error}")))?;
     if already_seen {
         return Ok(false);
     }
@@ -792,7 +792,7 @@ fn insert_pi_record(conn: &rusqlite::Connection, record: &PiUsageRecord) -> Resu
             i64::from(record.has_entry_id),
         ],
     )
-    .map_err(|error| AppError::Database(format!("写入 Pi 用量去重账本失败: {error}")))?;
+    .map_err(|error| AppError::Database(format!("Failed to write Pi usage dedup ledger: {error}")))?;
 
     let usage = TokenUsage {
         input_tokens: record.input_tokens,
@@ -867,7 +867,7 @@ fn insert_pi_record(conn: &rusqlite::Connection, record: &PiUsageRecord) -> Resu
         ],
     )
     .map(|changed| changed > 0)
-    .map_err(|error| AppError::Database(format!("插入 Pi 会话用量失败: {error}")))
+    .map_err(|error| AppError::Database(format!("Failed to insert Pi session usage: {error}")))
 }
 
 #[cfg(test)]
@@ -1531,7 +1531,9 @@ mod tests {
         let result = sync_pi_files(&db, std::slice::from_ref(&path));
         assert_eq!(result.files_scanned, 1);
         assert_eq!(result.errors.len(), 1);
-        assert!(result.errors[0].contains("安全上限"));
+        assert!(
+            result.errors[0].contains("safety limit") || result.errors[0].contains("安全上限")
+        );
         Ok(())
     }
 }

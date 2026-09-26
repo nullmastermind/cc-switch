@@ -29,25 +29,25 @@ const MAX_OAUTH_RESPONSE_BYTES: usize = 64 * 1024;
 
 #[derive(Debug, thiserror::Error)]
 pub enum XaiOAuthError {
-    #[error("等待用户授权中")]
+    #[error("Waiting for user authorization")]
     AuthorizationPending,
-    #[error("用户拒绝授权")]
+    #[error("User denied authorization")]
     AccessDenied,
-    #[error("Device Code 已过期")]
+    #[error("Device code expired")]
     ExpiredToken,
-    #[error("OAuth Token 获取失败: {0}")]
+    #[error("Failed to obtain OAuth token: {0}")]
     TokenFetchFailed(String),
-    #[error("Refresh Token 失效或已过期，请重新登录 xAI")]
+    #[error("Refresh token is invalid or expired; please sign in to xAI again")]
     RefreshTokenInvalid,
-    #[error("账号需要重新登录: {0}")]
+    #[error("Account needs to sign in again: {0}")]
     ReauthRequired(String),
-    #[error("网络错误: {0}")]
+    #[error("Network error: {0}")]
     NetworkError(String),
-    #[error("解析错误: {0}")]
+    #[error("Parse error: {0}")]
     ParseError(String),
-    #[error("IO 错误: {0}")]
+    #[error("IO error: {0}")]
     IoError(String),
-    #[error("账号不存在: {0}")]
+    #[error("Account not found: {0}")]
     AccountNotFound(String),
 }
 
@@ -280,7 +280,7 @@ impl XaiOAuthManager {
             pending.get(device_code).cloned()
         }
         .ok_or_else(|| {
-            XaiOAuthError::TokenFetchFailed("Device Code 不存在，请重新启动登录".to_string())
+            XaiOAuthError::TokenFetchFailed("Device code not found; start login again".to_string())
         })?;
 
         if entry.expires_at_ms <= now_ms {
@@ -340,10 +340,10 @@ impl XaiOAuthManager {
             .filter(|token| !token.trim().is_empty())
             .map(ToString::to_string)
             .ok_or_else(|| {
-                XaiOAuthError::TokenFetchFailed("成功响应缺少 refresh_token".to_string())
+                XaiOAuthError::TokenFetchFailed("Success response is missing refresh_token".to_string())
             })?;
         let (account_id, login) = extract_identity_from_tokens(&tokens).ok_or_else(|| {
-            XaiOAuthError::ParseError("xAI token 缺少稳定的 sub claim，未保存账号".to_string())
+            XaiOAuthError::ParseError("xAI token is missing a stable sub claim; account not saved".to_string())
         })?;
 
         let cached_access_token = CachedAccessToken {
@@ -404,7 +404,7 @@ impl XaiOAuthManager {
         match self.resolve_default_account_id().await {
             Some(account_id) => self.get_valid_token_for_account(&account_id).await,
             None => Err(XaiOAuthError::AccountNotFound(
-                "无可用的 xAI 账号，请登录或重新登录".to_string(),
+                "No xAI account available; sign in or sign in again".to_string(),
             )),
         }
     }
@@ -493,13 +493,13 @@ impl XaiOAuthManager {
         let value = read_json_response(response).await?;
         if !status.is_success() {
             return Err(XaiOAuthError::NetworkError(format!(
-                "xAI discovery 请求失败: HTTP {status}"
+                "Failed to xAI discovery request: HTTP {status}"
             )));
         }
         let document = parse_discovery_document(value)?;
         if document.issuer.trim_end_matches('/') != XAI_ISSUER {
             return Err(XaiOAuthError::ParseError(
-                "xAI discovery issuer 不匹配".to_string(),
+                "xAI discovery issuer mismatch".to_string(),
             ));
         }
         validate_xai_endpoint(&document.token_endpoint)?;
@@ -570,7 +570,7 @@ impl XaiOAuthManager {
                 .contains_key(device_code);
             if !login_is_pending {
                 return Err(XaiOAuthError::TokenFetchFailed(
-                    "登录已取消，请重新启动登录".to_string(),
+                    "Login cancelled; start login again".to_string(),
                 ));
             }
         }
@@ -619,7 +619,7 @@ impl XaiOAuthManager {
         }
         if account.refresh_token != expected_refresh_token {
             return Err(XaiOAuthError::TokenFetchFailed(
-                "账号认证状态已变化，请重试请求".to_string(),
+                "Account auth state changed; please retry the request".to_string(),
             ));
         }
 
@@ -806,12 +806,12 @@ impl XaiOAuthManager {
         let parent = self
             .storage_path
             .parent()
-            .ok_or_else(|| XaiOAuthError::IoError("无效的存储路径".to_string()))?;
+            .ok_or_else(|| XaiOAuthError::IoError("Invalid storage path".to_string()))?;
         fs::create_dir_all(parent)?;
         let file_name = self
             .storage_path
             .file_name()
-            .ok_or_else(|| XaiOAuthError::IoError("无效的存储文件名".to_string()))?
+            .ok_or_else(|| XaiOAuthError::IoError("Invalid storage file name".to_string()))?
             .to_string_lossy();
         let nonce = std::time::SystemTime::now()
             .duration_since(std::time::UNIX_EPOCH)
@@ -880,7 +880,7 @@ fn compute_expires_at_ms(expires_in: Option<i64>) -> i64 {
 fn validate_access_token(access_token: &str) -> Result<(), XaiOAuthError> {
     if access_token.trim().is_empty() {
         return Err(XaiOAuthError::TokenFetchFailed(
-            "成功响应缺少 access_token".to_string(),
+            "Success response is missing access_token".to_string(),
         ));
     }
     Ok(())
@@ -890,17 +890,17 @@ fn parse_device_code_response(
     value: serde_json::Value,
 ) -> Result<DeviceCodeResponse, XaiOAuthError> {
     serde_json::from_value(value)
-        .map_err(|_| XaiOAuthError::ParseError("设备授权响应字段无效".to_string()))
+        .map_err(|_| XaiOAuthError::ParseError("Invalid device-authorization response fields".to_string()))
 }
 
 fn parse_token_response(value: serde_json::Value) -> Result<OAuthTokenResponse, XaiOAuthError> {
     serde_json::from_value(value)
-        .map_err(|_| XaiOAuthError::ParseError("OAuth Token 响应字段无效".to_string()))
+        .map_err(|_| XaiOAuthError::ParseError("Invalid OAuth token response fields".to_string()))
 }
 
 fn parse_discovery_document(value: serde_json::Value) -> Result<DiscoveryDocument, XaiOAuthError> {
     serde_json::from_value(value)
-        .map_err(|_| XaiOAuthError::ParseError("xAI discovery 响应字段无效".to_string()))
+        .map_err(|_| XaiOAuthError::ParseError("Invalid xAI discovery response fields".to_string()))
 }
 
 fn refresh_response_requires_reauth(
@@ -939,7 +939,7 @@ fn extract_identity_from_tokens(tokens: &OAuthTokenResponse) -> Option<(String, 
 
 fn validate_xai_endpoint(value: &str) -> Result<(), XaiOAuthError> {
     let url = reqwest::Url::parse(value)
-        .map_err(|_| XaiOAuthError::ParseError("xAI 认证端点 URL 无效".to_string()))?;
+        .map_err(|_| XaiOAuthError::ParseError("Invalid xAI auth endpoint URL".to_string()))?;
     if url.scheme() != "https"
         || url.host_str() != Some("auth.x.ai")
         || url.port_or_known_default() != Some(443)
@@ -947,7 +947,7 @@ fn validate_xai_endpoint(value: &str) -> Result<(), XaiOAuthError> {
         || url.password().is_some()
     {
         return Err(XaiOAuthError::ParseError(
-            "xAI discovery 返回了不受信任的认证端点".to_string(),
+            "xAI discovery returned an untrusted auth endpoint".to_string(),
         ));
     }
     Ok(())
@@ -961,17 +961,17 @@ async fn read_json_response(
         .is_some_and(|length| length > MAX_OAUTH_RESPONSE_BYTES as u64)
     {
         return Err(XaiOAuthError::ParseError(
-            "OAuth 响应超过大小限制".to_string(),
+            "OAuth response exceeds size limit".to_string(),
         ));
     }
     let bytes = response.bytes().await?;
     if bytes.len() > MAX_OAUTH_RESPONSE_BYTES {
         return Err(XaiOAuthError::ParseError(
-            "OAuth 响应超过大小限制".to_string(),
+            "OAuth response exceeds size limit".to_string(),
         ));
     }
     serde_json::from_slice(&bytes)
-        .map_err(|_| XaiOAuthError::ParseError("OAuth 响应不是有效 JSON".to_string()))
+        .map_err(|_| XaiOAuthError::ParseError("OAuth response is not valid JSON".to_string()))
 }
 
 fn oauth_error_code(value: &serde_json::Value) -> Option<String> {
@@ -1054,7 +1054,7 @@ mod tests {
             "expires_in": "refresh_token=third-secret"
         }));
         let error = result.unwrap_err().to_string();
-        assert_eq!(error, "解析错误: OAuth Token 响应字段无效");
+        assert_eq!(error, "Parse error: Invalid OAuth token response fields");
         assert!(!error.contains("secret"));
         assert!(validate_access_token("  ").is_err());
     }

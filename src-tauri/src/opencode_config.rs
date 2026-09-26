@@ -122,7 +122,7 @@ fn read_opencode_config_from_path(path: &Path) -> Result<Value, AppError> {
     // 配置，静默重建等于删掉它们。让用户自己修文件，与 read_claude_live 的做法一致。
     if !value.is_object() {
         return Err(AppError::Config(format!(
-            "OpenCode 配置文件根节点必须是 JSON 对象: {}",
+            "OpenCode config root must be a JSON object: {}",
             path.display()
         )));
     }

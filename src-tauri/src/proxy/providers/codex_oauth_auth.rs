@@ -75,37 +75,37 @@ pub(crate) const CODEX_OAUTH_CLIENT_VERSION: &str = "0.155.0";
 /// Codex OAuth 错误
 #[derive(Debug, thiserror::Error)]
 pub enum CodexOAuthError {
-    #[error("等待用户授权中")]
+    #[error("Waiting for user authorization")]
     AuthorizationPending,
 
-    #[error("用户拒绝授权")]
+    #[error("User denied authorization")]
     AccessDenied,
 
-    #[error("Device Code 已过期")]
+    #[error("Device code expired")]
     ExpiredToken,
 
-    #[error("OAuth Token 获取失败: {0}")]
+    #[error("Failed to obtain OAuth token: {0}")]
     TokenFetchFailed(String),
 
     #[error("codex_oauth_duplicate_account")]
     DuplicateAccount,
 
-    #[error("Refresh Token 失效或已过期")]
+    #[error("Refresh token is invalid or expired")]
     RefreshTokenInvalid,
 
-    #[error("网络错误: {0}")]
+    #[error("Network error: {0}")]
     NetworkError(String),
 
-    #[error("解析错误: {0}")]
+    #[error("Parse error: {0}")]
     ParseError(String),
 
-    #[error("IO 错误: {0}")]
+    #[error("IO error: {0}")]
     IoError(String),
 
-    #[error("账号不存在: {0}")]
+    #[error("Account not found: {0}")]
     AccountNotFound(String),
 
-    #[error("绑定的 ChatGPT 账号不可用，请在供应商卡片中点击“选择账号”并重新绑定: {0}")]
+    #[error("Bound ChatGPT account is unavailable; click “Select account” on the provider card and rebind: {0}")]
     AccountUnavailable(String),
 }
 
@@ -486,7 +486,7 @@ impl CodexOAuthManager {
             let status = response.status();
             let text = response.text().await.unwrap_or_default();
             return Err(CodexOAuthError::NetworkError(format!(
-                "Device Code 请求失败: {status} - {text}"
+                "Device code request failed: {status} - {text}"
             )));
         }
 
@@ -578,7 +578,7 @@ impl CodexOAuthManager {
 
         let entry = entry.ok_or_else(|| {
             CodexOAuthError::TokenFetchFailed(
-                "未找到对应的 user_code，请重新启动登录流程".to_string(),
+                "Matching user_code not found; start login again".to_string(),
             )
         })?;
 
@@ -635,12 +635,12 @@ impl CodexOAuthManager {
             .await?;
 
         let refresh_token = tokens.refresh_token.clone().ok_or_else(|| {
-            CodexOAuthError::TokenFetchFailed("响应缺少 refresh_token".to_string())
+            CodexOAuthError::TokenFetchFailed("Response is missing refresh_token".to_string())
         })?;
 
         let (chatgpt_account_id, email) = extract_account_metadata_from_tokens(&tokens);
         let chatgpt_account_id = chatgpt_account_id.ok_or_else(|| {
-            CodexOAuthError::ParseError("无法从 token 中提取 chatgpt_account_id".to_string())
+            CodexOAuthError::ParseError("Cannot extract chatgpt_account_id from token".to_string())
         })?;
 
         let id_token = tokens
@@ -649,12 +649,12 @@ impl CodexOAuthManager {
             .filter(|token| !token.trim().is_empty())
             .ok_or_else(|| {
                 CodexOAuthError::TokenFetchFailed(
-                    "登录响应缺少 id_token，账号未保存，请重新登录".to_string(),
+                    "Login response is missing id_token; account not saved. Please sign in again".to_string(),
                 )
             })?;
         if crate::codex_config::extract_codex_id_token_subject(&id_token).is_none() {
             return Err(CodexOAuthError::TokenFetchFailed(
-                "登录响应无法确认稳定用户身份，账号未保存，请重新登录".to_string(),
+                "Login response has no stable user identity; account not saved. Please sign in again".to_string(),
             ));
         }
 
@@ -712,7 +712,7 @@ impl CodexOAuthManager {
             let status = response.status();
             let text = response.text().await.unwrap_or_default();
             return Err(CodexOAuthError::TokenFetchFailed(format!(
-                "Token 交换失败: {status} - {text}"
+                "Token exchange failed: {status} - {text}"
             )));
         }
 
@@ -759,7 +759,7 @@ impl CodexOAuthManager {
                 return Err(CodexOAuthError::RefreshTokenInvalid);
             }
             return Err(CodexOAuthError::TokenFetchFailed(format!(
-                "Refresh 失败: {status} - {text}"
+                "Failed to Refresh: {status} - {text}"
             )));
         }
 
@@ -828,7 +828,7 @@ impl CodexOAuthManager {
 
         if managed_workspace != live_refresh.chatgpt_account_id {
             return Err(CodexOAuthError::TokenFetchFailed(format!(
-                "Codex OAuth 账号 {account_id} 的 workspace 与磁盘凭据不一致，本次操作已取消"
+                "Codex OAuth account {account_id} workspace does not match disk credentials; operation cancelled"
             )));
         }
         Ok(Some((
@@ -962,7 +962,7 @@ impl CodexOAuthManager {
             // R0 must never overwrite a newly committed R1/N0 chain.
             if account.refresh_token != refresh_token {
                 return Err(CodexOAuthError::TokenFetchFailed(
-                    "账号凭据已更新，已丢弃旧刷新响应".to_string(),
+                    "Account credentials updated; discarded the stale refresh response".to_string(),
                 ));
             }
             if account.apply_refreshed_tokens(&new_tokens) {
@@ -995,7 +995,7 @@ impl CodexOAuthManager {
         }
         let chatgpt_account_id = chatgpt_account_id.ok_or_else(|| {
             CodexOAuthError::ParseError(
-                "无法从刷新后的 token 中提取 chatgpt_account_id".to_string(),
+                "Cannot extract chatgpt_account_id from the refreshed token".to_string(),
             )
         })?;
 
@@ -1103,7 +1103,7 @@ impl CodexOAuthManager {
                 }
                 RefreshTokenAdoptionOutcome::Adopted => {
                     return Err(CodexOAuthError::TokenFetchFailed(format!(
-                        "Codex CLI 账号 {account_id} 的磁盘凭据在准备写入期间已刷新；为避免写入混合 token bundle，本次操作已取消，请重试"
+                        "Codex CLI account {account_id} disk credentials refreshed while preparing write; cancelled to avoid a mixed token bundle. Please retry"
                     )));
                 }
                 RefreshTokenAdoptionOutcome::NotManaged => {
@@ -1123,7 +1123,7 @@ impl CodexOAuthManager {
             (
                 account.chatgpt_account_id.clone().ok_or_else(|| {
                     CodexOAuthError::ParseError(
-                        "账号缺少 chatgpt_account_id，请重新认证".to_string(),
+                        "Account is missing chatgpt_account_id; please sign in again".to_string(),
                     )
                 })?,
                 account.id_token.clone(),
@@ -1175,7 +1175,7 @@ impl CodexOAuthManager {
 
     fn ambiguous_live_refresh_error(account_id: &str) -> CodexOAuthError {
         CodexOAuthError::TokenFetchFailed(format!(
-            "Codex CLI 账号 {account_id} 的磁盘凭据已变化，但无法安全判断 refresh token 新旧；为避免覆盖或删除有效登录，本次操作已取消。请先在认证中心重新登录该账号；若仍失败，请移除后重新登录"
+            "Codex CLI account {account_id} disk credentials changed, but the newer refresh token cannot be determined safely; cancelled to avoid overwriting a valid login. Re-login in Auth Center; if it still fails, remove the account and sign in again"
         ))
     }
 
@@ -1361,7 +1361,7 @@ impl CodexOAuthManager {
         match self.resolve_default_account_id().await {
             Some(id) => self.get_valid_token_for_account(&id).await,
             None => Err(CodexOAuthError::AccountNotFound(
-                "无可用的 ChatGPT 账号".to_string(),
+                "No ChatGPT account available".to_string(),
             )),
         }
     }
@@ -1381,7 +1381,7 @@ impl CodexOAuthManager {
             .get(account_id)
             .ok_or_else(|| CodexOAuthError::AccountNotFound(account_id.to_string()))?;
         account.chatgpt_account_id.clone().ok_or_else(|| {
-            CodexOAuthError::ParseError("账号缺少 chatgpt_account_id，请重新认证".to_string())
+            CodexOAuthError::ParseError("Account is missing chatgpt_account_id; please sign in again".to_string())
         })
     }
 
@@ -1701,13 +1701,13 @@ impl CodexOAuthManager {
                 .unwrap_or(existing.account_id.as_str());
             if expected_workspace != chatgpt_account_id {
                 return Err(CodexOAuthError::TokenFetchFailed(format!(
-                    "重新登录的 ChatGPT workspace 与账号 {account_id} 不一致"
+                    "Re-logged ChatGPT workspace does not match account {account_id}"
                 )));
             }
 
             let new_id_token = id_token.as_deref().ok_or_else(|| {
                 CodexOAuthError::TokenFetchFailed(
-                    "重新登录未返回 id_token，原账号保持不变".to_string(),
+                    "Re-login did not return id_token; original account unchanged".to_string(),
                 )
             })?;
             let existing_subject = existing
@@ -1719,7 +1719,7 @@ impl CodexOAuthManager {
                 Some(existing) if new_subject.as_deref() == Some(existing) => true,
                 Some(_) => {
                     return Err(CodexOAuthError::TokenFetchFailed(format!(
-                        "重新登录的 ChatGPT 用户与账号 {account_id} 不一致"
+                        "Re-logged ChatGPT user does not match account {account_id}"
                     )));
                 }
                 None => {
@@ -1740,7 +1740,7 @@ impl CodexOAuthManager {
             };
             if !user_identity_matches {
                 return Err(CodexOAuthError::TokenFetchFailed(format!(
-                    "无法确认重新登录的 ChatGPT 用户属于账号 {account_id}，原账号保持不变"
+                    "Cannot confirm the re-logged ChatGPT user belongs to account {account_id}; original account unchanged"
                 )));
             }
         }
@@ -1936,7 +1936,7 @@ impl CodexOAuthManager {
                 return Ok(());
             }
             return Err(CodexOAuthError::TokenFetchFailed(
-                "Codex 账号存储缺失但内存中仍有账号，请重启应用后重试".to_string(),
+                "Codex account store is missing but accounts remain in memory; restart the app and retry".to_string(),
             ));
         }
         let raw: serde_json::Value = serde_json::from_str(&fs::read_to_string(&self.storage_path)?)
@@ -1946,7 +1946,7 @@ impl CodexOAuthManager {
             .is_some_and(serde_json::Value::is_object)
         {
             return Err(CodexOAuthError::ParseError(
-                "Codex 账号存储缺少有效 accounts 字段".to_string(),
+                "Codex account store is missing a valid accounts field".to_string(),
             ));
         }
         let store: CodexOAuthStore = serde_json::from_value(raw)
@@ -1958,12 +1958,12 @@ impl CodexOAuthManager {
                 .any(|(key, account)| key.trim().is_empty() || key != &account.account_id)
         {
             return Err(CodexOAuthError::ParseError(
-                "Codex 账号存储版本或账号索引无效".to_string(),
+                "Codex account store version or index is invalid".to_string(),
             ));
         }
         if store.accounts.contains_key(account_id) {
             return Err(CodexOAuthError::TokenFetchFailed(
-                "Codex 账号仍在磁盘存储中，请重启应用后重试".to_string(),
+                "Codex account is still on disk; restart the app and retry".to_string(),
             ));
         }
         Ok(())
@@ -1977,11 +1977,11 @@ impl CodexOAuthManager {
         let parent = self
             .storage_path
             .parent()
-            .ok_or_else(|| CodexOAuthError::IoError("无效的存储路径".to_string()))?;
+            .ok_or_else(|| CodexOAuthError::IoError("Invalid storage path".to_string()))?;
         let file_name = self
             .storage_path
             .file_name()
-            .ok_or_else(|| CodexOAuthError::IoError("无效的存储文件名".to_string()))?
+            .ok_or_else(|| CodexOAuthError::IoError("Invalid storage file name".to_string()))?
             .to_string_lossy()
             .to_string();
         let ts = std::time::SystemTime::now()

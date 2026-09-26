@@ -47,12 +47,12 @@ pub async fn add_provider(
     tauri::async_runtime::spawn_blocking(move || {
         let state = app_handle
             .try_state::<AppState>()
-            .ok_or_else(|| "应用状态不可用".to_string())?;
+            .ok_or_else(|| "App state is unavailable".to_string())?;
         ProviderService::add(state.inner(), app_type, provider, add_to_live)
             .map_err(|e| e.to_string())
     })
     .await
-    .map_err(|e| format!("供应商添加任务执行失败: {e}"))?
+    .map_err(|e| format!("Provider add task failed: {e}"))?
 }
 
 #[tauri::command]
@@ -66,12 +66,12 @@ pub async fn update_provider(
     tauri::async_runtime::spawn_blocking(move || {
         let state = app_handle
             .try_state::<AppState>()
-            .ok_or_else(|| "应用状态不可用".to_string())?;
+            .ok_or_else(|| "App state is unavailable".to_string())?;
         ProviderService::update(state.inner(), app_type, originalId.as_deref(), provider)
             .map_err(|e| e.to_string())
     })
     .await
-    .map_err(|e| format!("供应商更新任务执行失败: {e}"))?
+    .map_err(|e| format!("Provider update task failed: {e}"))?
 }
 
 #[tauri::command]
@@ -125,11 +125,11 @@ pub async fn switch_provider(
     tauri::async_runtime::spawn_blocking(move || {
         let state = app_handle
             .try_state::<AppState>()
-            .ok_or_else(|| "应用状态不可用".to_string())?;
+            .ok_or_else(|| "App state is unavailable".to_string())?;
         switch_provider_internal(state.inner(), app_type, &id).map_err(|e| e.to_string())
     })
     .await
-    .map_err(|e| format!("供应商切换任务执行失败: {e}"))?
+    .map_err(|e| format!("Provider switch task failed: {e}"))?
 }
 
 fn import_default_config_internal(state: &AppState, app_type: AppType) -> Result<bool, AppError> {

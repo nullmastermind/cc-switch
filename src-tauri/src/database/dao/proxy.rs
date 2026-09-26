@@ -18,21 +18,21 @@ pub(crate) fn validate_cost_multiplier(value: &str) -> Result<Decimal, AppError>
     if trimmed.is_empty() {
         return Err(AppError::localized(
             "error.multiplierEmpty",
-            "倍率不能为空",
+            "Multiplier cannot be empty",
             "Multiplier cannot be empty",
         ));
     }
     let parsed = Decimal::from_str(trimmed).map_err(|e| {
         AppError::localized(
             "error.invalidMultiplier",
-            format!("无效倍率: {value} - {e}"),
+            format!("Invalid multiplier: {value} - {e}"),
             format!("Invalid multiplier: {value} - {e}"),
         )
     })?;
     if parsed < Decimal::ZERO {
         return Err(AppError::localized(
             "error.invalidMultiplier",
-            format!("无效倍率: {value} - 倍率不能为负数"),
+            format!("Invalid multiplier: {value} - multiplier cannot be negative"),
             format!("Invalid multiplier: {value} - multiplier cannot be negative"),
         ));
     }
@@ -46,7 +46,7 @@ pub(crate) fn validate_pricing_source(value: &str) -> Result<&str, AppError> {
     } else {
         Err(AppError::localized(
             "error.invalidPricingMode",
-            format!("无效计费模式: {value}"),
+            format!("Invalid billing mode: {value}"),
             format!("Invalid pricing mode: {value}"),
         ))
     }

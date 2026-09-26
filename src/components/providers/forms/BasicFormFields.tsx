@@ -58,7 +58,7 @@ export function BasicFormFields({
             <Button
               type="button"
               variant="outline"
-              className="h-12 w-12 min-w-0 p-2"
+              className="h-12 w-12 min-w-0 p-0"
               title={
                 currentIcon
                   ? t("providerIcon.clickToChange", {
@@ -73,7 +73,7 @@ export function BasicFormFields({
                 icon={currentIcon}
                 name={providerName}
                 color={effectiveIconColor}
-                size={32}
+                size={48}
               />
             </Button>
           </DialogTrigger>

@@ -641,7 +641,7 @@ impl SkillService {
     fn ensure_distinct_skill_roots(ssot_dir: &Path, app_dir: &Path, app: &AppType) -> Result<()> {
         if Self::paths_alias(ssot_dir, app_dir) {
             return Err(anyhow!(
-                "Skill 存储目录不能与 {app:?} 的 Skills 目录相同: {}",
+                "Skill storage directory cannot be the same as the {app:?} Skills directory: {}",
                 ssot_dir.display()
             ));
         }
@@ -1110,7 +1110,7 @@ impl SkillService {
             hasher.update(rel_str.as_bytes());
             hasher.update(b"\0");
             let content = fs::read(file_path)
-                .with_context(|| format!("读取文件失败: {}", file_path.display()))?;
+                .with_context(|| format!("Failed to read file: {}", file_path.display()))?;
             hasher.update(&content);
             hasher.update(b"\0");
         }
@@ -1122,7 +1122,7 @@ impl SkillService {
     #[allow(clippy::only_used_in_recursion)]
     fn collect_files_for_hash(base: &Path, current: &Path, files: &mut Vec<PathBuf>) -> Result<()> {
         let entries = fs::read_dir(current)
-            .with_context(|| format!("读取目录失败: {}", current.display()))?;
+            .with_context(|| format!("Failed to read directory: {}", current.display()))?;
         for entry in entries {
             let entry = entry?;
             let name = entry.file_name().to_string_lossy().to_string();
@@ -1175,7 +1175,7 @@ impl SkillService {
 
     fn collect_tree_entries(current: &Path, entries: &mut Vec<PathBuf>) -> Result<()> {
         for entry in
-            fs::read_dir(current).with_context(|| format!("读取目录失败: {}", current.display()))?
+            fs::read_dir(current).with_context(|| format!("Failed to read directory: {}", current.display()))?
         {
             let entry = entry?;
             let path = entry.path();
@@ -2159,7 +2159,7 @@ impl SkillService {
                             != Self::compute_pi_deployment_hash(&dest)?
                         {
                             return Err(anyhow!(
-                                "MCode Skill 与托管副本内容不同，拒绝替换链接: {dir_name}"
+                                "MCode skill differs from the managed copy; refusing to replace the link: {dir_name}"
                             ));
                         }
                         if let Some(deployment) =
@@ -2238,13 +2238,13 @@ impl SkillService {
     #[cfg(unix)]
     fn create_symlink(src: &Path, dest: &Path) -> Result<()> {
         std::os::unix::fs::symlink(src, dest)
-            .with_context(|| format!("创建符号链接失败: {} -> {}", src.display(), dest.display()))
+            .with_context(|| format!("Failed to create symlink: {} -> {}", src.display(), dest.display()))
     }
 
     #[cfg(windows)]
     fn create_symlink(src: &Path, dest: &Path) -> Result<()> {
         std::os::windows::fs::symlink_dir(src, dest)
-            .with_context(|| format!("创建符号链接失败: {} -> {}", src.display(), dest.display()))
+            .with_context(|| format!("Failed to create symlink: {} -> {}", src.display(), dest.display()))
     }
 
     /// 检查路径是否为符号链接
@@ -2365,7 +2365,7 @@ impl SkillService {
         }
 
         Err(anyhow!(
-            "Pi 中已存在同名但内容不同的 Skill，拒绝覆盖或删除: {directory}"
+            "A different skill with the same name already exists in Pi; refusing to overwrite or delete: {directory}"
         ))
     }
 
@@ -2392,7 +2392,7 @@ impl SkillService {
             PiSkillDeployment::Symlink { expected_target } => {
                 if !Self::is_symlink(destination) {
                     return Err(anyhow!(
-                        "Pi 中的 Skill 已在操作期间发生变化，拒绝覆盖: {directory}"
+                        "Skill in Pi changed during the operation; refusing to overwrite: {directory}"
                     ));
                 }
                 let target = fs::read_link(destination)?;
@@ -2406,7 +2406,7 @@ impl SkillService {
                 };
                 if &resolved != expected_target {
                     return Err(anyhow!(
-                        "Pi 中的 Skill 已在操作期间发生变化，拒绝覆盖: {directory}"
+                        "Skill in Pi changed during the operation; refusing to overwrite: {directory}"
                     ));
                 }
                 Self::remove_path(destination)?;
@@ -2421,7 +2421,7 @@ impl SkillService {
                     )
                 {
                     return Err(anyhow!(
-                        "Pi 中的 Skill 已在操作期间发生变化，拒绝覆盖: {directory}"
+                        "Skill in Pi changed during the operation; refusing to overwrite: {directory}"
                     ));
                 }
                 Self::replace_dest_with_copy(source, destination, directory)?;
@@ -2493,7 +2493,7 @@ impl SkillService {
                     }
                     Err(err) => {
                         log::warn!(
-                            "Symlink 创建失败，将回退到文件复制: {} -> {}. 错误: {err:#}",
+                            "Failed to create symlink, falling back to copy: {} -> {}. error: {err:#}",
                             source.display(),
                             dest.display()
                         );
@@ -2545,13 +2545,13 @@ impl SkillService {
 
     fn validate_sync_source_dir(source: &Path, directory: &str) -> Result<()> {
         if !source.is_dir() {
-            return Err(anyhow!("Skill 不存在于 SSOT: {directory}"));
+            return Err(anyhow!("Skill not found in SSOT: {directory}"));
         }
 
         let manifest = source.join("SKILL.md");
         if !manifest.is_file() {
             return Err(anyhow!(
-                "Skill 源目录缺少 SKILL.md，拒绝同步以避免覆盖目标目录: {}",
+                "Skill source directory is missing SKILL.md; refusing sync to avoid overwriting the target: {}",
                 source.display()
             ));
         }
@@ -3402,7 +3402,7 @@ impl SkillService {
             }
         }
 
-        Err(last_error.unwrap_or_else(|| anyhow::anyhow!("所有分支下载失败")))
+        Err(last_error.unwrap_or_else(|| anyhow::anyhow!("All branch downloads failed")))
     }
 
     /// 下载并解压 ZIP

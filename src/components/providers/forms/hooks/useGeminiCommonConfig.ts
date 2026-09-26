@@ -242,7 +242,7 @@ export function useGeminiCommonConfig({
                 const parsed = parseSnippetEnv(legacySnippet);
                 if (parsed.error) {
                   console.warn(
-                    "[迁移] legacy Gemini 通用配置片段格式不符合当前规则，跳过迁移",
+                    "[migrate] legacy Gemini common config snippet is invalid; skipping migration",
                   );
                   return;
                 }
@@ -254,11 +254,11 @@ export function useGeminiCommonConfig({
                 // 清理 localStorage
                 window.localStorage.removeItem(LEGACY_STORAGE_KEY);
                 console.log(
-                  "[迁移] Gemini 通用配置已从 localStorage 迁移到 config.json",
+                  "[migrate] Gemini common config moved from localStorage to config.json",
                 );
               }
             } catch (e) {
-              console.warn("[迁移] 从 localStorage 迁移失败:", e);
+              console.warn("[migrate] localStorage migration failed:", e);
             }
           }
         }

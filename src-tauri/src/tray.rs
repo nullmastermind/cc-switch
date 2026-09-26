@@ -588,16 +588,16 @@ fn handle_auto_click(
                 crate::settings::get_effective_current_provider(&app_state.db, app_type)?;
             let Some(current_id) = current_id else {
                 return Err(AppError::Message(
-                    "故障转移队列为空，且未设置当前供应商，无法启用 Auto 模式".to_string(),
+                    "Failover queue is empty and no current provider is set; cannot enable Auto mode".to_string(),
                 ));
             };
             let current = app_state
                 .db
                 .get_provider_by_id(&current_id, app_type_str)?
-                .ok_or_else(|| AppError::Message(format!("供应商不存在: {current_id}")))?;
+                .ok_or_else(|| AppError::Message(format!("Provider not found: {current_id}")))?;
             if !crate::proxy::provider_router::provider_supports_failover(app_type_str, &current) {
                 return Err(AppError::Message(
-                    "Codex Official 账号卡不支持自动故障转移".to_string(),
+                    "Codex Official account cards do not support auto failover".to_string(),
                 ));
             }
             app_state
@@ -623,7 +623,7 @@ fn handle_auto_click(
         let p1_provider_id = queue
             .first()
             .map(|item| item.provider_id.clone())
-            .ok_or_else(|| AppError::Message("故障转移队列为空，无法启用 Auto 模式".to_string()))?;
+            .ok_or_else(|| AppError::Message("Failover queue is empty; cannot enable Auto mode".to_string()))?;
 
         // 真正启用 failover：启动代理服务 + 执行接管 + 开启 auto_failover
         let proxy_service = &app_state.proxy_service;
@@ -634,7 +634,7 @@ fn handle_auto_click(
             log::info!("[Tray] Auto 模式：启动代理服务");
             if let Err(e) = futures::executor::block_on(proxy_service.start()) {
                 log::error!("[Tray] 启动代理服务失败: {e}");
-                return Err(AppError::Message(format!("启动代理服务失败: {e}")));
+                return Err(AppError::Message(format!("Failed to start proxy service: {e}")));
             }
         }
 
@@ -644,7 +644,7 @@ fn handle_auto_click(
             futures::executor::block_on(proxy_service.set_takeover_for_app(app_type_str, true))
         {
             log::error!("[Tray] 执行接管失败: {e}");
-            return Err(AppError::Message(format!("执行接管失败: {e}")));
+            return Err(AppError::Message(format!("Failed to take over: {e}")));
         }
 
         // 3) 设置 auto_failover_enabled = true
@@ -658,7 +658,7 @@ fn handle_auto_click(
         ) {
             log::error!("[Tray] Auto 模式切换到队列 P1 失败: {e}");
             return Err(AppError::Message(format!(
-                "Auto 模式切换到队列 P1 失败: {e}"
+                "Auto mode failed to switch to queue P1: {e}"
             )));
         }
 
@@ -759,7 +759,7 @@ pub fn create_tray_menu(
     // 顶部：打开主界面 / 打开官方网站
     let show_main_item =
         MenuItem::with_id(app, "show_main", tray_texts.show_main, true, None::<&str>)
-            .map_err(|e| AppError::Message(format!("创建打开主界面菜单失败: {e}")))?;
+            .map_err(|e| AppError::Message(format!("Failed to create Open Main Window menu: {e}")))?;
     let open_website_item = MenuItem::with_id(
         app,
         "open_website",
@@ -767,7 +767,7 @@ pub fn create_tray_menu(
         true,
         None::<&str>,
     )
-    .map_err(|e| AppError::Message(format!("创建打开官方网站菜单失败: {e}")))?;
+    .map_err(|e| AppError::Message(format!("Failed to create Open Website menu: {e}")))?;
     menu_builder = menu_builder
         .item(&show_main_item)
         .item(&open_website_item)
@@ -794,7 +794,7 @@ pub fn create_tray_menu(
             let label = format!("{} {}", section.header_label, tray_texts.no_providers_label);
             let empty_item = MenuItem::with_id(app, section.empty_id, &label, false, None::<&str>)
                 .map_err(|e| {
-                    AppError::Message(format!("创建{}空提示失败: {e}", section.log_name))
+                    AppError::Message(format!("Failed to create empty {} hint: {e}", section.log_name))
                 })?;
             menu_builder = menu_builder.item(&empty_item);
         } else {
@@ -848,13 +848,13 @@ pub fn create_tray_menu(
                     None::<&str>,
                 )
                 .map_err(|e| {
-                    AppError::Message(format!("创建{}菜单项失败: {e}", section.log_name))
+                    AppError::Message(format!("Failed to create {} menu item: {e}", section.log_name))
                 })?;
                 submenu_builder = submenu_builder.item(&item);
             }
 
             let submenu = submenu_builder.build().map_err(|e| {
-                AppError::Message(format!("构建{}子菜单失败: {e}", section.log_name))
+                AppError::Message(format!("Failed to build {} submenu: {e}", section.log_name))
             })?;
             section_handles.insert(section.app_type.clone(), submenu.clone());
             menu_builder = menu_builder.item(&submenu);
@@ -914,7 +914,7 @@ pub fn create_tray_menu(
                     current_profile_id == profile.id,
                     None::<&str>,
                 )
-                .map_err(|e| AppError::Message(format!("创建项目菜单项失败: {e}")))?;
+                .map_err(|e| AppError::Message(format!("Failed to create project menu item: {e}")))?;
                 scope_builder = scope_builder.item(&item);
             }
             let none_item = CheckMenuItem::with_id(
@@ -925,12 +925,12 @@ pub fn create_tray_menu(
                 current_profile_id.is_empty(),
                 None::<&str>,
             )
-            .map_err(|e| AppError::Message(format!("创建不使用项目菜单项失败: {e}")))?;
+            .map_err(|e| AppError::Message(format!("Failed to create No Project menu item: {e}")))?;
             let scope_submenu = scope_builder
                 .separator()
                 .item(&none_item)
                 .build()
-                .map_err(|e| AppError::Message(format!("构建项目分组子菜单失败: {e}")))?;
+                .map_err(|e| AppError::Message(format!("Failed to build project-group submenu: {e}")))?;
             scope_submenus.push(scope_submenu);
         }
 
@@ -942,7 +942,7 @@ pub fn create_tray_menu(
             }
             let profiles_submenu = profiles_builder
                 .build()
-                .map_err(|e| AppError::Message(format!("构建项目子菜单失败: {e}")))?;
+                .map_err(|e| AppError::Message(format!("Failed to build project submenu: {e}")))?;
             menu_builder = menu_builder.item(&profiles_submenu).separator();
         }
     }
@@ -955,19 +955,19 @@ pub fn create_tray_menu(
         crate::lightweight::is_lightweight_mode(),
         None::<&str>,
     )
-    .map_err(|e| AppError::Message(format!("创建轻量模式菜单失败: {e}")))?;
+    .map_err(|e| AppError::Message(format!("Failed to create lightweight-mode menu: {e}")))?;
 
     menu_builder = menu_builder.item(&lightweight_item).separator();
 
     // 退出菜单（分隔符已在上面的 section 循环中添加）
     let quit_item = MenuItem::with_id(app, "quit", tray_texts.quit, true, None::<&str>)
-        .map_err(|e| AppError::Message(format!("创建退出菜单失败: {e}")))?;
+        .map_err(|e| AppError::Message(format!("Failed to create Quit menu: {e}")))?;
 
     menu_builder = menu_builder.item(&quit_item);
 
     let menu = menu_builder
         .build()
-        .map_err(|e| AppError::Message(format!("构建菜单失败: {e}")))?;
+        .map_err(|e| AppError::Message(format!("Failed to build menu: {e}")))?;
 
     *TRAY_SECTION_SUBMENUS
         .lock()

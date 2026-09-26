@@ -254,7 +254,7 @@ impl ProfileService {
             id: uuid::Uuid::new_v4().to_string(),
             name: name.to_string(),
             payload: serde_json::to_string(&payload)
-                .map_err(|e| AppError::Config(format!("序列化 profile payload 失败: {e}")))?,
+                .map_err(|e| AppError::Config(format!("Failed to serialize profile payload: {e}")))?,
             sort_order: None,
             created_at: Some(now),
             updated_at: Some(now),
@@ -290,10 +290,10 @@ impl ProfileService {
                 AppError::InvalidInput("Resnapshot requires a profile scope".to_string())
             })?;
             let mut payload: ProfilePayload = serde_json::from_str(&profile.payload)
-                .map_err(|e| AppError::Config(format!("解析 profile payload 失败: {e}")))?;
+                .map_err(|e| AppError::Config(format!("Failed to parse profile payload: {e}")))?;
             payload.merge_scope_from(&Self::snapshot_current(state, scope)?, scope);
             profile.payload = serde_json::to_string(&payload)
-                .map_err(|e| AppError::Config(format!("序列化 profile payload 失败: {e}")))?;
+                .map_err(|e| AppError::Config(format!("Failed to serialize profile payload: {e}")))?;
         }
         profile.updated_at = Some(chrono::Utc::now().timestamp());
         state.db.save_profile(&profile)?;
@@ -350,7 +350,7 @@ impl ProfileService {
             .get_profile(profile_id)?
             .ok_or_else(|| AppError::InvalidInput(format!("Profile not found: {profile_id}")))?;
         let payload: ProfilePayload = serde_json::from_str(&profile.payload)
-            .map_err(|e| AppError::Config(format!("解析 profile payload 失败: {e}")))?;
+            .map_err(|e| AppError::Config(format!("Failed to parse profile payload: {e}")))?;
 
         if !payload.scope_captured(scope) {
             warnings.push(format!(

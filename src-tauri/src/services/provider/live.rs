@@ -738,10 +738,10 @@ pub(crate) fn preflight_codex_live_write_for_state(
     let obj = effective
         .settings_config
         .as_object()
-        .ok_or_else(|| AppError::Config("Codex 供应商配置必须是 JSON 对象".to_string()))?;
+        .ok_or_else(|| AppError::Config("Codex provider config must be a JSON object".to_string()))?;
     let auth = obj
         .get("auth")
-        .ok_or_else(|| AppError::Config("Codex 供应商配置缺少 'auth' 字段".to_string()))?;
+        .ok_or_else(|| AppError::Config("Codex provider config is missing the 'auth' field".to_string()))?;
     let config_str = obj.get("config").and_then(|v| v.as_str());
     crate::codex_config::preflight_codex_live_write(effective.category.as_deref(), auth, config_str)
 }
@@ -842,7 +842,7 @@ fn apply_codex_official_auth(
 
     let Some(manager) = codex_oauth_manager else {
         return Err(AppError::Message(
-            "Codex OAuth 托管账号不可用，请重启应用后重试".to_string(),
+            "Codex OAuth managed account is unavailable; restart the app and retry".to_string(),
         ));
     };
 
@@ -850,7 +850,7 @@ fn apply_codex_official_auth(
 
     let Some(settings_obj) = provider.settings_config.as_object_mut() else {
         return Err(AppError::Config(
-            "Codex 供应商配置必须是 JSON 对象".to_string(),
+            "Codex provider config must be a JSON object".to_string(),
         ));
     };
 
@@ -883,7 +883,7 @@ fn get_codex_managed_oauth_live_auth_value(
                 .await
                 .map_err(|err| {
                     format!(
-                        "Codex OAuth 账号 {account_id} 认证失败，请重新登录 ChatGPT 账号: {err}"
+                        "Codex OAuth account {account_id} auth failed; sign in to ChatGPT again: {err}"
                     )
                 })?;
             let id_token = bundle
@@ -892,7 +892,7 @@ fn get_codex_managed_oauth_live_auth_value(
                 .filter(|token| !token.trim().is_empty())
                 .ok_or_else(|| {
                     format!(
-                        "Codex OAuth 账号 {account_id} 缺少 id_token，请在认证中心重新登录后再保存"
+                        "Codex OAuth account {account_id} is missing id_token; re-login in Auth Center then save"
                     )
                 })?;
 
@@ -906,7 +906,7 @@ fn get_codex_managed_oauth_live_auth_value(
         })
     })
     .join()
-    .map_err(|_| AppError::Message("Codex OAuth token 获取线程异常退出".to_string()))?
+    .map_err(|_| AppError::Message("Codex OAuth token fetch thread panicked".to_string()))?
     .map_err(AppError::Message)
 }
 
@@ -926,7 +926,7 @@ pub(crate) fn prepare_codex_managed_oauth_live_auth_switch_away(
         })
     })
     .join()
-    .map_err(|_| AppError::Message("Codex OAuth live 凭据采纳线程异常退出".to_string()))?
+    .map_err(|_| AppError::Message("Codex OAuth live credential adopt thread panicked".to_string()))?
     .map_err(AppError::Message)
 }
 
@@ -1319,7 +1319,7 @@ pub(crate) fn write_live_snapshot(app_type: &AppType, provider: &Provider) -> Re
         AppType::ClaudeDesktop => {
             return Err(AppError::localized(
                 "claude_desktop.live.requires_db_context",
-                "Claude Desktop 配置写入需要通过供应商切换流程执行",
+                "Claude Desktop configuration must be written through the provider switch flow",
                 "Claude Desktop configuration must be written through the provider switch flow",
             ));
         }
@@ -1327,10 +1327,10 @@ pub(crate) fn write_live_snapshot(app_type: &AppType, provider: &Provider) -> Re
             let obj = provider
                 .settings_config
                 .as_object()
-                .ok_or_else(|| AppError::Config("Codex 供应商配置必须是 JSON 对象".to_string()))?;
+                .ok_or_else(|| AppError::Config("Codex provider config must be a JSON object".to_string()))?;
             let auth = obj
                 .get("auth")
-                .ok_or_else(|| AppError::Config("Codex 供应商配置缺少 'auth' 字段".to_string()))?;
+                .ok_or_else(|| AppError::Config("Codex provider config is missing the 'auth' field".to_string()))?;
             let config_str = obj.get("config").and_then(|v| v.as_str());
 
             // Native (direct) Responses and Anthropic providers must suppress Codex's
@@ -1602,7 +1602,7 @@ pub(crate) fn sync_live_for_provider_respecting_takeover(
             Ok(backup) => backup.is_some(),
             Err(err) => {
                 log::warn!(
-                    "读取 {} Live 备份失败，按无备份处理并继续写入 live 配置: {err}",
+                    "Failed to read {} live backup; treating as no backup and continuing live write: {err}",
                     app_type.as_str()
                 );
                 false
@@ -1638,7 +1638,7 @@ pub(crate) fn sync_live_for_provider_respecting_takeover(
             .proxy_service
             .update_live_backup_from_provider(app_type.as_str(), provider),
     )
-    .map_err(|e| AppError::Message(format!("更新 Live 备份失败: {e}")))?;
+    .map_err(|e| AppError::Message(format!("Failed to update Live back up: {e}")))?;
 
     if !futures::executor::block_on(state.proxy_service.is_running()) {
         return Ok(LiveSyncOutcome::BackupOnly);
@@ -1650,19 +1650,19 @@ pub(crate) fn sync_live_for_provider_respecting_takeover(
                 .proxy_service
                 .sync_claude_live_from_provider_while_proxy_active(provider),
         )
-        .map_err(|e| AppError::Message(format!("同步 Claude Live 配置失败: {e}")))?,
+        .map_err(|e| AppError::Message(format!("Failed to sync Claude live config: {e}")))?,
         AppType::Codex if live_taken_over => futures::executor::block_on(
             state
                 .proxy_service
                 .sync_codex_live_from_provider_while_proxy_active(provider),
         )
-        .map_err(|e| AppError::Message(format!("同步 Codex Live 配置失败: {e}")))?,
+        .map_err(|e| AppError::Message(format!("Failed to sync Codex live config: {e}")))?,
         AppType::GrokBuild if live_taken_over => futures::executor::block_on(
             state
                 .proxy_service
                 .sync_grok_live_from_provider_while_proxy_active(provider),
         )
-        .map_err(|e| AppError::Message(format!("同步 Grok Build Live 配置失败: {e}")))?,
+        .map_err(|e| AppError::Message(format!("Failed to sync Grok Build live config: {e}")))?,
         _ => {}
     }
 
@@ -1735,7 +1735,7 @@ pub fn sync_current_to_live(state: &AppState) -> Result<(), AppError> {
         Ok(())
     } else {
         Err(AppError::Message(format!(
-            "部分 live 配置同步失败: {}",
+            "Some live configs failed to sync: {}",
             failures.join("; ")
         )))
     }
@@ -1765,7 +1765,7 @@ pub fn read_live_settings(app_type: AppType) -> Result<Value, AppError> {
             if !path.exists() {
                 return Err(AppError::localized(
                     "claude.live.missing",
-                    "Claude Code 配置文件不存在",
+                    "Claude Code config file not found",
                     "Claude settings file is missing",
                 ));
             }
@@ -1773,7 +1773,7 @@ pub fn read_live_settings(app_type: AppType) -> Result<Value, AppError> {
         }
         AppType::ClaudeDesktop => Err(AppError::localized(
             "claude_desktop.live.read_unsupported",
-            "Claude Desktop 3P 配置不支持作为通用 live 配置导入，请使用“从 Claude 导入兼容供应商”。",
+            "Claude Desktop 3P configuration cannot be imported as a generic live config. Use 'Import compatible providers from Claude' instead.",
             "Claude Desktop 3P configuration cannot be imported as a generic live config. Use 'Import compatible providers from Claude' instead.",
         )),
         AppType::Gemini => {
@@ -1786,7 +1786,7 @@ pub fn read_live_settings(app_type: AppType) -> Result<Value, AppError> {
             if !env_path.exists() {
                 return Err(AppError::localized(
                     "gemini.env.missing",
-                    "Gemini .env 文件不存在",
+                    "Gemini .env file not found",
                     "Gemini .env file not found",
                 ));
             }
@@ -1816,7 +1816,7 @@ pub fn read_live_settings(app_type: AppType) -> Result<Value, AppError> {
             if !config_path.exists() {
                 return Err(AppError::localized(
                     "opencode.config.missing",
-                    "OpenCode 配置文件不存在",
+                    "OpenCode configuration file not found",
                     "OpenCode configuration file not found",
                 ));
             }
@@ -1832,7 +1832,7 @@ pub fn read_live_settings(app_type: AppType) -> Result<Value, AppError> {
             if !config_path.exists() {
                 return Err(AppError::localized(
                     "openclaw.config.missing",
-                    "OpenClaw 配置文件不存在",
+                    "OpenClaw configuration file not found",
                     "OpenClaw configuration file not found",
                 ));
             }
@@ -1845,7 +1845,7 @@ pub fn read_live_settings(app_type: AppType) -> Result<Value, AppError> {
             if !config_path.exists() {
                 return Err(AppError::localized(
                     "hermes.config.missing",
-                    "Hermes 配置文件不存在",
+                    "Hermes configuration file not found",
                     "Hermes configuration file not found",
                 ));
             }
@@ -1890,7 +1890,7 @@ pub fn import_default_config(state: &AppState, app_type: AppType) -> Result<bool
     {
         return Err(AppError::localized(
             "provider.import.live_taken_over",
-            "Live 配置当前处于代理接管状态（包含占位符），不能导入为供应商。请先关闭代理接管或恢复 Live 配置后重试。",
+            "The live config is currently taken over by the proxy (contains placeholders) and cannot be imported as a provider. Disable proxy takeover or restore the live config first.",
             "The live config is currently taken over by the proxy (contains placeholders) and cannot be imported as a provider. Disable proxy takeover or restore the live config first.",
         ));
     }
@@ -1917,7 +1917,7 @@ pub fn import_default_config(state: &AppState, app_type: AppType) -> Result<bool
             if !settings_path.exists() {
                 return Err(AppError::localized(
                     "claude.live.missing",
-                    "Claude Code 配置文件不存在",
+                    "Claude Code config file not found",
                     "Claude settings file is missing",
                 ));
             }
@@ -1928,7 +1928,7 @@ pub fn import_default_config(state: &AppState, app_type: AppType) -> Result<bool
         AppType::ClaudeDesktop => {
             return Err(AppError::localized(
                 "claude_desktop.import_unsupported",
-                "Claude Desktop 3P 配置不能通过通用导入读取，请使用“从 Claude 导入兼容供应商”。",
+                "Claude Desktop 3P config cannot be imported through the generic import flow. Use 'Import compatible providers from Claude' instead.",
                 "Claude Desktop 3P config cannot be imported through the generic import flow. Use 'Import compatible providers from Claude' instead.",
             ));
         }
@@ -1942,7 +1942,7 @@ pub fn import_default_config(state: &AppState, app_type: AppType) -> Result<bool
             if !env_path.exists() {
                 return Err(AppError::localized(
                     "gemini.live.missing",
-                    "Gemini 配置文件不存在",
+                    "Gemini configuration file is missing",
                     "Gemini configuration file is missing",
                 ));
             }
@@ -2083,7 +2083,7 @@ pub(crate) fn write_gemini_live(provider: &Provider) -> Result<(), AppError> {
         } else if !config_value.is_null() {
             return Err(AppError::localized(
                 "gemini.validation.invalid_config",
-                "Gemini 配置格式错误: config 必须是对象或 null",
+                "Gemini config invalid: config must be an object or null",
                 "Gemini config invalid: config must be an object or null",
             ));
         }

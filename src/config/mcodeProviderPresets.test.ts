@@ -44,7 +44,7 @@ describe("mcodeProviderPresets", () => {
     expect(deepseek[0]).not.toHaveProperty("thinking");
 
     const qwen =
-      mcodePreset("千问AI平台")!.settingsConfig.models["qwen3.8-max"];
+      mcodePreset("Qwen AI")!.settingsConfig.models["qwen3.8-max"];
     expect(qwen.compat).toEqual({
       thinkingFormat: "qwen",
       supportsDeveloperRole: false,

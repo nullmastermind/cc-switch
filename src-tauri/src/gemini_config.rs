@@ -86,7 +86,7 @@ pub fn parse_env_file_strict(content: &str) -> Result<HashMap<String, String>, A
         if !line.contains('=') {
             return Err(AppError::localized(
                 "gemini.env.parse_error.no_equals",
-                format!("Gemini .env 文件格式错误（第 {line_number} 行）：缺少 '=' 分隔符\n行内容: {line}"),
+                format!("Invalid Gemini .env format (line {line_number}): missing '=' separator\nLine: {line}"),
                 format!("Invalid Gemini .env format (line {line_number}): missing '=' separator\nLine: {line}"),
             ));
         }
@@ -100,7 +100,7 @@ pub fn parse_env_file_strict(content: &str) -> Result<HashMap<String, String>, A
             if key.is_empty() {
                 return Err(AppError::localized(
                     "gemini.env.parse_error.empty_key",
-                    format!("Gemini .env 文件格式错误（第 {line_number} 行）：环境变量名不能为空\n行内容: {line}"),
+                    format!("Invalid Gemini .env format (line {line_number}): environment variable name cannot be empty\nLine: {line}"),
                     format!("Invalid Gemini .env format (line {line_number}): variable name cannot be empty\nLine: {line}"),
                 ));
             }
@@ -109,7 +109,7 @@ pub fn parse_env_file_strict(content: &str) -> Result<HashMap<String, String>, A
             if !key.chars().all(|c| c.is_alphanumeric() || c == '_') {
                 return Err(AppError::localized(
                     "gemini.env.parse_error.invalid_key",
-                    format!("Gemini .env 文件格式错误（第 {line_number} 行）：环境变量名只能包含字母、数字和下划线\n变量名: {key}"),
+                    format!("Invalid Gemini .env format (line {line_number}): environment variable name may only contain letters, digits, and underscores\nName: {key}"),
                     format!("Invalid Gemini .env format (line {line_number}): variable name can only contain letters, numbers, and underscores\nVariable: {key}"),
                 ));
             }
@@ -289,7 +289,7 @@ pub fn validate_gemini_settings(settings: &Value) -> Result<(), AppError> {
         if !env.is_object() {
             return Err(AppError::localized(
                 "gemini.validation.invalid_env",
-                "Gemini 配置格式错误: env 必须是对象",
+                "Gemini config invalid: env must be an object",
                 "Gemini config invalid: env must be an object",
             ));
         }
@@ -300,7 +300,7 @@ pub fn validate_gemini_settings(settings: &Value) -> Result<(), AppError> {
         if !(config.is_object() || config.is_null()) {
             return Err(AppError::localized(
                 "gemini.validation.invalid_config",
-                "Gemini 配置格式错误: config 必须是对象",
+                "Gemini config invalid: config must be an object",
                 "Gemini config invalid: config must be an object",
             ));
         }
@@ -328,7 +328,7 @@ pub fn validate_gemini_settings_strict(settings: &Value) -> Result<(), AppError>
     if !env_map.contains_key("GEMINI_API_KEY") {
         return Err(AppError::localized(
             "gemini.validation.missing_api_key",
-            "Gemini 配置缺少必需字段: GEMINI_API_KEY",
+            "Gemini config missing required field: GEMINI_API_KEY",
             "Gemini config missing required field: GEMINI_API_KEY",
         ));
     }

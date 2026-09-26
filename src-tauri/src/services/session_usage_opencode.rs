@@ -63,7 +63,7 @@ pub fn sync_opencode_usage(db: &Database) -> Result<SessionSyncResult, AppError>
     // 主库文件只有在 checkpoint 时才更新。因此必须同时考虑 -wal 的
     // mtime，否则会在 checkpoint 之前漏掉刚写入的会话。
     let metadata = fs::metadata(&db_path)
-        .map_err(|e| AppError::Config(format!("无法读取 opencode.db 元数据: {e}")))?;
+        .map_err(|e| AppError::Config(format!("Cannot read opencode.db metadata: {e}")))?;
     let mut file_modified = metadata_modified_nanos(&metadata);
 
     let wal_path = db_path.with_extension("db-wal");
@@ -89,7 +89,7 @@ pub fn sync_opencode_usage(db: &Database) -> Result<SessionSyncResult, AppError>
     // 打开 opencode 的 SQLite 数据库（只读）
     let opencode_conn =
         rusqlite::Connection::open_with_flags(&db_path, rusqlite::OpenFlags::SQLITE_OPEN_READ_ONLY)
-            .map_err(|e| AppError::Database(format!("无法打开 opencode.db: {e}")))?;
+            .map_err(|e| AppError::Database(format!("Cannot open opencode.db: {e}")))?;
 
     let mut result = SessionSyncResult {
         imported: 0,
@@ -136,7 +136,7 @@ pub fn sync_opencode_usage(db: &Database) -> Result<SessionSyncResult, AppError>
                 }
             }
             Err(e) => {
-                let msg = format!("OpenCode 会话消息查询失败 {session_id}: {e}");
+                let msg = format!("Failed to OpenCode session messages query {session_id}: {e}");
                 log::warn!("[OPENCODE-SYNC] {msg}");
                 result.errors.push(msg);
                 session_had_error = true;
@@ -189,17 +189,17 @@ fn query_sessions(conn: &rusqlite::Connection) -> Result<Vec<(String, i64)>, App
              GROUP BY s.id
              ORDER BY sync_watermark",
         )
-        .map_err(|e| AppError::Database(format!("准备会话查询失败: {e}")))?;
+        .map_err(|e| AppError::Database(format!("Failed to prepare session query: {e}")))?;
 
     let rows = stmt
         .query_map([], |row| {
             Ok((row.get::<_, String>(0)?, row.get::<_, i64>(1)?))
         })
-        .map_err(|e| AppError::Database(format!("查询会话失败: {e}")))?;
+        .map_err(|e| AppError::Database(format!("Failed to query sessions: {e}")))?;
 
     let mut sessions = Vec::new();
     for row in rows {
-        sessions.push(row.map_err(|e| AppError::Database(format!("读取会话行失败: {e}")))?);
+        sessions.push(row.map_err(|e| AppError::Database(format!("Failed to read session row: {e}")))?);
     }
 
     Ok(sessions)
@@ -212,19 +212,19 @@ fn query_assistant_messages(
 ) -> Result<OpenCodeMessageQueryResult, AppError> {
     let mut stmt = conn
         .prepare("SELECT id, data FROM message WHERE session_id = ?1 ORDER BY time_created")
-        .map_err(|e| AppError::Database(format!("准备消息查询失败: {e}")))?;
+        .map_err(|e| AppError::Database(format!("Failed to prepare message query: {e}")))?;
 
     let rows = stmt
         .query_map([session_id], |row| {
             Ok((row.get::<_, String>(0)?, row.get::<_, String>(1)?))
         })
-        .map_err(|e| AppError::Database(format!("查询消息失败: {e}")))?;
+        .map_err(|e| AppError::Database(format!("Failed to query messages: {e}")))?;
 
     let mut messages = Vec::new();
     let mut has_incomplete_usage = false;
     for row in rows {
         let (message_id, data_json) =
-            row.map_err(|e| AppError::Database(format!("读取消息行失败: {e}")))?;
+            row.map_err(|e| AppError::Database(format!("Failed to read message row: {e}")))?;
 
         // 只处理 assistant 消息
         let value: serde_json::Value = match serde_json::from_str(&data_json) {
@@ -434,7 +434,7 @@ fn insert_opencode_message(
             "opencode_session",    // data_source
         ],
     )
-    .map_err(|e| AppError::Database(format!("插入 OpenCode 会话日志失败: {e}")))?;
+    .map_err(|e| AppError::Database(format!("Failed to insert OpenCode session log: {e}")))?;
 
     Ok(inserted_rows > 0)
 }

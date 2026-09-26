@@ -153,14 +153,14 @@ impl ConfigService {
         provider: &Provider,
     ) -> Result<(), AppError> {
         let settings = provider.settings_config.as_object().ok_or_else(|| {
-            AppError::Config(format!("供应商 {provider_id} 的 Codex 配置必须是对象"))
+            AppError::Config(format!("Codex config for provider {provider_id} must be an object"))
         })?;
         let auth = settings.get("auth").ok_or_else(|| {
-            AppError::Config(format!("供应商 {provider_id} 的 Codex 配置缺少 auth 字段"))
+            AppError::Config(format!("Codex config for provider {provider_id} is missing the auth field"))
         })?;
         if !auth.is_object() {
             return Err(AppError::Config(format!(
-                "供应商 {provider_id} 的 Codex auth 配置必须是 JSON 对象"
+                "Codex auth config for provider {provider_id} must be a JSON object"
             )));
         }
         let cfg_text = settings.get("config").and_then(Value::as_str);

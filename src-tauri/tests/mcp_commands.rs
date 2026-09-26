@@ -396,11 +396,11 @@ fn import_default_config_without_live_file_returns_error() {
         .expect_err("missing live file should error");
     match err {
         AppError::Localized { zh, .. } => assert!(
-            zh.contains("Claude Code 配置文件不存在"),
+            zh.contains("Claude Code config file not found"),
             "unexpected error message: {zh}"
         ),
         AppError::Message(msg) => assert!(
-            msg.contains("Claude Code 配置文件不存在"),
+            msg.contains("Claude Code config file not found"),
             "unexpected error message: {msg}"
         ),
         other => panic!("unexpected error variant: {other:?}"),
@@ -589,7 +589,7 @@ fn import_mcp_from_claude_invalid_json_preserves_state() {
         McpService::import_from_claude(&state).expect_err("invalid json should bubble up error");
     match err {
         AppError::McpValidation(msg) => assert!(
-            msg.contains("解析 ~/.claude.json 失败"),
+            msg.contains("Failed to parse ~/.claude.json"),
             "unexpected error message: {msg}"
         ),
         other => panic!("unexpected error variant: {other:?}"),

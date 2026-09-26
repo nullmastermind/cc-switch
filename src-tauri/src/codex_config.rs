@@ -347,7 +347,7 @@ impl CodexLiveStateSnapshot {
             Ok(())
         } else {
             Err(AppError::Message(format!(
-                "恢复 Codex Live 状态失败: {}",
+                "Failed to restore Codex live state: {}",
                 failures.join("; ")
             )))
         }
@@ -627,7 +627,7 @@ pub fn record_codex_managed_oauth_live_auth(
     }
     let user_identity = extract_codex_auth_user_identity(auth).ok_or_else(|| {
         AppError::Message(
-            "Codex 托管 OAuth auth.json 的 id_token 缺少稳定用户身份，无法安全记录账号所有权"
+            "Managed Codex OAuth auth.json id_token is missing a stable user identity; cannot record account ownership safely"
                 .to_string(),
         )
     })?;
@@ -663,7 +663,7 @@ fn migrate_legacy_codex_managed_oauth_live_auth_marker(
         || managed_user_identity.is_none()
     {
         return Err(AppError::Message(format!(
-            "旧版 Codex OAuth 账号 {managed_account_id} 无法通过稳定用户身份确认磁盘凭据所有权；为避免覆盖或串用 auth.json，本次操作已取消，请在认证中心重新登录该账号"
+            "Legacy Codex OAuth account {managed_account_id} cannot prove disk credential ownership via a stable user identity; cancelled to avoid overwriting auth.json. Re-login that account in Auth Center."
         )));
     }
 
@@ -796,7 +796,7 @@ pub fn ensure_codex_live_auth_unchanged_for_managed_account(
     let auth_path = get_codex_auth_path();
     if !auth_path.exists() {
         return Err(AppError::Message(format!(
-            "Codex CLI 账号 {account_id} 的 live auth 已在切换期间被移除，请重试"
+            "Codex CLI account {account_id} live auth was removed during switch; please retry"
         )));
     }
     let auth: Value = read_json_file(&auth_path)?;
@@ -808,7 +808,7 @@ pub fn ensure_codex_live_auth_unchanged_for_managed_account(
         || current_refresh_token != Some(expected_refresh_token.trim())
     {
         return Err(AppError::Message(format!(
-            "Codex CLI 账号 {account_id} 的 live 凭据在切换期间已刷新；为避免覆盖新 refresh token，本次操作已取消，请重试"
+            "Codex CLI account {account_id} live credentials refreshed during switch; cancelled to avoid overwriting the new refresh token. Please retry"
         )));
     }
     Ok(())
@@ -831,7 +831,7 @@ pub fn clear_codex_live_auth_for_managed_account_if_unchanged(
                     .map(str::trim);
                 if current_refresh_token != Some(expected_refresh_token.trim()) {
                     return Err(AppError::Message(format!(
-                        "Codex CLI 账号 {account_id} 的 live 凭据在切换期间已刷新；为避免删除新 refresh token，本次操作已取消，请重试"
+                        "Codex CLI account {account_id} live credentials refreshed during switch; cancelled to avoid deleting the new refresh token. Please retry"
                     )));
                 }
             }
@@ -926,7 +926,7 @@ pub(crate) fn read_codex_live_auth_refresh_for_managed_account(
         return Ok(None);
     };
     let chatgpt_account_id = extract_codex_managed_oauth_account_id(&auth)
-        .ok_or_else(|| AppError::Message("Codex live auth 缺少 workspace ID".to_string()))?;
+        .ok_or_else(|| AppError::Message("Codex live auth is missing workspace ID".to_string()))?;
     Ok(Some(CodexManagedLiveRefresh {
         refresh_token,
         id_token,
@@ -2509,7 +2509,7 @@ pub(crate) fn read_limited_string(path: &Path, max_bytes: u64) -> Result<String,
     let metadata = fs::metadata(path).map_err(|error| AppError::io(path, error))?;
     if metadata.len() > max_bytes {
         return Err(AppError::Config(format!(
-            "文件 {} 超过大小上限 {} 字节",
+            "File {} exceeds size limit {} bytes",
             path.display(),
             max_bytes
         )));
@@ -2577,7 +2577,7 @@ pub(crate) fn resolve_cc_switch_catalog_path(
             Ok(path) => path,
             Err(error) => {
                 log::warn!(
-                    "Codex model_catalog_json canonicalize 失败: {}: {error}",
+                    "Failed to Codex model_catalog_json canonicalize: {}: {error}",
                     resolved.display()
                 );
                 return None;
@@ -3119,7 +3119,7 @@ fn preflight_codex_provider_table_conflicts(config_text: &str) -> Result<(), App
             return Err(AppError::localized(
                 "provider.codex.config.invalid_provider_table",
                 format!(
-                    "Codex 0.149 拒绝加载该配置：`aws` 字段仅允许用于内置的 amazon-bedrock / amazon-bedrock-runtime，[model_providers.{id}] 不能携带它。请移除该字段或改用 Bedrock 内置 id"
+                    "Codex 0.149 refuses this config: `aws` is only allowed on built-in amazon-bedrock / amazon-bedrock-runtime; [model_providers.{id}] cannot carry it. Remove it or use a built-in Bedrock id"
                 ),
                 format!(
                     "Codex 0.149 refuses to load this config: `aws` is only supported on the built-in amazon-bedrock / amazon-bedrock-runtime providers, so [model_providers.{id}] must not carry it. Remove the field or use a Bedrock built-in id"
@@ -3144,7 +3144,7 @@ fn preflight_codex_provider_table_conflicts(config_text: &str) -> Result<(), App
                 return Err(AppError::localized(
                     "provider.codex.config.invalid_provider_table",
                     format!(
-                        "Codex 0.149 拒绝加载该配置：[model_providers.{id}] 的 `auth` 不能与 `{conflict}` 同时存在。请移除其中之一"
+                        "Codex 0.149 refuses this config: [model_providers.{id}] cannot have both `auth` and `{conflict}`. Remove one of them"
                     ),
                     format!(
                         "Codex 0.149 refuses to load this config: `auth` on [model_providers.{id}] cannot be combined with `{conflict}`. Remove one of them"
@@ -3371,7 +3371,7 @@ fn set_codex_experimental_bearer_token(config_text: &str, token: &str) -> Result
     if config_text.trim().is_empty() {
         return Err(AppError::localized(
             "provider.codex.config.missing",
-            "Codex 第三方供应商缺少 config.toml 配置，无法写入 bearer token",
+            "Codex third-party provider is missing config.toml, cannot write bearer token",
             "Codex third-party provider is missing config.toml, cannot write bearer token",
         ));
     }
@@ -3476,7 +3476,7 @@ pub fn read_codex_live_settings() -> Result<Value, AppError> {
     if !auth_present && !get_codex_config_path().exists() {
         return Err(AppError::localized(
             "codex.live.missing",
-            "Codex 配置文件不存在",
+            "Codex configuration is missing",
             "Codex configuration is missing",
         ));
     }
@@ -3939,7 +3939,7 @@ fn plan_codex_live_write(
             if carried_key.is_some() && codex_config_routes_third_party_without_token_slot(text) {
                 return Err(AppError::localized(
                     "provider.codex.config.no_custom_provider",
-                    "Codex 第三方配置必须包含自定义 model_providers 条目以承载 API 密钥（Codex 不识别顶层 experimental_bearer_token）",
+                    "A Codex third-party config must define a custom model_providers entry to carry the API key (Codex ignores a top-level experimental_bearer_token)",
                     "A Codex third-party config must define a custom model_providers entry to carry the API key (Codex ignores a top-level experimental_bearer_token)",
                 ));
             }
@@ -3948,7 +3948,7 @@ fn plan_codex_live_write(
             {
                 return Err(AppError::localized(
                     "provider.codex.config.official_auth_fallback",
-                    "该 Codex 配置没有可用的 API 密钥，而 requires_openai_auth = true（或顶层 openai_base_url）会让 Codex 回退使用 auth.json 里的登录凭据访问第三方地址。请为供应商填写 API 密钥，或移除该回退指令",
+                    "This Codex config has no usable API key, and requires_openai_auth = true (or a top-level openai_base_url) would make Codex fall back to whatever login auth.json holds for a third-party route. Add an API key to the provider or remove the fallback directive",
                     "This Codex config has no usable API key, and requires_openai_auth = true (or a top-level openai_base_url) would make Codex fall back to whatever login auth.json holds for a third-party route. Add an API key to the provider or remove the fallback directive",
                 ));
             }
@@ -4167,7 +4167,7 @@ pub fn update_codex_toml_field(toml_str: &str, field: &str, value: &str) -> Resu
                     // 加载的配置（接管期间整个 CLI 起不来），明确报错优于
                     // 静默写出致命配置。
                     return Err(format!(
-                        "Codex 禁止覆盖内置 provider `{provider_key}`（0.148 起会拒绝加载整份配置），无法改写其 {field}；请改用自定义 provider id"
+                        "Cannot overwrite built-in Codex provider `{provider_key}` (0.148+ refuses the whole config); cannot rewrite {field}. Use a custom provider id"
                     ));
                 }
 

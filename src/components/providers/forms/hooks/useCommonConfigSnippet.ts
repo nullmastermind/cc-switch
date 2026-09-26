@@ -91,11 +91,11 @@ export function useCommonConfigSnippet({
                 // 清理 localStorage
                 window.localStorage.removeItem(LEGACY_STORAGE_KEY);
                 console.log(
-                  "[迁移] Claude 通用配置已从 localStorage 迁移到 config.json",
+                  "[migrate] Claude common config moved from localStorage to config.json",
                 );
               }
             } catch (e) {
-              console.warn("[迁移] 从 localStorage 迁移失败:", e);
+              console.warn("[migrate] localStorage migration failed:", e);
             }
           }
         }
@@ -258,7 +258,7 @@ export function useCommonConfigSnippet({
       }
 
       // 验证JSON格式
-      const validationError = validateJsonConfig(value, "通用配置片段");
+      const validationError = validateJsonConfig(value, "Common config snippet");
       if (validationError) {
         setCommonConfigError(validationError);
       } else {
@@ -337,7 +337,7 @@ export function useCommonConfigSnippet({
       }
 
       // 验证 JSON 格式
-      const validationError = validateJsonConfig(extracted, "提取的配置");
+      const validationError = validateJsonConfig(extracted, "Extracted config");
       if (validationError) {
         setCommonConfigError(validationError);
         return;

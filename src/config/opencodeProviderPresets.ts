@@ -1084,14 +1084,14 @@ export const opencodeProviderPresets: OpenCodeProviderPreset[] = [
     },
   },
   {
-    name: "火山 Agent Plan",
+    name: "Volcengine Agent Plan",
     websiteUrl:
       "https://www.volcengine.com/activity/agentplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     apiKeyUrl:
       "https://www.volcengine.com/activity/agentplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     settingsConfig: {
       npm: "@ai-sdk/openai-compatible",
-      name: "火山 Agent Plan",
+      name: "Volcengine Agent Plan",
       options: {
         baseURL: "https://ark.cn-beijing.volces.com/api/plan/v3",
         apiKey: "",
@@ -1117,14 +1117,14 @@ export const opencodeProviderPresets: OpenCodeProviderPreset[] = [
     },
   },
   {
-    name: "火山 Coding Plan",
+    name: "Volcengine Coding Plan",
     websiteUrl:
       "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     apiKeyUrl:
       "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     settingsConfig: {
       npm: "@ai-sdk/openai-compatible",
-      name: "火山 Coding Plan",
+      name: "Volcengine Coding Plan",
       options: {
         baseURL: "https://ark.cn-beijing.volces.com/api/coding/v3",
         apiKey: "",
@@ -2120,13 +2120,13 @@ export const opencodeProviderPresets: OpenCodeProviderPreset[] = [
     },
   },
   {
-    name: "千问AI平台",
+    name: "Qwen AI",
     websiteUrl: "https://platform.qianwenai.com/",
     apiKeyUrl:
       "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       npm: "@ai-sdk/openai-compatible",
-      name: "千问AI平台",
+      name: "Qwen AI",
       options: {
         baseURL: "https://dashscope.aliyuncs.com/compatible-mode/v1",
         apiKey: "",
@@ -2163,14 +2163,14 @@ export const opencodeProviderPresets: OpenCodeProviderPreset[] = [
     },
   },
   {
-    name: "千问AI平台 Token Plan",
+    name: "Qwen AI Token Plan",
     websiteUrl:
       "https://platform.qianwenai.com/pricing/token-plan",
     apiKeyUrl:
       "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       npm: "@ai-sdk/anthropic",
-      name: "千问AI平台 Token Plan",
+      name: "Qwen AI Token Plan",
       options: {
         baseURL:
           "https://token-plan.cn-beijing.maas.aliyuncs.com/apps/anthropic/v1",

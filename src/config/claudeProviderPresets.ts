@@ -534,7 +534,7 @@ export const providerPresets: ProviderPreset[] = [
     icon: "claudecn",
   },
   {
-    name: "火山 Agent Plan",
+    name: "Volcengine Agent Plan",
     websiteUrl:
       "https://www.volcengine.com/activity/agentplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     apiKeyUrl:
@@ -556,7 +556,7 @@ export const providerPresets: ProviderPreset[] = [
     iconColor: "#3370FF",
   },
   {
-    name: "火山 Coding Plan",
+    name: "Volcengine Coding Plan",
     websiteUrl:
       "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     apiKeyUrl:
@@ -1288,7 +1288,7 @@ export const providerPresets: ProviderPreset[] = [
     iconColor: "#2932E1",
   },
   {
-    name: "千问AI平台",
+    name: "Qwen AI",
     websiteUrl: "https://platform.qianwenai.com/",
     apiKeyUrl:
       "https://platform.qianwenai.com/home/api-keys",
@@ -1310,7 +1310,7 @@ export const providerPresets: ProviderPreset[] = [
     iconColor: "#624AFF",
   },
   {
-    name: "千问AI平台 Coding Plan",
+    name: "Qwen AI Coding Plan",
     websiteUrl: "https://bailian.console.aliyun.com",
     settingsConfig: {
       env: {
@@ -1324,7 +1324,7 @@ export const providerPresets: ProviderPreset[] = [
     iconColor: "#624AFF",
   },
   {
-    name: "千问AI平台 Token Plan",
+    name: "Qwen AI Token Plan",
     websiteUrl:
       "https://platform.qianwenai.com/pricing/token-plan",
     apiKeyUrl:

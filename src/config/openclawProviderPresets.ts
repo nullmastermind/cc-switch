@@ -1270,7 +1270,7 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
     },
   },
   {
-    name: "火山 Agent Plan",
+    name: "Volcengine Agent Plan",
     websiteUrl:
       "https://www.volcengine.com/activity/agentplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     apiKeyUrl:
@@ -1307,7 +1307,7 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
     },
   },
   {
-    name: "火山 Coding Plan",
+    name: "Volcengine Coding Plan",
     websiteUrl:
       "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     apiKeyUrl:
@@ -3140,7 +3140,7 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
     },
   },
   {
-    name: "千问AI平台",
+    name: "Qwen AI",
     websiteUrl: "https://platform.qianwenai.com/",
     apiKeyUrl:
       "https://platform.qianwenai.com/home/api-keys",
@@ -3178,7 +3178,7 @@ export const openclawProviderPresets: OpenClawProviderPreset[] = [
     },
   },
   {
-    name: "千问AI平台 Token Plan",
+    name: "Qwen AI Token Plan",
     websiteUrl:
       "https://platform.qianwenai.com/pricing/token-plan",
     apiKeyUrl:

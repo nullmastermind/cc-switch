@@ -276,12 +276,12 @@ fn validate_claude_desktop_gateway_auth(
         .map_err(|e| ProxyError::AuthError(e.to_string()))?;
     let Some(value) = headers.get(axum::http::header::AUTHORIZATION) else {
         return Err(ProxyError::AuthError(
-            "Claude Desktop gateway 缺少 Authorization 头".to_string(),
+            "Claude Desktop gateway is missing the Authorization header".to_string(),
         ));
     };
     let value = value
         .to_str()
-        .map_err(|_| ProxyError::AuthError("Authorization 头格式无效".to_string()))?;
+        .map_err(|_| ProxyError::AuthError("Invalid Authorization header format".to_string()))?;
     let token = value
         .strip_prefix("Bearer ")
         .or_else(|| value.strip_prefix("bearer "))
@@ -289,7 +289,7 @@ fn validate_claude_desktop_gateway_auth(
         .trim();
     if token != expected {
         return Err(ProxyError::AuthError(
-            "Claude Desktop gateway token 无效".to_string(),
+            "Claude Desktop gateway token is invalid".to_string(),
         ));
     }
     Ok(())
@@ -2198,7 +2198,7 @@ async fn responses_sse_stream_to_anthropic_message(
             .await
             .map_err(|_| {
                 ProxyError::Timeout(format!(
-                    "响应体读取超时: {}s（上游发完响应头后 body 未到达）",
+                    "Response body read timed out: {}s (headers received, body never arrived)",
                     body_timeout.as_secs()
                 ))
             })??
@@ -3541,7 +3541,7 @@ data: {\"type\":\"response.output_item.done\",\"item\":{\"type\":\"message\"}}\n
 
     #[test]
     fn codex_proxy_forward_error_includes_context_and_cause() {
-        let error = ProxyError::ForwardFailed("连接失败: dns lookup failed".to_string());
+        let error = ProxyError::ForwardFailed("Connection failed: dns lookup failed".to_string());
         let body = codex_proxy_error_json("DeepSeek", "deepseek-chat", "/responses", &error);
 
         let message = body["error"]["message"].as_str().unwrap();

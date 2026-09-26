@@ -259,7 +259,7 @@ pub async fn sync_session_usage(
         crate::services::session_usage::sync_all_unlocked(&db)
     })
     .await
-    .map_err(|error| AppError::Message(format!("会话用量同步任务失败: {error}")))
+    .map_err(|error| AppError::Message(format!("Session usage sync failed: {error}")))
 }
 
 /// Codex reset 成功后，无论重导是否导入新行或返回错误，都必须通知前端刷新。
@@ -288,7 +288,7 @@ pub async fn rebuild_codex_usage(
         finish_codex_rebuild(result)
     })
     .await
-    .map_err(|error| AppError::Message(format!("Codex 用量重建任务失败: {error}")))?
+    .map_err(|error| AppError::Message(format!("Codex usage rebuild failed: {error}")))?
 }
 
 /// 获取数据来源分布

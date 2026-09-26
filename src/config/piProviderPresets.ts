@@ -687,14 +687,14 @@ const piProviderPresetDefinitions: PiProviderPreset[] = [
     icon: "claudecn",
   },
   {
-    name: "火山Agentplan",
+    name: "Volcengine Agent Plan",
     providerKey: "cc-switch-agentplan",
     websiteUrl:
       "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     apiKeyUrl:
       "https://www.volcengine.com/activity/codingplan?ac=MMAP8JTTCAQ2&rc=6J6FV5N2",
     settingsConfig: {
-      name: "火山Agentplan",
+      name: "Volcengine Agent Plan",
       baseUrl: "https://ark.cn-beijing.volces.com/api/coding/v3",
       api: "openai-completions",
       apiKey: "",
@@ -1174,13 +1174,13 @@ const piProviderPresetDefinitions: PiProviderPreset[] = [
     iconColor: "#0F62FE",
   },
   {
-    name: "千问AI平台",
+    name: "Qwen AI",
     providerKey: "cc-switch-qianwenai",
     websiteUrl: "https://platform.qianwenai.com/",
     apiKeyUrl:
       "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
-      name: "千问AI平台",
+      name: "Qwen AI",
       baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
       api: "openai-completions",
       apiKey: "",
@@ -1198,14 +1198,14 @@ const piProviderPresetDefinitions: PiProviderPreset[] = [
     iconColor: "#624AFF",
   },
   {
-    name: "千问AI平台 Token Plan",
+    name: "Qwen AI Token Plan",
     providerKey: "cc-switch-qianwenai-token-plan",
     websiteUrl:
       "https://platform.qianwenai.com/pricing/token-plan",
     apiKeyUrl:
       "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
-      name: "千问AI平台 Token Plan",
+      name: "Qwen AI Token Plan",
       baseUrl:
         "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1",
       api: "openai-completions",

@@ -613,9 +613,10 @@ export function DeepLinkImportDialog() {
                           </div>
                           <div className="col-span-2 text-sm">
                             {/*
-                            判据是 `=== true`，与后端 `usage_enabled.unwrap_or(false)`
-                            严格对齐。此前用的 `!== false` 会把"链接没说"渲染成绿色的
-                            「已启用」——徽章必须显示实际会发生的事，不能比后端更乐观。
+                            Criterion is `=== true`, matching backend
+                            `usage_enabled.unwrap_or(false)`. Using `!== false`
+                            treated "link omitted the flag" as enabled. The badge
+                            must show what will actually happen.
                           */}
                             <span
                               className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${

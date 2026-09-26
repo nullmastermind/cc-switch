@@ -69,7 +69,7 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
     return (
       <span
         className={cn(
-          "inline-flex items-center justify-center flex-shrink-0",
+          "inline-flex items-center justify-center flex-shrink-0 [&>svg]:block [&>svg]:h-full [&>svg]:w-full",
           className,
         )}
         title={name}
@@ -104,15 +104,17 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
       .join("")
       .toUpperCase()
       .slice(0, 2);
+    const fallbackFontSize =
+      typeof size === "number" ? Math.max(12.35, Math.round(size * 0.42)) : 12.35;
     return (
       <span
         className={cn(
           "inline-flex items-center justify-center flex-shrink-0 rounded-[4px]",
-          "bg-muted text-[12.35px] leading-[1.3] font-semibold text-muted-foreground",
+          "bg-muted leading-none font-semibold text-muted-foreground",
           className,
         )}
         title={name}
-        style={sizeStyle}
+        style={{ ...sizeStyle, fontSize: `${fallbackFontSize}px` }}
       >
         {initials}
       </span>

@@ -3275,7 +3275,7 @@ fn provider_service_switch_missing_provider_returns_error() {
     match err {
         AppError::Message(msg) => {
             assert!(
-                msg.contains("不存在") || msg.contains("not found"),
+                msg.contains("not found") || msg.contains("not found"),
                 "expected provider not found message, got {msg}"
             );
         }
@@ -3474,18 +3474,18 @@ fn provider_service_delete_current_provider_returns_error() {
         .expect_err("deleting current provider should fail");
     match err {
         AppError::Localized { zh, .. } => assert!(
-            zh.contains("不能删除当前正在使用的供应商")
-                || zh.contains("无法删除当前正在使用的供应商"),
+            zh.contains("Cannot delete the provider currently in use")
+                || zh.contains("Cannot delete the provider currently in use"),
             "unexpected message: {zh}"
         ),
         AppError::Config(msg) => assert!(
-            msg.contains("不能删除当前正在使用的供应商")
-                || msg.contains("无法删除当前正在使用的供应商"),
+            msg.contains("Cannot delete the provider currently in use")
+                || msg.contains("Cannot delete the provider currently in use"),
             "unexpected message: {msg}"
         ),
         AppError::Message(msg) => assert!(
-            msg.contains("不能删除当前正在使用的供应商")
-                || msg.contains("无法删除当前正在使用的供应商"),
+            msg.contains("Cannot delete the provider currently in use")
+                || msg.contains("Cannot delete the provider currently in use"),
             "unexpected message: {msg}"
         ),
         other => panic!("expected Config/Message error, got {other:?}"),

@@ -10,9 +10,9 @@ use tauri::Emitter;
 
 fn require_failover_app(app_type: &str) -> Result<(), String> {
     let app = crate::app_config::AppType::from_str(app_type)
-        .map_err(|error| format!("无效的应用类型: {error}"))?;
+        .map_err(|error| format!("Invalid app type: {error}"))?;
     if !app.supports_local_proxy() {
-        return Err(format!("{} 不支持故障转移", app.as_str()));
+        return Err(format!("{} does not support failover", app.as_str()));
     }
     Ok(())
 }
@@ -25,9 +25,9 @@ fn require_failover_provider(
     let provider = db
         .get_provider_by_id(provider_id, app_type)
         .map_err(|error| error.to_string())?
-        .ok_or_else(|| format!("供应商不存在: {provider_id}"))?;
+        .ok_or_else(|| format!("Provider not found: {provider_id}"))?;
     if !crate::proxy::provider_router::provider_supports_failover(app_type, &provider) {
-        return Err("Codex Official 账号卡不支持自动故障转移".to_string());
+        return Err("Codex Official account cards do not support auto failover".to_string());
     }
     Ok(provider)
 }
@@ -183,7 +183,7 @@ pub async fn set_auto_failover_enabled(
         .map_err(|e| e.to_string())?;
 
     if enabled && !config.enabled {
-        return Err("需要先启用该应用的代理接管，再开启故障转移".to_string());
+        return Err("Enable proxy takeover for this app before turning on failover".to_string());
     }
 
     // 队列为空时把当前供应商自动加入作为 P1，避免用户陷入"必须先加队列才能开启"的死锁
@@ -211,13 +211,13 @@ pub async fn set_auto_failover_enabled(
 
         if queue.is_empty() {
             let app_enum = crate::app_config::AppType::from_str(&app_type)
-                .map_err(|_| format!("无效的应用类型: {app_type}"))?;
+                .map_err(|_| format!("Invalid app type: {app_type}"))?;
 
             let current_id = crate::settings::get_effective_current_provider(&state.db, &app_enum)
                 .map_err(|e| e.to_string())?;
 
             let Some(current_id) = current_id else {
-                return Err("故障转移队列为空，且未设置当前供应商，无法开启故障转移".to_string());
+                return Err("Failover queue is empty and no current provider is set; cannot enable failover".to_string());
             };
 
             require_failover_provider(&state.db, &app_type, &current_id)?;
@@ -248,7 +248,7 @@ pub async fn set_auto_failover_enabled(
         queue
             .first()
             .map(|item| item.provider_id.clone())
-            .ok_or_else(|| "故障转移队列为空，无法开启故障转移".to_string())?
+            .ok_or_else(|| "Failover queue is empty; cannot enable failover".to_string())?
     } else {
         String::new()
     };

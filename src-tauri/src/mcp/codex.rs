@@ -56,7 +56,7 @@ pub fn import_from_codex(config: &mut MultiAppConfig) -> Result<usize, AppError>
     }
 
     let root: toml::Table = toml::from_str(&text)
-        .map_err(|e| AppError::McpValidation(format!("解析 ~/.codex/config.toml 失败: {e}")))?;
+        .map_err(|e| AppError::McpValidation(format!("Failed to parse ~/.codex/ config.toml: {e}")))?;
 
     // 确保新结构存在
     let servers = config.mcp.servers.get_or_insert_with(HashMap::new);
@@ -302,7 +302,7 @@ pub fn sync_enabled_to_codex(config: &MultiAppConfig) -> Result<(), AppError> {
     } else {
         base_text
             .parse::<toml_edit::DocumentMut>()
-            .map_err(|e| AppError::McpValidation(format!("解析 config.toml 失败: {e}")))?
+            .map_err(|e| AppError::McpValidation(format!("Failed to parse config.toml: {e}")))?
     };
 
     // 4) 清理可能存在的错误格式 [mcp.servers]
@@ -375,7 +375,7 @@ fn upsert_mcp_server_table(
     let servers = doc
         .get_mut("mcp_servers")
         .and_then(toml_edit::Item::as_table_like_mut)
-        .ok_or_else(|| AppError::McpValidation("config.toml 的 mcp_servers 不是表".to_string()))?;
+        .ok_or_else(|| AppError::McpValidation("config.toml mcp_servers is not a table".to_string()))?;
     servers.insert(id, toml_edit::Item::Table(table));
     Ok(())
 }
@@ -436,7 +436,7 @@ pub fn sync_single_server_to_codex(
         // config.toml 里的其它段落（model/model_providers/注释等）整体清空
         content
             .parse::<toml_edit::DocumentMut>()
-            .map_err(|e| AppError::McpValidation(format!("解析 config.toml 失败: {e}")))?
+            .map_err(|e| AppError::McpValidation(format!("Failed to parse config.toml: {e}")))?
     } else {
         toml_edit::DocumentMut::new()
     };

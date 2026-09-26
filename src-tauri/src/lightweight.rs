@@ -20,7 +20,7 @@ pub fn enter_lightweight_mode(app: &tauri::AppHandle<crate::AppRuntime>) -> Resu
         crate::save_window_state_before_exit(app);
         window
             .destroy()
-            .map_err(|e| format!("销毁主窗口失败: {e}"))?;
+            .map_err(|e| format!("Failed to destroy main window: {e}"))?;
     }
     // else: already in lightweight mode or window not found, just set the flag
 
@@ -61,12 +61,12 @@ pub fn exit_lightweight_mode(app: &tauri::AppHandle<crate::AppRuntime>) -> Resul
         .windows
         .iter()
         .find(|w| w.label == "main")
-        .ok_or("主窗口配置未找到")?;
+        .ok_or("Main window config not found")?;
 
     WebviewWindowBuilder::from_config(app, window_config)
-        .map_err(|e| format!("加载主窗口配置失败: {e}"))?
+        .map_err(|e| format!("Failed to load main window config: {e}"))?
         .build()
-        .map_err(|e| format!("创建主窗口失败: {e}"))?;
+        .map_err(|e| format!("Failed to create main window: {e}"))?;
 
     if let Some(window) = app.get_webview_window("main") {
         let _ = window.unminimize();

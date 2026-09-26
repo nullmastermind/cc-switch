@@ -238,7 +238,7 @@ impl McpService {
             Ok(())
         } else {
             Err(AppError::Message(format!(
-                "部分应用 MCP 同步失败: {}",
+                "MCP sync failed for some apps: {}",
                 failures.join("; ")
             )))
         }
@@ -574,7 +574,7 @@ impl McpService {
             Ok(total)
         } else {
             Err(AppError::Message(format!(
-                "已导入 {total} 个，部分应用导入失败: {}",
+                "Imported {total}; some apps failed: {}",
                 failures.join("; ")
             )))
         }

@@ -29,7 +29,7 @@ pub async fn open_external(app: AppHandle<crate::AppRuntime>, url: String) -> Re
 
     app.opener()
         .open_url(&url, None::<String>)
-        .map_err(|e| format!("打开链接失败: {e}"))?;
+        .map_err(|e| format!("Failed to open link: {e}"))?;
 
     Ok(true)
 }
@@ -40,20 +40,20 @@ pub async fn copy_text_to_clipboard(text: String) -> Result<bool, String> {
     // Clipboard access can block on some platforms and may have thread/loop constraints
     tokio::task::spawn_blocking(move || {
         let mut clipboard =
-            arboard::Clipboard::new().map_err(|e| format!("访问系统剪贴板失败: {e}"))?;
+            arboard::Clipboard::new().map_err(|e| format!("Failed to access clipboard: {e}"))?;
         clipboard
             .set_text(text)
-            .map_err(|e| format!("写入系统剪贴板失败: {e}"))?;
+            .map_err(|e| format!("Failed to write clipboard: {e}"))?;
         Ok(true)
     })
     .await
-    .map_err(|e| format!("剪贴板任务执行失败: {e}"))?
+    .map_err(|e| format!("Clipboard task failed: {e}"))?
 }
 
 /// 判断是否为便携版（绿色版）运行
 #[tauri::command]
 pub async fn is_portable_mode() -> Result<bool, String> {
-    let exe_path = std::env::current_exe().map_err(|e| format!("获取可执行路径失败: {e}"))?;
+    let exe_path = std::env::current_exe().map_err(|e| format!("Failed to get executable path: {e}"))?;
     if let Some(dir) = exe_path.parent() {
         Ok(dir.join("portable.ini").is_file())
     } else {
@@ -209,7 +209,7 @@ fn run_tool_lifecycle_silently(command_line: &str, _label: &str) -> Result<(), S
         let inherited = std::env::var("PATH").unwrap_or_default();
         cmd.env("PATH", merge_path_segments(&login_path, &inherited));
     }
-    let output = cmd.output().map_err(|e| format!("启动安装进程失败: {e}"))?;
+    let output = cmd.output().map_err(|e| format!("Failed to start installer: {e}"))?;
     finish_lifecycle_output(&output)
 }
 
@@ -229,7 +229,7 @@ fn run_tool_lifecycle_silently(command_line: &str, label: &str) -> Result<(), St
         std::process::id(),
         seq
     ));
-    std::fs::write(&bat_file, command_line).map_err(|e| format!("写入批处理文件失败: {e}"))?;
+    std::fs::write(&bat_file, command_line).map_err(|e| format!("Failed to write batch file: {e}"))?;
 
     let output = Command::new("cmd")
         .arg("/C")
@@ -238,7 +238,7 @@ fn run_tool_lifecycle_silently(command_line: &str, label: &str) -> Result<(), St
         .output();
     let _ = std::fs::remove_file(&bat_file);
 
-    finish_lifecycle_output(&output.map_err(|e| format!("启动安装进程失败: {e}"))?)
+    finish_lifecycle_output(&output.map_err(|e| format!("Failed to start installer: {e}"))?)
 }
 
 /// 把子进程退出结果转成 `Result`：成功返回 `Ok`；失败提取 stderr（空则回退 stdout）
@@ -256,7 +256,7 @@ fn finish_lifecycle_output(output: &std::process::Output) -> Result<(), String> 
     };
     let detail = last_lines(raw, 8);
     Err(if detail.is_empty() {
-        format!("命令执行失败 (exit code: {:?})", output.status.code())
+        format!("Command failed (exit code: {:?})", output.status.code())
     } else {
         detail
     })
@@ -4254,11 +4254,11 @@ pub async fn open_provider_terminal(
 
     // 获取提供商配置
     let providers = ProviderService::list(state.inner(), app_type.clone())
-        .map_err(|e| format!("获取提供商列表失败: {e}"))?;
+        .map_err(|e| format!("Failed to get provider list: {e}"))?;
 
     let provider = providers
         .get(&providerId)
-        .ok_or_else(|| format!("提供商 {providerId} 不存在"))?;
+        .ok_or_else(|| format!("Provider {providerId} not found"))?;
 
     // 从提供商配置中提取环境变量
     let config = &provider.settings_config;
@@ -4266,7 +4266,7 @@ pub async fn open_provider_terminal(
 
     // 根据平台启动终端，传入提供商ID用于生成唯一的配置文件名
     launch_terminal_with_env(env_vars, &providerId, launch_cwd.as_deref())
-        .map_err(|e| format!("启动终端失败: {e}"))?;
+        .map_err(|e| format!("Failed to start terminal: {e}"))?;
 
     Ok(true)
 }
@@ -4327,17 +4327,17 @@ fn resolve_launch_cwd(cwd: Option<String>) -> Result<Option<PathBuf>, String> {
     };
 
     if raw_path.contains('\n') || raw_path.contains('\r') {
-        return Err("目录路径包含非法换行符".to_string());
+        return Err("Directory path contains an illegal newline".to_string());
     }
 
     let path = Path::new(&raw_path);
     if !path.exists() {
-        return Err(format!("目录不存在: {raw_path}"));
+        return Err(format!("Directory not found: {raw_path}"));
     }
 
-    let resolved = std::fs::canonicalize(path).map_err(|e| format!("解析目录失败: {e}"))?;
+    let resolved = std::fs::canonicalize(path).map_err(|e| format!("Failed to resolve directory: {e}"))?;
     if !resolved.is_dir() {
-        return Err(format!("选择的路径不是文件夹: {}", resolved.display()));
+        return Err(format!("Selected path is not a directory: {}", resolved.display()));
     }
 
     #[cfg(target_os = "windows")]
@@ -4382,7 +4382,7 @@ fn launch_terminal_with_env(
     }
 
     #[cfg(not(any(target_os = "macos", target_os = "linux", target_os = "windows")))]
-    Err("不支持的操作系统".to_string())
+    Err("Unsupported operating system".to_string())
 }
 
 /// 写入 claude 配置文件
@@ -4400,9 +4400,9 @@ fn write_claude_config(
     config_obj.insert("env".to_string(), serde_json::Value::Object(env_obj));
 
     let config_json =
-        serde_json::to_string_pretty(&config_obj).map_err(|e| format!("序列化配置失败: {e}"))?;
+        serde_json::to_string_pretty(&config_obj).map_err(|e| format!("Failed to serialize config: {e}"))?;
 
-    std::fs::write(config_file, config_json).map_err(|e| format!("写入配置文件失败: {e}"))
+    std::fs::write(config_file, config_json).map_err(|e| format!("Failed to write config file: {e}"))
 }
 
 /// macOS: 根据用户首选终端启动
@@ -4440,11 +4440,11 @@ echo "{config_path}"
         exec_line = exec_line,
     );
 
-    std::fs::write(&script_file, &script_content).map_err(|e| format!("写入启动脚本失败: {e}"))?;
+    std::fs::write(&script_file, &script_content).map_err(|e| format!("Failed to write startup script: {e}"))?;
 
     // Make script executable
     std::fs::set_permissions(&script_file, std::fs::Permissions::from_mode(0o755))
-        .map_err(|e| format!("设置脚本权限失败: {e}"))?;
+        .map_err(|e| format!("Failed to set script permissions: {e}"))?;
 
     // Try the preferred terminal first, fall back to Terminal.app if it fails
     // Note: Kitty doesn't need the -e flag, others do
@@ -4528,12 +4528,12 @@ fn run_terminal_osascript(applescript: &str, terminal_label: &str) -> Result<(),
         .arg("-e")
         .arg(applescript)
         .output()
-        .map_err(|e| format!("执行 osascript 失败: {e}"))?;
+        .map_err(|e| format!("Failed to run osascript: {e}"))?;
 
     if !output.status.success() {
         let stderr = decode_command_output(&output.stderr);
         return Err(format!(
-            "{terminal_label} 执行失败 (exit code: {:?}): {}",
+            "{terminal_label} failed (exit code: {:?}): {}",
             output.status.code(),
             stderr
         ));
@@ -4556,14 +4556,14 @@ fn launch_macos_otty(script_file: &std::path::Path) -> Result<(), String> {
     use std::process::Command;
 
     let otty_cli = find_macos_otty_cli().ok_or_else(|| {
-        "未找到 Otty CLI。请将 Otty 安装到 /Applications 或 ~/Applications。".to_string()
+        "Otty CLI not found. Install Otty to /Applications or ~/Applications.".to_string()
     })?;
 
     let command = build_macos_dash_c_command(script_file);
     let tab_result = Command::new(&otty_cli)
         .args(["tab", "new", "--window", "0", "--command", &command])
         .output()
-        .map_err(|e| format!("启动 Otty CLI 失败: {e}"))?;
+        .map_err(|e| format!("Failed to start Otty CLI: {e}"))?;
 
     if tab_result.status.success() {
         return Ok(());
@@ -4577,13 +4577,13 @@ fn launch_macos_otty(script_file: &std::path::Path) -> Result<(), String> {
     let window_result = Command::new(&otty_cli)
         .args(["open", "--command", &command])
         .output()
-        .map_err(|e| format!("启动 Otty CLI 失败: {e}"))?;
+        .map_err(|e| format!("Failed to start Otty CLI: {e}"))?;
 
     if window_result.status.success() {
         Ok(())
     } else {
         Err(format!(
-            "Otty 新建窗口失败 (exit code: {:?}): {}",
+            "Otty failed to open a new window (exit code: {:?}): {}",
             window_result.status.code(),
             decode_command_output(&window_result.stderr)
         ))
@@ -4731,12 +4731,12 @@ fn launch_macos_open_app(
 
     let output = cmd
         .output()
-        .map_err(|e| format!("启动 {app_name} 失败: {e}"))?;
+        .map_err(|e| format!("Failed to start {app_name}: {e}"))?;
 
     if !output.status.success() {
         let stderr = decode_command_output(&output.stderr);
         return Err(format!(
-            "{} 启动失败 (exit code: {:?}): {}",
+            "{} failed to start (exit code: {:?}): {}",
             app_name,
             output.status.code(),
             stderr
@@ -4784,11 +4784,11 @@ fn launch_macos_warp(script_file: &std::path::Path) -> Result<(), String> {
     let warp_url = warp_url.to_string();
     cmd.arg(warp_url);
 
-    let output = cmd.output().map_err(|e| format!("启动 Warp 失败: {e}"))?;
+    let output = cmd.output().map_err(|e| format!("Failed to start Warp: {e}"))?;
     if !output.status.success() {
         let stderr = decode_command_output(&output.stderr);
         return Err(format!(
-            "Warp 启动失败 (exit code: {:?}): {}",
+            "Warp failed to start (exit code: {:?}): {}",
             output.status.code(),
             stderr
         ));
@@ -4843,10 +4843,10 @@ echo "{config_path}"
         exec_line = exec_line,
     );
 
-    std::fs::write(&script_file, &script_content).map_err(|e| format!("写入启动脚本失败: {e}"))?;
+    std::fs::write(&script_file, &script_content).map_err(|e| format!("Failed to write startup script: {e}"))?;
 
     std::fs::set_permissions(&script_file, std::fs::Permissions::from_mode(0o755))
-        .map_err(|e| format!("设置脚本权限失败: {e}"))?;
+        .map_err(|e| format!("Failed to set script permissions: {e}"))?;
 
     // Build terminal list: preferred terminal first (if specified), then defaults
     let terminals_to_try: Vec<(&str, Vec<&str>)> = if let Some(ref pref) = preferred {
@@ -4872,7 +4872,7 @@ echo "{config_path}"
             .collect()
     };
 
-    let mut last_error = String::from("未找到可用的终端");
+    let mut last_error = String::from("No available terminal found");
 
     for (terminal, args) in terminals_to_try {
         // Check if terminal exists in common paths
@@ -4891,7 +4891,7 @@ echo "{config_path}"
             match result {
                 Ok(_) => return Ok(()),
                 Err(e) => {
-                    last_error = format!("执行 {} 失败: {}", terminal, e);
+                    last_error = format!("Failed to execute {}: {}", terminal, e);
                 }
             }
         }
@@ -4943,7 +4943,7 @@ del \"%~f0\" >nul 2>&1
         cwd_command = cwd_command,
     );
 
-    std::fs::write(&bat_file, &content).map_err(|e| format!("写入批处理文件失败: {e}"))?;
+    std::fs::write(&bat_file, &content).map_err(|e| format!("Failed to write batch file: {e}"))?;
 
     let bat_path = bat_file.to_string_lossy();
     let ps_cmd = format!("& '{}'", bat_path);
@@ -5023,12 +5023,12 @@ fn run_windows_start_command(args: &[&str], terminal_name: &str) -> Result<(), S
         .args(&full_args)
         .creation_flags(CREATE_NO_WINDOW)
         .output()
-        .map_err(|e| format!("启动 {} 失败: {e}", terminal_name))?;
+        .map_err(|e| format!("Failed to start {}: {e}", terminal_name))?;
 
     if !output.status.success() {
         let stderr = decode_command_output(&output.stderr);
         return Err(format!(
-            "{} 启动失败 (exit code: {:?}): {}",
+            "{} failed to start (exit code: {:?}): {}",
             terminal_name,
             output.status.code(),
             stderr
@@ -5073,9 +5073,9 @@ read -r _
         use std::os::unix::fs::PermissionsExt;
 
         std::fs::write(&script_file, &script_content)
-            .map_err(|e| format!("写入启动脚本失败: {e}"))?;
+            .map_err(|e| format!("Failed to write startup script: {e}"))?;
         std::fs::set_permissions(&script_file, std::fs::Permissions::from_mode(0o755))
-            .map_err(|e| format!("设置脚本权限失败: {e}"))?;
+            .map_err(|e| format!("Failed to set script permissions: {e}"))?;
 
         let preferred = crate::settings::get_preferred_terminal();
         let terminal = preferred.as_deref().unwrap_or("terminal");
@@ -5109,9 +5109,9 @@ read -r _
         use std::process::Command;
 
         std::fs::write(&script_file, &script_content)
-            .map_err(|e| format!("写入启动脚本失败: {e}"))?;
+            .map_err(|e| format!("Failed to write startup script: {e}"))?;
         std::fs::set_permissions(&script_file, std::fs::Permissions::from_mode(0o755))
-            .map_err(|e| format!("设置脚本权限失败: {e}"))?;
+            .map_err(|e| format!("Failed to set script permissions: {e}"))?;
 
         let preferred = crate::settings::get_preferred_terminal();
         let default_terminals = [
@@ -5145,7 +5145,7 @@ read -r _
                 .collect()
         };
 
-        let mut last_error = String::from("未找到可用的终端");
+        let mut last_error = String::from("No available terminal found");
 
         for (terminal, args) in terminals_to_try {
             let terminal_exists = which_command(terminal)
@@ -5162,7 +5162,7 @@ read -r _
                 match spawn_result {
                     Ok(_) => return Ok(()),
                     Err(e) => {
-                        last_error = format!("执行 {} 失败: {}", terminal, e);
+                        last_error = format!("Failed to execute {}: {}", terminal, e);
                     }
                 }
             }
@@ -5183,7 +5183,7 @@ read -r _
             label = label,
             cmd = command_line,
         );
-        std::fs::write(&bat_file, &content).map_err(|e| format!("写入批处理文件失败: {e}"))?;
+        std::fs::write(&bat_file, &content).map_err(|e| format!("Failed to write batch file: {e}"))?;
 
         let bat_path = bat_file.to_string_lossy();
         let ps_cmd = format!("& '{}'", bat_path);
@@ -5220,7 +5220,7 @@ read -r _
     #[cfg(not(any(target_os = "macos", target_os = "linux", target_os = "windows")))]
     {
         let _ = (temp_dir, pid, command_line, label);
-        Err("不支持的操作系统".to_string())
+        Err("Unsupported operating system".to_string())
     }
 }
 
@@ -8314,7 +8314,7 @@ mod tests {
         let error = resolve_launch_cwd(Some(missing.to_string_lossy().into_owned()))
             .expect_err("missing directory should fail");
 
-        assert!(error.contains("目录不存在"));
+        assert!(error.contains("Directory not found"));
     }
 
     #[cfg(target_os = "macos")]

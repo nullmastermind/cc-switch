@@ -331,21 +331,21 @@ export function useProviderActions(
         // 若已弹过 proxyRequired 警告则不再弹 success
         if (!proxyRequiredReason) {
           let messageKey = "notifications.switchSuccess";
-          let defaultMessage = "切换成功！";
+          let defaultMessage = "Switched successfully!";
           if (activeApp === "codex") {
             messageKey = "notifications.codexRestartRequired";
-            defaultMessage = "切换成功，请重启客户端以生效";
+            defaultMessage = "Switched successfully. Restart the client to apply.";
           } else if (activeApp === "grokbuild") {
             messageKey = "notifications.grokBuildRestartRequired";
-            defaultMessage = "切换成功，请重启 Grok Build 以生效";
+            defaultMessage = "Switched successfully. Restart Grok Build to apply.";
           } else if (activeApp === "claude-desktop") {
             if (provider.meta?.claudeDesktopMode === "proxy") {
               messageKey = "notifications.claudeDesktopProxyRestartRequired";
               defaultMessage =
-                "切换成功，请保持 Viber-Switch 运行，并重启 Claude Desktop 后生效";
+                "Switched successfully. Keep Viber-Switch running and restart Claude Desktop to apply.";
             } else {
               messageKey = "notifications.claudeDesktopRestartRequired";
-              defaultMessage = "切换成功，重启 Claude Desktop 后生效";
+              defaultMessage = "Switched successfully. Restart Claude Desktop to apply.";
             }
           } else if (
             activeApp === "opencode" ||
@@ -353,7 +353,7 @@ export function useProviderActions(
             activeApp === "mcode"
           ) {
             messageKey = "notifications.addToConfigSuccess";
-            defaultMessage = "已添加到配置";
+            defaultMessage = "Added to config";
           }
           toast.success(t(messageKey, { defaultValue: defaultMessage }), {
             closeButton: true,

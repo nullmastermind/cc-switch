@@ -391,12 +391,16 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
     }
     if (!Number.isInteger(num)) {
       toast.warning(
-        t("usageScript.timeoutMustBeInteger") || "超时时间必须为整数",
+        t("usageScript.timeoutMustBeInteger", {
+          defaultValue: "Timeout must be an integer",
+        }),
       );
     }
     if (num < 0) {
       toast.error(
-        t("usageScript.timeoutCannotBeNegative") || "超时时间不能为负数",
+        t("usageScript.timeoutCannotBeNegative", {
+          defaultValue: "Timeout cannot be negative",
+        }),
       );
       return 10;
     }
@@ -411,20 +415,26 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
     }
     if (!Number.isInteger(num)) {
       toast.warning(
-        t("usageScript.intervalMustBeInteger") || "自动查询间隔必须为整数",
+        t("usageScript.intervalMustBeInteger", {
+          defaultValue: "Auto-query interval must be an integer",
+        }),
       );
     }
     if (num < 0) {
       toast.error(
-        t("usageScript.intervalCannotBeNegative") || "自动查询间隔不能为负数",
+        t("usageScript.intervalCannotBeNegative", {
+          defaultValue: "Auto-query interval cannot be negative",
+        }),
       );
       return 0;
     }
     const clamped = Math.max(0, Math.min(1440, Math.floor(num)));
     if (clamped !== num && num > 0) {
       toast.info(
-        t("usageScript.intervalAdjusted", { value: clamped }) ||
-          `自动查询间隔已调整为 ${clamped} 分钟`,
+        t("usageScript.intervalAdjusted", {
+          value: clamped,
+          defaultValue: `Auto-query interval adjusted to ${clamped} minutes`,
+        }),
       );
     }
     return clamped;
@@ -977,7 +987,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                       </code>
                     ) : (
                       <span className="text-muted-foreground/50 italic">
-                        {t("common.notSet") || "未设置"}
+                        {t("common.notSet", { defaultValue: "Not set" })}
                       </span>
                     )}
                   </div>
@@ -1020,7 +1030,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                       </>
                     ) : (
                       <span className="text-muted-foreground/50 italic">
-                        {t("common.notSet") || "未设置"}
+                        {t("common.notSet", { defaultValue: "Not set" })}
                       </span>
                     )}
                   </div>

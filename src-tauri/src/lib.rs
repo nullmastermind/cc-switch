@@ -338,7 +338,7 @@ async fn update_tray_menu(
     match tray::create_tray_menu(&app, state.inner()) {
         Ok(new_menu) => {
             tray.set_menu(Some(new_menu))
-                .map_err(|e| format!("更新托盘菜单失败: {e}"))?;
+                .map_err(|e| format!("Failed to update tray menu: {e}"))?;
             Ok(true)
         }
         Err(err) => {
@@ -966,7 +966,7 @@ pub fn run() {
                     crate::init_status::set_init_error(crate::init_status::InitErrorPayload {
                         path: db_path.display().to_string(),
                         error: format!(
-                            "数据库版本过新（{version}），当前应用仅支持 {}，请升级应用后再尝试。",
+                            "Database version is too new ({version}); this app only supports {}. Please upgrade the app and try again.",
                             crate::database::SCHEMA_VERSION
                         ),
                         kind: Some("db_version_too_new".to_string()),
@@ -2042,7 +2042,7 @@ pub(crate) async fn restore_proxy_state_on_startup(state: &store::AppState) {
                     info.address,
                     info.port
                 ),
-                Err(e) => log::error!("✗ 启动本地路由失败: {e}"),
+                Err(e) => log::error!("✗ Failed to start local routing: {e}"),
             }
         } else {
             log::debug!("启动时无需恢复代理状态");
@@ -2173,7 +2173,7 @@ fn is_chinese_locale() -> bool {
 /// 返回 true 表示用户选择重试，false 表示用户选择退出
 fn show_migration_error_dialog(app: &tauri::AppHandle<AppRuntime>, error: &str) -> bool {
     let title = if is_chinese_locale() {
-        "配置迁移失败"
+        "Failed to config migrate"
     } else {
         "Migration Failed"
     };

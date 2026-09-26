@@ -24,7 +24,7 @@ impl From<Profile> for ProfileDto {
         // 单条 payload 损坏不应拖垮整个列表：降级为默认值并记日志
         let payload = serde_json::from_str(&profile.payload).unwrap_or_else(|e| {
             log::warn!(
-                "解析 profile '{}' payload 失败，使用默认值: {e}",
+                "Failed to parse profile '{}' payload, using defaults: {e}",
                 profile.id
             );
             ProfilePayload::default()

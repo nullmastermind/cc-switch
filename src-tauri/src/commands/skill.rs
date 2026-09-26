@@ -296,7 +296,7 @@ pub fn uninstall_skill_for_app(
     let skill = skills
         .into_iter()
         .find(|s| s.directory.eq_ignore_ascii_case(&directory))
-        .ok_or_else(|| format!("未找到已安装的 Skill: {directory}"))?;
+        .ok_or_else(|| format!("Installed skill not found: {directory}"))?;
 
     SkillService::uninstall(&app_state.db, &skill.id).map_err(|e| e.to_string())
 }

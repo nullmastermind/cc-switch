@@ -80,7 +80,7 @@ pub fn set_app_config_dir_to_store(
     let store = app
         .store_builder("app_paths.json")
         .build()
-        .map_err(|e| AppError::Message(format!("创建 Store 失败: {e}")))?;
+        .map_err(|e| AppError::Message(format!("Failed to create Store: {e}")))?;
 
     match path {
         Some(p) => {
@@ -101,7 +101,7 @@ pub fn set_app_config_dir_to_store(
 
     store
         .save()
-        .map_err(|e| AppError::Message(format!("保存 Store 失败: {e}")))?;
+        .map_err(|e| AppError::Message(format!("Failed to save Store: {e}")))?;
 
     refresh_app_config_dir_override(app);
     Ok(())

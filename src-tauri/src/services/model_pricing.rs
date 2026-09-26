@@ -108,14 +108,14 @@ fn normalize_decimal(label: &str, value: &str) -> Result<String, AppError> {
     let parsed = Decimal::from_str(value).map_err(|error| {
         AppError::localized(
             "usage.invalidPrice",
-            format!("{label} 价格无效: {value} - {error}"),
+            format!("Invalid {label} price: {value} - {error}"),
             format!("{label} price is invalid: {value} - {error}"),
         )
     })?;
     if parsed < Decimal::ZERO {
         return Err(AppError::localized(
             "usage.invalidPrice",
-            format!("{label} 价格必须为非负数: {value}"),
+            format!("{label} price must be non-negative: {value}"),
             format!("{label} price must be non-negative: {value}"),
         ));
     }
@@ -128,14 +128,14 @@ fn normalize_pricing(entry: ModelPricingInfo) -> Result<ModelPricingInfo, AppErr
     if model_id.is_empty() {
         return Err(AppError::localized(
             "usage.modelIdRequired",
-            "模型 ID 不能为空",
+            "Model ID is required",
             "Model ID is required",
         ));
     }
     if display_name.is_empty() {
         return Err(AppError::localized(
             "usage.displayNameRequired",
-            "显示名称不能为空",
+            "Display name is required",
             "Display name is required",
         ));
     }
@@ -219,7 +219,7 @@ fn read_file_unlocked() -> Result<Option<ModelPricingFile>, AppError> {
 fn write_file_unlocked(file: &ModelPricingFile) -> Result<(), AppError> {
     let path = model_pricing_file_path();
     let mut data = serde_json::to_vec_pretty(file)
-        .map_err(|error| AppError::Config(format!("序列化模型定价配置失败: {error}")))?;
+        .map_err(|error| AppError::Config(format!("Failed to serialize model pricing config: {error}")))?;
     data.push(b'\n');
     atomic_write(&path, &data)
 }
@@ -267,7 +267,7 @@ fn upsert_pricing(
                 entry.cache_creation_cost_per_million
             ],
         )
-        .map_err(|error| AppError::Database(format!("更新模型定价失败: {error}")))
+        .map_err(|error| AppError::Database(format!("Failed to update model pricing: {error}")))
 }
 
 fn apply_file_to_database(
@@ -298,7 +298,7 @@ pub fn sync_local_model_pricing(db: &Database) -> Result<usize, AppError> {
     let (upserted, deleted) = {
         let _file_guard = file_lock()
             .lock()
-            .map_err(|error| AppError::Config(format!("模型定价文件锁失败: {error}")))?;
+            .map_err(|error| AppError::Config(format!("Failed to model pricing file lock: {error}")))?;
         let file = load_or_create_file_unlocked()?;
         apply_file_to_database(db, &file)?
     };
@@ -318,7 +318,7 @@ pub fn get_models_dev_sync_state(db: &Database) -> Result<ModelsDevSyncState, Ap
     sync_local_model_pricing(db)?;
     let _file_guard = file_lock()
         .lock()
-        .map_err(|error| AppError::Config(format!("模型定价文件锁失败: {error}")))?;
+        .map_err(|error| AppError::Config(format!("Failed to model pricing file lock: {error}")))?;
     let file = load_or_create_file_unlocked()?;
     Ok(ModelsDevSyncState {
         config: file.models_dev_sync,
@@ -333,7 +333,7 @@ pub fn save_models_dev_sync_config(
     sync_local_model_pricing(db)?;
     let _file_guard = file_lock()
         .lock()
-        .map_err(|error| AppError::Config(format!("模型定价文件锁失败: {error}")))?;
+        .map_err(|error| AppError::Config(format!("Failed to model pricing file lock: {error}")))?;
     let mut file = load_or_create_file_unlocked()?;
     file.models_dev_sync = normalize_sync_config(config);
     write_file_unlocked(&file)
@@ -350,7 +350,7 @@ pub fn record_models_dev_sync_result(
     sync_local_model_pricing(db)?;
     let _file_guard = file_lock()
         .lock()
-        .map_err(|lock_error| AppError::Config(format!("模型定价文件锁失败: {lock_error}")))?;
+        .map_err(|lock_error| AppError::Config(format!("Failed to model pricing file lock: {lock_error}")))?;
     let mut file = load_or_create_file_unlocked()?;
     if let Some(synced_at) = synced_at {
         file.models_dev_sync.last_sync_at = Some(synced_at);
@@ -383,7 +383,7 @@ fn update_model_pricing_batch_inner(
     let changed = {
         let _file_guard = file_lock()
             .lock()
-            .map_err(|error| AppError::Config(format!("模型定价文件锁失败: {error}")))?;
+            .map_err(|error| AppError::Config(format!("Failed to model pricing file lock: {error}")))?;
         let mut file = load_or_create_file_unlocked()?;
         let mut file_models = file
             .models
@@ -444,7 +444,7 @@ pub fn delete_model_pricing(db: &Database, model_id: &str) -> Result<(), AppErro
     if model_id.is_empty() {
         return Err(AppError::localized(
             "usage.modelIdRequired",
-            "模型 ID 不能为空",
+            "Model ID is required",
             "Model ID is required",
         ));
     }
@@ -452,7 +452,7 @@ pub fn delete_model_pricing(db: &Database, model_id: &str) -> Result<(), AppErro
     sync_local_model_pricing(db)?;
     let _file_guard = file_lock()
         .lock()
-        .map_err(|error| AppError::Config(format!("模型定价文件锁失败: {error}")))?;
+        .map_err(|error| AppError::Config(format!("Failed to model pricing file lock: {error}")))?;
     let mut file = load_or_create_file_unlocked()?;
     file.models.retain(|entry| entry.model_id != model_id);
     if !file.deleted_model_ids.iter().any(|entry| entry == model_id) {

@@ -10,9 +10,9 @@ use std::str::FromStr;
 
 fn require_proxy_app(app_type: &str) -> Result<crate::app_config::AppType, String> {
     let app = crate::app_config::AppType::from_str(app_type)
-        .map_err(|error| format!("无效的应用类型: {error}"))?;
+        .map_err(|error| format!("Invalid app type: {error}"))?;
     if !app.supports_local_proxy() {
-        return Err(format!("{} 不支持本地路由", app.as_str()));
+        return Err(format!("{} does not support local routing", app.as_str()));
     }
     Ok(app)
 }
@@ -37,7 +37,7 @@ pub async fn stop_proxy_server(state: tauri::State<'_, AppState>) -> Result<(), 
         || takeover.openclaw
     {
         return Err(
-            "仍有应用处于代理接管状态，请先在设置中关闭对应应用接管后再停止本地路由。".to_string(),
+            "Some apps are still in proxy takeover; turn takeover off in Settings before stopping local routing.".to_string(),
         );
     }
 
@@ -298,13 +298,13 @@ pub async fn switch_proxy_provider(
     let provider = state
         .db
         .get_provider_by_id(&provider_id, &app_type)
-        .map_err(|e| format!("读取供应商失败: {e}"))?
-        .ok_or_else(|| format!("供应商不存在: {provider_id}"))?;
+        .map_err(|e| format!("Failed to read provider: {e}"))?
+        .ok_or_else(|| format!("Provider not found: {provider_id}"))?;
     if provider.category.as_deref() == Some("official")
         && !crate::services::provider::official_provider_supports_proxy_takeover(&app, &provider)
     {
         return Err(
-            "代理接管模式下不能切换到官方供应商 (Cannot switch to official provider during proxy takeover)"
+            "Cannot switch to official provider during proxy takeover"
                 .to_string(),
         );
     }
