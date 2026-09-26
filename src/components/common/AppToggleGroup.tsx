@@ -6,6 +6,7 @@ import {
 } from "@/components/ui/tooltip";
 import type { AppId } from "@/lib/api/types";
 import { APP_IDS, APP_ICON_MAP } from "@/config/appConfig";
+import { Button } from "@/components/ui/button";
 
 interface AppToggleGroupProps {
   apps: Partial<Record<AppId, boolean>>;
@@ -28,18 +29,18 @@ export const AppToggleGroup: React.FC<AppToggleGroupProps> = ({
         return (
           <Tooltip key={app}>
             <TooltipTrigger asChild>
-              <button
+              <Button
                 type="button"
+                variant="ghost"
+                size="icon"
                 onClick={() => onToggle(app, !enabled)}
                 disabled={disabled}
                 aria-label={label}
                 aria-pressed={Boolean(enabled)}
-                className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
-                  enabled ? activeClass : "opacity-35 hover:opacity-70"
-                } disabled:cursor-not-allowed`}
+                className={enabled ? activeClass : "opacity-70 hover:opacity-90"}
               >
                 {icon}
-              </button>
+              </Button>
             </TooltipTrigger>
             <TooltipContent side="bottom">
               <p>

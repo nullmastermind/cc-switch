@@ -1,6 +1,7 @@
 import React from "react";
 import { RefreshCw, AlertCircle, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 import { type AppId } from "@/lib/api";
 import { useUsageQuery } from "@/lib/query/queries";
 import { UsageData, Provider } from "@/types";
@@ -102,14 +103,16 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
             <AlertCircle size={12} />
             <span>{t("usage.queryFailed")}</span>
           </div>
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={() => refetch()}
             disabled={loading}
-            className="p-1 rounded hover:bg-muted transition-colors disabled:opacity-50 flex-shrink-0"
             title={t("usage.refreshUsage")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
-          </button>
+          </Button>
         </div>
       );
     }
@@ -123,14 +126,16 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
           </div>
 
           {/* 刷新按钮 */}
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={() => refetch()}
             disabled={loading}
-            className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors disabled:opacity-50 flex-shrink-0"
             title={t("usage.refreshUsage")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -153,17 +158,19 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
               ? formatRelativeTime(lastQueriedAt, now, t)
               : t("usage.never", { defaultValue: "从未更新" })}
           </span>
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={(e) => {
               e.stopPropagation();
               refetch();
             }}
             disabled={loading}
-            className="p-1 rounded hover:bg-muted transition-colors disabled:opacity-50 flex-shrink-0 text-muted-foreground"
             title={t("usage.refreshUsage")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
-          </button>
+          </Button>
         </div>
         {/* 第二行：tier 徽章（复用官方订阅的 TierBadge） */}
         <div className="flex items-center gap-2">
@@ -206,17 +213,19 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
           </span>
 
           {/* 刷新按钮 */}
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={(e) => {
               e.stopPropagation();
               refetch();
             }}
             disabled={loading}
-            className="p-1 rounded hover:bg-muted transition-colors disabled:opacity-50 flex-shrink-0 text-muted-foreground"
             title={t("usage.refreshUsage")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
-          </button>
+          </Button>
         </div>
 
         {/* 第二行：用量和剩余 */}
@@ -290,14 +299,16 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
               {formatRelativeTime(lastQueriedAt, now, t)}
             </span>
           )}
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={() => refetch()}
             disabled={loading}
-            className="p-1 rounded hover:bg-muted transition-colors disabled:opacity-50"
             title={t("usage.refreshUsage")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
-          </button>
+          </Button>
         </div>
       </div>
 

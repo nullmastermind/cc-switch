@@ -1,6 +1,5 @@
 import { List, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
@@ -41,21 +40,18 @@ export function SessionTocSidebar({
       <ScrollArea className="h-[calc(100%-40px)]">
         <div className="p-2 space-y-0.5">
           {items.map((item, tocIndex) => (
-            <button
+            <Button
               key={item.index}
               type="button"
+              variant="ghost"
               onClick={() => onItemClick(item.index)}
-              className={cn(
-                "w-full text-left px-2 py-1.5 rounded text-xs transition-colors",
-                "hover:bg-muted/80 text-muted-foreground hover:text-foreground",
-                "flex items-start gap-2",
-              )}
+              className="h-auto w-full items-start justify-start px-2 py-1.5"
             >
               <span className="shrink-0 w-4 h-4 rounded-full bg-primary/10 text-primary text-[10px] flex items-center justify-center font-medium">
                 {tocIndex + 1}
               </span>
               <span className="line-clamp-2 leading-snug">{item.preview}</span>
-            </button>
+            </Button>
           ))}
         </div>
       </ScrollArea>
@@ -110,16 +106,12 @@ export function SessionTocDialog({
         <div className="overflow-y-auto max-h-[calc(70vh-80px)]">
           <div className="p-3 pb-4 space-y-1">
             {items.map((item, tocIndex) => (
-              <button
+              <Button
                 key={item.index}
                 type="button"
+                variant="ghost"
                 onClick={() => onItemClick(item.index)}
-                className={cn(
-                  "w-full text-left px-3 py-2.5 rounded-lg text-sm transition-all",
-                  "hover:bg-primary/10 text-foreground",
-                  "flex items-start gap-3",
-                  "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-inset",
-                )}
+                className="h-auto w-full items-start justify-start px-3 py-2.5"
               >
                 <span className="shrink-0 w-6 h-6 rounded-full bg-primary text-primary-foreground text-xs flex items-center justify-center font-semibold">
                   {tocIndex + 1}
@@ -127,7 +119,7 @@ export function SessionTocDialog({
                 <span className="line-clamp-2 leading-relaxed pt-0.5">
                   {item.preview}
                 </span>
-              </button>
+              </Button>
             ))}
           </div>
         </div>

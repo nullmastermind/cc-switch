@@ -294,17 +294,18 @@ export function UsageDashboard({
             {APP_FILTER_OPTIONS.map((type) => {
               const label = t(`usage.appFilter.${type}`);
               return (
-                <button
+                <Button
                   key={type}
                   type="button"
-                  onClick={() => changeAppType(type)}
+                  variant="ghost"
                   title={label}
                   aria-label={label}
+                  onClick={() => changeAppType(type)}
                   className={cn(
-                    "flex h-8 items-center justify-center px-2.5 rounded-md transition-all",
+                    "h-8 min-w-0 px-2.5",
                     appType === type
                       ? "bg-background text-primary shadow-sm"
-                      : "text-muted-foreground hover:text-foreground hover:bg-muted/50",
+                      : "text-muted-foreground",
                   )}
                 >
                   {type === "all" ? (
@@ -316,7 +317,7 @@ export function UsageDashboard({
                       size={16}
                     />
                   )}
-                </button>
+                </Button>
               );
             })}
           </div>

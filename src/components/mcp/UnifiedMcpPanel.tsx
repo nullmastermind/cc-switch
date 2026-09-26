@@ -415,14 +415,15 @@ const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
             {name}
           </span>
           {docsUrl && (
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={openDocs}
-              className="text-muted-foreground/60 hover:text-foreground flex-shrink-0"
               title={t("mcp.presets.docs")}
             >
               <ExternalLink size={12} />
-            </button>
+            </Button>
           )}
         </div>
         {description && (
@@ -447,7 +448,12 @@ const UnifiedMcpListItem: React.FC<UnifiedMcpListItemProps> = ({
         disabled={disabled}
       />
 
-      <div className="flex items-center gap-0.5 flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+      <span
+        aria-hidden="true"
+        className="mx-1 h-4 w-px shrink-0 bg-black/10 dark:bg-white/10"
+      />
+
+      <div className="flex flex-shrink-0 items-center gap-0.5">
         <Button
           type="button"
           variant="ghost"

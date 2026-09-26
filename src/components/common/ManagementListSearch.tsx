@@ -1,5 +1,7 @@
+import type { Ref } from "react";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface ManagementListSearchProps {
@@ -9,6 +11,7 @@ interface ManagementListSearchProps {
   ariaLabel: string;
   clearLabel: string;
   className?: string;
+  inputRef?: Ref<HTMLInputElement>;
 }
 
 /** Shared, presentation-only search field for local management lists. */
@@ -19,14 +22,16 @@ export function ManagementListSearch({
   ariaLabel,
   clearLabel,
   className,
+  inputRef,
 }: ManagementListSearchProps) {
   return (
-    <div role="search" className={cn("relative flex-shrink-0 mb-4", className)}>
+    <div role="search" className={cn("relative flex-shrink-0 mb-2", className)}>
       <Search
         aria-hidden="true"
-        className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+        className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
       />
       <Input
+        ref={inputRef}
         value={value}
         onChange={(event) => onValueChange(event.target.value)}
         onKeyDown={(event) => {
@@ -37,18 +42,20 @@ export function ManagementListSearch({
         }}
         placeholder={placeholder}
         aria-label={ariaLabel}
-        className="pl-9 pr-9"
+        className="pl-8 pr-8"
       />
       {value && (
-        <button
+        <Button
           type="button"
+          variant="ghost"
+          size="icon"
           onClick={() => onValueChange("")}
           aria-label={clearLabel}
           title={clearLabel}
-          className="absolute right-2 top-1/2 flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+          className="absolute right-2 top-1/2 -translate-y-1/2"
         >
           <X aria-hidden="true" className="h-4 w-4" />
-        </button>
+        </Button>
       )}
     </div>
   );

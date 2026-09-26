@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Monitor, MoreHorizontal, Terminal } from "lucide-react";
 import { APP_IDS } from "@/config/appConfig";
+import { Button } from "@/components/ui/button";
 
 const APP_BADGE_ICON: Partial<
   Record<AppId, { icon: typeof Terminal; offsetY?: number }>
@@ -166,39 +167,41 @@ export function AppSwitcher({
       {visibleList.map((app) => {
         const isActive = activeApp === app;
         return (
-          <button
+          <Button
             key={app}
             type="button"
+            variant="ghost"
             onClick={() => handleSwitch(app)}
             title={APP_DISPLAY_NAME[app]}
             aria-label={APP_DISPLAY_NAME[app]}
             className={cn(
-              "group inline-flex items-center px-3 h-8 rounded-md text-sm font-medium transition-all duration-200",
+              "h-8 min-w-0 px-3",
               isActive
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/50",
             )}
           >
             <AppGlyph app={app} isActive={isActive} />
-          </button>
+          </Button>
         );
       })}
       {overflowList.length > 0 && (
         <Popover open={moreOpen} onOpenChange={setMoreOpen}>
           <PopoverTrigger asChild>
-            <button
+            <Button
               type="button"
+              variant="ghost"
               title={t("appSwitcher.more")}
               aria-label={t("appSwitcher.more")}
               className={cn(
-                "inline-flex items-center px-3 h-8 rounded-md transition-all duration-200",
+                "h-8 min-w-0 px-3",
                 moreOpen
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground hover:bg-background/50",
               )}
             >
               <MoreHorizontal size={20} className="shrink-0" />
-            </button>
+            </Button>
           </PopoverTrigger>
           <PopoverContent
             side="bottom"
@@ -207,18 +210,19 @@ export function AppSwitcher({
             className="z-[100] w-56 p-1"
           >
             {overflowList.map((app) => (
-              <button
+              <Button
                 key={app}
                 type="button"
+                variant="ghost"
                 onClick={() => {
                   setMoreOpen(false);
                   handleSwitch(app);
                 }}
-                className="group flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                className="w-full justify-start"
               >
                 <AppGlyph app={app} isActive={false} />
                 <span className="truncate">{APP_DISPLAY_NAME[app]}</span>
-              </button>
+              </Button>
             ))}
           </PopoverContent>
         </Popover>

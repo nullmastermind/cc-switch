@@ -1322,9 +1322,10 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                   providerSelectionState,
                                 )}
                                 <CollapsibleTrigger asChild>
-                                  <button
+                                  <Button
                                     type="button"
-                                    className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                                    variant="ghost"
+                                    className="h-auto min-w-0 flex-1 justify-start"
                                     aria-label={t(
                                       "sessionManager.toggleProviderGroup",
                                       {
@@ -1354,7 +1355,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                       providerGroup.sessions.length,
                                       "secondary",
                                     )}
-                                  </button>
+                                  </Button>
                                 </CollapsibleTrigger>
                               </div>
                               <CollapsibleContent className="mt-1 space-y-1 pl-2">
@@ -1385,9 +1386,10 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                             directorySelectionState,
                                           )}
                                           <CollapsibleTrigger asChild>
-                                            <button
+                                            <Button
                                               type="button"
-                                              className="flex min-w-0 flex-1 items-center gap-2 text-left"
+                                              variant="ghost"
+                                              className="h-auto min-w-0 flex-1 justify-start"
                                               aria-label={t(
                                                 "sessionManager.toggleDirectoryGroup",
                                                 {
@@ -1431,7 +1433,7 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                                 directoryGroup.sessions.length,
                                                 "outline",
                                               )}
-                                            </button>
+                                            </Button>
                                           </CollapsibleTrigger>
                                         </div>
                                         <CollapsibleContent className="mt-1 space-y-1 pl-3">
@@ -1514,21 +1516,22 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           {selectedSession.projectDir && (
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <button
+                                <Button
                                   type="button"
+                                  variant="ghost"
                                   onClick={() =>
                                     void handleCopy(
                                       selectedSession.projectDir!,
                                       t("sessionManager.projectDirCopied"),
                                     )
                                   }
-                                  className="flex items-center gap-1 hover:text-foreground transition-colors"
+                                  className="h-auto min-w-0 px-1"
                                 >
                                   <FolderOpen className="size-3" />
                                   <span className="truncate max-w-[200px]">
                                     {getBaseName(selectedSession.projectDir)}
                                   </span>
-                                </button>
+                                </Button>
                               </TooltipTrigger>
                               <TooltipContent
                                 side="bottom"
@@ -1546,21 +1549,22 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                           {selectedSession.sourcePath && (
                             <Tooltip>
                               <TooltipTrigger asChild>
-                                <button
+                                <Button
                                   type="button"
+                                  variant="ghost"
                                   onClick={() =>
                                     void handleCopy(
                                       selectedSession.sourcePath!,
                                       t("sessionManager.sourcePathCopied"),
                                     )
                                   }
-                                  className="flex items-center gap-1 hover:text-foreground transition-colors"
+                                  className="h-auto min-w-0 px-1"
                                 >
                                   <FileText className="size-3 shrink-0" />
                                   <span className="font-mono truncate max-w-[200px]">
                                     {getBaseName(selectedSession.sourcePath)}
                                   </span>
-                                </button>
+                                </Button>
                               </TooltipTrigger>
                               <TooltipContent
                                 side="bottom"

@@ -584,18 +584,17 @@ export function ProxyPanel({
 
               <div className="flex justify-end">
                 <Button
-                  size="sm"
                   onClick={handleSaveBasicConfig}
                   disabled={updateGlobalConfig.isPending}
                 >
                   {updateGlobalConfig.isPending ? (
                     <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      <Loader2 className="h-4 w-4 animate-spin" />
                       {t("common.saving", { defaultValue: "保存中..." })}
                     </>
                   ) : (
                     <>
-                      <Save className="mr-2 h-4 w-4" />
+                      <Save className="h-4 w-4" />
                       {t("common.save", { defaultValue: "保存" })}
                     </>
                   )}

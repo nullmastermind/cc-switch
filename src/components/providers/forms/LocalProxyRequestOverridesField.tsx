@@ -50,7 +50,7 @@ export function LocalProxyRequestOverridesField({
             value={headersJson}
             onChange={(event) => onHeadersJsonChange(event.target.value)}
             placeholder={'{\n  "X-Provider": "cc-switch"\n}'}
-            className="min-h-[132px] resize-y font-mono text-xs"
+            className="font-mono"
             aria-invalid={Boolean(headerError)}
           />
           {headerError && (
@@ -73,7 +73,7 @@ export function LocalProxyRequestOverridesField({
             value={bodyJson}
             onChange={(event) => onBodyJsonChange(event.target.value)}
             placeholder={'{\n  "temperature": 0.2\n}'}
-            className="min-h-[132px] resize-y font-mono text-xs"
+            className="font-mono"
             aria-invalid={Boolean(bodyError)}
           />
           {bodyError && (

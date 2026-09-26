@@ -154,11 +154,12 @@ function ModelCombobox({
   return (
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button
+        <Button
           type="button"
+          variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="flex flex-1 h-8 items-center justify-between whitespace-nowrap rounded-md border border-border-default bg-background px-3 py-1 text-sm shadow-sm ring-offset-background focus:outline-none focus-visible:outline-none focus:border-border-default focus-visible:border-border-default focus:ring-0 focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+          className="h-6 flex-1 min-w-0 justify-between"
         >
           <span className={cn("truncate", !value && "text-muted-foreground")}>
             {selectedLabel || placeholderText}
@@ -175,7 +176,7 @@ function ModelCombobox({
             )}
             <ChevronsUpDown className="h-3.5 w-3.5 opacity-50" />
           </span>
-        </button>
+        </Button>
       </PopoverTrigger>
       <PopoverContent
         side="bottom"
@@ -710,7 +711,7 @@ export function OmoFormFields({
           }
         }}
         placeholder={ADVANCED_PLACEHOLDER}
-        className="font-mono text-xs min-h-[130px] py-3"
+        className="font-mono"
       />
       {showHint && (
         <p className="text-[10px] text-muted-foreground mt-1">
@@ -1070,9 +1071,10 @@ export function OmoFormFields({
     badge?: React.ReactNode | string;
     action?: React.ReactNode;
   }) => (
-    <button
+    <Button
       type="button"
-      className="flex items-center justify-between w-full py-2 px-3 text-left"
+      variant="ghost"
+      className="h-auto w-full justify-between py-2 px-3"
       onClick={onToggle}
     >
       <div className="flex items-center gap-2">
@@ -1091,7 +1093,7 @@ export function OmoFormFields({
         )}
       </div>
       {action && <div onClick={(e) => e.stopPropagation()}>{action}</div>}
-    </button>
+    </Button>
   );
 
   const renderModelSection = ({
@@ -1306,7 +1308,7 @@ export function OmoFormFields({
               value={otherFieldsStr}
               onChange={(e) => onOtherFieldsStrChange(e.target.value)}
               placeholder='{ "custom_key": "value" }'
-              className="font-mono text-xs min-h-[60px]"
+              className="font-mono"
             />
             {isSlim && (
               <p className="mt-1 text-[10px] text-muted-foreground">

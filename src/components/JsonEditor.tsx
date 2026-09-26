@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 import { Wand2 } from "lucide-react";
 import { toast } from "sonner";
 import { formatJSON } from "@/utils/formatters";
+import { Button } from "@/components/ui/button";
 
 interface JsonEditorProps {
   id?: string;
@@ -369,14 +370,15 @@ const JsonEditor: React.FC<JsonEditorProps> = ({
         className={isFullHeight ? "flex-1 min-h-0" : ""}
       />
       {language === "json" && !readOnly && (
-        <button
+        <Button
           type="button"
+          variant="ghost"
           onClick={handleFormat}
-          className={`${isFullHeight ? "mt-2 flex-shrink-0" : "mt-2"} inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors`}
+          className={isFullHeight ? "mt-2 flex-shrink-0" : "mt-2"}
         >
-          <Wand2 className="w-3.5 h-3.5" />
+          <Wand2 className="h-4 w-4" />
           {t("common.format", { defaultValue: "格式化" })}
-        </button>
+        </Button>
       )}
     </div>
   );

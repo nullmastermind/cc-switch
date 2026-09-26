@@ -167,10 +167,8 @@ export function GeminiFormFields({
             <Button
               type="button"
               variant="outline"
-              size="sm"
               onClick={handleFetchModels}
               disabled={isFetchingModels}
-              className="h-7 gap-1"
             >
               {isFetchingModels ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />

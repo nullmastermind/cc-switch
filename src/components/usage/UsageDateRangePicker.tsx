@@ -423,9 +423,10 @@ export function UsageDateRangePicker({
               >
                 <ChevronLeft className="h-3.5 w-3.5" />
               </Button>
-              <button
+              <Button
                 type="button"
-                className="text-sm font-medium hover:text-primary transition-colors"
+                variant="ghost"
+                className="h-auto min-w-0 px-1"
                 onClick={goToToday}
                 title={t("usage.presetToday", { defaultValue: "当天" })}
               >
@@ -433,7 +434,7 @@ export function UsageDateRangePicker({
                   year: "numeric",
                   month: "long",
                 })}
-              </button>
+              </Button>
               <Button
                 type="button"
                 size="icon"
@@ -477,14 +478,15 @@ export function UsageDateRangePicker({
                 const isEndpoint = isStart || isEnd;
 
                 return (
-                  <button
+                  <Button
                     key={day.toISOString()}
                     type="button"
+                    variant="ghost"
                     aria-label={day.toLocaleDateString(locale)}
                     aria-current={isToday ? "date" : undefined}
                     aria-pressed={isEndpoint}
                     className={cn(
-                      "relative h-7 rounded text-xs transition-colors",
+                      "relative h-7 min-w-0 rounded text-xs",
                       !isCurrentMonth && "text-muted-foreground/30",
                       isCurrentMonth && !inRange && "hover:bg-muted",
                       inRange && !isEndpoint && "bg-primary/10 text-primary",
@@ -495,7 +497,7 @@ export function UsageDateRangePicker({
                     onClick={() => handleDatePick(day)}
                   >
                     {day.getDate()}
-                  </button>
+                  </Button>
                 );
               })}
             </div>

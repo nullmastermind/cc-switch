@@ -6,6 +6,7 @@ import { ProviderIcon } from "./ProviderIcon";
 import { iconList } from "@/icons/extracted";
 import { searchIcons, getIconMetadata } from "@/icons/extracted/metadata";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface IconPickerProps {
   value?: string; // 当前选中的图标
@@ -51,25 +52,22 @@ export const IconPicker: React.FC<IconPickerProps> = ({
             const isSelected = value === iconName;
 
             return (
-              <button
+              <Button
                 key={iconName}
                 type="button"
+                variant="ghost"
                 onClick={() => onValueChange(iconName)}
                 className={cn(
-                  "flex flex-col items-center gap-1 p-3 rounded-lg",
-                  "border-2 transition-all duration-200",
-                  "hover:bg-accent hover:border-primary/50",
-                  isSelected
-                    ? "border-primary bg-primary/10"
-                    : "border-transparent",
+                  "h-auto min-w-0 flex-col gap-1 p-3",
+                  isSelected && "bg-primary/10",
                 )}
                 title={meta?.displayName || iconName}
               >
                 <ProviderIcon icon={iconName} name={iconName} size={32} />
-                <span className="text-xs text-muted-foreground truncate w-full text-center">
+                <span className="w-full truncate text-center text-muted-foreground">
                   {meta?.displayName || iconName}
                 </span>
-              </button>
+              </Button>
             );
           })}
         </div>

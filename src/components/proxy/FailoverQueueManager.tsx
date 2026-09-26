@@ -271,7 +271,7 @@ function QueueItem({
   return (
     <div
       className={cn(
-        "flex items-center gap-3 rounded-lg border bg-card p-3 transition-colors",
+        "flex items-center gap-3 rounded-lg border border-black/10 bg-card p-3 transition-colors dark:border-white/10",
       )}
     >
       {/* 序号 */}

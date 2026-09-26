@@ -403,12 +403,15 @@ const DailyMemoryPanel: React.FC<DailyMemoryPanelProps> = ({
                       className="pl-8 pr-8 h-8 text-sm"
                     />
                     {searchTerm && (
-                      <button
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
                         onClick={() => handleSearchChange("")}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors"
+                        className="absolute right-2 top-1/2 -translate-y-1/2"
                       >
                         <X className="w-3.5 h-3.5" />
-                      </button>
+                      </Button>
                     )}
                   </div>
                   <Button
@@ -441,10 +444,12 @@ const DailyMemoryPanel: React.FC<DailyMemoryPanelProps> = ({
             ) : (
               <div className="space-y-2">
                 {searchResults.map((result) => (
-                  <button
+                  <Button
                     key={result.filename}
+                    type="button"
+                    variant="outline"
                     onClick={() => openFile(result.filename)}
-                    className="w-full flex items-start gap-3 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors text-left group"
+                    className="h-auto w-full items-start justify-start gap-3 p-4 text-left"
                   >
                     <div className="mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors">
                       <Calendar className="w-4 h-4" />
@@ -480,7 +485,7 @@ const DailyMemoryPanel: React.FC<DailyMemoryPanelProps> = ({
                     >
                       <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive transition-colors" />
                     </div>
-                  </button>
+                  </Button>
                 ))}
               </div>
             )
@@ -497,10 +502,12 @@ const DailyMemoryPanel: React.FC<DailyMemoryPanelProps> = ({
           ) : (
             <div className="space-y-2">
               {files.map((file) => (
-                <button
+                <Button
                   key={file.filename}
+                  type="button"
+                  variant="outline"
                   onClick={() => openFile(file.filename)}
-                  className="w-full flex items-start gap-3 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors text-left group"
+                  className="h-auto w-full items-start justify-start gap-3 p-4 text-left"
                 >
                   <div className="mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors">
                     <Calendar className="w-4 h-4" />
@@ -529,7 +536,7 @@ const DailyMemoryPanel: React.FC<DailyMemoryPanelProps> = ({
                   >
                     <Trash2 className="w-4 h-4 text-muted-foreground hover:text-destructive transition-colors" />
                   </div>
-                </button>
+                </Button>
               ))}
             </div>
           )}

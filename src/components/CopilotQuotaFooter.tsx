@@ -1,6 +1,7 @@
 import React from "react";
 import { RefreshCw, AlertCircle, Clock } from "lucide-react";
 import { useTranslation } from "react-i18next";
+import { Button } from "@/components/ui/button";
 import type { ProviderMeta } from "@/types";
 import { useCopilotQuota } from "@/lib/query/copilot";
 import { resolveManagedAccountId } from "@/lib/authBinding";
@@ -67,14 +68,16 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
             <AlertCircle size={12} />
             <span>{quota.error || t("subscription.queryFailed")}</span>
           </div>
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={() => refetch()}
             disabled={loading}
-            className="p-1 rounded hover:bg-muted transition-colors disabled:opacity-50 flex-shrink-0"
             title={t("subscription.refresh")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
-          </button>
+          </Button>
         </div>
       );
     }
@@ -99,17 +102,19 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
               ? formatRelativeTime(quota.queriedAt, now, t)
               : t("usage.never", { defaultValue: "Never" })}
           </span>
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={(e) => {
               e.stopPropagation();
               refetch();
             }}
             disabled={loading}
-            className="p-1 rounded hover:bg-muted transition-colors disabled:opacity-50 flex-shrink-0 text-muted-foreground"
             title={t("subscription.refresh")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
-          </button>
+          </Button>
         </div>
 
         <div className="flex items-center gap-2">
@@ -135,14 +140,16 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
               {formatRelativeTime(quota.queriedAt, now, t)}
             </span>
           )}
-          <button
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
             onClick={() => refetch()}
             disabled={loading}
-            className="p-1 rounded hover:bg-muted transition-colors disabled:opacity-50"
             title={t("subscription.refresh")}
           >
             <RefreshCw size={12} className={loading ? "animate-spin" : ""} />
-          </button>
+          </Button>
         </div>
       </div>
 

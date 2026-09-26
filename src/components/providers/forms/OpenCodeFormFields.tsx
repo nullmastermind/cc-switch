@@ -576,9 +576,7 @@ export function OpenCodeFormFields({
           <Button
             type="button"
             variant="outline"
-            size="sm"
             onClick={handleAddExtraOption}
-            className="h-7 gap-1"
           >
             <Plus className="h-3.5 w-3.5" />
             {t("opencode.addExtraOption", { defaultValue: "Add" })}
@@ -650,10 +648,8 @@ export function OpenCodeFormFields({
             <Button
               type="button"
               variant="outline"
-              size="sm"
               onClick={handleFetchModels}
               disabled={isFetchingModels}
-              className="h-7 gap-1"
             >
               {isFetchingModels ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -665,9 +661,7 @@ export function OpenCodeFormFields({
             <Button
               type="button"
               variant="outline"
-              size="sm"
               onClick={handleAddModel}
-              className="h-7 gap-1"
             >
               <Plus className="h-3.5 w-3.5" />
               {t("opencode.addModel", { defaultValue: "Add" })}

@@ -52,12 +52,13 @@ export function BasicFormFields({
   return (
     <>
       {/* 图标选择区域 - 顶部居中，可选 */}
-      <div className="flex justify-center mb-6">
+      <div className="flex justify-center">
         <Dialog open={iconDialogOpen} onOpenChange={setIconDialogOpen}>
           <DialogTrigger asChild>
-            <button
+            <Button
               type="button"
-              className="w-20 h-20 p-3 rounded-xl border-2 border-muted hover:border-primary transition-colors cursor-pointer bg-muted/30 hover:bg-muted/50 flex items-center justify-center"
+              variant="outline"
+              className="h-12 w-12 min-w-0 p-2"
               title={
                 currentIcon
                   ? t("providerIcon.clickToChange", {
@@ -72,9 +73,9 @@ export function BasicFormFields({
                 icon={currentIcon}
                 name={providerName}
                 color={effectiveIconColor}
-                size={48}
+                size={32}
               />
-            </button>
+            </Button>
           </DialogTrigger>
           <DialogContent
             variant="fullscreen"

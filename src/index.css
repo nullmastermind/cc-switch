@@ -269,6 +269,30 @@ html[data-window-active="false"] .status-heartbeat {
   display: none;
 }
 
+.app-count-bar-scroll,
+.dialog-body-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--muted-foreground) / 0.45) transparent;
+}
+
+.app-count-bar-scroll::-webkit-scrollbar,
+.dialog-body-scroll::-webkit-scrollbar {
+  display: block;
+  width: 8px;
+  height: 8px;
+}
+
+.app-count-bar-scroll::-webkit-scrollbar-track,
+.dialog-body-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app-count-bar-scroll::-webkit-scrollbar-thumb,
+.dialog-body-scroll::-webkit-scrollbar-thumb {
+  background: hsl(var(--muted-foreground) / 0.45);
+  border-radius: 4px;
+}
+
 *:focus-visible {
   @apply outline-2 outline-blue-500 outline-offset-2;
 }

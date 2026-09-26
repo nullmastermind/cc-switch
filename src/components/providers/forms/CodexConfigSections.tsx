@@ -7,6 +7,8 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import JsonEditor from "@/components/JsonEditor";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   extractCodexTopLevelInt,
   isCodexRemoteCompactionEnabled,
@@ -283,13 +285,9 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
       </div>
 
       <div className="flex items-center justify-end">
-        <button
-          type="button"
-          onClick={onEditCommonConfig}
-          className="text-xs text-blue-500 dark:text-blue-400 hover:underline"
-        >
+        <Button type="button" variant="link" onClick={onEditCommonConfig}>
           {t("codexConfig.editCommonConfig")}
-        </button>
+        </Button>
       </div>
 
       {commonConfigError && (
@@ -310,7 +308,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
         </label>
         <label className="inline-flex items-center gap-2 text-sm text-muted-foreground">
           <span>{t("codexConfig.autoCompactLimit")}:</span>
-          <input
+          <Input
             type="text"
             inputMode="numeric"
             pattern="[0-9]*"
@@ -318,7 +316,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
             defaultValue={toggleStates.compactLimit}
             disabled={!toggleStates.contextWindow1M}
             onChange={(e) => handleCompactLimitChange(e.target.value)}
-            className="w-28 h-7 px-2 text-sm rounded border border-border bg-background text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-28"
           />
         </label>
       </div>

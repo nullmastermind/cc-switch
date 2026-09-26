@@ -2,6 +2,7 @@ import { useTranslation } from "react-i18next";
 import { FormLabel } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Switch } from "@/components/ui/switch";
+import { Button } from "@/components/ui/button";
 import { Link2, Zap } from "lucide-react";
 
 interface EndpointFieldProps {
@@ -82,14 +83,14 @@ export function EndpointField({
           ) : null}
         </div>
         {showManageButton && onManageClick ? (
-          <button
+          <Button
             type="button"
+            variant="ghost"
             onClick={onManageClick}
-            className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
           >
-            <Zap className="h-3.5 w-3.5" />
+            <Zap className="h-4 w-4" />
             {manageButtonLabel || defaultManageLabel}
-          </button>
+          </Button>
         ) : null}
       </div>
       <Input

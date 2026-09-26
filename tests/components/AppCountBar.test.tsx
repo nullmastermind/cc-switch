@@ -41,7 +41,7 @@ describe("AppCountBar", () => {
     expect(mixed).toHaveAttribute("aria-checked", "mixed");
     expect(mixed).toHaveAttribute("data-selection-state", "partial");
     expect(mixed.querySelectorAll("span")).toHaveLength(2);
-    expect(mixed.querySelector("svg")).not.toBeInTheDocument();
+    expect(mixed.querySelector("svg, img")).toBeInTheDocument();
     fireEvent.click(mixed);
     expect(onToggleAll).toHaveBeenCalledWith("claude", true);
 
@@ -61,7 +61,7 @@ describe("AppCountBar", () => {
     expect(all).toHaveAttribute("aria-checked", "true");
     expect(all).toHaveAttribute("data-selection-state", "all");
     expect(all.querySelectorAll("span")).toHaveLength(2);
-    expect(all.querySelector("svg")).not.toBeInTheDocument();
+    expect(all.querySelector("svg, img")).toBeInTheDocument();
     fireEvent.click(all);
     expect(onToggleAll).toHaveBeenLastCalledWith("claude", false);
   });
@@ -84,7 +84,7 @@ describe("AppCountBar", () => {
     expect(none).toHaveAttribute("aria-checked", "false");
     expect(none).toHaveAttribute("data-selection-state", "none");
     expect(none.querySelectorAll("span")).toHaveLength(2);
-    expect(none.querySelector("svg")).not.toBeInTheDocument();
+    expect(none.querySelector("svg, img")).toBeInTheDocument();
 
     fireEvent.click(none);
     expect(onToggleAll).toHaveBeenCalledWith("claude", true);
@@ -125,7 +125,7 @@ describe("AppCountBar", () => {
     });
     expect(pendingControl).toHaveAttribute("aria-busy", "true");
     expect(pendingControl.querySelectorAll("span")).toHaveLength(2);
-    expect(pendingControl.querySelector("svg")).not.toBeInTheDocument();
+    expect(pendingControl.querySelector("svg, img")).toBeInTheDocument();
   });
 
   it("supports disabling bulk controls during another management write", () => {

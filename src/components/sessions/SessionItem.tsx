@@ -7,6 +7,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { ProviderIcon } from "@/components/ProviderIcon";
 import type { SessionMeta } from "@/types";
 import {
@@ -65,10 +66,11 @@ export function SessionItem({
           />
         </div>
       )}
-      <button
+      <Button
         type="button"
+        variant="ghost"
         onClick={() => onSelect(sessionKey)}
-        className="min-w-0 flex-1 text-left"
+        className="h-auto min-w-0 flex-1 justify-start"
       >
         <div className="flex items-center gap-2 mb-1">
           <Tooltip>
@@ -104,7 +106,7 @@ export function SessionItem({
               : t("common.unknown")}
           </span>
         </div>
-      </button>
+      </Button>
     </div>
   );
 }

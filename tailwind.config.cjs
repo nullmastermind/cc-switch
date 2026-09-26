@@ -4,6 +4,9 @@ module.exports = {
   darkMode: ["selector", ".dark"],
   theme: {
     extend: {
+      borderColor: {
+        DEFAULT: "hsl(var(--border))",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

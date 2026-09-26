@@ -1311,7 +1311,7 @@ export function PiProviderForm({
         onChangeCapture={() => {
           if (formError) setFormError(null);
         }}
-        className="space-y-6 glass rounded-xl p-6 border border-white/10"
+        className="space-y-3 glass rounded-xl p-4 border border-white/10"
       >
         {!isEdit && (
           <ProviderPresetSelector
@@ -1474,10 +1474,8 @@ export function PiProviderForm({
                   <Button
                     type="button"
                     variant="outline"
-                    size="sm"
                     onClick={handleFetchModels}
                     disabled={isFetchingModels}
-                    className="h-7 gap-1"
                   >
                     {isFetchingModels ? (
                       <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -1490,9 +1488,7 @@ export function PiProviderForm({
                     id="pi-add-model"
                     type="button"
                     variant="outline"
-                    size="sm"
                     onClick={addModel}
-                    className="h-7 gap-1"
                   >
                     <Plus className="h-3.5 w-3.5" />
                     {t("pi.form.addModel")}
@@ -1792,8 +1788,9 @@ export function PiProviderForm({
                                             }
                                           >
                                             <PopoverTrigger asChild>
-                                              <button
+                                              <Button
                                                 type="button"
+                                                variant="ghost"
                                                 aria-label={t(
                                                   "pi.form.editThinkingLevel",
                                                   {
@@ -1802,7 +1799,7 @@ export function PiProviderForm({
                                                     ),
                                                   },
                                                 )}
-                                                className="group flex h-[42px] w-full items-center gap-3 border-b border-border/40 px-4 text-left text-sm transition-colors last:border-b-0 hover:bg-muted/40"
+                                                className="group h-[42px] w-full justify-start gap-3 rounded-none border-b border-border/40 px-4 last:border-b-0"
                                               >
                                                 <span className="flex-1">
                                                   {t(
@@ -1837,7 +1834,7 @@ export function PiProviderForm({
                                                     <ChevronRight className="h-3.5 w-3.5" />
                                                   </span>
                                                 </PopoverAnchor>
-                                              </button>
+                                              </Button>
                                             </PopoverTrigger>
                                             <PopoverContent
                                               side="left"

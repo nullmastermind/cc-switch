@@ -22,14 +22,14 @@ interface FullScreenPanelProps {
   /** Entry/exit motion. Nested navigation panels can opt into a horizontal transition. */
   motionPreset?: "fade" | "slide-from-right";
   /**
-   * 覆盖内容区滚动容器的内边距/间距类。默认 `px-6 py-6 space-y-6`。
+   * 覆盖内容区滚动容器的内边距/间距类。默认 `px-6 py-4 space-y-4`。
    * 通过 `cn`(twMerge) 合并，传入如 `pt-3` 只覆盖顶部内边距，其余保持默认。
    */
   contentClassName?: string;
 }
 
 const DRAG_BAR_HEIGHT = isWindows() || isLinux() ? 0 : 28; // px - match App.tsx
-const HEADER_HEIGHT = 64; // px - match App.tsx
+const HEADER_HEIGHT = 48; // px - match App.tsx (UI.md toolbar)
 
 let bodyScrollLockCount = 0;
 let bodyOverflowBeforeFirstLock: string | null = null;
@@ -180,7 +180,7 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
 
           {/* Content */}
           <div className="flex-1 overflow-y-auto scroll-overlay">
-            <div className={cn("px-6 py-6 space-y-6 w-full", contentClassName)}>
+            <div className={cn("px-6 py-4 space-y-4 w-full", contentClassName)}>
               {children}
             </div>
           </div>

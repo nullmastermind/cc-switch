@@ -842,7 +842,7 @@ describe("UnifiedSkillsPanel", () => {
     );
   });
 
-  it("does not add an inactive Pi toggle outside the Pi context", () => {
+  it("renders a Pi toggle outside the Pi context", () => {
     installedSkillsMock = [
       makeInstalledSkill({
         name: "Claude Skill",
@@ -854,9 +854,10 @@ describe("UnifiedSkillsPanel", () => {
       <UnifiedSkillsPanel onOpenDiscovery={() => {}} currentApp="claude" />,
     );
 
-    expect(
-      screen.queryByRole("button", { name: "Pi" }),
-    ).not.toBeInTheDocument();
+    expect(screen.getByRole("button", { name: "Pi" })).toHaveAttribute(
+      "aria-pressed",
+      "false",
+    );
     expect(screen.getByRole("button", { name: "Claude" })).toBeInTheDocument();
   });
 });

@@ -657,6 +657,23 @@ impl SkillService {
         Ok(skills.into_values().collect())
     }
 
+    /// Read the SSOT `SKILL.md` for an installed skill, including YAML frontmatter.
+    pub fn read_content(db: &Arc<Database>, id: &str) -> Result<String> {
+        let _guard = skill_state_read_guard();
+        let skill = db
+            .get_installed_skill(id)?
+            .ok_or_else(|| anyhow!("Skill not found: {id}"))?;
+        let dir_name = Self::sanitize_install_name(&skill.directory).ok_or_else(|| {
+            anyhow!(
+                "Invalid skill directory '{}'",
+                skill.directory
+            )
+        })?;
+        let path = Self::get_ssot_dir()?.join(dir_name).join("SKILL.md");
+        fs::read_to_string(&path)
+            .with_context(|| format!("Failed to read {}", path.display()))
+    }
+
     /// Reuse an existing installation or reject a directory owned by another repo.
     /// The caller must hold [`skill_state_write_guard`] because this can update the
     /// database and materialized app directory.

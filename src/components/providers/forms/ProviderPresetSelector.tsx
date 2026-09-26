@@ -280,31 +280,17 @@ export function ProviderPresetSelector({
     if (iconType) {
       switch (iconType) {
         case "claude":
-          return <ClaudeIcon size={14} />;
+          return <ClaudeIcon size={16} />;
         case "codex":
-          return <CodexIcon size={14} />;
+          return <CodexIcon size={16} />;
         case "gemini":
-          return <GeminiIcon size={14} />;
+          return <GeminiIcon size={16} />;
         case "generic":
-          return <Zap size={14} />;
+          return <Zap size={16} />;
       }
     }
 
     return <span className="inline-block w-4 h-4 flex-shrink-0" aria-hidden />;
-  };
-
-  const getPresetButtonClass = (isSelected: boolean, preset: AnyPreset) => {
-    const baseClass =
-      "inline-flex items-center justify-start gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors w-full";
-
-    if (isSelected) {
-      if (preset.theme?.backgroundColor) {
-        return `${baseClass} text-white`;
-      }
-      return `${baseClass} bg-blue-500 text-white dark:bg-blue-600`;
-    }
-
-    return `${baseClass} bg-accent text-muted-foreground hover:bg-accent/80`;
   };
 
   const getPresetButtonStyle = (isSelected: boolean, preset: AnyPreset) => {
@@ -340,7 +326,7 @@ export function ProviderPresetSelector({
               aria-label={t("providerPreset.searchAriaLabel", {
                 defaultValue: "Search provider presets",
               })}
-              className="w-60 h-8"
+              className="w-60 h-6"
               autoFocus
             />
           )}
@@ -361,8 +347,8 @@ export function ProviderPresetSelector({
             })}
             className={
               searchOpen || searchQuery.trim()
-                ? "size-8 bg-accent text-foreground"
-                : "size-8"
+                ? "bg-accent text-foreground"
+                : undefined
             }
           >
             <Search className="size-4" />
@@ -388,8 +374,8 @@ export function ProviderPresetSelector({
             }
             className={
               sortMode === PresetSortMode.NameAsc
-                ? "size-8 bg-accent text-foreground"
-                : "size-8"
+                ? "bg-accent text-foreground"
+                : undefined
             }
           >
             <ArrowUpAZ className="size-4" />
@@ -397,18 +383,15 @@ export function ProviderPresetSelector({
         </div>
       </div>
       <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2">
-        <button
+        <Button
           type="button"
+          variant={selectedPresetId === "custom" ? "default" : "secondary"}
           onClick={() => onPresetChange("custom")}
-          className={`inline-flex items-center justify-start gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors w-full ${
-            selectedPresetId === "custom"
-              ? "bg-blue-500 text-white dark:bg-blue-600"
-              : "bg-accent text-muted-foreground hover:bg-accent/80"
-          }`}
+          className="w-full justify-start overflow-hidden"
         >
           <span className="inline-block w-4 h-4 flex-shrink-0" aria-hidden />
-          <span className="truncate">{t("providerPreset.custom")}</span>
-        </button>
+          <span className="min-w-0 truncate">{t("providerPreset.custom")}</span>
+        </Button>
 
         {visiblePresetEntries.length === 0 && (
           <div className="col-span-full rounded-md border border-dashed border-border-default px-3 py-2 text-xs text-muted-foreground">
@@ -424,11 +407,12 @@ export function ProviderPresetSelector({
           const isPrimePartner = entry.preset.primePartner;
           const presetCategory = entry.preset.category ?? "others";
           return (
-            <button
+            <Button
               key={entry.id}
               type="button"
+              variant={isSelected ? "default" : "secondary"}
               onClick={() => onPresetChange(entry.id)}
-              className={`${getPresetButtonClass(isSelected, entry.preset)} relative`}
+              className="w-full justify-start overflow-hidden"
               style={getPresetButtonStyle(isSelected, entry.preset)}
               title={
                 presetCategoryLabels[presetCategory] ??
@@ -436,23 +420,24 @@ export function ProviderPresetSelector({
               }
             >
               {renderPresetIcon(entry.preset)}
-              <span className="truncate">
+              <span className="min-w-0 truncate">
                 {getPresetDisplayName(entry.preset, t)}
               </span>
               {isPrimePartner ? (
                 <Heart
-                  className="absolute -top-1 -right-1 h-5 w-5 fill-amber-500 text-amber-500 drop-shadow-sm"
+                  className="ml-auto h-3 w-3 shrink-0 fill-amber-500 text-amber-500"
                   strokeWidth={0}
                   aria-hidden
                 />
               ) : (
                 isPartner && (
-                  <span className="absolute -top-1 -right-1 flex items-center gap-0.5 rounded-full bg-gradient-to-r from-amber-500 to-yellow-500 px-1.5 py-0.5 text-[10px] font-bold text-white shadow-md">
-                    <Star className="h-2.5 w-2.5 fill-current" />
-                  </span>
+                  <Star
+                    className="ml-auto h-3 w-3 shrink-0 fill-amber-500 text-amber-500"
+                    aria-hidden
+                  />
                 )
               )}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -460,11 +445,12 @@ export function ProviderPresetSelector({
       {onUniversalPresetSelect && universalProviderPresets.length > 0 && (
         <div className="grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] gap-2">
           {universalProviderPresets.map((preset) => (
-            <button
+            <Button
               key={`universal-${preset.providerType}`}
               type="button"
+              variant="secondary"
               onClick={() => onUniversalPresetSelect(preset)}
-              className="inline-flex items-center justify-start gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-accent text-muted-foreground hover:bg-accent/80 relative w-full"
+              className="w-full justify-start overflow-hidden"
               title={t("universalProvider.hint", {
                 defaultValue: "跨应用统一配置，自动同步到 Claude/Codex/Gemini",
               })}
@@ -472,31 +458,30 @@ export function ProviderPresetSelector({
               <ProviderIcon
                 icon={preset.icon}
                 name={preset.name}
-                size={14}
+                size={16}
                 className="flex-shrink-0"
               />
-              <span className="truncate">{preset.name}</span>
-              <span className="absolute -top-1 -right-1 flex items-center gap-0.5 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500 px-1.5 py-0.5 text-[10px] font-bold text-white shadow-md">
-                <Layers className="h-2.5 w-2.5" />
-              </span>
-            </button>
+              <span className="min-w-0 truncate">{preset.name}</span>
+              <Layers className="ml-auto h-3 w-3 shrink-0 text-indigo-400" />
+            </Button>
           ))}
           {onManageUniversalProviders && (
-            <button
+            <Button
               type="button"
+              variant="secondary"
               onClick={onManageUniversalProviders}
-              className="inline-flex items-center justify-start gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors bg-accent text-muted-foreground hover:bg-accent/80 w-full"
+              className="w-full justify-start overflow-hidden"
               title={t("universalProvider.manage", {
                 defaultValue: "管理统一供应商",
               })}
             >
               <Settings2 className="h-4 w-4 flex-shrink-0" />
-              <span className="truncate">
+              <span className="min-w-0 truncate">
                 {t("universalProvider.manage", {
                   defaultValue: "管理",
                 })}
               </span>
-            </button>
+            </Button>
           )}
         </div>
       )}

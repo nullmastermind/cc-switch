@@ -195,15 +195,15 @@ export function CommonConfigEditor({
           </div>
         </div>
         <div className="flex items-center justify-end">
-          <button
+          <Button
             type="button"
+            variant="link"
             onClick={onEditClick}
-            className="text-xs text-blue-400 dark:text-blue-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
           >
             {t("claudeConfig.editCommonConfig", {
               defaultValue: "编辑通用配置",
             })}
-          </button>
+          </Button>
         </div>
         {commonConfigError && !isModalOpen && (
           <p className="text-xs text-red-500 dark:text-red-400 text-right">

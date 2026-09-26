@@ -149,6 +149,11 @@ export const skillsApi = {
     return await invoke("get_installed_skills");
   },
 
+  /** Read SKILL.md for an installed skill, including YAML frontmatter. */
+  async getContent(id: string): Promise<string> {
+    return await invoke("get_skill_content", { id });
+  },
+
   /** 获取可恢复的 Skill 备份列表 */
   async getBackups(): Promise<SkillBackupEntry[]> {
     return await invoke("get_skill_backups");

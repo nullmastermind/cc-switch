@@ -15,6 +15,7 @@ import type { OpenClawProviderConfig, Provider } from "@/types";
 import type { AppId } from "@/lib/api";
 import { authApi } from "@/lib/api";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import { ProviderActions } from "@/components/providers/ProviderActions";
 import { ProviderIcon } from "@/components/ProviderIcon";
 import UsageFooter from "@/components/UsageFooter";
@@ -370,7 +371,7 @@ export function ProviderCard({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-xl border border-border p-4 transition-all duration-300",
+        "relative overflow-hidden rounded-[8px] border border-border p-2 transition-all duration-300",
         "bg-card text-card-foreground group",
         isAutoFailoverEnabled || isProxyTakeover
           ? "hover:border-emerald-500/50"
@@ -392,14 +393,15 @@ export function ProviderCard({
           hasStateHighlight ? "opacity-100" : "opacity-0",
         )}
       />
-      <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative flex flex-row items-center justify-between gap-2">
         <div className="flex min-w-0 flex-1 items-center gap-2">
           {dragHandleProps && (
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               className={cn(
-                "-ml-1.5 flex-shrink-0 cursor-grab active:cursor-grabbing p-1.5",
-                "text-muted-foreground/50 hover:text-muted-foreground transition-colors",
+                "-ml-1.5 cursor-grab active:cursor-grabbing",
                 dragHandleProps.isDragging && "cursor-grabbing",
               )}
               aria-label={t("provider.dragHandle")}
@@ -407,10 +409,10 @@ export function ProviderCard({
               {...dragHandleProps.listeners}
             >
               <GripVertical className="h-4 w-4" />
-            </button>
+            </Button>
           )}
 
-          <div className="h-8 w-8 flex-shrink-0 rounded-lg bg-muted flex items-center justify-center border border-border group-hover:scale-105 transition-transform duration-300">
+          <div className="h-6 w-6 flex-shrink-0 rounded-[4px] bg-muted flex items-center justify-center border border-border group-hover:scale-105 transition-transform duration-300">
             <ProviderIcon
               icon={resolveProviderIcon(
                 appId,
@@ -419,15 +421,15 @@ export function ProviderCard({
               )}
               name={provider.name}
               color={provider.iconColor}
-              size={20}
+              size={16}
             />
           </div>
 
-          <div className="min-w-0 flex-1 space-y-1">
-            <div className="flex flex-wrap items-center gap-2 min-h-7">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-1">
               <h3
                 className={cn(
-                  "text-base font-semibold leading-none",
+                  "text-[12.35px] leading-[1.3] font-semibold",
                   codexOfficialIdentity && "min-w-0 flex-1 truncate",
                 )}
                 title={codexOfficialIdentity ? provider.name : undefined}
@@ -515,7 +517,7 @@ export function ProviderCard({
             </div>
 
             {codexOfficialIdentity && codexOfficialIdentity !== "api_key" ? (
-              <div className="flex min-w-0 items-center gap-2 text-sm text-muted-foreground">
+              <div className="flex min-w-0 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                 {codexOfficialIdentity === "native_login" ? (
                   <span className="min-w-0 truncate" title={manualNote}>
                     {manualNote ??
@@ -562,15 +564,16 @@ export function ProviderCard({
                         })}
                       </span>
                     </span>
-                    <button
+                    <Button
                       type="button"
-                      className="shrink-0 text-sm font-medium text-primary hover:underline"
+                      variant="link"
+                      className="h-auto min-w-0 px-0"
                       onClick={() => onEdit(provider)}
                     >
                       {t("codex.chooseAccount", {
                         defaultValue: "选择账号",
                       })}
-                    </button>
+                    </Button>
                   </>
                 ) : (
                   <span className="min-w-0 truncate">
@@ -581,25 +584,24 @@ export function ProviderCard({
                 )}
               </div>
             ) : displayUrl ? (
-              <button
+              <Button
                 type="button"
+                variant="link"
                 onClick={handleOpenWebsite}
                 className={cn(
-                  "inline-flex max-w-full items-center overflow-hidden text-left text-sm",
-                  isClickableUrl
-                    ? "text-blue-500 transition-colors hover:underline dark:text-blue-400 cursor-pointer"
-                    : "text-muted-foreground cursor-default",
+                  "h-auto max-w-full min-w-0 px-0 py-0 leading-[1.3]",
+                  !isClickableUrl && "text-muted-foreground no-underline",
                 )}
                 title={displayUrl}
                 disabled={!isClickableUrl}
               >
                 <span className="min-w-0 truncate">{displayUrl}</span>
-              </button>
+              </Button>
             ) : null}
           </div>
         </div>
 
-        <div className="flex items-center ml-auto min-w-0 gap-3">
+        <div className="flex items-center ml-auto min-w-0 gap-2">
           <div className="ml-auto">
             <div className="flex items-center gap-1">
               {isCopilot ? (
@@ -659,12 +661,14 @@ export function ProviderCard({
                 />
               )}
               {hasMultiplePlans && (
-                <button
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsExpanded(!isExpanded);
                   }}
-                  className="p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-500 dark:text-gray-400 flex-shrink-0"
                   title={
                     isExpanded
                       ? t("usage.collapse", { defaultValue: "收起" })
@@ -676,7 +680,7 @@ export function ProviderCard({
                   ) : (
                     <ChevronDown size={14} />
                   )}
-                </button>
+                </Button>
               )}
             </div>
           </div>

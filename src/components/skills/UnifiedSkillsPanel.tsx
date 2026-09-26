@@ -4,6 +4,7 @@ import {
   Sparkles,
   Trash2,
   ExternalLink,
+  Eye,
   RefreshCw,
   Loader2,
   Search,
@@ -39,6 +40,7 @@ import { AppCountBar } from "@/components/common/AppCountBar";
 import { AppToggleGroup } from "@/components/common/AppToggleGroup";
 import { ListItemRow } from "@/components/common/ListItemRow";
 import { ManagementListSearch } from "@/components/common/ManagementListSearch";
+import { SkillPreviewDialog } from "@/components/skills/SkillPreviewDialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   Dialog,
@@ -49,7 +51,6 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-const IMPORT_SKILLS_APP_IDS = SKILLS_APP_IDS.filter((app) => app !== "pi");
 
 interface UnifiedSkillsPanelProps {
   onOpenDiscovery: () => void;
@@ -102,6 +103,7 @@ const UnifiedSkillsPanel = React.forwardRef<
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [restoreDialogOpen, setRestoreDialogOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [previewSkill, setPreviewSkill] = useState<InstalledSkill | null>(null);
   const [writePending, setWritePending] = useState(false);
   const writeLockRef = React.useRef(false);
   const checkUpdatesLockRef = React.useRef(false);
@@ -129,8 +131,7 @@ const UnifiedSkillsPanel = React.forwardRef<
   } = useCheckSkillUpdates();
   const updateSkillMutation = useUpdateSkill();
   const [isUpdatingAll, setIsUpdatingAll] = useState(false);
-  const visibleSkillAppIds =
-    currentApp === "pi" ? SKILLS_APP_IDS : IMPORT_SKILLS_APP_IDS;
+  const visibleSkillAppIds = SKILLS_APP_IDS;
 
   const mutationPending =
     deleteBackupMutation.isPending ||
@@ -634,18 +635,11 @@ const UnifiedSkillsPanel = React.forwardRef<
             disabled={interactionBlocked}
           />
         </div>
-        <div
-          className="mb-4 overflow-hidden transition-all duration-300 ease-out"
-          style={{
-            maxWidth: applicableSkillUpdates.length > 0 ? "200px" : "0px",
-            opacity: applicableSkillUpdates.length > 0 ? 1 : 0,
-          }}
-        >
+        {applicableSkillUpdates.length > 0 && (
           <Button
             type="button"
             variant="outline"
             size="sm"
-            className="h-7 text-xs gap-1 whitespace-nowrap disabled:opacity-100"
             onClick={handleUpdateAll}
             disabled={interactionBlocked}
           >
@@ -660,7 +654,7 @@ const UnifiedSkillsPanel = React.forwardRef<
                   count: applicableSkillUpdates.length,
                 })}
           </Button>
-        </div>
+        )}
       </div>
 
       <ManagementListSearch
@@ -710,6 +704,7 @@ const UnifiedSkillsPanel = React.forwardRef<
                     appIds={visibleSkillAppIds}
                     onToggleApp={handleToggleApp}
                     onUninstall={() => handleUninstall(skill)}
+                    onPreview={() => setPreviewSkill(skill)}
                     onUpdate={() => handleUpdateSkill(skill)}
                     isLast={index === filteredSkills.length - 1}
                   />
@@ -753,6 +748,10 @@ const UnifiedSkillsPanel = React.forwardRef<
         onClose={() => setRestoreDialogOpen(false)}
         open={restoreDialogOpen}
       />
+      <SkillPreviewDialog
+        skill={previewSkill}
+        onClose={() => setPreviewSkill(null)}
+      />
     </div>
   );
 });
@@ -767,6 +766,7 @@ interface InstalledSkillListItemProps {
   actionsDisabled?: boolean;
   onToggleApp: (id: string, app: AppId, enabled: boolean) => void;
   onUninstall: () => void;
+  onPreview: () => void;
   onUpdate?: () => void;
   isLast?: boolean;
 }
@@ -779,6 +779,7 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
   actionsDisabled,
   onToggleApp,
   onUninstall,
+  onPreview,
   onUpdate,
   isLast,
 }) => {
@@ -807,14 +808,25 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
           <span className="font-medium text-sm text-foreground truncate">
             {skill.name}
           </span>
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={onPreview}
+            title={t("skills.preview")}
+            aria-label={t("skills.preview")}
+          >
+            <Eye size={12} />
+          </Button>
           {skill.readmeUrl && (
-            <button
+            <Button
               type="button"
+              variant="ghost"
+              size="icon"
               onClick={openDocs}
-              className="text-muted-foreground/60 hover:text-foreground flex-shrink-0"
             >
               <ExternalLink size={12} />
-            </button>
+            </Button>
           )}
           <span className="text-xs text-muted-foreground/50 flex-shrink-0">
             {sourceLabel}
@@ -845,10 +857,12 @@ const InstalledSkillListItem: React.FC<InstalledSkillListItemProps> = ({
         disabled={actionsDisabled}
       />
 
-      <div
-        className="flex-shrink-0 flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity"
-        style={hasUpdate ? { opacity: 1 } : undefined}
-      >
+      <span
+        aria-hidden="true"
+        className="mx-1 h-4 w-px shrink-0 bg-black/10 dark:bg-white/10"
+      />
+
+      <div className="flex flex-shrink-0 items-center gap-0.5">
         {hasUpdate && onUpdate && (
           <Button
             type="button"
@@ -1049,7 +1063,7 @@ const ImportSkillsDialog: React.FC<ImportSkillsDialogProps> = ({
           opencode: skill.foundIn.includes("opencode"),
           openclaw: false,
           hermes: skill.foundIn.includes("hermes"),
-          pi: false,
+          pi: skill.foundIn.includes("pi"),
           mcode: skill.foundIn.includes("mcode"),
         },
       ]),
@@ -1098,7 +1112,7 @@ const ImportSkillsDialog: React.FC<ImportSkillsDialogProps> = ({
             {skills.map((skill) => (
               <div
                 key={skill.directory}
-                className="flex items-start gap-3 p-3 rounded-lg border hover:bg-muted"
+                className="flex items-start gap-3 rounded-lg border border-black/10 p-3 hover:bg-muted dark:border-white/10"
               >
                 <input
                   type="checkbox"
@@ -1125,6 +1139,8 @@ const ImportSkillsDialog: React.FC<ImportSkillsDialogProps> = ({
                           opencode: false,
                           openclaw: false,
                           hermes: false,
+                          pi: false,
+                          mcode: false,
                         }
                       }
                       onToggle={(app, enabled) => {
@@ -1139,16 +1155,18 @@ const ImportSkillsDialog: React.FC<ImportSkillsDialogProps> = ({
                               opencode: false,
                               openclaw: false,
                               hermes: false,
+                              pi: false,
+                              mcode: false,
                             }),
                             [app]: enabled,
                           },
                         }));
                       }}
-                      appIds={IMPORT_SKILLS_APP_IDS}
+                      appIds={SKILLS_APP_IDS}
                     />
                   </div>
                   <div
-                    className="text-xs text-muted-foreground/50 mt-1 truncate"
+                    className="mt-1 truncate text-xs text-muted-foreground"
                     title={skill.path}
                   >
                     {skill.path}

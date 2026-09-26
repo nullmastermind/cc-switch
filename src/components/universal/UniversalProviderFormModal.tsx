@@ -365,15 +365,15 @@ requires_openai_auth = true`;
             </Label>
             <div className="flex flex-wrap gap-2">
               {universalProviderPresets.map((preset) => (
-                <button
+                <Button
                   key={preset.providerType}
                   type="button"
-                  onClick={() => handlePresetSelect(preset)}
-                  className={`inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                  variant={
                     selectedPreset?.providerType === preset.providerType
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-accent text-muted-foreground hover:bg-accent/80"
-                  }`}
+                      ? "default"
+                      : "secondary"
+                  }
+                  onClick={() => handlePresetSelect(preset)}
                 >
                   <ProviderIcon
                     icon={preset.icon}
@@ -381,7 +381,7 @@ requires_openai_auth = true`;
                     size={16}
                   />
                   {preset.name}
-                </button>
+                </Button>
               ))}
             </div>
             {selectedPreset?.description && (

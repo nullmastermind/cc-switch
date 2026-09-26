@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import type { AppId } from "@/lib/api/types";
 import { APP_IDS, APP_ICON_MAP } from "@/config/appConfig";
 import { cn } from "@/lib/utils";
@@ -30,14 +31,14 @@ export const AppCountBar: React.FC<AppCountBarProps> = ({
   const hasPendingBulkToggle = pendingApp !== undefined && pendingApp !== null;
 
   return (
-    <div className="mb-4 flex flex-shrink-0 items-center gap-4 rounded-xl border border-white/10 px-6 py-4 glass">
+    <div className="mb-4 flex flex-shrink-0 items-center gap-4 overflow-hidden rounded-xl border border-white/10 px-6 py-4 glass">
       <Badge
         variant="outline"
-        className="h-7 shrink-0 whitespace-nowrap bg-background/50 px-3"
+        className="h-6 shrink-0 whitespace-nowrap border-black/10 bg-black/[0.04] px-2 text-[12.35px] font-medium leading-[1.3] text-muted-foreground dark:border-white/10 dark:bg-white/[0.04]"
       >
         {totalLabel}
       </Badge>
-      <div className="min-w-0 flex-1 overflow-x-auto no-scrollbar">
+      <div className="app-count-bar-scroll min-w-0 flex-1 overflow-x-auto">
         <div className="ml-auto flex w-max min-w-full items-center justify-end gap-2">
           {appIds.map((app) => {
             const count = counts[app] ?? 0;
@@ -57,18 +58,21 @@ export const AppCountBar: React.FC<AppCountBarProps> = ({
                 <Badge
                   key={app}
                   variant="secondary"
-                  className={APP_ICON_MAP[app].badgeClass}
+                  className={cn(APP_ICON_MAP[app].badgeClass, "h-6")}
+                  title={`${APP_ICON_MAP[app].label}: ${count}`}
                 >
-                  <span className="opacity-75">{APP_ICON_MAP[app].label}:</span>
-                  <span className="font-bold ml-1">{count}</span>
+                  <span className="sr-only">{APP_ICON_MAP[app].label}:</span>
+                  {APP_ICON_MAP[app].icon}
+                  <span className="ml-1 font-bold">{count}</span>
                 </Badge>
               );
             }
 
             return (
-              <button
+              <Button
                 key={app}
                 type="button"
+                variant="secondary"
                 role="checkbox"
                 aria-checked={partiallyEnabled ? "mixed" : allEnabled}
                 aria-busy={pending}
@@ -90,13 +94,14 @@ export const AppCountBar: React.FC<AppCountBarProps> = ({
                 className={cn(
                   badgeVariants({ variant: "secondary" }),
                   APP_ICON_MAP[app].badgeClass,
-                  "shrink-0 cursor-pointer select-none whitespace-nowrap focus:ring-0 focus:ring-offset-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed",
-                  pending && "cursor-wait disabled:cursor-wait",
+                  "h-6 min-w-0 shrink-0 select-none focus:ring-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-0",
+                  pending && "cursor-wait",
                 )}
               >
-                <span className="opacity-75">{APP_ICON_MAP[app].label}:</span>
+                <span className="sr-only">{APP_ICON_MAP[app].label}:</span>
+                {APP_ICON_MAP[app].icon}
                 <span className="ml-1 font-bold">{count}</span>
-              </button>
+              </Button>
             );
           })}
         </div>

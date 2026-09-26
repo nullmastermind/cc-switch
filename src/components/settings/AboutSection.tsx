@@ -819,11 +819,9 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
             <Button
               type="button"
               variant="outline"
-              size="sm"
               onClick={() => settingsApi.openExternal("https://viber.vn")}
-              className="h-8 gap-1.5 text-xs"
             >
-              <Globe className="h-3.5 w-3.5" />
+              <Globe className="h-4 w-4" />
               {t("settings.officialWebsite")}
             </Button>
           </div>
@@ -835,38 +833,32 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
           <h3 className="text-sm font-medium">{t("settings.localEnvCheck")}</h3>
           <div className="flex flex-wrap items-center gap-2">
             <Button
-              size="sm"
               variant="outline"
-              className="h-7 gap-1.5 text-xs"
               onClick={() => handleDiagnoseAll()}
               disabled={isLoadingTools || isAnyBusy || isDiagnosingAll}
             >
               {isDiagnosingAll ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <Stethoscope className="h-3.5 w-3.5" />
+                <Stethoscope className="h-4 w-4" />
               )}
               {isDiagnosingAll
                 ? t("settings.toolDiagnosing")
                 : t("settings.toolDiagnose")}
             </Button>
             <Button
-              size="sm"
               variant="outline"
-              className="h-7 gap-1.5 text-xs"
               onClick={() => loadAllToolVersions({ force: true })}
               disabled={isLoadingTools || isAnyBusy}
             >
               <RefreshCw
                 className={
-                  isLoadingTools ? "h-3.5 w-3.5 animate-spin" : "h-3.5 w-3.5"
+                  isLoadingTools ? "h-4 w-4 animate-spin" : "h-4 w-4"
                 }
               />
               {isLoadingTools ? t("common.refreshing") : t("common.refresh")}
             </Button>
             <Button
-              size="sm"
-              className="h-7 gap-1.5 text-xs"
               onClick={() =>
                 handleRunToolAction(updatableToolNames, "update", {
                   fromBatchEntry: true,
@@ -877,9 +869,9 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
               }
             >
               {batchAction === "update" ? (
-                <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <ArrowUpCircle className="h-3.5 w-3.5" />
+                <ArrowUpCircle className="h-4 w-4" />
               )}
               {t("settings.updateAllTools", {
                 count: updatableToolNames.length,
@@ -1070,23 +1062,17 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                     </span>
                   ) : action ? (
                     <Button
-                      size="sm"
                       variant={action === "install" ? "outline" : "default"}
-                      className="h-7 gap-1.5 text-xs"
                       onClick={() => handleRunToolAction([toolName], action)}
                       disabled={isToolVersionLoading || isAnyBusy}
                     >
-                      {/* preflight（升级前冲突探测）阶段也转圈：此时 toolActions
-                          尚未置位，只 disabled 不转圈会让探测的数秒像"点了没反应"。 */}
                       {runningAction || preflightTools.has(toolName) ? (
-                        <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                        <Loader2 className="h-4 w-4 animate-spin" />
                       ) : action === "install" ? (
-                        <Download className="h-3.5 w-3.5" />
+                        <Download className="h-4 w-4" />
                       ) : (
-                        <ArrowUpCircle className="h-3.5 w-3.5" />
+                        <ArrowUpCircle className="h-4 w-4" />
                       )}
-                      {/* loading 时文案保持不变、仅图标切换为 spinner，
-                          按钮宽度恒定，避免"升级"→"升级中…"导致的抖动。 */}
                       {action === "install"
                         ? t("settings.toolInstall")
                         : t("settings.toolUpdate")}
@@ -1109,19 +1095,20 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
         transition={{ duration: 0.3, delay: 0.3 }}
         className="space-y-3"
       >
-        <button
+        <Button
           type="button"
+          variant="ghost"
           onClick={() => setShowInstallCommands((v) => !v)}
           aria-expanded={showInstallCommands}
-          className="flex w-full items-center gap-1.5 px-1 text-sm font-medium text-foreground transition-colors hover:text-primary"
+          className="w-full justify-start px-1"
         >
           <ChevronDown
-            className={`h-3.5 w-3.5 transition-transform ${
+            className={`h-4 w-4 transition-transform ${
               showInstallCommands ? "" : "-rotate-90"
             }`}
           />
           {t("settings.manualInstallCommands")}
-        </button>
+        </Button>
         {showInstallCommands && (
           <div className="rounded-xl border border-border bg-gradient-to-br from-card/80 to-card/40 p-4 space-y-3 shadow-sm">
             <div className="flex items-center justify-between gap-2">
@@ -1129,12 +1116,10 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                 {t("settings.oneClickInstallHint")}
               </p>
               <Button
-                size="sm"
                 variant="outline"
                 onClick={handleCopyInstallCommands}
-                className="h-7 gap-1.5 text-xs"
               >
-                <Copy className="h-3.5 w-3.5" />
+                <Copy className="h-4 w-4" />
                 {t("common.copy")}
               </Button>
             </div>

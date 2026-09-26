@@ -89,14 +89,16 @@ export function ImportExportSection({
               )}
             </Button>
             {selectedFile && (
-              <button
+              <Button
                 type="button"
+                variant="destructive"
+                size="icon"
                 onClick={onClear}
-                className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-red-500 hover:bg-red-600 text-white flex items-center justify-center shadow-lg transition-colors z-10"
+                className="absolute -top-2 -right-2 z-10 rounded-full"
                 aria-label={t("common.clear")}
               >
                 <XCircle className="h-4 w-4" />
-              </button>
+              </Button>
             )}
           </div>
 
@@ -104,10 +106,10 @@ export function ImportExportSection({
           <div>
             <Button
               type="button"
-              className="w-full h-full py-3 px-4 bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white items-center"
+              className="w-full"
               onClick={onExport}
             >
-              <Save className="mr-2 h-4 w-4" />
+              <Save className="h-4 w-4" />
               {t("settings.exportConfig")}
             </Button>
           </div>

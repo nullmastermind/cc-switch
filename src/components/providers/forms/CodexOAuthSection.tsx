@@ -424,13 +424,14 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
               "该账号需重新登录以启用托管绑定。",
             )}
             {onManageAccounts && (
-              <button
+              <Button
                 type="button"
+                variant="link"
                 onClick={onManageAccounts}
-                className="ml-1 font-medium underline underline-offset-2 hover:text-amber-700 dark:hover:text-amber-100"
+                className="ml-1 h-auto min-w-0 px-0"
               >
                 {t("codexOauth.reauthNow", "立即重新登录")}
-              </button>
+              </Button>
             )}
           </div>
         </div>

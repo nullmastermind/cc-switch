@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 export type PricingModelSourceOption = "inherit" | "request" | "response";
 
 interface ProviderPricingConfig {
@@ -42,9 +43,10 @@ export function ProviderAdvancedConfig({
     <div className="space-y-4">
       {/* 计费配置 */}
       <div className="rounded-lg border border-border/50 bg-muted/20">
-        <button
+        <Button
           type="button"
-          className="flex w-full items-center justify-between p-4 hover:bg-muted/30 transition-colors"
+          variant="ghost"
+          className="h-auto w-full justify-between rounded-none p-4"
           onClick={() => setIsPricingConfigOpen(!isPricingConfigOpen)}
         >
           <div className="flex items-center gap-3">
@@ -83,7 +85,7 @@ export function ProviderAdvancedConfig({
               <ChevronRight className="h-4 w-4 text-muted-foreground" />
             )}
           </div>
-        </button>
+        </Button>
         <div
           className={cn(
             "overflow-hidden transition-all duration-200",

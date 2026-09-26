@@ -274,9 +274,10 @@ function PiInstructionFileCard({
           query.isError && "border-destructive/30",
         )}
       >
-        <button
+        <Button
           type="button"
-          className="flex min-w-0 flex-1 items-center gap-3 p-4 text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          variant="ghost"
+          className="h-auto min-w-0 flex-1 justify-start gap-3 p-4"
           disabled={!query.data}
           onClick={() => setEditing(true)}
         >
@@ -329,7 +330,7 @@ function PiInstructionFileCard({
               aria-hidden="true"
             />
           )}
-        </button>
+        </Button>
 
         {query.isError && (
           <Button
@@ -529,9 +530,10 @@ function PiPromptTemplateEditor({
 
           <Collapsible open={helpOpen} onOpenChange={setHelpOpen}>
             <CollapsibleTrigger asChild>
-              <button
+              <Button
                 type="button"
-                className="flex min-h-11 w-full items-center justify-between gap-3 rounded-lg border border-border px-3 py-2 text-left text-sm transition-colors hover:bg-muted/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                variant="outline"
+                className="h-auto min-h-11 w-full justify-between px-3 py-2"
               >
                 <span className="flex items-center gap-2">
                   <Braces
@@ -547,7 +549,7 @@ function PiPromptTemplateEditor({
                   )}
                   aria-hidden="true"
                 />
-              </button>
+              </Button>
             </CollapsibleTrigger>
             <CollapsibleContent>
               <div className="mt-2 rounded-lg bg-muted/50 p-3 text-xs leading-relaxed text-muted-foreground">
@@ -710,9 +712,10 @@ export const PiPromptTemplates = forwardRef<PiPromptTemplatesHandle>(
                       key={template.slug}
                       isLast={index === filteredTemplates.length - 1}
                     >
-                      <button
+                      <Button
                         type="button"
-                        className="flex min-h-11 min-w-0 flex-1 items-center gap-3 rounded-md text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                        variant="ghost"
+                        className="h-auto min-h-11 min-w-0 flex-1 justify-start gap-3"
                         onClick={() => setEditor({ mode: "edit", template })}
                         title={t("common.edit")}
                       >
@@ -740,7 +743,7 @@ export const PiPromptTemplates = forwardRef<PiPromptTemplatesHandle>(
                           className="h-4 w-4 shrink-0 text-muted-foreground"
                           aria-hidden="true"
                         />
-                      </button>
+                      </Button>
                       <Button
                         type="button"
                         variant="ghost"

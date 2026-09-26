@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 import { ConfirmDialog } from "@/components/ConfirmDialog";
 import {
   Dialog,
@@ -327,14 +328,16 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                       const selected = effectiveSelectedKeys.has(entry.key);
                       const common = commonModelKeys.has(entry.key);
                       return (
-                        <button
+                        <Button
                           key={entry.key}
                           type="button"
+                          variant="ghost"
                           aria-pressed={selected}
                           onClick={() => toggleEntry(entry)}
-                          className={`flex w-full items-center gap-3 px-3 py-2 text-left ${
-                            selected ? "bg-accent/50" : "hover:bg-muted/40"
-                          }`}
+                          className={cn(
+                            "h-auto w-full justify-start px-3 py-2",
+                            selected && "bg-accent/50",
+                          )}
                         >
                           <span
                             className={`flex h-4 w-4 shrink-0 items-center justify-center rounded border ${
@@ -383,7 +386,7 @@ function AutoSyncDialog({ state, onClose, onSaved }: AutoSyncDialogProps) {
                               </div>
                             ))}
                           </div>
-                        </button>
+                        </Button>
                       );
                     })}
                     {filtered.length > visible.length && (

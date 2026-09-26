@@ -92,11 +92,12 @@ export const SessionMessageItem = memo(function SessionMessageItem({
           : displayContent}
       </div>
       {isLong && !hasSearchMatch && (
-        <button
+        <Button
           type="button"
+          variant="ghost"
           aria-expanded={expanded}
           onClick={() => setExpanded((v) => !v)}
-          className="flex items-center gap-1 mt-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+          className="mt-1.5 h-auto min-w-0 px-1"
         >
           {expanded ? (
             <>
@@ -116,7 +117,7 @@ export const SessionMessageItem = memo(function SessionMessageItem({
               </span>
             </>
           )}
-        </button>
+        </Button>
       )}
     </div>
   );

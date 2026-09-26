@@ -12,8 +12,7 @@ import {
   useState,
   type CSSProperties,
 } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { AlertTriangle, Search, X } from "lucide-react";
+import { AlertTriangle, Plus } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
@@ -44,8 +43,8 @@ import {
   useCurrentOmoSlimProviderId,
 } from "@/lib/query/omo";
 import { useCallback } from "react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ManagementListSearch } from "@/components/common/ManagementListSearch";
 import { isTextEditableTarget } from "@/utils/domUtils";
 import { usePiCurrentState } from "@/lib/query/pi";
 import { isProxyAppId } from "@/config/appConfig";
@@ -201,7 +200,6 @@ export function ProviderList({
   );
 
   const [searchTerm, setSearchTerm] = useState("");
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const searchInputRef = useRef<HTMLInputElement>(null);
   const { data: claudeDesktopStatus } = useQuery({
     queryKey: ["claudeDesktopStatus"],
@@ -281,32 +279,21 @@ export function ProviderList({
 
       const key = event.key.toLowerCase();
       if ((event.metaKey || event.ctrlKey) && key === "f") {
-        // 正在输入框/可编辑区域中时不抢占 Ctrl+F（例如添加供应商表单里
-        // ProviderPresetSelector 的搜索框），避免与其同名快捷键冲突。
-        if (isTextEditableTarget(document.activeElement)) return;
+        if (
+          isTextEditableTarget(document.activeElement) &&
+          document.activeElement !== searchInputRef.current
+        ) {
+          return;
+        }
         event.preventDefault();
-        setIsSearchOpen(true);
-        return;
-      }
-
-      if (key === "escape") {
-        setIsSearchOpen(false);
+        searchInputRef.current?.focus();
+        searchInputRef.current?.select();
       }
     };
 
     globalThis.addEventListener("keydown", handleKeyDown);
     return () => globalThis.removeEventListener("keydown", handleKeyDown);
   }, []);
-
-  useEffect(() => {
-    if (isSearchOpen) {
-      const frame = requestAnimationFrame(() => {
-        searchInputRef.current?.focus();
-        searchInputRef.current?.select();
-      });
-      return () => cancelAnimationFrame(frame);
-    }
-  }, [isSearchOpen]);
 
   const filteredProviders = useMemo(() => {
     const keyword = searchTerm.trim().toLowerCase();
@@ -402,11 +389,11 @@ export function ProviderList({
 
   if (isLoading) {
     return (
-      <div className="space-y-3">
+      <div className="space-y-2">
         {[0, 1, 2].map((index) => (
           <div
             key={index}
-            className="w-full border border-dashed rounded-lg h-28 border-muted-foreground/40 bg-muted/40"
+            className="w-full border border-dashed rounded-lg h-12 border-muted-foreground/40 bg-muted/40"
           />
         ))}
       </div>
@@ -415,7 +402,7 @@ export function ProviderList({
 
   if (sortedProviders.length === 0) {
     return (
-      <div className="mt-4 space-y-4">
+      <div className="mt-2 space-y-4">
         {piStateErrorNotice}
         <ProviderEmptyState
           appId={appId}
@@ -440,7 +427,7 @@ export function ProviderList({
         items={filteredProviders.map((provider) => provider.id)}
         strategy={verticalListSortingStrategy}
       >
-        <div className="space-y-3">
+        <div className="space-y-2">
           {filteredProviders.map((provider) => {
             const isOmo = provider.category === "omo";
             const isOmoSlim = provider.category === "omo-slim";
@@ -545,69 +532,18 @@ export function ProviderList({
           </ul>
         </div>
       )}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <motion.div
-            key="provider-search"
-            initial={{ opacity: 0, y: -8, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -8, scale: 0.98 }}
-            transition={{ duration: 0.18, ease: "easeOut" }}
-            className="fixed left-1/2 top-[6.5rem] z-40 w-[min(90vw,26rem)] -translate-x-1/2 sm:right-6 sm:left-auto sm:translate-x-0"
-          >
-            <div className="p-4 space-y-3 border shadow-md rounded-2xl border-white/10 bg-background/95 shadow-black/20 backdrop-blur-md">
-              <div className="relative flex items-center gap-2">
-                <Search className="absolute w-4 h-4 -translate-y-1/2 pointer-events-none left-3 top-1/2 text-muted-foreground" />
-                <Input
-                  ref={searchInputRef}
-                  value={searchTerm}
-                  onChange={(event) => setSearchTerm(event.target.value)}
-                  placeholder={t("provider.searchPlaceholder", {
-                    defaultValue: "Search name, notes, or URL...",
-                  })}
-                  aria-label={t("provider.searchAriaLabel", {
-                    defaultValue: "Search providers",
-                  })}
-                  className="pr-16 pl-9"
-                />
-                {searchTerm && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="absolute text-xs -translate-y-1/2 right-11 top-1/2"
-                    onClick={() => setSearchTerm("")}
-                  >
-                    {t("common.clear", { defaultValue: "Clear" })}
-                  </Button>
-                )}
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="ml-auto"
-                  onClick={() => setIsSearchOpen(false)}
-                  aria-label={t("provider.searchCloseAriaLabel", {
-                    defaultValue: "Close provider search",
-                  })}
-                >
-                  <X className="w-4 h-4" />
-                </Button>
-              </div>
-              <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] text-muted-foreground">
-                <span>
-                  {t("provider.searchScopeHint", {
-                    defaultValue: "Matches provider name, notes, and URL.",
-                  })}
-                </span>
-                <span>
-                  {t("provider.searchCloseHint", {
-                    defaultValue: "Press Esc to close",
-                  })}
-                </span>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <ManagementListSearch
+        value={searchTerm}
+        onValueChange={setSearchTerm}
+        inputRef={searchInputRef}
+        placeholder={t("provider.searchPlaceholder", {
+          defaultValue: "Search name, notes, or URL...",
+        })}
+        ariaLabel={t("provider.searchAriaLabel", {
+          defaultValue: "Search providers",
+        })}
+        clearLabel={t("common.clear", { defaultValue: "Clear" })}
+      />
 
       {filteredProviders.length === 0 ? (
         <div className="px-6 py-8 text-sm text-center border border-dashed rounded-lg border-border text-muted-foreground">
@@ -617,6 +553,17 @@ export function ProviderList({
         </div>
       ) : (
         renderProviderList()
+      )}
+      {onCreate && appId !== "pi" && (
+        <Button
+          type="button"
+          variant="outline"
+          onClick={onCreate}
+          className="w-full border-dashed"
+        >
+          <Plus className="h-4 w-4" />
+          {t("provider.addProvider")}
+        </Button>
       )}
     </div>
   );

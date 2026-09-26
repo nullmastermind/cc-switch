@@ -102,7 +102,7 @@ export function ProviderActions({
   onSetAsDefault,
 }: ProviderActionsProps) {
   const { t } = useTranslation();
-  const iconButtonClass = "h-8 w-8 p-1";
+  const iconButtonClass = "h-6 w-6 p-1";
 
   // Additive provider membership: providers can coexist in the native config.
   const isAdditiveMode =
@@ -373,11 +373,11 @@ export function ProviderActions({
         )}
       >
         <Button
-          size="sm"
+          size="default"
           variant={buttonState.variant}
           onClick={handleMainButtonClick}
           disabled={buttonState.disabled}
-          className={cn("w-[4.5rem] px-2.5", buttonState.className)}
+          className={cn("min-w-[60px] px-2", buttonState.className)}
         >
           {buttonState.icon}
           {buttonState.text}

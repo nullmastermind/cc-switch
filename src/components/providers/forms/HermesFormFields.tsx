@@ -259,10 +259,8 @@ export function HermesFormFields({
             <Button
               type="button"
               variant="outline"
-              size="sm"
               onClick={handleFetchModels}
               disabled={isFetchingModels}
-              className="h-7 gap-1"
             >
               {isFetchingModels ? (
                 <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -274,9 +272,7 @@ export function HermesFormFields({
             <Button
               type="button"
               variant="outline"
-              size="sm"
               onClick={handleAddModel}
-              className="h-7 gap-1"
             >
               <Plus className="h-3.5 w-3.5" />
               {t("hermes.form.addModel", { defaultValue: "添加模型" })}

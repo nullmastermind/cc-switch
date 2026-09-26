@@ -825,10 +825,8 @@ export function ClaudeDesktopProviderForm({
         <Button
           type="button"
           variant="outline"
-          size="sm"
           onClick={handleFetchModels}
           disabled={isFetchingModels}
-          className="h-7 gap-1"
         >
           {isFetchingModels ? (
             <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -841,9 +839,7 @@ export function ClaudeDesktopProviderForm({
       <Button
         type="button"
         variant="outline"
-        size="sm"
         onClick={onAdd}
-        className="h-7 gap-1"
       >
         <Plus className="h-3.5 w-3.5" />
         {addLabel}
@@ -856,7 +852,7 @@ export function ClaudeDesktopProviderForm({
       <form
         id="provider-form"
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-6 glass rounded-xl p-6 border border-white/10"
+        className="space-y-3 glass rounded-xl p-4 border border-white/10"
       >
         {!initialData && (
           <ProviderPresetSelector
@@ -1062,10 +1058,8 @@ export function ClaudeDesktopProviderForm({
                           <Button
                             type="button"
                             variant="outline"
-                            size="sm"
                             onClick={handleFetchModels}
                             disabled={isFetchingModels}
-                            className="h-7 gap-1"
                           >
                             {isFetchingModels ? (
                               <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -1086,7 +1080,7 @@ export function ClaudeDesktopProviderForm({
                       </p>
                     </div>
 
-                    <div className="hidden grid-cols-[140px_1fr_1fr_116px] gap-2 px-1 text-xs font-medium text-muted-foreground md:grid">
+                    <div className="hidden grid-cols-[140px_1fr_1fr_116px] items-center gap-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground md:grid">
                       <span>
                         {t("claudeDesktop.routeModelLabel", {
                           defaultValue: "模型角色",
@@ -1138,9 +1132,9 @@ export function ClaudeDesktopProviderForm({
                       return (
                         <div
                           key={route.rowId}
-                          className="grid grid-cols-1 gap-2 md:grid-cols-[140px_1fr_1fr_116px]"
+                          className="grid grid-cols-1 items-center gap-2 md:grid-cols-[140px_1fr_1fr_116px]"
                         >
-                          <div className="flex h-9 items-center rounded-md border border-input bg-muted px-3 text-sm font-medium text-muted-foreground">
+                          <div className="flex h-6 items-center rounded-[4px] border border-border-default bg-muted px-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground">
                             {roleLabel}
                           </div>
                           <Input
@@ -1175,7 +1169,7 @@ export function ClaudeDesktopProviderForm({
                               />
                             )}
                           </div>
-                          <label className="flex h-9 items-center gap-2 text-sm text-muted-foreground">
+                          <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                             <Checkbox
                               checked={route.supports1m}
                               onCheckedChange={(checked) =>
@@ -1254,7 +1248,7 @@ export function ClaudeDesktopProviderForm({
                               />
                             )}
                           </div>
-                          <label className="flex h-9 items-center gap-2 text-sm text-muted-foreground">
+                          <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                             <Checkbox
                               checked={route.supports1m}
                               onCheckedChange={(checked) =>

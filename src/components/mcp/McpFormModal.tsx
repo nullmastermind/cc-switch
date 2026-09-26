@@ -460,33 +460,25 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                   {t("mcp.presets.title")}
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  <button
+                  <Button
                     type="button"
+                    variant={selectedPreset === -1 ? "positive" : "secondary"}
                     onClick={applyCustom}
-                    className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                      selectedPreset === -1
-                        ? "bg-emerald-500 text-white dark:bg-emerald-600"
-                        : "bg-accent text-muted-foreground hover:bg-accent/80"
-                    }`}
                   >
                     {t("presetSelector.custom")}
-                  </button>
+                  </Button>
                   {mcpPresets.map((preset, idx) => {
                     const descriptionKey = `mcp.presets.${preset.id}.description`;
                     return (
-                      <button
+                      <Button
                         key={preset.id}
                         type="button"
+                        variant={selectedPreset === idx ? "positive" : "secondary"}
                         onClick={() => applyPreset(idx)}
-                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                          selectedPreset === idx
-                            ? "bg-emerald-500 text-white dark:bg-emerald-600"
-                            : "bg-accent text-muted-foreground hover:bg-accent/80"
-                        }`}
                         title={t(descriptionKey)}
                       >
                         {preset.id}
-                      </button>
+                      </Button>
                     );
                   })}
                 </div>
@@ -648,10 +640,10 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
 
             {/* 可折叠的附加信息按钮 */}
             <div>
-              <button
+              <Button
                 type="button"
+                variant="ghost"
                 onClick={() => setShowMetadata(!showMetadata)}
-                className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 {showMetadata ? (
                   <ChevronUp size={16} />
@@ -659,7 +651,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                   <ChevronDown size={16} />
                 )}
                 {t("mcp.form.additionalInfo")}
-              </button>
+              </Button>
             </div>
 
             {/* 附加信息区域（可折叠） */}
@@ -723,13 +715,13 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 {useToml ? t("mcp.form.tomlConfig") : t("mcp.form.jsonConfig")}
               </label>
               {(isEditing || selectedPreset === -1) && (
-                <button
+                <Button
                   type="button"
+                  variant="link"
                   onClick={() => setIsWizardOpen(true)}
-                  className="text-sm text-blue-500 dark:text-blue-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
                 >
                   {t("mcp.form.useWizard")}
-                </button>
+                </Button>
               )}
             </div>
             <div className="flex-1 min-h-0 flex flex-col">

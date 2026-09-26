@@ -999,10 +999,12 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                             ••••••••
                           </code>
                         )}
-                        <button
+                        <Button
                           type="button"
+                          variant="ghost"
+                          size="icon"
                           onClick={() => setShowApiKey(!showApiKey)}
-                          className="text-muted-foreground hover:text-foreground transition-colors ml-1"
+                          className="ml-1"
                           aria-label={
                             showApiKey
                               ? t("apiKeyInput.hide")
@@ -1014,7 +1016,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                           ) : (
                             <Eye size={12} />
                           )}
-                        </button>
+                        </Button>
                       </>
                     ) : (
                       <span className="text-muted-foreground/50 italic">
@@ -1137,10 +1139,12 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                             className="border-white/10"
                           />
                           {script.apiKey && (
-                            <button
+                            <Button
                               type="button"
+                              variant="ghost"
+                              size="icon"
                               onClick={() => setShowApiKey(!showApiKey)}
-                              className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground transition-colors"
+                              className="absolute inset-y-0 right-0 h-auto"
                               aria-label={
                                 showApiKey
                                   ? t("apiKeyInput.hide")
@@ -1152,7 +1156,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                               ) : (
                                 <Eye size={16} />
                               )}
-                            </button>
+                            </Button>
                           )}
                         </div>
                       </div>
@@ -1220,12 +1224,14 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                             className="border-white/10"
                           />
                           {script.accessToken && (
-                            <button
+                            <Button
                               type="button"
+                              variant="ghost"
+                              size="icon"
                               onClick={() =>
                                 setShowAccessToken(!showAccessToken)
                               }
-                              className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground transition-colors"
+                              className="absolute inset-y-0 right-0 h-auto"
                               aria-label={
                                 showAccessToken
                                   ? t("apiKeyInput.hide")
@@ -1237,7 +1243,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                               ) : (
                                 <Eye size={16} />
                               )}
-                            </button>
+                            </Button>
                           )}
                         </div>
                       </div>
@@ -1299,10 +1305,12 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                               className="border-white/10"
                             />
                             {script.apiKey && (
-                              <button
+                              <Button
                                 type="button"
+                                variant="ghost"
+                                size="icon"
                                 onClick={() => setShowApiKey(!showApiKey)}
-                                className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground transition-colors"
+                                className="absolute inset-y-0 right-0 h-auto"
                                 aria-label={
                                   showApiKey
                                     ? t("apiKeyInput.hide")
@@ -1314,7 +1322,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                                 ) : (
                                   <Eye size={16} />
                                 )}
-                              </button>
+                              </Button>
                             )}
                           </div>
                         </div>
@@ -1337,16 +1345,17 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                     </p>
                     <p className="text-xs text-muted-foreground mt-1.5">
                       {t("usageScript.volcengineKeyConsoleLink")}{" "}
-                      <button
+                      <Button
                         type="button"
+                        variant="link"
                         onClick={() =>
                           settingsApi.openExternal(VOLCENGINE_KEY_CONSOLE_URL)
                         }
-                        className="inline-flex items-center gap-1 text-blue-400 dark:text-blue-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors break-all align-baseline underline-offset-2 hover:underline"
+                        className="h-auto min-w-0 px-0"
                       >
                         {VOLCENGINE_KEY_CONSOLE_URL}
                         <ExternalLink size={12} className="shrink-0" />
-                      </button>
+                      </Button>
                     </p>
                   </div>
 
@@ -1391,10 +1400,12 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                           className="border-white/10"
                         />
                         {script.secretAccessKey && (
-                          <button
+                          <Button
                             type="button"
+                            variant="ghost"
+                            size="icon"
                             onClick={() => setShowApiKey(!showApiKey)}
-                            className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground hover:text-foreground transition-colors"
+                            className="absolute inset-y-0 right-0 h-auto"
                             aria-label={
                               showApiKey
                                 ? t("apiKeyInput.hide")
@@ -1406,7 +1417,7 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                             ) : (
                               <Eye size={16} />
                             )}
-                          </button>
+                          </Button>
                         )}
                       </div>
                     </div>
@@ -1427,16 +1438,17 @@ const UsageScriptModal: React.FC<UsageScriptModalProps> = ({
                     </p>
                     <p className="text-xs text-muted-foreground mt-1.5">
                       {t("usageScript.zhipuTeamConsoleLink")}{" "}
-                      <button
+                      <Button
                         type="button"
+                        variant="link"
                         onClick={() =>
                           settingsApi.openExternal(ZHIPU_TEAM_USAGE_URL)
                         }
-                        className="inline-flex items-center gap-1 text-blue-400 dark:text-blue-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors break-all align-baseline underline-offset-2 hover:underline"
+                        className="h-auto min-w-0 px-0"
                       >
                         {ZHIPU_TEAM_USAGE_URL}
                         <ExternalLink size={12} className="shrink-0" />
-                      </button>
+                      </Button>
                     </p>
                   </div>
 

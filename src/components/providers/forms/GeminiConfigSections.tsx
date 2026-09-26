@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import JsonEditor from "@/components/JsonEditor";
+import { Button } from "@/components/ui/button";
 
 interface GeminiEnvSectionProps {
   value: string;
@@ -75,15 +76,11 @@ export const GeminiEnvSection: React.FC<GeminiEnvSectionProps> = ({
       </div>
 
       <div className="flex items-center justify-end">
-        <button
-          type="button"
-          onClick={onEditCommonConfig}
-          className="text-xs text-blue-500 dark:text-blue-400 hover:underline"
-        >
+        <Button type="button" variant="link" onClick={onEditCommonConfig}>
           {t("geminiConfig.editCommonConfig", {
             defaultValue: "编辑通用配置",
           })}
-        </button>
+        </Button>
       </div>
 
       {commonConfigError && (

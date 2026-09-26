@@ -623,16 +623,18 @@ const EndpointSpeedTest: React.FC<EndpointSpeedTestProps> = ({
                       <div className="text-xs text-gray-400">—</div>
                     )}
 
-                    <button
+                    <Button
                       type="button"
+                      variant="ghost"
+                      size="icon"
                       onClick={(event) => {
                         event.stopPropagation();
                         handleRemoveEndpoint(entry);
                       }}
-                      className="opacity-0 transition hover:text-red-600 group-hover:opacity-100 dark:hover:text-red-400"
+                      className="opacity-0 group-hover:opacity-100 text-destructive"
                     >
                       <X className="h-4 w-4" />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               );

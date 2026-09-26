@@ -890,7 +890,6 @@ export function ClaudeFormFields({
                   <Button
                     type="button"
                     variant="outline"
-                    size="sm"
                     onClick={() => {
                       // 按面板从上到下取值，默认兜底模型最后使用。
                       const value =
@@ -928,9 +927,8 @@ export function ClaudeFormFields({
                       !defaultFableModel &&
                       !subagentModel
                     }
-                    className="h-7 gap-1"
                   >
-                    <Wand2 className="h-3.5 w-3.5" />
+                    <Wand2 className="h-4 w-4" />
                     {t("providerForm.quickSetModels", {
                       defaultValue: "一键设置",
                     })}
@@ -938,15 +936,13 @@ export function ClaudeFormFields({
                   <Button
                     type="button"
                     variant="outline"
-                    size="sm"
                     onClick={handleModelFetchClick}
                     disabled={modelFetchLoading}
-                    className="h-7 gap-1"
                   >
                     {modelFetchLoading ? (
-                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
-                      <Download className="h-3.5 w-3.5" />
+                      <Download className="h-4 w-4" />
                     )}
                     {t("providerForm.fetchModels")}
                   </Button>
@@ -958,7 +954,7 @@ export function ClaudeFormFields({
             </div>
 
             <div className="space-y-3">
-              <div className="hidden grid-cols-[120px_1fr_minmax(0,1fr)_104px] gap-2 px-1 text-xs font-medium text-muted-foreground md:grid">
+              <div className="hidden grid-cols-[120px_1fr_minmax(0,1fr)_104px] items-center gap-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground md:grid">
                 <span>
                   {t("providerForm.modelRoleLabel", {
                     defaultValue: "模型角色",
@@ -989,9 +985,9 @@ export function ClaudeFormFields({
                 return (
                   <div
                     key={row.role}
-                    className="grid grid-cols-1 gap-2 md:grid-cols-[120px_1fr_minmax(0,1fr)_104px]"
+                    className="grid grid-cols-1 items-center gap-2 md:grid-cols-[120px_1fr_minmax(0,1fr)_104px]"
                   >
-                    <div className="flex h-9 items-center rounded-md border border-input bg-muted px-3 text-sm font-medium text-muted-foreground">
+                    <div className="flex h-6 items-center rounded-[4px] border border-border-default bg-muted px-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground">
                       {row.label}
                     </div>
                     {row.displayNameField ? (
@@ -1012,7 +1008,7 @@ export function ClaudeFormFields({
                         autoComplete="off"
                       />
                     ) : (
-                      <div className="flex h-9 items-center rounded-md border border-input bg-muted px-3 text-sm text-muted-foreground">
+                      <div className="flex h-6 items-center rounded-[4px] border border-border-default bg-muted px-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                         {t("providerForm.modelNoDisplayName", {
                           defaultValue: "不显示在 /model 菜单",
                         })}
@@ -1031,8 +1027,8 @@ export function ClaudeFormFields({
                             : stripClaudeOneMMarker(value),
                         ),
                     )}
-                    {row.supportsOneM && (
-                      <label className="flex h-9 items-center gap-2 text-sm text-muted-foreground">
+                    {row.supportsOneM ? (
+                      <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                         <Checkbox
                           checked={usesOneM}
                           onCheckedChange={(checked) =>
@@ -1043,6 +1039,8 @@ export function ClaudeFormFields({
                           defaultValue: "1M",
                         })}
                       </label>
+                    ) : (
+                      <span />
                     )}
                   </div>
                 );
@@ -1055,7 +1053,8 @@ export function ClaudeFormFields({
                   defaultValue: "默认兜底模型",
                 })}
               </FormLabel>
-              <div className="grid grid-cols-1 gap-2 md:grid-cols-[1fr_minmax(0,104px)]">
+              <div className="grid grid-cols-1 items-center gap-2 md:grid-cols-[120px_1fr_minmax(0,1fr)_104px]">
+                <div className="md:col-span-3">
                 {renderModelInput(
                   "claudeModel",
                   stripClaudeOneMMarker(claudeModel),
@@ -1067,7 +1066,8 @@ export function ClaudeFormFields({
                       setClaudeOneMMarker(value, fallbackUsesOneM),
                     ),
                 )}
-                <label className="flex h-9 items-center gap-2 text-sm text-muted-foreground">
+                </div>
+                <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                   <Checkbox
                     checked={fallbackUsesOneM}
                     onCheckedChange={(checked) => {

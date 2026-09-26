@@ -261,11 +261,12 @@ function ReasoningLevelsEditor({
   return (
     <Popover modal open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <button
+        <Button
           type="button"
+          variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="flex h-9 w-full items-center justify-between gap-1 rounded-md border border-border-default bg-background px-3 py-1 text-sm shadow-sm focus:outline-none focus-visible:outline-none focus:border-border-default focus-visible:border-border-default focus:ring-0 focus-visible:ring-0 disabled:cursor-not-allowed disabled:opacity-50"
+          className="h-6 w-full min-w-0 justify-between"
         >
           <span
             className={cn(
@@ -276,7 +277,7 @@ function ReasoningLevelsEditor({
             {triggerLabel}
           </span>
           <ChevronsUpDown className="h-3.5 w-3.5 shrink-0 opacity-50" />
-        </button>
+        </Button>
       </PopoverTrigger>
       <PopoverContent
         side="bottom"
@@ -690,10 +691,8 @@ export function CodexFormFields({
       <Button
         type="button"
         variant="outline"
-        size="sm"
         onClick={handleFetchModels}
         disabled={isFetchingModels}
-        className="h-7 gap-1"
       >
         {isFetchingModels ? (
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -705,9 +704,7 @@ export function CodexFormFields({
       <Button
         type="button"
         variant="outline"
-        size="sm"
         onClick={onAdd}
-        className="h-7 gap-1"
       >
         <Plus className="h-3.5 w-3.5" />
         {addLabel}

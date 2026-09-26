@@ -20,6 +20,7 @@ import type { LucideIcon } from "lucide-react";
 import { workspaceApi } from "@/lib/api/workspace";
 import WorkspaceFileEditor from "./WorkspaceFileEditor";
 import DailyMemoryPanel from "./DailyMemoryPanel";
+import { Button } from "@/components/ui/button";
 
 interface WorkspaceFile {
   filename: string;
@@ -99,10 +100,12 @@ const WorkspaceFilesPanel: React.FC = () => {
           const exists = fileExists[file.filename];
 
           return (
-            <button
+            <Button
               key={file.filename}
+              type="button"
+              variant="outline"
               onClick={() => setEditingFile(file.filename)}
-              className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors text-left group"
+              className="h-auto items-start justify-start gap-3 p-4 text-left"
             >
               <div className="mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors">
                 <Icon className="w-5 h-5" />
@@ -122,14 +125,16 @@ const WorkspaceFilesPanel: React.FC = () => {
                   {t(file.descKey)}
                 </p>
               </div>
-            </button>
+            </Button>
           );
         })}
 
         {/* Daily Memory — inline with workspace files */}
-        <button
+        <Button
+          type="button"
+          variant="outline"
           onClick={() => setShowDailyMemory(true)}
-          className="flex items-start gap-3 p-4 rounded-xl border border-border bg-card hover:bg-accent/50 transition-colors text-left group"
+          className="h-auto items-start justify-start gap-3 p-4 text-left"
         >
           <div className="mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors">
             <Calendar className="w-5 h-5" />
@@ -145,7 +150,7 @@ const WorkspaceFilesPanel: React.FC = () => {
           <div className="mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors">
             <ChevronRight className="w-4 h-4" />
           </div>
-        </button>
+        </Button>
       </div>
 
       <WorkspaceFileEditor
