@@ -76,17 +76,36 @@ const resources = {
   },
 };
 
+const HTML_LANG: Record<Language, string> = {
+  zh: "zh-CN",
+  "zh-TW": "zh-TW",
+  en: "en",
+  ja: "ja",
+};
+
+const applyDocumentMeta = (lng?: string) => {
+  if (typeof document === "undefined") return;
+  document.title = i18n.t("app.title");
+  const resolved: Language =
+    lng === "zh" || lng === "zh-TW" || lng === "en" || lng === "ja"
+      ? lng
+      : "en";
+  document.documentElement.lang = HTML_LANG[resolved];
+};
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: getInitialLanguage(), // 根据本地存储或系统语言选择默认语言
-  fallbackLng: "en", // 如果缺少中文翻译则退回英文
+  lng: getInitialLanguage(),
+  fallbackLng: "en",
 
   interpolation: {
-    escapeValue: false, // React 已经默认转义
+    escapeValue: false,
   },
 
-  // 开发模式下显示调试信息
   debug: false,
 });
+
+applyDocumentMeta(i18n.language);
+i18n.on("languageChanged", applyDocumentMeta);
 
 export default i18n;
