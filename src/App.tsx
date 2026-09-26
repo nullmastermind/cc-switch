@@ -101,7 +101,7 @@ import { FirstRunNoticeDialog } from "@/components/FirstRunNoticeDialog";
 import { LanguagePickerDialog } from "@/components/LanguagePickerDialog";
 import { AgentsPanel } from "@/components/agents/AgentsPanel";
 import { UniversalProviderPanel } from "@/components/universal";
-import { McpIcon } from "@/components/BrandIcons";
+import { McpIcon, ViberSwitchLogo } from "@/components/BrandIcons";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -1420,6 +1420,7 @@ function App() {
               </div>
             ) : (
               <div className="flex items-center gap-2">
+                <ViberSwitchLogo />
                 <Button
                   variant="ghost"
                   size="icon"

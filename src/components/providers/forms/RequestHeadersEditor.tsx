@@ -171,7 +171,7 @@ export function RequestHeadersEditor({
                     defaultValue: "Value",
                   })}
                   placeholder={t("opencode.headerValuePlaceholder", {
-                    defaultValue: "Cli-Switch",
+                    defaultValue: "Viber-Switch",
                   })}
                   className="min-w-0 flex-1"
                 />

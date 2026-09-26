@@ -857,13 +857,15 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
         className="rounded-[8px] border border-border bg-card p-2"
       >
         <div className="flex items-center gap-2">
+          <img
+            src={appIcon}
+            alt={t("app.title")}
+            className="h-8 w-8 shrink-0 rounded-[8px]"
+          />
           <div className="flex flex-col gap-1">
-            <div className="flex items-center gap-2">
-              <img src={appIcon} alt="Cli-Switch" className="h-4 w-4" />
-              <h4 className="text-ui font-semibold text-foreground">
-                Cli-Switch
-              </h4>
-            </div>
+            <h4 className="text-ui font-semibold text-foreground">
+              {t("app.title")}
+            </h4>
             <div className="flex items-center gap-2">
               <div className="flex items-center gap-1 text-ui text-muted-foreground">
                 <span>{t("common.version")}</span>
