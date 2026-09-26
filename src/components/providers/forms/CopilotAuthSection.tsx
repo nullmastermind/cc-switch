@@ -143,7 +143,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
     onAccountSelect &&
     (mode === "select" || hasAnyAccount) && (
       <div className="space-y-2">
-        <Label className="text-sm text-muted-foreground">
+        <Label className="text-muted-foreground">
           {mode === "select"
             ? t("copilot.githubAccount", "GitHub 账号")
             : t("copilot.selectAccount", "选择账号")}
@@ -180,7 +180,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
     );
 
   return (
-    <div className={`space-y-4 ${className || ""}`}>
+    <div className={`space-y-2 ${className || ""}`}>
       {/* 认证状态标题 */}
       {mode === "manage" && (
         <div className="flex items-center justify-between">
@@ -216,7 +216,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
       {isStatusError && (
         <div
           role="alert"
-          className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/5 px-3 py-2 text-sm text-destructive"
+          className="flex items-center gap-2 rounded-[4px] border border-destructive/40 bg-destructive/5 px-2 py-1 text-ui text-destructive"
         >
           <AlertTriangle className="h-4 w-4 shrink-0" />
           <span className="min-w-0 flex-1">
@@ -238,7 +238,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
       )}
 
       {!isStatusSuccess && !isStatusError && (
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-ui text-muted-foreground">
           <Loader2 className="h-4 w-4 animate-spin" />
           {t("copilot.statusLoading", "正在加载...")}
         </div>
@@ -247,7 +247,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
       {/* GitHub 部署类型选择 */}
       {mode === "manage" && (
         <div className="space-y-2">
-          <Label className="text-sm text-muted-foreground">
+          <Label className="text-muted-foreground">
             {t("copilot.deploymentType", "GitHub 部署类型")}
           </Label>
           <Select
@@ -282,7 +282,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
       )}
 
       {mode === "manage" && migrationError && (
-        <p className="text-sm text-amber-600 dark:text-amber-400">
+        <p className="text-ui text-amber-600 dark:text-amber-400">
           {t("copilot.migrationFailed", {
             error: migrationError,
             defaultValue: `旧认证数据迁移失败：${migrationError}`,
@@ -299,7 +299,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
               type="button"
               variant="outline"
               onClick={onManageAccounts}
-              className="h-9 shrink-0"
+              className="shrink-0"
             >
               <Settings2 className="h-4 w-4" />
               {t("copilot.manageAccounts", "管理账号")}
@@ -313,26 +313,26 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
       {/* 已登录账号列表 */}
       {mode === "manage" && isStatusSuccess && hasAnyAccount && (
         <div className="space-y-2">
-          <Label className="text-sm text-muted-foreground">
+          <Label className="text-muted-foreground">
             {t("copilot.loggedInAccounts", "已登录账号")}
           </Label>
           <div className="space-y-1">
             {accounts.map((account) => (
               <div
                 key={account.id}
-                className="flex items-center justify-between p-2 rounded-md border bg-muted/30"
+                className="flex items-center justify-between p-2 rounded-[4px] border bg-muted/30"
               >
                 <div className="flex items-center gap-2">
                   {renderAvatar(account)}
-                  <span className="text-sm font-medium">{account.login}</span>
+                  <span className="text-ui font-medium">{account.login}</span>
                   {defaultAccountId === account.id && (
-                    <Badge variant="secondary" className="text-xs">
+                    <Badge variant="secondary">
                       {t("copilot.defaultAccount", "默认")}
                     </Badge>
                   )}
                   {account.github_domain &&
                     account.github_domain !== "github.com" && (
-                      <Badge variant="outline" className="text-xs">
+                      <Badge variant="outline">
                         {account.github_domain}
                       </Badge>
                     )}
@@ -347,8 +347,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
                     <Button
                       type="button"
                       variant="ghost"
-                      size="sm"
-                      className="h-7 px-2 text-xs text-muted-foreground"
+                      className="text-muted-foreground"
                       onClick={() => setDefaultAccount(account.id)}
                       disabled={isSettingDefaultAccount}
                     >
@@ -359,7 +358,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
                     type="button"
                     variant="ghost"
                     size="icon"
-                    className="h-7 w-7 text-muted-foreground hover:text-red-500"
+                    className="text-muted-foreground hover:text-red-500"
                     onClick={(e) => handleRemoveAccount(account.id, e)}
                     disabled={isRemovingAccount}
                     title={t("copilot.removeAccount", "移除账号")}
@@ -387,7 +386,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
               deploymentType === "enterprise" && !enterpriseDomain.trim()
             }
           >
-            <Github className="mr-2 h-4 w-4" />
+            <Github className="h-4 w-4" />
             {t("copilot.loginWithGitHub", "使用 GitHub 登录")}
           </Button>
         )}
@@ -407,22 +406,22 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
               (deploymentType === "enterprise" && !enterpriseDomain.trim())
             }
           >
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="h-4 w-4" />
             {t("copilot.addAnotherAccount", "添加其他账号")}
           </Button>
         )}
 
       {/* 轮询中状态 */}
       {mode === "manage" && isPolling && deviceCode && (
-        <div className="space-y-3 p-4 rounded-lg border border-border bg-muted/50">
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+        <div className="space-y-2 p-2 rounded-[8px] border border-border bg-muted/50">
+          <div className="flex items-center justify-center gap-2 text-ui text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
             {t("copilot.waitingForAuth", "等待授权中...")}
           </div>
 
           {/* 用户码 */}
           <div className="text-center">
-            <p className="text-xs text-muted-foreground mb-1">
+            <p className="text-ui text-muted-foreground mb-1">
               {t("copilot.enterCode", "在浏览器中输入以下代码：")}
             </p>
             <div className="flex items-center justify-center gap-2">
@@ -451,7 +450,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
               href={deviceCode.verification_uri}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-blue-500 hover:underline"
+              className="inline-flex items-center gap-1 text-ui text-blue-500 hover:underline"
             >
               {deviceCode.verification_uri}
               <ExternalLink className="h-3 w-3" />
@@ -463,7 +462,6 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
             <Button
               type="button"
               variant="ghost"
-              size="sm"
               onClick={cancelAuth}
             >
               {t("common.cancel", "取消")}
@@ -475,13 +473,12 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
       {/* 错误状态 */}
       {mode === "manage" && pollingState === "error" && error && (
         <div className="space-y-2">
-          <p className="text-sm text-red-500">{error}</p>
+          <p className="text-ui text-red-500">{error}</p>
           <div className="flex gap-2">
             <Button
               type="button"
               onClick={addAccount}
               variant="outline"
-              size="sm"
             >
               {t("copilot.retry", "重试")}
             </Button>
@@ -489,7 +486,6 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
               type="button"
               onClick={cancelAuth}
               variant="ghost"
-              size="sm"
             >
               {t("common.cancel", "取消")}
             </Button>
@@ -508,7 +504,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
             onClick={logout}
             className="w-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
           >
-            <LogOut className="mr-2 h-4 w-4" />
+            <LogOut className="h-4 w-4" />
             {t("copilot.logoutAll", "注销所有账号")}
           </Button>
         )}
@@ -522,14 +518,14 @@ const CopilotAccountAvatar: React.FC<{ account: GitHubAccount }> = ({
   const [failed, setFailed] = React.useState(false);
 
   if (!account.avatar_url || failed) {
-    return <User className="h-5 w-5 text-muted-foreground" />;
+    return <User className="h-4 w-4 text-muted-foreground" />;
   }
 
   return (
     <img
       src={account.avatar_url}
       alt={account.login}
-      className="h-5 w-5 rounded-full"
+      className="h-4 w-4 rounded-full"
       loading="lazy"
       referrerPolicy="no-referrer"
       onError={() => setFailed(true)}

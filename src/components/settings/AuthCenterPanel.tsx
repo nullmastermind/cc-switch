@@ -45,8 +45,8 @@ export function AuthCenterPanel({ authScrollTarget }: AuthCenterPanelProps) {
 
   return (
     <div className="space-y-2">
-      <section className="rounded-xl border border-border/60 bg-card/60 p-6">
-        <div className="flex items-start justify-between gap-4">
+      <section className="rounded-[8px] border border-border/60 bg-card/60 p-2">
+        <div className="flex items-start justify-between gap-2">
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <ShieldCheck className="h-4 w-4 text-primary" />
@@ -71,14 +71,14 @@ export function AuthCenterPanel({ authScrollTarget }: AuthCenterPanelProps) {
 
       <section
         ref={copilotSectionRef}
-        className="scroll-mt-4 rounded-xl border border-border/60 bg-card/60 p-6"
+        className="scroll-mt-4 rounded-[8px] border border-border/60 bg-card/60 p-2"
       >
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted">
+        <div className="mb-2 flex items-center gap-2">
+          <div className="flex h-6 w-6 items-center justify-center rounded-[4px] bg-muted">
             <Github className="h-4 w-4" />
           </div>
           <div>
-            <h4 className="font-medium">GitHub Copilot</h4>
+            <h4 className="text-ui font-semibold">GitHub Copilot</h4>
             <p className="text-ui text-muted-foreground">
               {t("settings.authCenter.copilotDescription", {
                 defaultValue: "管理 GitHub Copilot 账号",
@@ -92,14 +92,14 @@ export function AuthCenterPanel({ authScrollTarget }: AuthCenterPanelProps) {
 
       <section
         ref={codexOauthSectionRef}
-        className="scroll-mt-4 rounded-xl border border-border/60 bg-card/60 p-6"
+        className="scroll-mt-4 rounded-[8px] border border-border/60 bg-card/60 p-2"
       >
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted">
-            <CodexIcon size={20} />
+        <div className="mb-2 flex items-center gap-2">
+          <div className="flex h-6 w-6 items-center justify-center rounded-[4px] bg-muted">
+            <CodexIcon size={16} />
           </div>
           <div>
-            <h4 className="font-medium">ChatGPT (Codex OAuth)</h4>
+            <h4 className="text-ui font-semibold">ChatGPT (Codex OAuth)</h4>
             <p className="text-ui text-muted-foreground">
               {t("settings.authCenter.codexOauthDescription", {
                 defaultValue: "管理 ChatGPT 账号",
@@ -113,14 +113,14 @@ export function AuthCenterPanel({ authScrollTarget }: AuthCenterPanelProps) {
 
       <section
         ref={xaiOauthSectionRef}
-        className="scroll-mt-4 rounded-xl border border-border/60 bg-card/60 p-6"
+        className="scroll-mt-4 rounded-[8px] border border-border/60 bg-card/60 p-2"
       >
-        <div className="mb-4 flex items-center gap-3">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-muted">
-            <ProviderIcon icon="xai" name="xAI" size={20} />
+        <div className="mb-2 flex items-center gap-2">
+          <div className="flex h-6 w-6 items-center justify-center rounded-[4px] bg-muted">
+            <ProviderIcon icon="xai" name="xAI" size={16} />
           </div>
           <div>
-            <h4 className="font-medium">xAI (Grok OAuth)</h4>
+            <h4 className="text-ui font-semibold">xAI (Grok OAuth)</h4>
             <p className="text-ui text-muted-foreground">
               {t("settings.authCenter.xaiOauthDescription", {
                 defaultValue: "管理 xAI / Grok 账号",

@@ -210,8 +210,8 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
     (allowUnboundSelection && allowUnboundSelectionWithoutStatus)) &&
     onAccountSelect &&
     (mode === "select" || hasAnyAccount || noneOptionLabel) && (
-      <div className="space-y-2.5">
-        <Label className="text-sm font-medium text-foreground">
+      <div className="space-y-2">
+        <Label className="font-medium text-foreground">
           {selectionLabel ??
             (mode === "select"
               ? t("codexOauth.accountToUse", "使用的账号")
@@ -230,7 +230,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
           >
             <span
               className={cn(
-                "min-w-0 flex-1 truncate text-left text-sm font-medium tracking-tight",
+                "min-w-0 flex-1 truncate text-left text-ui font-medium tracking-tight",
                 isAccountSelectionPlaceholder &&
                   "font-normal tracking-normal text-muted-foreground",
               )}
@@ -264,13 +264,13 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
                     <div className="flex min-w-0 items-center gap-2">
                       <span aria-hidden className="h-4 w-4 shrink-0" />
                       <span
-                        className="min-w-0 truncate text-sm font-medium leading-5"
+                        className="min-w-0 truncate text-ui font-medium leading-5"
                         title={account.login}
                       >
                         {account.login}
                       </span>
                       {account.reauth_required && (
-                        <span className="ml-1 inline-flex shrink-0 items-center gap-1 text-xs text-amber-600 dark:text-amber-400">
+                        <span className="ml-1 inline-flex shrink-0 items-center gap-1 text-ui text-amber-600 dark:text-amber-400">
                           <AlertTriangle className="h-3 w-3" />
                           {t("codexOauth.reauthBadge", "需要重新登录")}
                         </span>
@@ -289,7 +289,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
               <SelectItem value="__manage_accounts__" className="py-2 pl-6">
                 <div className="flex items-center gap-2">
                   <Plus className="h-4 w-4 shrink-0 text-muted-foreground" />
-                  <span className="truncate text-sm font-medium leading-5">
+                  <span className="truncate text-ui font-medium leading-5">
                     {t(
                       "codexOauth.addOrManageAccounts",
                       "添加或管理 ChatGPT 账号…",
@@ -310,12 +310,12 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
               >
                 <div className="flex min-w-0 items-center gap-2">
                   <span aria-hidden className="h-4 w-4 shrink-0" />
-                  <span className="shrink-0 text-sm font-medium leading-5">
+                  <span className="shrink-0 text-ui font-medium leading-5">
                     {noneOptionLabel ??
                       t("codexOauth.useDefaultAccount", "使用默认账号")}
                   </span>
                   {noneOptionDescription && (
-                    <span className="min-w-0 truncate text-sm leading-5 text-muted-foreground">
+                    <span className="min-w-0 truncate text-ui leading-5 text-muted-foreground">
                       {noneOptionDescription}
                     </span>
                   )}
@@ -328,7 +328,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
     );
 
   return (
-    <div className={`space-y-4 ${className || ""}`}>
+    <div className={`space-y-2 ${className || ""}`}>
       {/* 认证状态标题 */}
       {mode === "manage" && (
         <div className="flex items-center justify-between">
@@ -364,7 +364,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
       {isStatusError && (
         <div
           role="alert"
-          className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/5 px-3 py-2 text-sm text-destructive"
+          className="flex items-center gap-2 rounded-md border border-destructive/40 bg-destructive/5 px-3 py-2 text-ui text-destructive"
         >
           <AlertTriangle className="h-4 w-4 shrink-0" />
           <span className="min-w-0 flex-1">
@@ -386,7 +386,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
       )}
 
       {!isStatusSuccess && !isStatusError && (
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2 text-ui text-muted-foreground">
           <Loader2 className="h-4 w-4 animate-spin" />
           {t("codexOauth.statusLoading", "正在加载...")}
         </div>
@@ -397,10 +397,10 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
         <div className="flex items-start gap-3 rounded-lg border border-amber-300/70 bg-amber-50 p-3 text-amber-900 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-100">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-amber-500" />
           <div className="space-y-1">
-            <p className="text-sm font-medium">
+            <p className="text-ui font-medium">
               {t("codexOauth.reauthTitle", "部分账号需要重新登录")}
             </p>
-            <p className="text-xs leading-relaxed text-amber-800/90 dark:text-amber-200/80">
+            <p className="text-ui leading-relaxed text-amber-800/90 dark:text-amber-200/80">
               {t(
                 "codexOauth.reauthDescription",
                 "为与浏览器登录行为保持一致，这些账号需要重新登录以补全所需的登录凭据（id_token）。重新登录后即可正常用于托管绑定。",
@@ -415,7 +415,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
 
       {/* select 模式：所选账号需重新登录的内联提示 */}
       {mode === "select" && selectedAccountNeedsReauth && (
-        <div className="flex items-start gap-2 rounded-md border border-amber-300/70 bg-amber-50 px-3 py-2 text-xs text-amber-900 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-100">
+        <div className="flex items-start gap-2 rounded-md border border-amber-300/70 bg-amber-50 px-3 py-2 text-ui text-amber-900 dark:border-amber-500/40 dark:bg-amber-950/40 dark:text-amber-100">
           <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-amber-500" />
           <div className="flex-1 leading-relaxed">
             {t(
@@ -439,10 +439,10 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
       {onFastModeChange && (
         <div className="flex items-center justify-between rounded-md border bg-muted/30 p-3">
           <div className="space-y-1 pr-4">
-            <Label className="text-sm font-medium">
+            <Label className="text-ui font-medium">
               {t("codexOauth.fastMode", "FAST mode")}
             </Label>
-            <p className="text-xs text-muted-foreground">
+            <p className="text-ui text-muted-foreground">
               {t("codexOauth.fastModeDescription", {
                 defaultValue:
                   'Send service_tier="priority" for lower latency. Turn it off if the ChatGPT Codex backend rejects the parameter.',
@@ -460,14 +460,14 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
       {/* 已登录账号列表 */}
       {mode === "manage" && isStatusSuccess && hasAnyAccount && (
         <div className="space-y-2">
-          <Label className="text-sm text-muted-foreground">
+          <Label className="text-ui text-muted-foreground">
             {t("codexOauth.loggedInAccounts", "已登录账号")}
           </Label>
           <div className="space-y-1">
             {accounts.map((account) => (
               <div
                 key={account.id}
-                className={`space-y-2 rounded-md border p-2 ${
+                className={`space-y-2 rounded-[4px] border p-2 ${
                   account.reauth_required
                     ? "border-amber-300/70 bg-amber-50/70 dark:border-amber-500/40 dark:bg-amber-950/30"
                     : "bg-muted/30"
@@ -475,24 +475,24 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
               >
                 <div className="flex items-center justify-between gap-2">
                   <div className="flex min-w-0 items-center gap-2">
-                    <User className="h-5 w-5 text-muted-foreground" />
-                    <span className="truncate text-sm font-medium">
+                    <User className="h-4 w-4 text-muted-foreground" />
+                    <span className="truncate text-ui font-medium">
                       {account.login}
                     </span>
                     {defaultAccountId === account.id && (
-                      <Badge variant="secondary" className="shrink-0 text-xs">
+                      <Badge variant="secondary" className="shrink-0 text-ui">
                         {t("codexOauth.defaultAccount", "默认")}
                       </Badge>
                     )}
                     {selectedAccountId === account.id && (
-                      <Badge variant="outline" className="shrink-0 text-xs">
+                      <Badge variant="outline" className="shrink-0 text-ui">
                         {t("codexOauth.selected", "已选中")}
                       </Badge>
                     )}
                     {account.reauth_required && (
                       <Badge
                         variant="outline"
-                        className="shrink-0 gap-1 border-amber-400/70 text-xs text-amber-700 dark:border-amber-500/50 dark:text-amber-300"
+                        className="shrink-0 gap-1 border-amber-400/70 text-ui text-amber-700 dark:border-amber-500/50 dark:text-amber-300"
                       >
                         <AlertTriangle className="h-3 w-3" />
                         {t("codexOauth.reauthBadge", "需要重新登录")}
@@ -503,8 +503,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
                     <Button
                       type="button"
                       variant="outline"
-                      size="sm"
-                      className={`h-7 gap-1 px-2 text-xs ${
+                      className={`gap-1 ${
                         account.reauth_required
                           ? "border-amber-400/70 text-amber-700 hover:bg-amber-100 dark:border-amber-500/50 dark:text-amber-300 dark:hover:bg-amber-900/40"
                           : "text-muted-foreground"
@@ -512,15 +511,14 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
                       onClick={() => reauthAccount(account.id)}
                       disabled={isAddingAccount}
                     >
-                      <RefreshCw className="h-3.5 w-3.5" />
+                      <RefreshCw className="h-4 w-4" />
                       {t("codexOauth.reauthLogin", "重新登录")}
                     </Button>
                     {defaultAccountId !== account.id && (
                       <Button
                         type="button"
                         variant="ghost"
-                        size="sm"
-                        className="h-7 px-2 text-xs text-muted-foreground"
+                        className="text-muted-foreground"
                         onClick={() => setDefaultAccount(account.id)}
                         disabled={isSettingDefaultAccount}
                       >
@@ -531,7 +529,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
                       type="button"
                       variant="ghost"
                       size="icon"
-                      className="h-7 w-7 text-muted-foreground hover:text-red-500"
+                      className="text-muted-foreground hover:text-red-500"
                       onClick={(e) => handleRemoveAccount(account.id, e)}
                       disabled={isRemovingAccount}
                       title={t("codexOauth.removeAccount", "移除账号")}
@@ -560,7 +558,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
             className="w-full"
             variant="outline"
           >
-            <Sparkles className="mr-2 h-4 w-4" />
+            <Sparkles className="h-4 w-4" />
             {t("codexOauth.loginWithChatGPT", "使用 ChatGPT 登录")}
           </Button>
         )}
@@ -577,21 +575,21 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
             variant="outline"
             disabled={isAddingAccount}
           >
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="h-4 w-4" />
             {t("codexOauth.addAnotherAccount", "添加其他账号")}
           </Button>
         )}
 
       {/* 轮询中状态 */}
       {mode === "manage" && isPolling && deviceCode && (
-        <div className="space-y-3 p-4 rounded-lg border border-border bg-muted/50">
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
+        <div className="space-y-2 p-2 rounded-[8px] border border-border bg-muted/50">
+          <div className="flex items-center justify-center gap-2 text-ui text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
             {t("codexOauth.waitingForAuth", "等待授权中...")}
           </div>
 
           <div className="text-center">
-            <p className="text-xs text-muted-foreground mb-1">
+            <p className="text-ui text-muted-foreground mb-1">
               {t("codexOauth.enterCode", "在浏览器中输入以下代码：")}
             </p>
             <div className="flex items-center justify-center gap-2">
@@ -619,7 +617,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
               href={deviceCode.verification_uri}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1 text-sm text-blue-500 hover:underline"
+              className="inline-flex items-center gap-1 text-ui text-blue-500 hover:underline"
             >
               {deviceCode.verification_uri}
               <ExternalLink className="h-3 w-3" />
@@ -630,7 +628,6 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
             <Button
               type="button"
               variant="ghost"
-              size="sm"
               onClick={cancelAuth}
             >
               {t("common.cancel", "取消")}
@@ -642,13 +639,12 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
       {/* 错误状态 */}
       {mode === "manage" && pollingState === "error" && error && (
         <div className="space-y-2">
-          <p className="text-sm text-red-500">{error}</p>
+          <p className="text-ui text-red-500">{error}</p>
           <div className="flex gap-2">
             <Button
               type="button"
               onClick={retryAuth}
               variant="outline"
-              size="sm"
             >
               {t("codexOauth.retry", "重试")}
             </Button>
@@ -656,7 +652,6 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
               type="button"
               onClick={cancelAuth}
               variant="ghost"
-              size="sm"
             >
               {t("common.cancel", "取消")}
             </Button>
@@ -675,7 +670,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
             onClick={logout}
             className="w-full text-red-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950"
           >
-            <LogOut className="mr-2 h-4 w-4" />
+            <LogOut className="h-4 w-4" />
             {t("codexOauth.logoutAll", "注销所有账号")}
           </Button>
         )}
