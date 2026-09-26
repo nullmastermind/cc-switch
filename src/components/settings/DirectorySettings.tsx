@@ -50,7 +50,7 @@ export function DirectorySettings({
   return (
     <div className="space-y-2">
       {/* Cli-Switch 配置目录 - 独立区块 */}
-      <section className="space-y-4">
+      <section className="space-y-2">
         <header className="space-y-1">
           <h3 className="text-ui font-semibold">{t("settings.appConfigDir")}</h3>
           <p className="text-ui text-muted-foreground">
@@ -62,7 +62,6 @@ export function DirectorySettings({
           <Input
             value={resolvedDirs.appConfig || appConfigDir || ""}
             placeholder={t("settings.browsePlaceholderApp")}
-            className="text-xs"
             onChange={(event) => onAppConfigChange(event.target.value)}
           />
           <Button
@@ -87,7 +86,7 @@ export function DirectorySettings({
       </section>
 
       {/* Claude/Codex 配置目录 - 独立区块 */}
-      <section className="space-y-4">
+      <section className="space-y-2">
         <header className="space-y-1">
           <h3 className="text-ui font-semibold">
             {t("settings.configDirectoryOverride")}
@@ -217,7 +216,7 @@ function DirectoryInput({
   );
 
   return (
-    <div className="space-y-1.5">
+    <div className="space-y-2">
       <div className="space-y-1">
         <p className="text-ui font-semibold text-foreground">{label}</p>
         {description ? (
@@ -228,7 +227,6 @@ function DirectoryInput({
         <Input
           value={displayValue}
           placeholder={placeholder}
-          className="text-xs"
           onChange={(event) => onChange(event.target.value)}
         />
         <Button

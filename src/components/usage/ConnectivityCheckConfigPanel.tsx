@@ -78,7 +78,7 @@ export function ConnectivityCheckConfigPanel() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-2">
       {error && (
         <Alert variant="destructive">
           <AlertDescription>{error}</AlertDescription>
@@ -97,11 +97,11 @@ export function ConnectivityCheckConfigPanel() {
       </Alert>
 
       {/* 检查参数配置 */}
-      <div className="space-y-4">
-        <h4 className="text-sm font-medium text-muted-foreground">
+      <div className="space-y-2">
+        <h4 className="text-[12.35px] leading-[1.3] font-medium text-muted-foreground">
           {t("streamCheck.checkParams")}
         </h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
           <div className="space-y-2">
             <Label htmlFor="timeoutSecs">{t("streamCheck.timeout")}</Label>
             <Input
@@ -153,12 +153,12 @@ export function ConnectivityCheckConfigPanel() {
         <Button onClick={handleSave} disabled={isSaving}>
           {isSaving ? (
             <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              <Loader2 className="h-4 w-4 animate-spin" />
               {t("common.saving")}
             </>
           ) : (
             <>
-              <Save className="mr-2 h-4 w-4" />
+              <Save className="h-4 w-4" />
               {t("common.save")}
             </>
           )}

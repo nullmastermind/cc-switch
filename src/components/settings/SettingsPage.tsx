@@ -330,7 +330,7 @@ export function SettingsPage({
                         className="rounded-[8px] glass-card overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-2">
                             <FolderSearch className="h-4 w-4 text-primary" />
                             <div className="text-left">
                               <h3 className="text-ui font-semibold">
@@ -369,7 +369,7 @@ export function SettingsPage({
                         className="rounded-[8px] glass-card overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-2">
                             <Database className="h-4 w-4 text-blue-500" />
                             <div className="text-left">
                               <h3 className="text-ui font-semibold">
@@ -401,7 +401,7 @@ export function SettingsPage({
                         className="rounded-[8px] glass-card overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-2">
                             <HardDriveDownload className="h-4 w-4 text-amber-500" />
                             <div className="text-left">
                               <h3 className="text-ui font-semibold">
@@ -434,7 +434,7 @@ export function SettingsPage({
                         className="rounded-[8px] glass-card overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-2">
                             <Cloud className="h-4 w-4 text-blue-500" />
                             <div className="text-left">
                               <h3 className="text-ui font-semibold">
@@ -461,7 +461,7 @@ export function SettingsPage({
                         className="rounded-[8px] glass-card overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-2">
                             <FlaskConical className="h-4 w-4 text-emerald-500" />
                             <div className="text-left">
                               <h3 className="text-ui font-semibold">
@@ -485,7 +485,7 @@ export function SettingsPage({
                         className="rounded-[8px] glass-card overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-1">
+                          <div className="flex items-center gap-2">
                             <ScrollText className="h-4 w-4 text-cyan-500" />
                             <div className="text-left">
                               <h3 className="text-ui font-semibold">
@@ -540,7 +540,7 @@ export function SettingsPage({
                       </span>
                     ) : (
                       <>
-                        <Save className="mr-2 h-4 w-4" />
+                        <Save className="h-4 w-4" />
                         {t("common.save")}
                       </>
                     )}
@@ -556,16 +556,19 @@ export function SettingsPage({
         open={showRestartPrompt}
         onOpenChange={(open) => !open && handleRestartLater()}
       >
-        <DialogContent zIndex="alert" className="max-w-md glass border-border">
-          <DialogHeader>
-            <DialogTitle>{t("settings.restartRequired")}</DialogTitle>
+        <DialogContent
+          zIndex="alert"
+          className="max-w-[480px] gap-2 rounded-[8px] border-border p-2"
+        >
+          <DialogHeader className="border-b-0 bg-transparent p-0">
+            <DialogTitle className="text-[12.35px] leading-[1.3]">
+              {t("settings.restartRequired")}
+            </DialogTitle>
           </DialogHeader>
-          <div className="px-6">
-            <p className="text-ui text-muted-foreground">
-              {t("settings.restartRequiredMessage")}
-            </p>
-          </div>
-          <DialogFooter>
+          <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+            {t("settings.restartRequiredMessage")}
+          </p>
+          <DialogFooter className="border-t-0 bg-transparent p-0">
             <Button
               variant="ghost"
               onClick={handleRestartLater}
