@@ -16,6 +16,8 @@ jobs:
   release:
     runs-on: ${{ matrix.os }}
     environment: release
+    env:
+      APPLE_CERTIFICATE: ${{ secrets.APPLE_CERTIFICATE }}
     strategy:
       fail-fast: false
       matrix:
@@ -161,7 +163,7 @@ jobs:
           echo "✅ Tauri signing key prepared"
 
       - name: Import Apple signing certificate
-        if: runner.os == 'macOS'
+        if: runner.os == 'macOS' && env.APPLE_CERTIFICATE != ''
         shell: bash
         run: |
           set -euo pipefail
@@ -213,6 +215,12 @@ jobs:
           APPLE_TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
         run: |
           set -euo pipefail
+          if [ -z "${APPLE_CERTIFICATE:-}" ]; then
+            unset APPLE_ID APPLE_PASSWORD APPLE_TEAM_ID APPLE_SIGNING_IDENTITY
+            echo "Unsigned macOS build (APPLE_CERTIFICATE not set)"
+            bun run tauri build --target universal-apple-darwin
+            exit 0
+          fi
           max_attempts=3
           for attempt in $(seq 1 "$max_attempts"); do
             echo "=== macOS build/notarization attempt ${attempt}/${max_attempts} ==="
@@ -278,9 +286,12 @@ jobs:
             exit 1
           fi
 
-          # Staple notarization ticket to .app (Tauri already notarized it)
-          xcrun stapler staple "$APP_PATH"
-          echo "✅ .app stapled"
+          if [ -n "${APPLE_CERTIFICATE:-}" ]; then
+            xcrun stapler staple "$APP_PATH"
+            echo "✅ .app stapled"
+          else
+            echo "Skipping stapler (unsigned macOS build)"
+          fi
 
           # 1) Collect .tar.gz (updater artifact)
           NEW_TAR_GZ="Cli-Switch-${VERSION}-macOS.tar.gz"
@@ -293,18 +304,19 @@ jobs:
           ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "release-assets/$NEW_ZIP"
           echo "macOS zip ready: $NEW_ZIP"
 
-          # 3) Create styled DMG with create-dmg (Tauri's built-in DMG styling doesn't work on CI)
-          if [ -z "${APPLE_SIGNING_IDENTITY:-}" ]; then
-            echo "❌ APPLE_SIGNING_IDENTITY is missing before DMG creation" >&2
-            exit 1
-          fi
-
           HOMEBREW_NO_AUTO_UPDATE=1 brew install create-dmg
           NEW_DMG="Cli-Switch-${VERSION}-macOS.dmg"
           DMG_STAGE_DIR="$RUNNER_TEMP/dmg-stage"
           rm -rf "$DMG_STAGE_DIR"
           mkdir -p "$DMG_STAGE_DIR"
           ditto "$APP_PATH" "$DMG_STAGE_DIR/Cli-Switch.app"
+
+          DMG_SIGN_ARGS=()
+          if [ -n "${APPLE_SIGNING_IDENTITY:-}" ]; then
+            DMG_SIGN_ARGS=(--codesign "$APPLE_SIGNING_IDENTITY")
+          else
+            echo "Creating unsigned DMG (no APPLE_SIGNING_IDENTITY)"
+          fi
 
           create-dmg \
             --volname "Cli-Switch" \
@@ -315,7 +327,7 @@ jobs:
             --icon "Cli-Switch.app" 180 220 \
             --hide-extension "Cli-Switch.app" \
             --app-drop-link 480 220 \
-            --codesign "$APPLE_SIGNING_IDENTITY" \
+            "${DMG_SIGN_ARGS[@]}" \
             --no-internet-enable \
             "release-assets/$NEW_DMG" \
             "$DMG_STAGE_DIR"
@@ -324,7 +336,7 @@ jobs:
           echo "✅ Styled DMG created: $NEW_DMG"
 
       - name: Notarize macOS DMG
-        if: runner.os == 'macOS'
+        if: runner.os == 'macOS' && env.APPLE_CERTIFICATE != ''
         shell: bash
         timeout-minutes: 30
         env:
@@ -366,7 +378,7 @@ jobs:
           done
 
       - name: Verify macOS code signing and notarization
-        if: runner.os == 'macOS'
+        if: runner.os == 'macOS' && env.APPLE_CERTIFICATE != ''
         shell: bash
         run: |
           set -euo pipefail
@@ -640,7 +652,7 @@ jobs:
 
             ### 下载
 
-            - **macOS**: `Cli-Switch-${{ github.ref_name }}-macOS.dmg`（推荐）或 `Cli-Switch-${{ github.ref_name }}-macOS.zip`（解压即用）
+            - **macOS**: `Cli-Switch-${{ github.ref_name }}-macOS.dmg` or `.zip` (unsigned builds: right-click → Open)
             - **Windows (x86_64)**: `Cli-Switch-${{ github.ref_name }}-Windows.msi`（安装版）或 `Cli-Switch-${{ github.ref_name }}-Windows-Portable.zip`（绿色版）
             - **Windows (ARM64)**: `Cli-Switch-${{ github.ref_name }}-Windows-arm64.msi`（安装版）或 `Cli-Switch-${{ github.ref_name }}-Windows-arm64-Portable.zip`（绿色版）
             - **Linux (x86_64)**: `Cli-Switch-${{ github.ref_name }}-Linux-x86_64.AppImage` / `.deb` / `.rpm`
@@ -648,7 +660,7 @@ jobs:
 
 
             ---
-            macOS 版本已通过 Apple 代码签名和公证，可直接安装使用。
+            macOS unsigned builds need right-click → Open (Gatekeeper). Signed/notarized when APPLE_CERTIFICATE is set.
           files: release-assets/*
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
