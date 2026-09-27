@@ -91,7 +91,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::{fmt, sync::Arc};
 #[cfg(target_os = "macos")]
 use tauri::image::Image;
-use tauri::tray::{MouseButton, TrayIconBuilder, TrayIconEvent};
+use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::RunEvent;
 use tauri::{Emitter, Manager};
 use tauri_plugin_window_state::{AppHandleExt, StateFlags};
@@ -1128,11 +1128,20 @@ pub fn run() {
             let mut tray_builder = TrayIconBuilder::with_id(tray::TRAY_ID)
                 .tooltip("Cli-Switch") // 鼠标悬停提示
                 .on_tray_icon_event(|tray, event| match event {
-                    TrayIconEvent::DoubleClick {
+                    TrayIconEvent::Click {
+                        button: MouseButton::Left,
+                        button_state: MouseButtonState::Up,
+                        ..
+                    }
+                    | TrayIconEvent::DoubleClick {
                         button: MouseButton::Left,
                         ..
                     } => {
                         tray::handle_tray_menu_event(tray.app_handle(), "show_main");
+                        let app = tray.app_handle().clone();
+                        tauri::async_runtime::spawn(async move {
+                            crate::tray::refresh_all_usage_in_tray(&app).await;
+                        });
                     }
                     // 鼠标悬停/点击到托盘图标时，后台异步刷新用量缓存，
                     // 让用户下一次（或快速打开菜单的那一刻）看到较新的数字。
