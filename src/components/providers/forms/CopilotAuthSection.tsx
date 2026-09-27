@@ -332,9 +332,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
                   )}
                   {account.github_domain &&
                     account.github_domain !== "github.com" && (
-                      <Badge variant="outline">
-                        {account.github_domain}
-                      </Badge>
+                      <Badge variant="outline">{account.github_domain}</Badge>
                     )}
                   {selectedAccountId === account.id && (
                     <Badge variant="outline" className="text-xs">
@@ -459,11 +457,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
 
           {/* 取消按钮 */}
           <div className="text-center">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={cancelAuth}
-            >
+            <Button type="button" variant="ghost" onClick={cancelAuth}>
               {t("common.cancel", "取消")}
             </Button>
           </div>
@@ -475,18 +469,10 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
         <div className="space-y-2">
           <p className="text-ui text-red-500">{error}</p>
           <div className="flex gap-2">
-            <Button
-              type="button"
-              onClick={addAccount}
-              variant="outline"
-            >
+            <Button type="button" onClick={addAccount} variant="outline">
               {t("copilot.retry", "重试")}
             </Button>
-            <Button
-              type="button"
-              onClick={cancelAuth}
-              variant="ghost"
-            >
+            <Button type="button" onClick={cancelAuth} variant="ghost">
               {t("common.cancel", "取消")}
             </Button>
           </div>

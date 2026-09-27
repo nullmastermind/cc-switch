@@ -625,11 +625,7 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
           </div>
 
           <div className="text-center">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={cancelAuth}
-            >
+            <Button type="button" variant="ghost" onClick={cancelAuth}>
               {t("common.cancel", "取消")}
             </Button>
           </div>
@@ -641,18 +637,10 @@ export const CodexOAuthSection: React.FC<CodexOAuthSectionProps> = ({
         <div className="space-y-2">
           <p className="text-ui text-red-500">{error}</p>
           <div className="flex gap-2">
-            <Button
-              type="button"
-              onClick={retryAuth}
-              variant="outline"
-            >
+            <Button type="button" onClick={retryAuth} variant="outline">
               {t("codexOauth.retry", "重试")}
             </Button>
-            <Button
-              type="button"
-              onClick={cancelAuth}
-              variant="ghost"
-            >
+            <Button type="button" onClick={cancelAuth} variant="ghost">
               {t("common.cancel", "取消")}
             </Button>
           </div>

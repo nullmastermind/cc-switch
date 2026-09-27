@@ -1290,8 +1290,7 @@ export const providerPresets: ProviderPreset[] = [
   {
     name: "Qwen AI",
     websiteUrl: "https://platform.qianwenai.com/",
-    apiKeyUrl:
-      "https://platform.qianwenai.com/home/api-keys",
+    apiKeyUrl: "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       env: {
         ANTHROPIC_BASE_URL: "https://dashscope.aliyuncs.com/apps/anthropic",
@@ -1325,10 +1324,8 @@ export const providerPresets: ProviderPreset[] = [
   },
   {
     name: "Qwen AI Token Plan",
-    websiteUrl:
-      "https://platform.qianwenai.com/pricing/token-plan",
-    apiKeyUrl:
-      "https://platform.qianwenai.com/home/api-keys",
+    websiteUrl: "https://platform.qianwenai.com/pricing/token-plan",
+    apiKeyUrl: "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       env: {
         ANTHROPIC_BASE_URL:
@@ -1390,8 +1387,7 @@ export const providerPresets: ProviderPreset[] = [
   },
   {
     name: "QwenCloud Token Plan",
-    websiteUrl:
-      "https://www.qwencloud.com/pricing/token-plan",
+    websiteUrl: "https://www.qwencloud.com/pricing/token-plan",
     apiKeyUrl: "https://home.qwencloud.com/api-keys",
     settingsConfig: {
       env: {

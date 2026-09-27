@@ -47,7 +47,8 @@ export function SkillCard({
 
   const handleInstall = () => run(() => onInstall(skill.key));
   const handleUninstall = () => run(() => onUninstall(skill.key));
-  const handleReplace = () => run(() => onReplace?.(skill.key) ?? Promise.resolve());
+  const handleReplace = () =>
+    run(() => onReplace?.(skill.key) ?? Promise.resolve());
 
   const handleOpenGithub = async () => {
     if (skill.readmeUrl) {
@@ -83,7 +84,10 @@ export function SkillCard({
                 </Badge>
               )}
               {typeof installs === "number" && (
-                <Badge variant="secondary" className="skill-card-counter shrink-0">
+                <Badge
+                  variant="secondary"
+                  className="skill-card-counter shrink-0"
+                >
                   <Download className="h-3 w-3" />
                   {installs.toLocaleString()}
                 </Badge>

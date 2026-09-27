@@ -61,6 +61,10 @@ export default defineConfig(({ command }) => ({
               __dirname,
               "./src/lib/webshim/misc.ts",
             ),
+            "@tauri-apps/plugin-updater": path.resolve(
+              __dirname,
+              "./src/lib/webshim/updater.ts",
+            ),
           }
         : {}),
     },

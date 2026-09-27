@@ -100,11 +100,7 @@ export function PricingEditModal({
           form="pricing-form"
           disabled={updatePricing.isPending}
         >
-          {isNew ? (
-            <Plus className="h-4 w-4" />
-          ) : (
-            <Save className="h-4 w-4" />
-          )}
+          {isNew ? <Plus className="h-4 w-4" /> : <Save className="h-4 w-4" />}
           {updatePricing.isPending
             ? t("common.saving", "保存中...")
             : isNew

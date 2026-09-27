@@ -17,7 +17,10 @@ interface SkillPreviewDialogProps {
   onClose: () => void;
 }
 
-export function SkillPreviewDialog({ skill, onClose }: SkillPreviewDialogProps) {
+export function SkillPreviewDialog({
+  skill,
+  onClose,
+}: SkillPreviewDialogProps) {
   const { t } = useTranslation();
   const open = skill !== null;
   const { data, isLoading, isError, error } = useQuery({
@@ -45,34 +48,34 @@ export function SkillPreviewDialog({ skill, onClose }: SkillPreviewDialogProps) 
           </DialogTitle>
         </DialogHeader>
         <div className="dialog-body-scroll min-h-0 flex-1 overflow-y-auto px-2 py-2">
-            {isLoading && (
-              <div className="flex items-center gap-2 py-8 text-[12.35px] leading-[1.3] text-muted-foreground">
-                <Loader2 className="h-4 w-4 animate-spin" />
-                {t("common.loading")}
-              </div>
-            )}
-            {isError && (
-              <p className="py-6 text-[12.35px] leading-[1.3] text-destructive">
-                {t("skills.previewLoadFailed", {
-                  error: String(error),
-                })}
-              </p>
-            )}
-            {parsed && (
-              <>
-                <section className="mb-3">
-                  <h2 className="mb-1 text-[12.35px] font-semibold leading-[1.3] text-muted-foreground">
-                    {t("skills.frontmatter")}
-                  </h2>
-                  <pre className="overflow-x-auto rounded-[4px] border border-black/10 bg-muted/40 px-2 py-2 font-mono text-[12.35px] leading-[1.3] dark:border-white/10">
-                    {parsed.hasYaml
-                      ? parsed.yaml || t("skills.frontmatterEmpty")
-                      : t("skills.frontmatterMissing")}
-                  </pre>
-                </section>
-                <SkillMarkdownBody source={parsed.body} />
-              </>
-            )}
+          {isLoading && (
+            <div className="flex items-center gap-2 py-8 text-[12.35px] leading-[1.3] text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              {t("common.loading")}
+            </div>
+          )}
+          {isError && (
+            <p className="py-6 text-[12.35px] leading-[1.3] text-destructive">
+              {t("skills.previewLoadFailed", {
+                error: String(error),
+              })}
+            </p>
+          )}
+          {parsed && (
+            <>
+              <section className="mb-3">
+                <h2 className="mb-1 text-[12.35px] font-semibold leading-[1.3] text-muted-foreground">
+                  {t("skills.frontmatter")}
+                </h2>
+                <pre className="overflow-x-auto rounded-[4px] border border-black/10 bg-muted/40 px-2 py-2 font-mono text-[12.35px] leading-[1.3] dark:border-white/10">
+                  {parsed.hasYaml
+                    ? parsed.yaml || t("skills.frontmatterEmpty")
+                    : t("skills.frontmatterMissing")}
+                </pre>
+              </section>
+              <SkillMarkdownBody source={parsed.body} />
+            </>
+          )}
         </div>
         <DialogFooter className="p-2">
           <Button type="button" variant="outline" onClick={onClose}>

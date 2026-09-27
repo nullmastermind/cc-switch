@@ -37,7 +37,9 @@ export function UniversalProviderCard({
             <ProviderIcon icon={provider.icon} name={provider.name} size={16} />
           </div>
           <div>
-            <h3 className="text-[12.35px] leading-[1.3] font-semibold text-foreground">{provider.name}</h3>
+            <h3 className="text-[12.35px] leading-[1.3] font-semibold text-foreground">
+              {provider.name}
+            </h3>
             <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
               {provider.providerType}
             </p>

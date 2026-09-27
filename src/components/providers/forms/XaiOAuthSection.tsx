@@ -271,11 +271,7 @@ export const XaiOAuthSection: React.FC<XaiOAuthSectionProps> = ({
             </a>
           </div>
           <div className="text-center">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={cancelAuth}
-            >
+            <Button type="button" variant="ghost" onClick={cancelAuth}>
               {t("common.cancel", "取消")}
             </Button>
           </div>
@@ -286,18 +282,10 @@ export const XaiOAuthSection: React.FC<XaiOAuthSectionProps> = ({
         <div className="space-y-2">
           <p className="text-ui text-red-500">{error}</p>
           <div className="flex gap-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={addAccount}
-            >
+            <Button type="button" variant="outline" onClick={addAccount}>
               {t("xaiOauth.retry", "重试")}
             </Button>
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={cancelAuth}
-            >
+            <Button type="button" variant="ghost" onClick={cancelAuth}>
               {t("common.cancel", "取消")}
             </Button>
           </div>

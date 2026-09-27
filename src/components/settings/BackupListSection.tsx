@@ -405,7 +405,10 @@ export function BackupListSection({
         open={!!confirmFilename}
         onOpenChange={(open) => !open && setConfirmFilename(null)}
       >
-        <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2" zIndex="alert">
+        <DialogContent
+          className="max-w-[480px] gap-2 rounded-[8px] p-2"
+          zIndex="alert"
+        >
           <DialogHeader className="border-b-0 bg-transparent p-0">
             <DialogTitle className="text-[12.35px] leading-[1.3]">
               {t("settings.backupManager.confirmTitle", {
@@ -445,7 +448,10 @@ export function BackupListSection({
         open={!!deleteFilename}
         onOpenChange={(open) => !open && setDeleteFilename(null)}
       >
-        <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2" zIndex="alert">
+        <DialogContent
+          className="max-w-[480px] gap-2 rounded-[8px] p-2"
+          zIndex="alert"
+        >
           <DialogHeader className="border-b-0 bg-transparent p-0">
             <DialogTitle className="text-[12.35px] leading-[1.3]">
               {t("settings.backupManager.deleteConfirmTitle", {

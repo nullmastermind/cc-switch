@@ -1054,17 +1054,17 @@ export function ClaudeFormFields({
               </FormLabel>
               <div className="grid grid-cols-1 items-center gap-2 md:grid-cols-[120px_1fr_minmax(0,1fr)_104px]">
                 <div className="md:col-span-3">
-                {renderModelInput(
-                  "claudeModel",
-                  stripClaudeOneMMarker(claudeModel),
-                  "ANTHROPIC_MODEL",
-                  t("providerForm.modelPlaceholder", { defaultValue: "" }),
-                  (value) =>
-                    onModelChange(
-                      "ANTHROPIC_MODEL",
-                      setClaudeOneMMarker(value, fallbackUsesOneM),
-                    ),
-                )}
+                  {renderModelInput(
+                    "claudeModel",
+                    stripClaudeOneMMarker(claudeModel),
+                    "ANTHROPIC_MODEL",
+                    t("providerForm.modelPlaceholder", { defaultValue: "" }),
+                    (value) =>
+                      onModelChange(
+                        "ANTHROPIC_MODEL",
+                        setClaudeOneMMarker(value, fallbackUsesOneM),
+                      ),
+                  )}
                 </div>
                 <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
                   <Checkbox

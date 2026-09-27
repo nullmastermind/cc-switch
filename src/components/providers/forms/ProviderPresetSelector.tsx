@@ -113,8 +113,7 @@ export function sortPresetEntries(
       ("isOfficial" in preset && Boolean(preset.isOfficial));
     const official = entries.filter((entry) => isPinnedOfficial(entry.preset));
     const prime = entries.filter(
-      (entry) =>
-        !isPinnedOfficial(entry.preset) && entry.preset.primePartner,
+      (entry) => !isPinnedOfficial(entry.preset) && entry.preset.primePartner,
     );
     const partner = entries.filter(
       (entry) =>
@@ -596,7 +595,9 @@ export function ProviderPresetSelector({
         </div>
       )}
 
-      <p className="text-[12.35px] leading-[1.3] text-muted-foreground">{getCategoryHint()}</p>
+      <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+        {getCategoryHint()}
+      </p>
     </div>
   );
 }

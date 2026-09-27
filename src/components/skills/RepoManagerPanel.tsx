@@ -120,7 +120,9 @@ export function RepoManagerPanel({
             />
           </div>
           {error && (
-            <p className="text-[12.35px] leading-[1.3] text-red-600 dark:text-red-400">{error}</p>
+            <p className="text-[12.35px] leading-[1.3] text-red-600 dark:text-red-400">
+              {error}
+            </p>
           )}
           <Button
             onClick={handleAdd}

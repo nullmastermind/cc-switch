@@ -164,7 +164,10 @@ export const updateCommonConfigSnippet = (
   }
 
   // 使用统一的验证函数
-  const snippetError = validateJsonConfig(snippetString, "Common config snippet");
+  const snippetError = validateJsonConfig(
+    snippetString,
+    "Common config snippet",
+  );
   if (snippetError) {
     return {
       updatedConfig: JSON.stringify(config, null, 2),

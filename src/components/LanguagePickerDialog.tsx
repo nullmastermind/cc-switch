@@ -44,7 +44,10 @@ export function LanguagePickerDialog() {
       try {
         window.localStorage.setItem("language", language);
       } catch (error) {
-        console.warn("[LanguagePickerDialog] Failed to persist language", error);
+        console.warn(
+          "[LanguagePickerDialog] Failed to persist language",
+          error,
+        );
       }
       await i18n.changeLanguage(language);
       await queryClient.invalidateQueries({ queryKey: ["settings"] });
@@ -74,7 +77,9 @@ export function LanguagePickerDialog() {
                 key={option.value}
                 type="button"
                 size="sm"
-                variant={option.value === currentLanguage ? "default" : "outline"}
+                variant={
+                  option.value === currentLanguage ? "default" : "outline"
+                }
                 className={cn("min-w-[96px]")}
                 onClick={() => void handleSelect(option.value)}
               >

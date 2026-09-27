@@ -104,11 +104,7 @@ export function ImportExportSection({
 
           {/* Export Button */}
           <div>
-            <Button
-              type="button"
-              className="w-full"
-              onClick={onExport}
-            >
+            <Button type="button" className="w-full" onClick={onExport}>
               <Save className="h-4 w-4" />
               {t("settings.exportConfig")}
             </Button>

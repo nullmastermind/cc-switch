@@ -313,7 +313,9 @@ const UnifiedMcpPanel = React.forwardRef<
           ) : filteredServerEntries.length === 0 ? (
             <div className="flex flex-col items-center justify-center py-12 text-center text-muted-foreground">
               <Search className="mb-4 h-10 w-10 opacity-40" />
-              <p className="text-[12.35px] leading-[1.3]">{t("mcp.unifiedPanel.noSearchResults")}</p>
+              <p className="text-[12.35px] leading-[1.3]">
+                {t("mcp.unifiedPanel.noSearchResults")}
+              </p>
             </div>
           ) : (
             <div className="rounded-[8px] border border-border-default overflow-hidden">

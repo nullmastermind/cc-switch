@@ -1177,8 +1177,7 @@ const piProviderPresetDefinitions: PiProviderPreset[] = [
     name: "Qwen AI",
     providerKey: "cc-switch-qianwenai",
     websiteUrl: "https://platform.qianwenai.com/",
-    apiKeyUrl:
-      "https://platform.qianwenai.com/home/api-keys",
+    apiKeyUrl: "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       name: "Qwen AI",
       baseUrl: "https://dashscope.aliyuncs.com/compatible-mode/v1",
@@ -1200,10 +1199,8 @@ const piProviderPresetDefinitions: PiProviderPreset[] = [
   {
     name: "Qwen AI Token Plan",
     providerKey: "cc-switch-qianwenai-token-plan",
-    websiteUrl:
-      "https://platform.qianwenai.com/pricing/token-plan",
-    apiKeyUrl:
-      "https://platform.qianwenai.com/home/api-keys",
+    websiteUrl: "https://platform.qianwenai.com/pricing/token-plan",
+    apiKeyUrl: "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       name: "Qwen AI Token Plan",
       baseUrl:
@@ -1282,8 +1279,7 @@ const piProviderPresetDefinitions: PiProviderPreset[] = [
   {
     name: "QwenCloud Token Plan",
     providerKey: "cc-switch-qwencloud-token-plan",
-    websiteUrl:
-      "https://www.qwencloud.com/pricing/token-plan",
+    websiteUrl: "https://www.qwencloud.com/pricing/token-plan",
     apiKeyUrl: "https://home.qwencloud.com/api-keys",
     settingsConfig: {
       name: "QwenCloud Token Plan",

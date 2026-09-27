@@ -609,10 +609,7 @@ export function ModelsDevAutoSyncPanel() {
         </div>
 
         <div className="flex flex-wrap justify-end gap-2">
-          <Button
-            variant="outline"
-            onClick={() => void openLocalFileFolder()}
-          >
+          <Button variant="outline" onClick={() => void openLocalFileFolder()}>
             <FolderOpen className="h-4 w-4" />
             {t("usage.modelsDevAutoSync.openFolder")}
           </Button>
@@ -628,10 +625,7 @@ export function ModelsDevAutoSyncPanel() {
             )}
             {t("usage.modelsDevAutoSync.reloadLocalFile")}
           </Button>
-          <Button
-            variant="outline"
-            onClick={() => setIsDialogOpen(true)}
-          >
+          <Button variant="outline" onClick={() => setIsDialogOpen(true)}>
             <Settings2 className="h-4 w-4" />
             {t("usage.modelsDevAutoSync.configure")}
           </Button>

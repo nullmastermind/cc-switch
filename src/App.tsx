@@ -57,6 +57,7 @@ import { useUsageCacheBridge } from "@/hooks/useUsageCacheBridge";
 import { useTauriEvent } from "@/hooks/useTauriEvent";
 import { useLastValidValue } from "@/hooks/useLastValidValue";
 import { useScanUnmanagedSkills } from "@/hooks/useSkills";
+import { useDesktopAppUpdateToast } from "@/hooks/useDesktopAppUpdateToast";
 import {
   extractErrorMessage,
   translatePiProviderMutationError,
@@ -231,6 +232,7 @@ function HeaderNavButton({
 function App() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
+  useDesktopAppUpdateToast();
 
   const [activeApp, setActiveApp] = useState<AppId>(getInitialApp);
   const sharedFeatureApp: AppId =

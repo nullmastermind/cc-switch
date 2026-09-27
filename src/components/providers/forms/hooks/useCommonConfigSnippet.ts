@@ -258,7 +258,10 @@ export function useCommonConfigSnippet({
       }
 
       // 验证JSON格式
-      const validationError = validateJsonConfig(value, "Common config snippet");
+      const validationError = validateJsonConfig(
+        value,
+        "Common config snippet",
+      );
       if (validationError) {
         setCommonConfigError(validationError);
       } else {

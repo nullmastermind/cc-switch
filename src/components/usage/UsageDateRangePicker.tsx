@@ -392,11 +392,7 @@ export function UsageDateRangePicker({
               >
                 {t("common.cancel")}
               </Button>
-              <Button
-                type="button"
-                className="flex-1"
-                onClick={handleApply}
-              >
+              <Button type="button" className="flex-1" onClick={handleApply}>
                 {t("common.confirm")}
               </Button>
             </div>

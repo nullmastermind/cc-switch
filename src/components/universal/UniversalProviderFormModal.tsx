@@ -487,7 +487,9 @@ requires_openai_auth = true`;
             <div className="flex items-center justify-between rounded-[8px] border p-2">
               <div className="flex items-center gap-2">
                 <ProviderIcon icon="claude" name="Claude" size={20} />
-                <span className="text-[12.35px] leading-[1.3] font-medium">Claude Code</span>
+                <span className="text-[12.35px] leading-[1.3] font-medium">
+                  Claude Code
+                </span>
               </div>
               <Switch
                 checked={claudeEnabled}
@@ -497,7 +499,9 @@ requires_openai_auth = true`;
             <div className="flex items-center justify-between rounded-[8px] border p-2">
               <div className="flex items-center gap-2">
                 <ProviderIcon icon="openai" name="Codex" size={20} />
-                <span className="text-[12.35px] leading-[1.3] font-medium">OpenAI Codex</span>
+                <span className="text-[12.35px] leading-[1.3] font-medium">
+                  OpenAI Codex
+                </span>
               </div>
               <Switch
                 checked={codexEnabled}
@@ -507,7 +511,9 @@ requires_openai_auth = true`;
             <div className="flex items-center justify-between rounded-[8px] border p-2">
               <div className="flex items-center gap-2">
                 <ProviderIcon icon="gemini" name="Gemini" size={20} />
-                <span className="text-[12.35px] leading-[1.3] font-medium">Gemini CLI</span>
+                <span className="text-[12.35px] leading-[1.3] font-medium">
+                  Gemini CLI
+                </span>
               </div>
               <Switch
                 checked={geminiEnabled}
@@ -598,7 +604,9 @@ requires_openai_auth = true`;
                   />
                 </div>
                 <div className="space-y-1">
-                  <Label className="text-[12.35px] leading-[1.3]">Reasoning Effort</Label>
+                  <Label className="text-[12.35px] leading-[1.3]">
+                    Reasoning Effort
+                  </Label>
                   <Input
                     value={models.codex?.reasoningEffort || ""}
                     onChange={(e) =>

@@ -126,7 +126,9 @@ export const CodexCommonConfigModal: React.FC<CodexCommonConfigModalProps> = ({
             <p className="text-sm font-medium">
               {t("commonConfig.emptyTitle")}
             </p>
-            <p className="text-[12.35px] leading-[1.3] mt-1">{t("commonConfig.emptyHint")}</p>
+            <p className="text-[12.35px] leading-[1.3] mt-1">
+              {t("commonConfig.emptyHint")}
+            </p>
           </div>
         )}
 

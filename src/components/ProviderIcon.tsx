@@ -105,7 +105,9 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
       .toUpperCase()
       .slice(0, 2);
     const fallbackFontSize =
-      typeof size === "number" ? Math.max(12.35, Math.round(size * 0.42)) : 12.35;
+      typeof size === "number"
+        ? Math.max(12.35, Math.round(size * 0.42))
+        : 12.35;
     return (
       <span
         className={cn(

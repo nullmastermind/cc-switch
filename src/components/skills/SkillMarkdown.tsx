@@ -74,7 +74,10 @@ function renderInline(text: string): ReactNode[] {
   return nodes;
 }
 
-function parseBlocks(lines: string[], keyStart = 0): { nodes: ReactNode[]; nextKey: number } {
+function parseBlocks(
+  lines: string[],
+  keyStart = 0,
+): { nodes: ReactNode[]; nextKey: number } {
   const blocks: ReactNode[] = [];
   let i = 0;
   let key = keyStart;

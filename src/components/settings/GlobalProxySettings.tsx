@@ -201,10 +201,7 @@ export function GlobalProxySettings() {
         >
           <X className="h-4 w-4" />
         </Button>
-        <Button
-          onClick={handleSave}
-          disabled={!dirty || setMutation.isPending}
-        >
+        <Button onClick={handleSave} disabled={!dirty || setMutation.isPending}>
           {setMutation.isPending && (
             <Loader2 className="h-4 w-4 animate-spin" />
           )}

@@ -1677,8 +1677,7 @@ requires_openai_auth = true`,
   {
     name: "Qwen AI",
     websiteUrl: "https://platform.qianwenai.com/",
-    apiKeyUrl:
-      "https://platform.qianwenai.com/home/api-keys",
+    apiKeyUrl: "https://platform.qianwenai.com/home/api-keys",
     auth: generateThirdPartyAuth(""),
     config: generateThirdPartyConfig(
       "qianwenai",
@@ -1730,10 +1729,8 @@ requires_openai_auth = true`,
   },
   {
     name: "Qwen AI Token Plan",
-    websiteUrl:
-      "https://platform.qianwenai.com/pricing/token-plan",
-    apiKeyUrl:
-      "https://platform.qianwenai.com/home/api-keys",
+    websiteUrl: "https://platform.qianwenai.com/pricing/token-plan",
+    apiKeyUrl: "https://platform.qianwenai.com/home/api-keys",
     auth: generateThirdPartyAuth(""),
     config: generateThirdPartyConfig(
       "qianwenai_token_plan",
@@ -1874,8 +1871,7 @@ requires_openai_auth = true`,
   },
   {
     name: "QwenCloud Token Plan",
-    websiteUrl:
-      "https://www.qwencloud.com/pricing/token-plan",
+    websiteUrl: "https://www.qwencloud.com/pricing/token-plan",
     apiKeyUrl: "https://home.qwencloud.com/api-keys",
     auth: generateThirdPartyAuth(""),
     config: generateThirdPartyConfig(

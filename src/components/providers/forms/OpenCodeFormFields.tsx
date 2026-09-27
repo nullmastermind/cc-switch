@@ -689,11 +689,7 @@ export function OpenCodeFormFields({
               )}
               {t("providerForm.fetchModels")}
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleAddModel}
-            >
+            <Button type="button" variant="outline" onClick={handleAddModel}>
               <Plus className="h-4 w-4" />
               {t("opencode.addModel", { defaultValue: "Add" })}
             </Button>

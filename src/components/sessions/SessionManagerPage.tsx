@@ -913,7 +913,10 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                         <CardTitle className="text-[12.35px] leading-[1.3] font-medium whitespace-nowrap">
                           {t("sessionManager.sessionList")}
                         </CardTitle>
-                        <Badge variant="secondary" className="text-[12.35px] leading-[1.3]">
+                        <Badge
+                          variant="secondary"
+                          className="text-[12.35px] leading-[1.3]"
+                        >
                           {filteredSessions.length}
                         </Badge>
                       </div>
@@ -1177,7 +1180,10 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                     {selectionMode && (
                       <div className="grid gap-3 rounded-md border bg-muted/40 px-3 py-2.5">
                         <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
-                          <Badge variant="outline" className="text-[12.35px] leading-[1.3]">
+                          <Badge
+                            variant="outline"
+                            className="text-[12.35px] leading-[1.3]"
+                          >
                             {t("sessionManager.selectedCount", {
                               defaultValue: "已选 {{count}} 项",
                               count: selectedDeletableSessions.length,
@@ -1449,7 +1455,9 @@ export function SessionManagerPage({ appId }: { appId: string }) {
               {!selectedSession ? (
                 <div className="flex-1 flex flex-col items-center justify-center text-muted-foreground p-8">
                   <MessageSquare className="size-12 mb-3 opacity-30" />
-                  <p className="text-[12.35px] leading-[1.3]">{t("sessionManager.selectSession")}</p>
+                  <p className="text-[12.35px] leading-[1.3]">
+                    {t("sessionManager.selectSession")}
+                  </p>
                 </div>
               ) : (
                 <>
@@ -1621,7 +1629,10 @@ export function SessionManagerPage({ appId }: { appId: string }) {
                                 defaultValue: "对话记录",
                               })}
                             </span>
-                            <Badge variant="secondary" className="text-[12.35px] leading-[1.3]">
+                            <Badge
+                              variant="secondary"
+                              className="text-[12.35px] leading-[1.3]"
+                            >
                               {messages.length}
                             </Badge>
                           </div>

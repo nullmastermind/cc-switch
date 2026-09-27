@@ -334,10 +334,12 @@ export function useProviderActions(
           let defaultMessage = "Switched successfully!";
           if (activeApp === "codex") {
             messageKey = "notifications.codexRestartRequired";
-            defaultMessage = "Switched successfully. Restart the client to apply.";
+            defaultMessage =
+              "Switched successfully. Restart the client to apply.";
           } else if (activeApp === "grokbuild") {
             messageKey = "notifications.grokBuildRestartRequired";
-            defaultMessage = "Switched successfully. Restart Grok Build to apply.";
+            defaultMessage =
+              "Switched successfully. Restart Grok Build to apply.";
           } else if (activeApp === "claude-desktop") {
             if (provider.meta?.claudeDesktopMode === "proxy") {
               messageKey = "notifications.claudeDesktopProxyRestartRequired";
@@ -345,7 +347,8 @@ export function useProviderActions(
                 "Switched successfully. Keep Viber Switch running and restart Claude Desktop to apply.";
             } else {
               messageKey = "notifications.claudeDesktopRestartRequired";
-              defaultMessage = "Switched successfully. Restart Claude Desktop to apply.";
+              defaultMessage =
+                "Switched successfully. Restart Claude Desktop to apply.";
             }
           } else if (
             activeApp === "opencode" ||

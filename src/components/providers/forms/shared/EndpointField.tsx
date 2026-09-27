@@ -82,11 +82,7 @@ export function EndpointField({
           ) : null}
         </div>
         {showManageButton && onManageClick ? (
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={onManageClick}
-          >
+          <Button type="button" variant="ghost" onClick={onManageClick}>
             <Zap className="h-4 w-4" />
             {manageButtonLabel || defaultManageLabel}
           </Button>

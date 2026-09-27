@@ -1771,8 +1771,7 @@ export const hermesProviderPresets: HermesProviderPreset[] = [
   {
     name: "Qwen AI",
     websiteUrl: "https://platform.qianwenai.com/",
-    apiKeyUrl:
-      "https://platform.qianwenai.com/home/api-keys",
+    apiKeyUrl: "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       name: "qianwenai",
       base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1",
@@ -1815,10 +1814,8 @@ export const hermesProviderPresets: HermesProviderPreset[] = [
   },
   {
     name: "Qwen AI Token Plan",
-    websiteUrl:
-      "https://platform.qianwenai.com/pricing/token-plan",
-    apiKeyUrl:
-      "https://platform.qianwenai.com/home/api-keys",
+    websiteUrl: "https://platform.qianwenai.com/pricing/token-plan",
+    apiKeyUrl: "https://platform.qianwenai.com/home/api-keys",
     settingsConfig: {
       name: "qianwenai_token_plan",
       base_url:
@@ -1891,8 +1888,7 @@ export const hermesProviderPresets: HermesProviderPreset[] = [
   },
   {
     name: "QwenCloud Token Plan",
-    websiteUrl:
-      "https://www.qwencloud.com/pricing/token-plan",
+    websiteUrl: "https://www.qwencloud.com/pricing/token-plan",
     apiKeyUrl: "https://home.qwencloud.com/api-keys",
     settingsConfig: {
       name: "qwencloud_token_plan",

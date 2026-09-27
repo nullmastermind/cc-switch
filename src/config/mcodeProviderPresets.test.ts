@@ -43,8 +43,7 @@ describe("mcodeProviderPresets", () => {
     });
     expect(deepseek[0]).not.toHaveProperty("thinking");
 
-    const qwen =
-      mcodePreset("Qwen AI")!.settingsConfig.models["qwen3.8-max"];
+    const qwen = mcodePreset("Qwen AI")!.settingsConfig.models["qwen3.8-max"];
     expect(qwen.compat).toEqual({
       thinkingFormat: "qwen",
       supportsDeveloperRole: false,

@@ -269,11 +269,7 @@ export function HermesFormFields({
               )}
               {t("providerForm.fetchModels")}
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleAddModel}
-            >
+            <Button type="button" variant="outline" onClick={handleAddModel}>
               <Plus className="h-3.5 w-3.5" />
               {t("hermes.form.addModel", { defaultValue: "添加模型" })}
             </Button>

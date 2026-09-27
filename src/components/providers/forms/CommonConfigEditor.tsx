@@ -197,11 +197,7 @@ export function CommonConfigEditor({
           </div>
         </div>
         <div className="flex items-center justify-end">
-          <Button
-            type="button"
-            variant="link"
-            onClick={onEditClick}
-          >
+          <Button type="button" variant="link" onClick={onEditClick}>
             {t("claudeConfig.editCommonConfig", {
               defaultValue: "编辑通用配置",
             })}
@@ -355,7 +351,9 @@ export function CommonConfigEditor({
               <p className="text-[12.35px] leading-[1.3] font-medium">
                 {t("commonConfig.emptyTitle")}
               </p>
-              <p className="text-[12.35px] leading-[1.3] mt-1">{t("commonConfig.emptyHint")}</p>
+              <p className="text-[12.35px] leading-[1.3] mt-1">
+                {t("commonConfig.emptyHint")}
+              </p>
             </div>
           )}
           <JsonEditor

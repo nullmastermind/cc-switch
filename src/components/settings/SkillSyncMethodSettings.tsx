@@ -20,7 +20,9 @@ export function SkillSyncMethodSettings({
   return (
     <section className="space-y-2">
       <header className="space-y-1">
-        <h3 className="text-ui font-semibold">{t("settings.skillSync.title")}</h3>
+        <h3 className="text-ui font-semibold">
+          {t("settings.skillSync.title")}
+        </h3>
         <p className="text-ui text-muted-foreground">
           {t("settings.skillSync.description")}
         </p>

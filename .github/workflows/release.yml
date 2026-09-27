@@ -578,12 +578,59 @@ jobs:
           set -euo pipefail
           ls -la release-assets
 
+      - name: Generate updater latest.json
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, os
+          from datetime import datetime, timezone
+          from pathlib import Path
+
+          tag = os.environ["GITHUB_REF_NAME"]
+          version = tag[1:] if tag.startswith("v") else tag
+          base = f"https://github.com/nullmastermind/cc-switch/releases/download/{tag}"
+          assets = Path("release-assets")
+
+          def add(platforms, key, filename):
+              path = assets / filename
+              sig = Path(str(path) + ".sig")
+              if not path.exists() or not sig.exists():
+                  print(f"skip {filename}")
+                  return
+              platforms[key] = {
+                  "signature": sig.read_text(encoding="utf-8").strip(),
+                  "url": f"{base}/{filename}",
+              }
+
+          platforms = {}
+          add(platforms, "darwin-aarch64", f"Cli-Switch-{tag}-macOS.tar.gz")
+          add(platforms, "darwin-x86_64", f"Cli-Switch-{tag}-macOS.tar.gz")
+          add(platforms, "windows-x86_64", f"Cli-Switch-{tag}-Windows.msi")
+          add(platforms, "windows-aarch64", f"Cli-Switch-{tag}-Windows-arm64.msi")
+          add(platforms, "linux-x86_64", f"Cli-Switch-{tag}-Linux-x86_64.AppImage")
+          add(platforms, "linux-aarch64", f"Cli-Switch-{tag}-Linux-arm64.AppImage")
+          if not platforms:
+              raise SystemExit("no signed updater artifacts for latest.json")
+
+          feed = {
+              "version": version,
+              "notes": f"Viber Switch {tag}",
+              "pub_date": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+              "platforms": platforms,
+          }
+          out = assets / "latest.json"
+          out.write_text(json.dumps(feed, indent=2) + "\n", encoding="utf-8")
+          print(out.read_text(encoding="utf-8"))
+          PY
+
       - name: Upload Release Assets
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
           name: Cli-Switch ${{ github.ref_name }}
-          prerelease: true
+          prerelease: false
+          make_latest: true
           body: |
             ## Cli-Switch ${{ github.ref_name }}
 

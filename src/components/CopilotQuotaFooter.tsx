@@ -159,7 +159,10 @@ const CopilotQuotaFooter: React.FC<CopilotQuotaFooterProps> = ({
             defaultValue: "Premium",
           });
           return (
-            <div key={tier.name} className="flex items-center gap-3 text-[12.35px] leading-[1.3]">
+            <div
+              key={tier.name}
+              className="flex items-center gap-3 text-[12.35px] leading-[1.3]"
+            >
               <span
                 className="text-gray-500 dark:text-gray-400 min-w-0 font-medium"
                 style={{ width: "25%" }}

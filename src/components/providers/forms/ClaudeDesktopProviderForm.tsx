@@ -836,11 +836,7 @@ export function ClaudeDesktopProviderForm({
           {t("providerForm.fetchModels", { defaultValue: "获取模型" })}
         </Button>
       )}
-      <Button
-        type="button"
-        variant="outline"
-        onClick={onAdd}
-      >
+      <Button type="button" variant="outline" onClick={onAdd}>
         <Plus className="h-3.5 w-3.5" />
         {addLabel}
       </Button>

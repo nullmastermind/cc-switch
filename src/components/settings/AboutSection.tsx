@@ -38,6 +38,7 @@ import { isWindows } from "@/lib/platform";
 import { isUpdateAvailable } from "@/lib/version";
 import { ToolUpgradeConfirmDialog } from "./ToolUpgradeConfirmDialog";
 import { ToolInstallRow } from "./ToolInstallRow";
+import { AppUpdateControls } from "./AppUpdateControls";
 
 interface AboutSectionProps {
   isPortable: boolean;
@@ -882,6 +883,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
                 </Badge>
               )}
             </div>
+            <AppUpdateControls />
           </div>
         </div>
       </motion.div>

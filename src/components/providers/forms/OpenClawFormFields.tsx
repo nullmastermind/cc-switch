@@ -287,11 +287,7 @@ export function OpenClawFormFields({
               )}
               {t("providerForm.fetchModels")}
             </Button>
-            <Button
-              type="button"
-              variant="outline"
-              onClick={handleAddModel}
-            >
+            <Button type="button" variant="outline" onClick={handleAddModel}>
               <Plus className="h-3.5 w-3.5" />
               {t("openclaw.addModel", { defaultValue: "添加模型" })}
             </Button>

@@ -474,7 +474,9 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       <Button
                         key={preset.id}
                         type="button"
-                        variant={selectedPreset === idx ? "positive" : "secondary"}
+                        variant={
+                          selectedPreset === idx ? "positive" : "secondary"
+                        }
                         onClick={() => applyPreset(idx)}
                         title={t(descriptionKey)}
                       >

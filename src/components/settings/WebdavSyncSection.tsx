@@ -1540,7 +1540,10 @@ export function WebdavSyncSection({
           if (!open) closeDialog();
         }}
       >
-        <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2" zIndex="alert">
+        <DialogContent
+          className="max-w-[480px] gap-2 rounded-[8px] p-2"
+          zIndex="alert"
+        >
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
             <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
               <AlertTriangle className="h-4 w-4 text-destructive" />
@@ -1628,7 +1631,10 @@ export function WebdavSyncSection({
           if (!open) closeDialog();
         }}
       >
-        <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2" zIndex="alert">
+        <DialogContent
+          className="max-w-[480px] gap-2 rounded-[8px] p-2"
+          zIndex="alert"
+        >
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
             <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
               <AlertTriangle className="h-4 w-4 text-destructive" />
@@ -1701,7 +1707,10 @@ export function WebdavSyncSection({
           if (!open) closeS3Dialog();
         }}
       >
-        <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2" zIndex="alert">
+        <DialogContent
+          className="max-w-[480px] gap-2 rounded-[8px] p-2"
+          zIndex="alert"
+        >
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
             <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
               <AlertTriangle className="h-4 w-4 text-destructive" />
@@ -1768,7 +1777,10 @@ export function WebdavSyncSection({
           if (!open) closeS3Dialog();
         }}
       >
-        <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2" zIndex="alert">
+        <DialogContent
+          className="max-w-[480px] gap-2 rounded-[8px] p-2"
+          zIndex="alert"
+        >
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
             <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
               <AlertTriangle className="h-4 w-4 text-destructive" />
@@ -1820,7 +1832,10 @@ export function WebdavSyncSection({
           if (!open) handleMutualExclusionCancel();
         }}
       >
-        <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2" zIndex="alert">
+        <DialogContent
+          className="max-w-[480px] gap-2 rounded-[8px] p-2"
+          zIndex="alert"
+        >
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
             <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
               <AlertTriangle className="h-4 w-4 text-destructive" />
