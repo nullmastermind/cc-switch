@@ -40,7 +40,7 @@ export function DatabaseUpgrade({ payload }: DatabaseUpgradeProps) {
             <p className="text-sm text-muted-foreground">
               {t(
                 "dbUpgrade.description",
-                "当前数据库由更新版本的 Viber-Switch 创建，需要安装更新版本后才能继续使用。升级不会删除你的数据。",
+                "当前数据库由更新版本的 Viber Switch 创建，需要安装更新版本后才能继续使用。升级不会删除你的数据。",
               )}
             </p>
             {dbVersion != null && supportedVersion != null && (

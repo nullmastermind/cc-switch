@@ -1126,7 +1126,7 @@ pub fn run() {
 
             // 构建托盘
             let mut tray_builder = TrayIconBuilder::with_id(tray::TRAY_ID)
-                .tooltip("Cli-Switch") // 鼠标悬停提示
+                .tooltip("Viber Switch") // 鼠标悬停提示
                 .on_tray_icon_event(|tray, event| match event {
                     TrayIconEvent::Click {
                         button: MouseButton::Left,

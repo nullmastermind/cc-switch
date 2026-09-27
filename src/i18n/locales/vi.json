@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Viber-Switch",
+    "title": "Viber Switch",
     "description": "Trợ lý all-in-one cho Claude Code, Codex và Gemini CLI"
   },
   "common": {
@@ -46,9 +46,9 @@
     "collapse": "Thu gọn"
   },
   "firstRunNotice": {
-    "title": "Chào mừng đến với Viber-Switch",
-    "bodyDefault": "Viber-Switch dùng để chuyển nhanh giữa nhiều Provider Claude Code / Codex / Gemini CLI. Nếu bạn đã cấu hình sẵn các tool này, setup hiện tại lưu thành Provider tên \"default\" để không mất config cũ.",
-    "bodyOfficial": "Danh sách cũng có preset \"Official\". Bấm vào bất cứ lúc nào muốn quay về mặc định official. Trước khi chuyển, Viber-Switch tự backup config hiện tại vào \"default\", nên đổi qua lại được.",
+    "title": "Chào mừng đến với Viber Switch",
+    "bodyDefault": "Viber Switch dùng để chuyển nhanh giữa nhiều Provider Claude Code / Codex / Gemini CLI. Nếu bạn đã cấu hình sẵn các tool này, setup hiện tại lưu thành Provider tên \"default\" để không mất config cũ.",
+    "bodyOfficial": "Danh sách cũng có preset \"Official\". Bấm vào bất cứ lúc nào muốn quay về mặc định official. Trước khi chuyển, Viber Switch tự backup config hiện tại vào \"default\", nên đổi qua lại được.",
     "confirm": "Đã hiểu"
   },
   "apiKeyInput": {
@@ -210,7 +210,7 @@
     "modeProxy": "Cần routing",
     "modelMappingToggle": "Cần model mapping",
     "modelMappingOffHint": "Direct mode chỉ chạy khi Provider nhận ba role ID của Claude Desktop (claude-sonnet-* / claude-opus-* / claude-haiku-*). Model name khác (kể cả ID cũ như claude-3-5-sonnet-…) thì chọn Model Mapping.",
-    "modelMappingOnHint": "Claude Desktop chỉ nhận ba role ID claude-sonnet-* / claude-opus-* / claude-haiku-*. Ở Model Mapping, Viber-Switch map các role này sang model thật của Provider và giữ local routing chạy khi đang dùng.",
+    "modelMappingOnHint": "Claude Desktop chỉ nhận ba role ID claude-sonnet-* / claude-opus-* / claude-haiku-*. Ở Model Mapping, Viber Switch map các role này sang model thật của Provider và giữ local routing chạy khi đang dùng.",
     "routeMapTitle": "Model mapping",
     "routeMapHint": "Điền model request thật cho từng tier Sonnet, Opus và Haiku. Dùng tên hiển thị trên menu cho model thương hiệu như DeepSeek hoặc Kimi. Tier để trống sẽ kế thừa model của Sonnet (hoặc tier đầu tiên bạn điền), nên Haiku mà sub-agent gọi luôn có.",
     "routeModelLabel": "Model role",
@@ -252,7 +252,7 @@
     "codexRestartRequired": "Đã chuyển. Restart client để áp dụng.",
     "grokBuildRestartRequired": "Đã chuyển. Restart Grok Build để áp dụng.",
     "claudeDesktopRestartRequired": "Đã chuyển. Restart Claude Desktop để áp dụng.",
-    "claudeDesktopProxyRestartRequired": "Đã chuyển. Giữ Viber-Switch chạy và restart Claude Desktop để áp dụng.",
+    "claudeDesktopProxyRestartRequired": "Đã chuyển. Giữ Viber Switch chạy và restart Claude Desktop để áp dụng.",
     "addToConfigSuccess": "Đã thêm vào config",
     "removeFromConfigSuccess": "Đã gỡ khỏi config",
     "removeFromConfigFailed": "Không gỡ được Provider",
@@ -300,7 +300,7 @@
     "deleteProvider": "Xóa Provider",
     "deleteProviderMessage": "Xóa Provider \"{{name}}\"? Không hoàn tác được.",
     "removeProvider": "Gỡ Provider",
-    "removeProviderMessage": "Gỡ Provider \"{{name}}\" khỏi config?\n\nSau khi gỡ, Provider này sẽ không còn active, nhưng dữ liệu config vẫn giữ trong Viber-Switch. Bạn thêm lại bất cứ lúc nào.",
+    "removeProviderMessage": "Gỡ Provider \"{{name}}\" khỏi config?\n\nSau khi gỡ, Provider này sẽ không còn active, nhưng dữ liệu config vẫn giữ trong Viber Switch. Bạn thêm lại bất cứ lúc nào.",
     "piDefaultProviderWarning": "Default của Pi đang trỏ tới Provider này. Nếu tiếp tục, Pi sẽ thử model khác còn dùng được; dùng /model để chọn hoặc /login để đăng nhập Provider khác.",
     "proxy": {
       "title": "Bật Local Routing",
@@ -384,7 +384,7 @@
       },
       "globalProxy": {
         "title": "Proxy ra ngoài (cả app)",
-        "description": "Cấu hình proxy để Viber-Switch gọi API bên ngoài"
+        "description": "Cấu hình proxy để Viber Switch gọi API bên ngoài"
       },
       "data": {
         "title": "Quản lý dữ liệu",
@@ -455,7 +455,7 @@
     "themeDark": "Tối",
     "themeSystem": "Theo hệ thống",
     "importExport": "Import/Export SQL",
-    "importExportHint": "Import hoặc export backup SQL của database để migrate hoặc restore (import chỉ nhận backup do Viber-Switch export).",
+    "importExportHint": "Import hoặc export backup SQL của database để migrate hoặc restore (import chỉ nhận backup do Viber Switch export).",
     "exportConfig": "Export backup SQL",
     "selectConfigFile": "Chọn file SQL",
     "noFileSelected": "Chưa chọn file config.",
@@ -694,7 +694,7 @@
     "windowBehavior": "Cách cửa sổ hoạt động",
     "windowBehaviorHint": "Cấu hình thu nhỏ cửa sổ và cách tích hợp Claude plugin.",
     "launchOnStartup": "Chạy khi khởi động",
-    "launchOnStartupDescription": "Tự chạy Viber-Switch khi hệ thống khởi động",
+    "launchOnStartupDescription": "Tự chạy Viber Switch khi hệ thống khởi động",
     "silentStartup": "Khởi động ẩn",
     "silentStartupDescription": "Chạy nền, không hiện cửa sổ chính",
     "autoLaunchFailed": "Không đặt được auto-launch",
@@ -727,8 +727,8 @@
     },
     "skillStorage": {
       "title": "Nơi lưu Skill",
-      "description": "Chọn nơi Viber-Switch lưu bản gốc của Skill",
-      "ccSwitch": "Viber-Switch",
+      "description": "Chọn nơi Viber Switch lưu bản gốc của Skill",
+      "ccSwitch": "Viber Switch",
       "unified": "~/.agents/skills",
       "ccSwitchHint": "Skill lưu trong thư mục data của app và sync sang từng app bằng symlink hoặc copy.",
       "unifiedHint": "Skill lưu ở ~/.agents/skills/, open standard Agent Skills. Tool tương thích (Claude Code, Codex, Gemini CLI, ...) tự tìm Skill ở đây.",
@@ -777,8 +777,8 @@
     },
     "configDirectoryOverride": "Ghi đè thư mục config (nâng cao)",
     "configDirectoryDescription": "Khi dùng Claude Code hoặc Codex trong môi trường như WSL, chỉ định thư mục config sang phía WSL được, để dữ liệu Provider khớp môi trường chính.",
-    "appConfigDir": "Thư mục config Viber-Switch",
-    "appConfigDirDescription": "Tùy chỉnh nơi lưu config Viber-Switch (trỏ tới thư mục cloud sync để sync config)",
+    "appConfigDir": "Thư mục config Viber Switch",
+    "appConfigDirDescription": "Tùy chỉnh nơi lưu config Viber Switch (trỏ tới thư mục cloud sync để sync config)",
     "browsePlaceholderApp": "vd. C:\\Users\\Administrator\\AppData",
     "claudeConfigDir": "Thư mục config Claude Code",
     "claudeConfigDirDescription": "Ghi đè thư mục config Claude (settings.json). Thư mục tùy chỉnh lưu .claude.json (MCP) bên trong; thư mục mặc định ~/.claude giữ path ~/.claude.json tách riêng của Claude Code.",
@@ -810,7 +810,7 @@
     "portableMode": "Chế độ portable.",
     "officialWebsite": "Trang official",
     "github": "GitHub",
-    "starPrompt": "Nếu Viber-Switch giúp ích cho bạn, hãy star repo trên GitHub — điều đó rất có ý nghĩa với chúng tôi",
+    "starPrompt": "Nếu Viber Switch giúp ích cho bạn, hãy star repo trên GitHub — điều đó rất có ý nghĩa với chúng tôi",
     "manualInstallCommands": "Lệnh cài thủ công",
     "oneClickInstallHint": "Cài hoặc upgrade Claude Code / Codex / Gemini CLI / Grok Build / OpenCode / OpenClaw / Hermes / Pi / MiniMax Code",
     "localEnvCheck": "Kiểm tra môi trường local",
@@ -844,7 +844,7 @@
     "toolUpgradeConfirmBtn": "Xác nhận upgrade",
     "toolUpgradeUnanchoredHint": "Không xác định được command line đang dùng bản cài nào; sẽ chạy lệnh upgrade mặc định (có thể cài vào npm đầu tiên trên PATH).",
     "toolUpgradeUnmanagedTitle": "Đã bỏ qua upgrade các tool sau",
-    "toolUpgradeUnmanagedDetail": "{{tool}} ({{path}}) không được cài bằng npm hoặc installer nhận diện được, nên Viber-Switch không biết cách upgrade. Hãy upgrade theo cách bạn đã cài (ví dụ winget, Scoop, hoặc chạy lại script cài official).",
+    "toolUpgradeUnmanagedDetail": "{{tool}} ({{path}}) không được cài bằng npm hoặc installer nhận diện được, nên Viber Switch không biết cách upgrade. Hãy upgrade theo cách bạn đã cài (ví dụ winget, Scoop, hoặc chạy lại script cài official).",
     "envBadge": {
       "wsl": "WSL",
       "windows": "Win",
@@ -858,7 +858,7 @@
     "importFailedError": "Import config thất bại: {{message}}",
     "exportFailedError": "Export config thất bại:",
     "restartRequired": "Cần restart",
-    "restartRequiredMessage": "Đổi thư mục config Viber-Switch cần restart app mới dùng được. Restart ngay?",
+    "restartRequiredMessage": "Đổi thư mục config Viber Switch cần restart app mới dùng được. Restart ngay?",
     "restartNow": "Restart ngay",
     "restartLater": "Restart sau",
     "restartFailed": "Restart app thất bại. Đóng rồi mở lại.",
@@ -983,7 +983,7 @@
     },
     "current": {
       "readFailed": "Không đọc được config Provider của Pi",
-      "stateUnavailableHint": "Không đổi được Provider cho tới khi Viber-Switch đọc được config Provider của Pi."
+      "stateUnavailableHint": "Không đổi được Provider cho tới khi Viber Switch đọc được config Provider của Pi."
     },
     "prompts": {
       "globalTab": "Prompt global",
@@ -1589,7 +1589,7 @@
     "headerName": "Header",
     "headerValue": "Giá trị",
     "headerNamePlaceholder": "X-Title",
-    "headerValuePlaceholder": "Viber-Switch",
+    "headerValuePlaceholder": "Viber Switch",
     "removeHeader": "Xóa header",
     "noHeaders": "Chưa cấu hình header tùy chỉnh",
     "extraOptions": "Tùy chọn thêm",
@@ -1803,11 +1803,11 @@
     "modelsDevDefaultHint": "Hiện {{shown}} model mới ra gần đây (trên {{total}}). Gõ để tìm hết",
     "modelsDevAutoSync": {
       "title": "Tự sync giá models.dev",
-      "description": "Khi bật, lúc mở Viber-Switch sẽ định kỳ lấy giá đã chọn và ghi vào file giá local.",
+      "description": "Khi bật, lúc mở Viber Switch sẽ định kỳ lấy giá đã chọn và ghi vào file giá local.",
       "enabled": "Đã bật",
       "disabled": "Tắt",
       "enableConfirmTitle": "Bật tự sync giá?",
-      "enableConfirmMessage": "Bật xong, mỗi lần mở Viber-Switch sẽ cập nhật giá model đã chọn từ models.dev (nhiều nhất 6 giờ một lần). Giá built-in và giá nhập tay cùng Model ID sẽ bị ghi đè.",
+      "enableConfirmMessage": "Bật xong, mỗi lần mở Viber Switch sẽ cập nhật giá model đã chọn từ models.dev (nhiều nhất 6 giờ một lần). Giá built-in và giá nhập tay cùng Model ID sẽ bị ghi đè.",
       "enableConfirmAction": "Bật tự sync",
       "configure": "Chọn model",
       "configureTitle": "Chọn model để tự sync giá",
@@ -1928,7 +1928,7 @@
   },
   "dbUpgrade": {
     "title": "Phiên bản database quá mới",
-    "description": "Database này do bản Viber-Switch mới hơn tạo. Upgrade app rồi mới tiếp tục. Upgrade không xóa dữ liệu.",
+    "description": "Database này do bản Viber Switch mới hơn tạo. Upgrade app rồi mới tiếp tục. Upgrade không xóa dữ liệu.",
     "versionInfo": "Database v{{db}} · App hỗ trợ v{{supported}}",
     "dbPath": "File database",
     "openConfigDir": "Mở thư mục config",
@@ -1966,7 +1966,7 @@
       "deleteConfirm": "Xóa server \"{{id}}\"? Không hoàn tác được.",
       "noServers": "Chưa có server",
       "enabledApps": "App đã bật",
-      "noImportFound": "Không có MCP server nào để import. Mọi server đã do Viber-Switch quản lý.",
+      "noImportFound": "Không có MCP server nào để import. Mọi server đã do Viber Switch quản lý.",
       "importSuccess": "Đã import {{count}} MCP server",
       "searchPlaceholder": "Tìm tên MCP, mô tả, tag hoặc command...",
       "searchAriaLabel": "Tìm MCP server đang quản lý",
@@ -2462,7 +2462,7 @@
     "installSuccess": "Đã cài Skill {{name}}",
     "installFailed": "Không cài được",
     "uninstallSuccess": "Đã gỡ Skill {{name}}",
-    "uninstallPiPreserved": "Bản copy của Pi không xác nhận được là do Viber-Switch quản lý, nên để nguyên: {{path}}",
+    "uninstallPiPreserved": "Bản copy của Pi không xác nhận được là do Viber Switch quản lý, nên để nguyên: {{path}}",
     "uninstallPiCleanupIncomplete": "Không dọn xong phía Pi. Kiểm tra thư mục Skill của Pi xem còn bản copy không.",
     "uninstallFailed": "Không gỡ được",
     "update": "Cập nhật",
@@ -2567,10 +2567,10 @@
     "noInstalledDescription": "Tìm và cài Skill từ repo, hoặc import Skill có sẵn",
     "discover": "Community skills",
     "import": "Import có sẵn",
-    "importDescription": "Chọn Skill để import vào quản lý thống nhất của Viber-Switch",
+    "importDescription": "Chọn Skill để import vào quản lý thống nhất của Viber Switch",
     "importSuccess": "Đã import {{count}} Skill",
     "importSelected": "Import mục đã chọn ({{count}})",
-    "noUnmanagedFound": "Không có Skill để import. Mọi Skill đã do Viber-Switch quản lý.",
+    "noUnmanagedFound": "Không có Skill để import. Mọi Skill đã do Viber Switch quản lý.",
     "unmanagedAvailable": "Skill có thể import",
     "foundIn": "Thấy trong",
     "local": "Máy này",
@@ -2621,7 +2621,7 @@
   },
   "deeplink": {
     "confirmImport": "Xác nhận import Provider",
-    "confirmImportDescription": "Config sau import từ deep link vào Viber-Switch",
+    "confirmImportDescription": "Config sau import từ deep link vào Viber Switch",
     "importPrompt": "Import prompt",
     "importPromptDescription": "Xác nhận import system prompt này",
     "importMcp": "Import MCP server",

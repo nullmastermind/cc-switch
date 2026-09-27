@@ -342,7 +342,7 @@ export function useProviderActions(
             if (provider.meta?.claudeDesktopMode === "proxy") {
               messageKey = "notifications.claudeDesktopProxyRestartRequired";
               defaultMessage =
-                "Switched successfully. Keep Viber-Switch running and restart Claude Desktop to apply.";
+                "Switched successfully. Keep Viber Switch running and restart Claude Desktop to apply.";
             } else {
               messageKey = "notifications.claudeDesktopRestartRequired";
               defaultMessage = "Switched successfully. Restart Claude Desktop to apply.";

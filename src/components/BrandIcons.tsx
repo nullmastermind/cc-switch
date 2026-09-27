@@ -84,7 +84,7 @@ export function ViberSwitchLogo({ className = "" }: { className?: string }) {
   return (
     <img
       src={viberSwitchLogo}
-      alt="Viber-Switch"
+      alt="Viber Switch"
       className={`h-8 w-8 shrink-0 select-none object-contain ${className}`}
     />
   );
