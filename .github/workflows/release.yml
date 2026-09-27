@@ -311,26 +311,35 @@ jobs:
           mkdir -p "$DMG_STAGE_DIR"
           ditto "$APP_PATH" "$DMG_STAGE_DIR/Cli-Switch.app"
 
-          DMG_SIGN_ARGS=()
           if [ -n "${APPLE_SIGNING_IDENTITY:-}" ]; then
-            DMG_SIGN_ARGS=(--codesign "$APPLE_SIGNING_IDENTITY")
+            create-dmg \
+              --volname "Cli-Switch" \
+              --background "src-tauri/icons/dmg-background.png" \
+              --window-size 660 400 \
+              --window-pos 200 120 \
+              --icon-size 80 \
+              --icon "Cli-Switch.app" 180 220 \
+              --hide-extension "Cli-Switch.app" \
+              --app-drop-link 480 220 \
+              --codesign "$APPLE_SIGNING_IDENTITY" \
+              --no-internet-enable \
+              "release-assets/$NEW_DMG" \
+              "$DMG_STAGE_DIR"
           else
             echo "Creating unsigned DMG (no APPLE_SIGNING_IDENTITY)"
+            create-dmg \
+              --volname "Cli-Switch" \
+              --background "src-tauri/icons/dmg-background.png" \
+              --window-size 660 400 \
+              --window-pos 200 120 \
+              --icon-size 80 \
+              --icon "Cli-Switch.app" 180 220 \
+              --hide-extension "Cli-Switch.app" \
+              --app-drop-link 480 220 \
+              --no-internet-enable \
+              "release-assets/$NEW_DMG" \
+              "$DMG_STAGE_DIR"
           fi
-
-          create-dmg \
-            --volname "Cli-Switch" \
-            --background "src-tauri/icons/dmg-background.png" \
-            --window-size 660 400 \
-            --window-pos 200 120 \
-            --icon-size 80 \
-            --icon "Cli-Switch.app" 180 220 \
-            --hide-extension "Cli-Switch.app" \
-            --app-drop-link 480 220 \
-            "${DMG_SIGN_ARGS[@]}" \
-            --no-internet-enable \
-            "release-assets/$NEW_DMG" \
-            "$DMG_STAGE_DIR"
 
           rm -rf "$DMG_STAGE_DIR"
           echo "✅ Styled DMG created: $NEW_DMG"
@@ -574,6 +583,7 @@ jobs:
     name: Publish GitHub Release
     runs-on: ubuntu-22.04
     needs: release
+    if: ${{ !cancelled() }}
     permissions:
       contents: write
     steps:
