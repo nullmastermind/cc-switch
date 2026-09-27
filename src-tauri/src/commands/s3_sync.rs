@@ -27,7 +27,12 @@ fn s3_not_configured_error() -> String {
 }
 
 fn s3_sync_disabled_error() -> String {
-    AppError::localized("s3.sync.disabled", "S3 sync is not enabled", "S3 sync is disabled.").to_string()
+    AppError::localized(
+        "s3.sync.disabled",
+        "S3 sync is not enabled",
+        "S3 sync is disabled.",
+    )
+    .to_string()
 }
 
 fn require_enabled_s3_settings() -> Result<S3SyncSettings, String> {

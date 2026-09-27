@@ -1120,7 +1120,8 @@ impl RequestForwarder {
             {
                 let mut status = self.status.write().await;
                 status.failed_requests += 1;
-                status.last_error = Some("All providers are temporarily unavailable (circuit breaker)".to_string());
+                status.last_error =
+                    Some("All providers are temporarily unavailable (circuit breaker)".to_string());
                 if status.total_requests > 0 {
                     status.success_rate =
                         (status.success_requests as f32 / status.total_requests as f32) * 100.0;
@@ -1208,7 +1209,9 @@ impl RequestForwarder {
             {
                 Some(local_account_id) => {
                     let app_handle = self.app_handle.as_ref().ok_or_else(|| {
-                        ProxyError::AuthError("Codex OAuth is unavailable (no AppHandle)".to_string())
+                        ProxyError::AuthError(
+                            "Codex OAuth is unavailable (no AppHandle)".to_string(),
+                        )
                     })?;
                     let codex_state = app_handle.state::<CodexOAuthState>();
                     let chatgpt_account_id = codex_state
@@ -1216,7 +1219,9 @@ impl RequestForwarder {
                         .chatgpt_account_id_for_account(&local_account_id)
                         .await
                         .map_err(|error| {
-                            ProxyError::AuthError(format!("Failed to Codex OAuth account parse: {error}"))
+                            ProxyError::AuthError(format!(
+                                "Failed to Codex OAuth account parse: {error}"
+                            ))
                         })?;
                     let session_matches = match codex_bearer_access_token(headers) {
                         Some(access_token) => {
@@ -1225,7 +1230,9 @@ impl RequestForwarder {
                                 access_token,
                             )
                             .map_err(|error| {
-                                ProxyError::AuthError(format!("Codex OAuth session validation failed: {error}"))
+                                ProxyError::AuthError(format!(
+                                    "Codex OAuth session validation failed: {error}"
+                                ))
                             })?
                         }
                         None => false,
@@ -2662,8 +2669,9 @@ impl RequestForwarder {
             ));
         };
 
-        let first =
-            first.map_err(|e| ProxyError::ForwardFailed(format!("Failed to read first stream chunk: {e}")))?;
+        let first = first.map_err(|e| {
+            ProxyError::ForwardFailed(format!("Failed to read first stream chunk: {e}"))
+        })?;
 
         let replay = futures::stream::once(async move { Ok(first) }).chain(stream);
         Ok(ProxyResponse::streamed(status, headers, replay))
@@ -2901,19 +2909,31 @@ fn summarize_proxy_error(error: &ProxyError) -> String {
             }
         }
         ProxyError::Timeout(message) => {
-            format!("Request timed out: {}", summarize_text_for_log(message, 180))
+            format!(
+                "Request timed out: {}",
+                summarize_text_for_log(message, 180)
+            )
         }
         ProxyError::ForwardFailed(message) => {
-            format!("Request forward failed: {}", summarize_text_for_log(message, 180))
+            format!(
+                "Request forward failed: {}",
+                summarize_text_for_log(message, 180)
+            )
         }
         ProxyError::TransformError(message) => {
-            format!("Response transform failed: {}", summarize_text_for_log(message, 180))
+            format!(
+                "Response transform failed: {}",
+                summarize_text_for_log(message, 180)
+            )
         }
         ProxyError::ConfigError(message) => {
             format!("Config error: {}", summarize_text_for_log(message, 180))
         }
         ProxyError::AuthError(message) => {
-            format!("Authentication failed: {}", summarize_text_for_log(message, 180))
+            format!(
+                "Authentication failed: {}",
+                summarize_text_for_log(message, 180)
+            )
         }
         _ => summarize_text_for_log(&error.to_string(), 180),
     }
@@ -3565,11 +3585,20 @@ fn should_force_identity_encoding(
 
 fn map_reqwest_send_error(error: reqwest::Error) -> ProxyError {
     if error.is_timeout() {
-        ProxyError::Timeout(format!("Upstream request timed out: {}", error.without_url()))
+        ProxyError::Timeout(format!(
+            "Upstream request timed out: {}",
+            error.without_url()
+        ))
     } else if error.is_connect() {
-        ProxyError::ForwardFailed(format!("Upstream connection failed: {}", error.without_url()))
+        ProxyError::ForwardFailed(format!(
+            "Upstream connection failed: {}",
+            error.without_url()
+        ))
     } else {
-        ProxyError::ForwardFailed(format!("Failed to send upstream request: {}", error.without_url()))
+        ProxyError::ForwardFailed(format!(
+            "Failed to send upstream request: {}",
+            error.without_url()
+        ))
     }
 }
 
@@ -4713,7 +4742,9 @@ mod tests {
         provider.category = Some("official".to_string());
         let error = validate_codex_official_authorization(&headers, &provider, None, None)
             .expect_err("stale placeholder must be rejected");
-        assert!(matches!(error, ProxyError::AuthError(message) if message.contains("restart Codex")));
+        assert!(
+            matches!(error, ProxyError::AuthError(message) if message.contains("restart Codex"))
+        );
     }
 
     #[test]
@@ -4743,7 +4774,9 @@ mod tests {
             Some(false),
         )
         .expect_err("another user's bearer in the same workspace must be rejected");
-        assert!(matches!(error, ProxyError::AuthError(message) if message.contains("restart Codex")));
+        assert!(
+            matches!(error, ProxyError::AuthError(message) if message.contains("restart Codex"))
+        );
 
         validate_codex_official_authorization(
             &headers,

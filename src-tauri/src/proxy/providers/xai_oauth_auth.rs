@@ -340,10 +340,14 @@ impl XaiOAuthManager {
             .filter(|token| !token.trim().is_empty())
             .map(ToString::to_string)
             .ok_or_else(|| {
-                XaiOAuthError::TokenFetchFailed("Success response is missing refresh_token".to_string())
+                XaiOAuthError::TokenFetchFailed(
+                    "Success response is missing refresh_token".to_string(),
+                )
             })?;
         let (account_id, login) = extract_identity_from_tokens(&tokens).ok_or_else(|| {
-            XaiOAuthError::ParseError("xAI token is missing a stable sub claim; account not saved".to_string())
+            XaiOAuthError::ParseError(
+                "xAI token is missing a stable sub claim; account not saved".to_string(),
+            )
         })?;
 
         let cached_access_token = CachedAccessToken {
@@ -889,8 +893,9 @@ fn validate_access_token(access_token: &str) -> Result<(), XaiOAuthError> {
 fn parse_device_code_response(
     value: serde_json::Value,
 ) -> Result<DeviceCodeResponse, XaiOAuthError> {
-    serde_json::from_value(value)
-        .map_err(|_| XaiOAuthError::ParseError("Invalid device-authorization response fields".to_string()))
+    serde_json::from_value(value).map_err(|_| {
+        XaiOAuthError::ParseError("Invalid device-authorization response fields".to_string())
+    })
 }
 
 fn parse_token_response(value: serde_json::Value) -> Result<OAuthTokenResponse, XaiOAuthError> {

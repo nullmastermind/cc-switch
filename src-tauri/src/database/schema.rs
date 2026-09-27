@@ -577,8 +577,9 @@ impl Database {
 
         match result {
             Ok(_) => {
-                conn.execute("RELEASE schema_migration;", [])
-                    .map_err(|e| AppError::Database(format!("Failed to commit migrate savepoint: {e}")))?;
+                conn.execute("RELEASE schema_migration;", []).map_err(|e| {
+                    AppError::Database(format!("Failed to commit migrate savepoint: {e}"))
+                })?;
                 Ok(())
             }
             Err(e) => {
@@ -720,7 +721,9 @@ impl Database {
         conn.execute("DROP INDEX IF EXISTS idx_failover_queue_order", [])
             .map_err(|e| AppError::Database(format!("Failed to drop failover_queue index: {e}")))?;
         conn.execute("DROP TABLE IF EXISTS failover_queue", [])
-            .map_err(|e| AppError::Database(format!("Failed to delete failover_queue table: {e}")))?;
+            .map_err(|e| {
+                AppError::Database(format!("Failed to delete failover_queue table: {e}"))
+            })?;
 
         // 创建 failover 索引
         conn.execute(
@@ -1061,8 +1064,9 @@ impl Database {
             .map_err(|e| AppError::Database(format!("Failed to read old skills snapshot: {e}")))?
             .collect::<Result<Vec<_>, _>>()
             .map_err(|e| AppError::Database(format!("Failed to parse old skills snapshot: {e}")))?;
-        let snapshot_json = serde_json::to_string(&snapshot_rows)
-            .map_err(|e| AppError::Database(format!("Failed to serialize old skills snapshot: {e}")))?;
+        let snapshot_json = serde_json::to_string(&snapshot_rows).map_err(|e| {
+            AppError::Database(format!("Failed to serialize old skills snapshot: {e}"))
+        })?;
 
         // 标记：需要在启动后从文件系统扫描并重建 Skills 数据
         // 说明：v3 结构将 Skills 的 SSOT 迁移到 ~/.cc-switch/skills/，
@@ -1177,7 +1181,9 @@ impl Database {
             )",
             [],
         )
-        .map_err(|e| AppError::Database(format!("Failed to create usage_daily_rollups table: {e}")))?;
+        .map_err(|e| {
+            AppError::Database(format!("Failed to create usage_daily_rollups table: {e}"))
+        })?;
 
         // 2. 统一 Copilot 模板类型为 github_copilot
         let mut stmt = conn
@@ -1298,7 +1304,11 @@ impl Database {
                      WHERE model_id = ?1",
                     rusqlite::params![model_id, input, output, cache_read, cache_creation],
                 )
-                .map_err(|e| AppError::Database(format!("Failed to update pricing for model {model_id}: {e}")))?;
+                .map_err(|e| {
+                    AppError::Database(format!(
+                        "Failed to update pricing for model {model_id}: {e}"
+                    ))
+                })?;
             }
         }
 
@@ -1396,7 +1406,9 @@ impl Database {
              DROP TABLE usage_daily_rollups_v10;",
         )
         .map_err(|e| {
-            AppError::Database(format!("Failed to rebuild usage_daily_rollups for v10 -> v11: {e}"))
+            AppError::Database(format!(
+                "Failed to rebuild usage_daily_rollups for v10 -> v11: {e}"
+            ))
         })?;
 
         log::info!(
@@ -1419,7 +1431,9 @@ impl Database {
             )",
             [],
         )
-        .map_err(|e| AppError::Database(format!("Failed to v11 -> v12 create profiles table: {e}")))?;
+        .map_err(|e| {
+            AppError::Database(format!("Failed to v11 -> v12 create profiles table: {e}"))
+        })?;
         Ok(())
     }
 
@@ -1589,7 +1603,11 @@ impl Database {
              CREATE INDEX IF NOT EXISTS idx_session_usage_dedup_semantic
              ON session_usage_dedup(data_source, semantic_id, has_entry_id);",
         )
-        .map_err(|error| AppError::Database(format!("Failed to create session-usage dedup ledger: {error}")))
+        .map_err(|error| {
+            AppError::Database(format!(
+                "Failed to create session-usage dedup ledger: {error}"
+            ))
+        })
     }
 
     /// v17 -> v18: Claude 会话日志的字节游标列与尾部指纹列。
@@ -2793,7 +2811,9 @@ impl Database {
                     cache_read_cost_per_million, cache_creation_cost_per_million
                 ) VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
             )
-            .map_err(|e| AppError::Database(format!("Failed to prepare model pricing statement: {e}")))?;
+            .map_err(|e| {
+                AppError::Database(format!("Failed to prepare model pricing statement: {e}"))
+            })?;
         for (model_id, display_name, input, output, cache_read, cache_creation) in pricing_data {
             stmt.execute(rusqlite::params![
                 model_id,
@@ -3539,7 +3559,11 @@ impl Database {
                     old_cache_creation
                 ],
             )
-            .map_err(|e| AppError::Database(format!("Failed to repair pricing for model {model_id}: {e}")))?;
+            .map_err(|e| {
+                AppError::Database(format!(
+                    "Failed to repair pricing for model {model_id}: {e}"
+                ))
+            })?;
         }
 
         Ok(())
@@ -3566,7 +3590,9 @@ impl Database {
 
     pub(crate) fn set_user_version(conn: &Connection, version: i32) -> Result<(), AppError> {
         if version < 0 {
-            return Err(AppError::Database("user_version cannot be negative".to_string()));
+            return Err(AppError::Database(
+                "user_version cannot be negative".to_string(),
+            ));
         }
         let sql = format!("PRAGMA user_version = {version};");
         conn.execute(&sql, [])
@@ -3587,7 +3613,9 @@ impl Database {
                  ON proxy_request_logs(app_type, created_at DESC)",
                 [],
             )
-            .map_err(|e| AppError::Database(format!("Failed to create usage app-time index: {e}")))?;
+            .map_err(|e| {
+                AppError::Database(format!("Failed to create usage app-time index: {e}"))
+            })?;
         }
 
         let required_columns = [
@@ -3606,7 +3634,9 @@ impl Database {
         }
 
         conn.execute("DROP INDEX IF EXISTS idx_request_logs_dedup_lookup", [])
-            .map_err(|e| AppError::Database(format!("Failed to drop old usage dedup index: {e}")))?;
+            .map_err(|e| {
+                AppError::Database(format!("Failed to drop old usage dedup index: {e}"))
+            })?;
 
         // 查询层为了兼容历史 NULL data_source 行，会使用
         // COALESCE(data_source, 'proxy')。普通 data_source 索引无法匹配该表达式，
@@ -3618,7 +3648,11 @@ impl Database {
                                    cache_creation_tokens)",
             [],
         )
-        .map_err(|e| AppError::Database(format!("Failed to create usage dedup expression index: {e}")))?;
+        .map_err(|e| {
+            AppError::Database(format!(
+                "Failed to create usage dedup expression index: {e}"
+            ))
+        })?;
         Ok(())
     }
 
@@ -3699,8 +3733,11 @@ impl Database {
         }
 
         let sql = format!("ALTER TABLE \"{table}\" ADD COLUMN \"{column}\" {definition};");
-        conn.execute(&sql, [])
-            .map_err(|e| AppError::Database(format!("Failed to add column {column} to table {table}: {e}")))?;
+        conn.execute(&sql, []).map_err(|e| {
+            AppError::Database(format!(
+                "Failed to add column {column} to table {table}: {e}"
+            ))
+        })?;
         log::info!("已为表 {table} 添加缺失列 {column}");
         Ok(true)
     }

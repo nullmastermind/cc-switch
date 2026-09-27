@@ -156,9 +156,9 @@ pub fn set_mcp_servers_map(
     }
 
     {
-        let obj = root
-            .as_object_mut()
-            .ok_or_else(|| AppError::Config("~/.gemini/settings.json root must be an object".into()))?;
+        let obj = root.as_object_mut().ok_or_else(|| {
+            AppError::Config("~/.gemini/settings.json root must be an object".into())
+        })?;
         obj.insert("mcpServers".into(), Value::Object(out));
     }
 

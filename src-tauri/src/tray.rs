@@ -623,7 +623,9 @@ fn handle_auto_click(
         let p1_provider_id = queue
             .first()
             .map(|item| item.provider_id.clone())
-            .ok_or_else(|| AppError::Message("Failover queue is empty; cannot enable Auto mode".to_string()))?;
+            .ok_or_else(|| {
+                AppError::Message("Failover queue is empty; cannot enable Auto mode".to_string())
+            })?;
 
         // 真正启用 failover：启动代理服务 + 执行接管 + 开启 auto_failover
         let proxy_service = &app_state.proxy_service;
@@ -634,7 +636,9 @@ fn handle_auto_click(
             log::info!("[Tray] Auto 模式：启动代理服务");
             if let Err(e) = futures::executor::block_on(proxy_service.start()) {
                 log::error!("[Tray] 启动代理服务失败: {e}");
-                return Err(AppError::Message(format!("Failed to start proxy service: {e}")));
+                return Err(AppError::Message(format!(
+                    "Failed to start proxy service: {e}"
+                )));
             }
         }
 
@@ -758,8 +762,9 @@ pub fn create_tray_menu(
 
     // 顶部：打开主界面 / 打开官方网站
     let show_main_item =
-        MenuItem::with_id(app, "show_main", tray_texts.show_main, true, None::<&str>)
-            .map_err(|e| AppError::Message(format!("Failed to create Open Main Window menu: {e}")))?;
+        MenuItem::with_id(app, "show_main", tray_texts.show_main, true, None::<&str>).map_err(
+            |e| AppError::Message(format!("Failed to create Open Main Window menu: {e}")),
+        )?;
     let open_website_item = MenuItem::with_id(
         app,
         "open_website",
@@ -794,7 +799,10 @@ pub fn create_tray_menu(
             let label = format!("{} {}", section.header_label, tray_texts.no_providers_label);
             let empty_item = MenuItem::with_id(app, section.empty_id, &label, false, None::<&str>)
                 .map_err(|e| {
-                    AppError::Message(format!("Failed to create empty {} hint: {e}", section.log_name))
+                    AppError::Message(format!(
+                        "Failed to create empty {} hint: {e}",
+                        section.log_name
+                    ))
                 })?;
             menu_builder = menu_builder.item(&empty_item);
         } else {
@@ -848,7 +856,10 @@ pub fn create_tray_menu(
                     None::<&str>,
                 )
                 .map_err(|e| {
-                    AppError::Message(format!("Failed to create {} menu item: {e}", section.log_name))
+                    AppError::Message(format!(
+                        "Failed to create {} menu item: {e}",
+                        section.log_name
+                    ))
                 })?;
                 submenu_builder = submenu_builder.item(&item);
             }
@@ -914,7 +925,9 @@ pub fn create_tray_menu(
                     current_profile_id == profile.id,
                     None::<&str>,
                 )
-                .map_err(|e| AppError::Message(format!("Failed to create project menu item: {e}")))?;
+                .map_err(|e| {
+                    AppError::Message(format!("Failed to create project menu item: {e}"))
+                })?;
                 scope_builder = scope_builder.item(&item);
             }
             let none_item = CheckMenuItem::with_id(
@@ -925,12 +938,17 @@ pub fn create_tray_menu(
                 current_profile_id.is_empty(),
                 None::<&str>,
             )
-            .map_err(|e| AppError::Message(format!("Failed to create No Project menu item: {e}")))?;
-            let scope_submenu = scope_builder
-                .separator()
-                .item(&none_item)
-                .build()
-                .map_err(|e| AppError::Message(format!("Failed to build project-group submenu: {e}")))?;
+            .map_err(|e| {
+                AppError::Message(format!("Failed to create No Project menu item: {e}"))
+            })?;
+            let scope_submenu =
+                scope_builder
+                    .separator()
+                    .item(&none_item)
+                    .build()
+                    .map_err(|e| {
+                        AppError::Message(format!("Failed to build project-group submenu: {e}"))
+                    })?;
             scope_submenus.push(scope_submenu);
         }
 

@@ -290,7 +290,11 @@ fn response_too_large_error(url: &str, max_bytes: usize) -> AppError {
     let max_mb = max_bytes / 1024 / 1024;
     AppError::localized(
         "s3.response_too_large",
-        format!("S3 response body exceeds limit ({} MB): {}", max_mb, redact_url(url)),
+        format!(
+            "S3 response body exceeds limit ({} MB): {}",
+            max_mb,
+            redact_url(url)
+        ),
         format!(
             "S3 response body exceeds limit ({} MB): {}",
             max_mb,

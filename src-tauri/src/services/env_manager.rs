@@ -43,7 +43,8 @@ pub fn delete_env_vars(conflicts: Vec<EnvConflict>) -> Result<BackupInfo, String
 fn create_backup(conflicts: &[EnvConflict]) -> Result<BackupInfo, String> {
     // Get backup directory
     let backup_dir = get_backup_dir()?;
-    fs::create_dir_all(&backup_dir).map_err(|e| format!("Failed to create back up directory: {e}"))?;
+    fs::create_dir_all(&backup_dir)
+        .map_err(|e| format!("Failed to create back up directory: {e}"))?;
 
     // Generate backup file name with timestamp
     let timestamp = Utc::now().format("%Y%m%d_%H%M%S").to_string();
@@ -89,7 +90,12 @@ fn delete_single_env(conflict: &EnvConflict) -> Result<(), String> {
                         "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
                         KEY_ALL_ACCESS,
                     )
-                    .map_err(|e| format!("Failed to open system registry (administrator required): {}", e))?;
+                    .map_err(|e| {
+                        format!(
+                            "Failed to open system registry (administrator required): {}",
+                            e
+                        )
+                    })?;
 
                 hklm.delete_value(&conflict.var_name)
                     .map_err(|e| format!("Failed to delete system registry value: {}", e))?;
@@ -97,7 +103,10 @@ fn delete_single_env(conflict: &EnvConflict) -> Result<(), String> {
             Ok(())
         }
         "file" => Err("Windows should not have file-type environment variables".to_string()),
-        _ => Err(format!("Unknown env var source type: {}", conflict.source_type)),
+        _ => Err(format!(
+            "Unknown env var source type: {}",
+            conflict.source_type
+        )),
     }
 }
 
@@ -145,14 +154,18 @@ fn delete_single_env(conflict: &EnvConflict) -> Result<(), String> {
             // On Unix, we can't directly delete process environment variables
             Ok(())
         }
-        _ => Err(format!("Unknown env var source type: {}", conflict.source_type)),
+        _ => Err(format!(
+            "Unknown env var source type: {}",
+            conflict.source_type
+        )),
     }
 }
 
 /// Restore environment variables from backup
 pub fn restore_from_backup(backup_path: String) -> Result<(), String> {
     // Read backup file
-    let content = fs::read_to_string(&backup_path).map_err(|e| format!("Failed to read back up file: {e}"))?;
+    let content = fs::read_to_string(&backup_path)
+        .map_err(|e| format!("Failed to read back up file: {e}"))?;
 
     let backup_info: BackupInfo =
         serde_json::from_str(&content).map_err(|e| format!("Failed to parse back up file: {e}"))?;
@@ -182,7 +195,12 @@ fn restore_single_env(conflict: &EnvConflict) -> Result<(), String> {
                     .create_subkey(
                         "SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Environment",
                     )
-                    .map_err(|e| format!("Failed to open system registry (administrator required): {}", e))?;
+                    .map_err(|e| {
+                        format!(
+                            "Failed to open system registry (administrator required): {}",
+                            e
+                        )
+                    })?;
 
                 hklm.set_value(&conflict.var_name, &conflict.var_value)
                     .map_err(|e| format!("Failed to restore system registry value: {}", e))?;
@@ -217,7 +235,8 @@ fn restore_single_env(conflict: &EnvConflict) -> Result<(), String> {
             content.push_str(&export_line);
 
             // Write back to file
-            fs::write(file_path, content).map_err(|e| format!("Failed to write file {file_path}: {e}"))?;
+            fs::write(file_path, content)
+                .map_err(|e| format!("Failed to write file {file_path}: {e}"))?;
 
             Ok(())
         }

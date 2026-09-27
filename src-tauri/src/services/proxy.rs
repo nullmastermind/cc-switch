@@ -189,7 +189,10 @@ impl CodexAuthFileTransaction {
 
         if let Some(parent) = self.path.parent() {
             std::fs::create_dir_all(parent).map_err(|error| {
-                format!("Failed to create Codex auth directory ({}): {error}", parent.display())
+                format!(
+                    "Failed to create Codex auth directory ({}): {error}",
+                    parent.display()
+                )
             })?;
         }
         let temporary = Self::unique_sibling_path(&self.path, "restore-new")?;
@@ -906,8 +909,9 @@ impl ProxyService {
     }
 
     fn require_current_provider_for_app(&self, app_type: &AppType) -> Result<Provider, String> {
-        self.get_current_provider_for_app(app_type)?
-            .ok_or_else(|| format!("Current provider for {app_type:?} not found; cannot take over live config"))
+        self.get_current_provider_for_app(app_type)?.ok_or_else(|| {
+            format!("Current provider for {app_type:?} not found; cannot take over live config")
+        })
     }
 
     /// 设置 AppHandle（在应用初始化时调用）
@@ -2989,10 +2993,7 @@ impl ProxyService {
                 &provider,
             )
         {
-            return Err(
-                "Cannot switch to official provider during proxy takeover"
-                    .to_string(),
-            );
+            return Err("Cannot switch to official provider during proxy takeover".to_string());
         }
 
         let previous_provider_id =
@@ -3696,9 +3697,9 @@ impl ProxyService {
                 )
                 .map_err(|e| format!("Failed to write Codex config: {e}"))?;
             if managed_official {
-                let auth = config
-                    .get("auth")
-                    .ok_or_else(|| "Codex managed official config is missing the auth field".to_string())?;
+                let auth = config.get("auth").ok_or_else(|| {
+                    "Codex managed official config is missing the auth field".to_string()
+                })?;
                 // An explicitly managed official account is different from the
                 // unbound native-login passthrough: the selected account owns
                 // auth.json and must replace any previously active account.
@@ -3827,7 +3828,9 @@ impl ProxyService {
             Err(error) => {
                 if let Some(snapshot) = catalog_snapshot.as_ref() {
                     snapshot.restore().map_err(|rollback_error| {
-                        format!("{error}; failed to roll back Codex model catalog: {rollback_error}")
+                        format!(
+                            "{error}; failed to roll back Codex model catalog: {rollback_error}"
+                        )
                     })?;
                 }
                 return Err(error);
@@ -3848,9 +3851,9 @@ impl ProxyService {
                 if let Err(error) = transaction.install(replacement) {
                     return match transaction.rollback() {
                         Ok(()) => Err(error),
-                        Err(rollback_error) => {
-                            Err(format!("{error}; failed to roll back Codex auth: {rollback_error}"))
-                        }
+                        Err(rollback_error) => Err(format!(
+                            "{error}; failed to roll back Codex auth: {rollback_error}"
+                        )),
                     };
                 }
 
@@ -3862,9 +3865,9 @@ impl ProxyService {
                     Ok(()) => transaction.commit(),
                     Err(error) => match transaction.rollback() {
                         Ok(()) => Err(error),
-                        Err(rollback_error) => {
-                            Err(format!("{error}; failed to roll back Codex auth: {rollback_error}"))
-                        }
+                        Err(rollback_error) => Err(format!(
+                            "{error}; failed to roll back Codex auth: {rollback_error}"
+                        )),
                     },
                 }
             })()
@@ -3924,7 +3927,8 @@ impl ProxyService {
         use crate::gemini_config::{json_to_env, write_gemini_env_atomic};
 
         let env_map = json_to_env(config).map_err(|e| format!("转换 Gemini 配置失败: {e}"))?;
-        write_gemini_env_atomic(&env_map).map_err(|e| format!("Failed to write Gemini env: {e}"))?;
+        write_gemini_env_atomic(&env_map)
+            .map_err(|e| format!("Failed to write Gemini env: {e}"))?;
         Ok(())
     }
 
@@ -9970,7 +9974,8 @@ base_url = "https://third.example/v1"
             .await
             .expect_err("malformed live auth must stop restore");
         assert!(
-            error.contains("Failed to read Codex auth") || error.contains("Failed to read Codex auth")
+            error.contains("Failed to read Codex auth")
+                || error.contains("Failed to read Codex auth")
         );
         assert_eq!(
             std::fs::read(&auth_path).expect("read malformed auth"),

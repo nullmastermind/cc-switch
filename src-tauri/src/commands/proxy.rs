@@ -303,10 +303,7 @@ pub async fn switch_proxy_provider(
     if provider.category.as_deref() == Some("official")
         && !crate::services::provider::official_provider_supports_proxy_takeover(&app, &provider)
     {
-        return Err(
-            "Cannot switch to official provider during proxy takeover"
-                .to_string(),
-        );
+        return Err("Cannot switch to official provider during proxy takeover".to_string());
     }
 
     state

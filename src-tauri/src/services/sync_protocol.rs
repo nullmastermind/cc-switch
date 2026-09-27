@@ -238,7 +238,10 @@ pub(crate) fn validate_manifest_compat(
     if manifest.format != PROTOCOL_FORMAT {
         return Err(localized(
             "sync.manifest_format_incompatible",
-            format!("Remote manifest format is incompatible: {}", manifest.format),
+            format!(
+                "Remote manifest format is incompatible: {}",
+                manifest.format
+            ),
             format!(
                 "Remote manifest format is incompatible: {}",
                 manifest.format
@@ -300,7 +303,10 @@ pub(crate) fn validate_artifact_size_limit(artifact_name: &str, size: u64) -> Re
         let max_mb = MAX_SYNC_ARTIFACT_BYTES / 1024 / 1024;
         return Err(localized(
             "sync.artifact_too_large",
-            format!("artifact {artifact_name} exceeds download limit ({} MB)", max_mb),
+            format!(
+                "artifact {artifact_name} exceeds download limit ({} MB)",
+                max_mb
+            ),
             format!(
                 "Artifact {artifact_name} exceeds download limit ({} MB)",
                 max_mb

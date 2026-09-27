@@ -196,7 +196,9 @@ pub fn clear_has_completed_onboarding() -> Result<bool, AppError> {
 
 pub fn upsert_mcp_server(id: &str, spec: Value) -> Result<bool, AppError> {
     if id.trim().is_empty() {
-        return Err(AppError::InvalidInput("MCP server ID cannot be empty".into()));
+        return Err(AppError::InvalidInput(
+            "MCP server ID cannot be empty".into(),
+        ));
     }
     // 基础字段校验（尽量宽松）
     if !spec.is_object() {
@@ -268,7 +270,9 @@ pub fn upsert_mcp_server(id: &str, spec: Value) -> Result<bool, AppError> {
 
 pub fn delete_mcp_server(id: &str) -> Result<bool, AppError> {
     if id.trim().is_empty() {
-        return Err(AppError::InvalidInput("MCP server ID cannot be empty".into()));
+        return Err(AppError::InvalidInput(
+            "MCP server ID cannot be empty".into(),
+        ));
     }
     let path = user_config_path();
     if !path.exists() {

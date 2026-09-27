@@ -735,13 +735,12 @@ pub(crate) fn preflight_codex_live_write_for_state(
         provider,
         &state.codex_oauth_manager,
     )?;
-    let obj = effective
-        .settings_config
-        .as_object()
-        .ok_or_else(|| AppError::Config("Codex provider config must be a JSON object".to_string()))?;
-    let auth = obj
-        .get("auth")
-        .ok_or_else(|| AppError::Config("Codex provider config is missing the 'auth' field".to_string()))?;
+    let obj = effective.settings_config.as_object().ok_or_else(|| {
+        AppError::Config("Codex provider config must be a JSON object".to_string())
+    })?;
+    let auth = obj.get("auth").ok_or_else(|| {
+        AppError::Config("Codex provider config is missing the 'auth' field".to_string())
+    })?;
     let config_str = obj.get("config").and_then(|v| v.as_str());
     crate::codex_config::preflight_codex_live_write(effective.category.as_deref(), auth, config_str)
 }
@@ -926,7 +925,9 @@ pub(crate) fn prepare_codex_managed_oauth_live_auth_switch_away(
         })
     })
     .join()
-    .map_err(|_| AppError::Message("Codex OAuth live credential adopt thread panicked".to_string()))?
+    .map_err(|_| {
+        AppError::Message("Codex OAuth live credential adopt thread panicked".to_string())
+    })?
     .map_err(AppError::Message)
 }
 
@@ -1324,13 +1325,12 @@ pub(crate) fn write_live_snapshot(app_type: &AppType, provider: &Provider) -> Re
             ));
         }
         AppType::Codex => {
-            let obj = provider
-                .settings_config
-                .as_object()
-                .ok_or_else(|| AppError::Config("Codex provider config must be a JSON object".to_string()))?;
-            let auth = obj
-                .get("auth")
-                .ok_or_else(|| AppError::Config("Codex provider config is missing the 'auth' field".to_string()))?;
+            let obj = provider.settings_config.as_object().ok_or_else(|| {
+                AppError::Config("Codex provider config must be a JSON object".to_string())
+            })?;
+            let auth = obj.get("auth").ok_or_else(|| {
+                AppError::Config("Codex provider config is missing the 'auth' field".to_string())
+            })?;
             let config_str = obj.get("config").and_then(|v| v.as_str());
 
             // Native (direct) Responses and Anthropic providers must suppress Codex's
@@ -1597,17 +1597,18 @@ pub(crate) fn sync_live_for_provider_respecting_takeover(
     app_type: &AppType,
     provider: &Provider,
 ) -> Result<LiveSyncOutcome, AppError> {
-    let has_live_backup =
-        match futures::executor::block_on(state.db.get_live_backup(app_type.as_str())) {
-            Ok(backup) => backup.is_some(),
-            Err(err) => {
-                log::warn!(
+    let has_live_backup = match futures::executor::block_on(
+        state.db.get_live_backup(app_type.as_str()),
+    ) {
+        Ok(backup) => backup.is_some(),
+        Err(err) => {
+            log::warn!(
                     "Failed to read {} live backup; treating as no backup and continuing live write: {err}",
                     app_type.as_str()
                 );
-                false
-            }
-        };
+            false
+        }
+    };
     let live_taken_over = state
         .proxy_service
         .detect_takeover_in_live_config_for_app(app_type);

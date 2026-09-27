@@ -218,8 +218,9 @@ fn read_file_unlocked() -> Result<Option<ModelPricingFile>, AppError> {
 
 fn write_file_unlocked(file: &ModelPricingFile) -> Result<(), AppError> {
     let path = model_pricing_file_path();
-    let mut data = serde_json::to_vec_pretty(file)
-        .map_err(|error| AppError::Config(format!("Failed to serialize model pricing config: {error}")))?;
+    let mut data = serde_json::to_vec_pretty(file).map_err(|error| {
+        AppError::Config(format!("Failed to serialize model pricing config: {error}"))
+    })?;
     data.push(b'\n');
     atomic_write(&path, &data)
 }
@@ -296,9 +297,9 @@ fn apply_file_to_database(
 /// the file contains only explicit overrides and deletion tombstones.
 pub fn sync_local_model_pricing(db: &Database) -> Result<usize, AppError> {
     let (upserted, deleted) = {
-        let _file_guard = file_lock()
-            .lock()
-            .map_err(|error| AppError::Config(format!("Failed to model pricing file lock: {error}")))?;
+        let _file_guard = file_lock().lock().map_err(|error| {
+            AppError::Config(format!("Failed to model pricing file lock: {error}"))
+        })?;
         let file = load_or_create_file_unlocked()?;
         apply_file_to_database(db, &file)?
     };
@@ -348,9 +349,9 @@ pub fn record_models_dev_sync_result(
     error: Option<String>,
 ) -> Result<(), AppError> {
     sync_local_model_pricing(db)?;
-    let _file_guard = file_lock()
-        .lock()
-        .map_err(|lock_error| AppError::Config(format!("Failed to model pricing file lock: {lock_error}")))?;
+    let _file_guard = file_lock().lock().map_err(|lock_error| {
+        AppError::Config(format!("Failed to model pricing file lock: {lock_error}"))
+    })?;
     let mut file = load_or_create_file_unlocked()?;
     if let Some(synced_at) = synced_at {
         file.models_dev_sync.last_sync_at = Some(synced_at);
@@ -381,9 +382,9 @@ fn update_model_pricing_batch_inner(
 
     sync_local_model_pricing(db)?;
     let changed = {
-        let _file_guard = file_lock()
-            .lock()
-            .map_err(|error| AppError::Config(format!("Failed to model pricing file lock: {error}")))?;
+        let _file_guard = file_lock().lock().map_err(|error| {
+            AppError::Config(format!("Failed to model pricing file lock: {error}"))
+        })?;
         let mut file = load_or_create_file_unlocked()?;
         let mut file_models = file
             .models

@@ -239,7 +239,9 @@ pub async fn put_bytes(
     )
     .send()
     .await
-    .map_err(|e| webdav_transport_error("webdav.put_failed", "PUT request", "PUT request", url, &e))?;
+    .map_err(|e| {
+        webdav_transport_error("webdav.put_failed", "PUT request", "PUT request", url, &e)
+    })?;
 
     if resp.status().is_success() {
         return Ok(());
@@ -264,7 +266,9 @@ pub async fn get_bytes(
     )
     .send()
     .await
-    .map_err(|e| webdav_transport_error("webdav.get_failed", "GET request", "GET request", url, &e))?;
+    .map_err(|e| {
+        webdav_transport_error("webdav.get_failed", "GET request", "GET request", url, &e)
+    })?;
 
     if resp.status() == StatusCode::NOT_FOUND {
         return Ok(None);
@@ -309,7 +313,13 @@ pub async fn head_etag(url: &str, auth: &WebDavAuth) -> Result<Option<String>, A
     .send()
     .await
     .map_err(|e| {
-        webdav_transport_error("webdav.head_failed", "HEAD request", "HEAD request", url, &e)
+        webdav_transport_error(
+            "webdav.head_failed",
+            "HEAD request",
+            "HEAD request",
+            url,
+            &e,
+        )
     })?;
 
     if resp.status() == StatusCode::NOT_FOUND {

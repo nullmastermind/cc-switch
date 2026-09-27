@@ -153,10 +153,14 @@ impl ConfigService {
         provider: &Provider,
     ) -> Result<(), AppError> {
         let settings = provider.settings_config.as_object().ok_or_else(|| {
-            AppError::Config(format!("Codex config for provider {provider_id} must be an object"))
+            AppError::Config(format!(
+                "Codex config for provider {provider_id} must be an object"
+            ))
         })?;
         let auth = settings.get("auth").ok_or_else(|| {
-            AppError::Config(format!("Codex config for provider {provider_id} is missing the auth field"))
+            AppError::Config(format!(
+                "Codex config for provider {provider_id} is missing the auth field"
+            ))
         })?;
         if !auth.is_object() {
             return Err(AppError::Config(format!(

@@ -111,7 +111,9 @@ fn merge_sync_step(
 ) {
     match step {
         Ok(result) => aggregate.merge(result),
-        Err(error) => aggregate.errors.push(format!("Failed to {name} sync: {error}")),
+        Err(error) => aggregate
+            .errors
+            .push(format!("Failed to {name} sync: {error}")),
     }
 }
 
@@ -425,8 +427,8 @@ fn sync_single_file(
         return Ok(ClaudeFileSync::default());
     }
 
-    let mut file =
-        fs::File::open(file_path).map_err(|e| AppError::Config(format!("Cannot open file: {e}")))?;
+    let mut file = fs::File::open(file_path)
+        .map_err(|e| AppError::Config(format!("Cannot open file: {e}")))?;
 
     // 非追加变化检测（仅字节游标路径）。检出后游标钉到当前 EOF、旧偏移
     // 一概不重放（见函数文档：重放会把已剪明细双算进汇总）。指纹为 NULL
@@ -493,9 +495,9 @@ fn sync_single_file(
     let mut skipped_legacy_lines: i64 = 0;
     while skipped_legacy_lines < legacy_lines {
         buf.clear();
-        let read = reader
-            .read_until(b'\n', &mut buf)
-            .map_err(|e| AppError::Config(format!("Failed to convert legacy line-number cursor: {e}")))?;
+        let read = reader.read_until(b'\n', &mut buf).map_err(|e| {
+            AppError::Config(format!("Failed to convert legacy line-number cursor: {e}"))
+        })?;
         if read == 0 {
             break;
         }
@@ -626,9 +628,11 @@ fn sync_single_file(
     let mut skipped: u32 = 0;
 
     let conn = lock_conn!(db.conn);
-    let tx = conn
-        .unchecked_transaction()
-        .map_err(|e| AppError::Database(format!("Failed to begin session-usage import transaction: {e}")))?;
+    let tx = conn.unchecked_transaction().map_err(|e| {
+        AppError::Database(format!(
+            "Failed to begin session-usage import transaction: {e}"
+        ))
+    })?;
 
     for msg in messages.values() {
         // 只要产生了真实计费 token 就导入，不再强制要求 stop_reason 或 output>0。
@@ -685,8 +689,11 @@ fn sync_single_file(
         committed_offset,
         Some(fingerprint),
     )?;
-    tx.commit()
-        .map_err(|e| AppError::Database(format!("Failed to commit session-usage import transaction: {e}")))?;
+    tx.commit().map_err(|e| {
+        AppError::Database(format!(
+            "Failed to commit session-usage import transaction: {e}"
+        ))
+    })?;
 
     Ok(ClaudeFileSync {
         imported,

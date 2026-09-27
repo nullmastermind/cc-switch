@@ -199,7 +199,8 @@ fn query_sessions(conn: &rusqlite::Connection) -> Result<Vec<(String, i64)>, App
 
     let mut sessions = Vec::new();
     for row in rows {
-        sessions.push(row.map_err(|e| AppError::Database(format!("Failed to read session row: {e}")))?);
+        sessions
+            .push(row.map_err(|e| AppError::Database(format!("Failed to read session row: {e}")))?);
     }
 
     Ok(sessions)

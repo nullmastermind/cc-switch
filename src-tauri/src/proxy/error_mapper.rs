@@ -76,7 +76,9 @@ pub fn get_error_message(error: &ProxyError) -> String {
         ProxyError::Timeout(msg) => format!("Request timed out: {msg}"),
         ProxyError::ForwardFailed(msg) => format!("Forward failed: {msg}"),
         ProxyError::NoAvailableProvider => "No available provider".to_string(),
-        ProxyError::AllProvidersCircuitOpen => "All providers are circuit-open; no channel available".to_string(),
+        ProxyError::AllProvidersCircuitOpen => {
+            "All providers are circuit-open; no channel available".to_string()
+        }
         ProxyError::NoProvidersConfigured => "No providers configured".to_string(),
         ProxyError::MaxRetriesExceeded => "All providers failed; retries exhausted".to_string(),
         ProxyError::ProviderUnhealthy(msg) => format!("Provider unhealthy: {msg}"),

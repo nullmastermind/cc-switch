@@ -107,7 +107,10 @@ pub fn sync_grokbuild_usage(db: &Database) -> Result<SessionSyncResult, AppError
         match sync_single_grok_file(db, file_path, &cursors) {
             Ok(file_result) => result.merge(file_result),
             Err(e) => {
-                let msg = format!("Failed to Grok Build session file parse {}: {e}", file_path.display());
+                let msg = format!(
+                    "Failed to Grok Build session file parse {}: {e}",
+                    file_path.display()
+                );
                 log::warn!("[GROK-SYNC] {msg}");
                 result.errors.push(msg);
             }

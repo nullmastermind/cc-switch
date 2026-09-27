@@ -147,7 +147,9 @@ fn sync_pi_files(db: &Database, files: &[PathBuf]) -> SessionSyncResult {
     let cursors = match crate::services::session_usage::load_sync_cursors(db) {
         Ok(cursors) => cursors,
         Err(error) => {
-            result.errors.push(format!("Failed to prefetch sync cursor: {error}"));
+            result
+                .errors
+                .push(format!("Failed to prefetch sync cursor: {error}"));
             return result;
         }
     };
@@ -179,8 +181,9 @@ fn sync_single_pi_file(
     file_path: &Path,
     cursors: &std::collections::HashMap<String, crate::services::session_usage::SyncCursor>,
 ) -> Result<SessionSyncResult, AppError> {
-    let metadata = fs::symlink_metadata(file_path)
-        .map_err(|error| AppError::Config(format!("Cannot read Pi session file metadata: {error}")))?;
+    let metadata = fs::symlink_metadata(file_path).map_err(|error| {
+        AppError::Config(format!("Cannot read Pi session file metadata: {error}"))
+    })?;
     if !metadata.file_type().is_file()
         || file_path.extension().and_then(|value| value.to_str()) != Some("jsonl")
     {
@@ -225,9 +228,11 @@ fn sync_single_pi_file(
         modified,
     )?;
     let conn = lock_conn!(db.conn);
-    let tx = conn
-        .unchecked_transaction()
-        .map_err(|error| AppError::Database(format!("Failed to begin Pi usage import transaction: {error}")))?;
+    let tx = conn.unchecked_transaction().map_err(|error| {
+        AppError::Database(format!(
+            "Failed to begin Pi usage import transaction: {error}"
+        ))
+    })?;
     let mut result = SessionSyncResult::default();
     for record in &parsed.records {
         if insert_pi_record(&tx, record)? {
@@ -238,8 +243,11 @@ fn sync_single_pi_file(
     }
 
     update_pi_sync_state_on_conn(&tx, &file_path_string, revision, parsed.last_complete_line)?;
-    tx.commit()
-        .map_err(|error| AppError::Database(format!("Failed to commit Pi usage import transaction: {error}")))?;
+    tx.commit().map_err(|error| {
+        AppError::Database(format!(
+            "Failed to commit Pi usage import transaction: {error}"
+        ))
+    })?;
     if parsed.incomplete_tail {
         result.deferred_files = 1;
     }
@@ -287,7 +295,9 @@ fn update_pi_sync_state_on_conn(
         "UPDATE session_log_sync SET last_synced_at = ?2 WHERE file_path = ?1",
         rusqlite::params![file_path, revision.encoded()],
     )
-    .map_err(|error| AppError::Database(format!("Failed to update Pi session sync status: {error}")))?;
+    .map_err(|error| {
+        AppError::Database(format!("Failed to update Pi session sync status: {error}"))
+    })?;
     Ok(())
 }
 
@@ -303,7 +313,9 @@ fn pi_file_revision(
             .map_err(|error| AppError::Config(format!("Cannot open Pi session file: {error}")))?;
         file.seek(SeekFrom::Start(metadata.len() - tail_len))
             .and_then(|_| file.read_exact(&mut tail))
-            .map_err(|error| AppError::Config(format!("Cannot read Pi session file tail: {error}")))?;
+            .map_err(|error| {
+                AppError::Config(format!("Cannot read Pi session file tail: {error}"))
+            })?;
     }
 
     let complete = tail.last() == Some(&b'\n');
@@ -324,7 +336,9 @@ fn pi_prefix_tail_matches(file_path: &Path, previous: PiFileRevision) -> Result<
             .map_err(|error| AppError::Config(format!("Cannot open Pi session file: {error}")))?;
         file.seek(SeekFrom::Start(previous.file_size - tail_len))
             .and_then(|_| file.read_exact(&mut tail))
-            .map_err(|error| AppError::Config(format!("Cannot verify Pi session append boundary: {error}")))?;
+            .map_err(|error| {
+                AppError::Config(format!("Cannot verify Pi session append boundary: {error}"))
+            })?;
     }
     Ok(pi_tail_fingerprint(&tail) == previous.tail_fingerprint)
 }
@@ -366,7 +380,9 @@ fn parse_pi_file(
             .read_line(&mut buffer)
             .map_err(|error| AppError::Config(format!("Cannot read Pi session file: {error}")))?;
         if read == 0 {
-            return Err(AppError::Config("Pi session file was truncated while reading".to_string()));
+            return Err(AppError::Config(
+                "Pi session file was truncated while reading".to_string(),
+            ));
         }
         bytes_read = bytes_read.saturating_add(read as u64);
         if bytes_read > crate::session_manager::providers::pi::MAX_SESSION_BYTES {
@@ -418,13 +434,17 @@ fn parse_pi_file(
                 .filter(|id| crate::session_manager::providers::pi::is_valid_tree_id(id))
                 .map(str::to_string);
             if session_id.is_none() {
-                return Err(AppError::Config("Pi session header is missing id".to_string()));
+                return Err(AppError::Config(
+                    "Pi session header is missing id".to_string(),
+                ));
             }
             let header_timestamp_millis = value.get("timestamp").and_then(parse_timestamp_millis);
             session_timestamp = header_timestamp_millis.map(|timestamp| timestamp / 1000);
             if let Some(byte_offset) = start_at_byte.filter(|offset| *offset >= bytes_read) {
                 reader.seek(SeekFrom::Start(byte_offset)).map_err(|error| {
-                    AppError::Config(format!("Cannot locate Pi session incremental boundary: {error}"))
+                    AppError::Config(format!(
+                        "Cannot locate Pi session incremental boundary: {error}"
+                    ))
                 })?;
                 bytes_read = byte_offset;
                 line_number = start_after_line;
@@ -442,7 +462,9 @@ fn parse_pi_file(
     }
 
     if session_id.is_none() && !incomplete_tail {
-        return Err(AppError::Config("Pi session has no valid header".to_string()));
+        return Err(AppError::Config(
+            "Pi session has no valid header".to_string(),
+        ));
     }
     Ok(ParsedPiFile {
         records,
@@ -765,7 +787,9 @@ fn insert_pi_record(conn: &rusqlite::Connection, record: &PiUsageRecord) -> Resu
             rusqlite::params![DATA_SOURCE, record.request_id],
             |row| row.get(0),
         )
-        .map_err(|error| AppError::Database(format!("Failed to query Pi usage dedup ledger: {error}")))?;
+        .map_err(|error| {
+            AppError::Database(format!("Failed to query Pi usage dedup ledger: {error}"))
+        })?;
     let already_seen = request_seen
         || conn
             .query_row(
@@ -777,7 +801,9 @@ fn insert_pi_record(conn: &rusqlite::Connection, record: &PiUsageRecord) -> Resu
                 rusqlite::params![DATA_SOURCE, record.semantic_id],
                 |row| row.get(0),
             )
-            .map_err(|error| AppError::Database(format!("Failed to query Pi usage dedup ledger: {error}")))?;
+            .map_err(|error| {
+                AppError::Database(format!("Failed to query Pi usage dedup ledger: {error}"))
+            })?;
     if already_seen {
         return Ok(false);
     }
@@ -792,7 +818,9 @@ fn insert_pi_record(conn: &rusqlite::Connection, record: &PiUsageRecord) -> Resu
             i64::from(record.has_entry_id),
         ],
     )
-    .map_err(|error| AppError::Database(format!("Failed to write Pi usage dedup ledger: {error}")))?;
+    .map_err(|error| {
+        AppError::Database(format!("Failed to write Pi usage dedup ledger: {error}"))
+    })?;
 
     let usage = TokenUsage {
         input_tokens: record.input_tokens,
@@ -1531,9 +1559,7 @@ mod tests {
         let result = sync_pi_files(&db, std::slice::from_ref(&path));
         assert_eq!(result.files_scanned, 1);
         assert_eq!(result.errors.len(), 1);
-        assert!(
-            result.errors[0].contains("safety limit") || result.errors[0].contains("安全上限")
-        );
+        assert!(result.errors[0].contains("safety limit") || result.errors[0].contains("安全上限"));
         Ok(())
     }
 }

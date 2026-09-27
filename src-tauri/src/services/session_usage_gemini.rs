@@ -67,7 +67,10 @@ pub fn sync_gemini_usage(db: &Database) -> Result<SessionSyncResult, AppError> {
                 result.skipped += skipped;
             }
             Err(e) => {
-                let msg = format!("Failed to Gemini session file parse {}: {e}", file_path.display());
+                let msg = format!(
+                    "Failed to Gemini session file parse {}: {e}",
+                    file_path.display()
+                );
                 log::warn!("[GEMINI-SYNC] {msg}");
                 result.errors.push(msg);
             }

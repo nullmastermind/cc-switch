@@ -4756,7 +4756,8 @@ impl ProviderService {
             if let Err(rollback_error) =
                 crate::settings::set_current_provider(app_type, previous_local_current)
             {
-                rollback_failures.push(format!("Failed to restore local current: {rollback_error}"));
+                rollback_failures
+                    .push(format!("Failed to restore local current: {rollback_error}"));
             }
         }
         if let Err(rollback_error) = snapshot.restore_preserving_newer_same_account_auth() {
@@ -4823,7 +4824,8 @@ impl ProviderService {
             if let Err(rollback_error) =
                 crate::settings::set_current_provider(app_type, previous_local_current)
             {
-                rollback_failures.push(format!("Failed to restore local current: {rollback_error}"));
+                rollback_failures
+                    .push(format!("Failed to restore local current: {rollback_error}"));
             }
         }
         let backup_restore = match previous_backup {
@@ -4837,7 +4839,9 @@ impl ProviderService {
             }
         };
         if let Err(rollback_error) = backup_restore {
-            rollback_failures.push(format!("Failed to restore Codex Live back up: {rollback_error}"));
+            rollback_failures.push(format!(
+                "Failed to restore Codex Live back up: {rollback_error}"
+            ));
         }
         if let Err(rollback_error) = snapshot.restore_preserving_newer_same_account_auth() {
             rollback_failures.push(rollback_error.to_string());
@@ -5474,7 +5478,9 @@ impl ProviderService {
                         outgoing_managed_codex_account_id.as_deref(),
                     ),
                 )
-                .map_err(|error| AppError::Message(format!("Failed to update Live back up: {error}")))?;
+                .map_err(|error| {
+                    AppError::Message(format!("Failed to update Live back up: {error}"))
+                })?;
 
                 if live_taken_over {
                     futures::executor::block_on(
@@ -6761,8 +6767,9 @@ impl ProviderService {
         //    带错返回是安全的失败方式：调用方（lib.rs:1189）只记 warn 不中断启动，
         //    片段和标记都原样留着，下次启动照原样重来。
         if let Some(backup) = state.db.get_live_backup(app.as_str()).await? {
-            let original: Value = serde_json::from_str(&backup.original_config)
-                .map_err(|e| AppError::Message(format!("Failed to parse Gemini proxy-takeover backup: {e}")))?;
+            let original: Value = serde_json::from_str(&backup.original_config).map_err(|e| {
+                AppError::Message(format!("Failed to parse Gemini proxy-takeover backup: {e}"))
+            })?;
             let cleaned = live::remove_common_config_from_settings(&app, &original, &poison_text)?;
             if cleaned != original {
                 let text = serde_json::to_string(&cleaned)
@@ -7015,7 +7022,10 @@ impl ProviderService {
                 if !auth.is_object() {
                     return Err(AppError::localized(
                         "provider.codex.auth.not_object",
-                        format!("Auth config for provider {} must be a JSON object", provider.id),
+                        format!(
+                            "Auth config for provider {} must be a JSON object",
+                            provider.id
+                        ),
                         format!(
                             "Provider {} auth configuration must be a JSON object",
                             provider.id

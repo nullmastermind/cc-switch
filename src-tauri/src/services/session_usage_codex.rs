@@ -307,7 +307,9 @@ fn sqlite_column_exists(
         rusqlite::params![table, column],
         |row| row.get(0),
     )
-    .map_err(|error| AppError::Database(format!("Failed to query column {table}.{column}: {error}")))
+    .map_err(|error| {
+        AppError::Database(format!("Failed to query column {table}.{column}: {error}"))
+    })
 }
 
 pub(crate) fn reset_codex_usage_on_conn(
@@ -321,7 +323,9 @@ pub(crate) fn reset_codex_usage_on_conn(
             "DELETE FROM proxy_request_logs WHERE data_source = 'codex_session'",
             [],
         )
-        .map_err(|error| AppError::Database(format!("Failed to clean Codex session details: {error}")))?;
+        .map_err(|error| {
+            AppError::Database(format!("Failed to clean Codex session details: {error}"))
+        })?;
     }
     if sqlite_table_exists(conn, "usage_daily_rollups")?
         && sqlite_column_exists(conn, "usage_daily_rollups", "provider_id")?
@@ -330,7 +334,9 @@ pub(crate) fn reset_codex_usage_on_conn(
             "DELETE FROM usage_daily_rollups WHERE provider_id = '_codex_session'",
             [],
         )
-        .map_err(|error| AppError::Database(format!("Failed to clean Codex usage totals: {error}")))?;
+        .map_err(|error| {
+            AppError::Database(format!("Failed to clean Codex usage totals: {error}"))
+        })?;
     }
     if sqlite_table_exists(conn, "session_log_sync")?
         && sqlite_column_exists(conn, "session_log_sync", "file_path")?
@@ -343,7 +349,9 @@ pub(crate) fn reset_codex_usage_on_conn(
                 })?;
             let paths = statement
                 .query_map([], |row| row.get::<_, String>(0))
-                .map_err(|error| AppError::Database(format!("Failed to query session sync cursor: {error}")))?
+                .map_err(|error| {
+                    AppError::Database(format!("Failed to query session sync cursor: {error}"))
+                })?
                 .collect::<Result<Vec<_>, _>>()
                 .map_err(|error| {
                     AppError::Database(format!("Failed to parse session sync cursor: {error}"))
@@ -358,7 +366,9 @@ pub(crate) fn reset_codex_usage_on_conn(
                 "DELETE FROM session_log_sync WHERE file_path = ?1",
                 [file_path],
             )
-            .map_err(|error| AppError::Database(format!("Failed to clean up Codex sync cursor: {error}")))?;
+            .map_err(|error| {
+                AppError::Database(format!("Failed to clean up Codex sync cursor: {error}"))
+            })?;
         }
     }
     Ok(())
@@ -369,13 +379,19 @@ impl Database {
         let codex_dir = get_codex_config_dir();
         let conn = lock_conn!(self.conn);
         conn.execute("SAVEPOINT reset_codex_usage", [])
-            .map_err(|error| AppError::Database(format!("Failed to begin Codex rebuild transaction: {error}")))?;
+            .map_err(|error| {
+                AppError::Database(format!(
+                    "Failed to begin Codex rebuild transaction: {error}"
+                ))
+            })?;
         let result = reset_codex_usage_on_conn(&conn, &codex_dir);
         match result {
             Ok(()) => {
                 conn.execute("RELEASE reset_codex_usage", [])
                     .map_err(|error| {
-                        AppError::Database(format!("Failed to commit Codex rebuild transaction: {error}"))
+                        AppError::Database(format!(
+                            "Failed to commit Codex rebuild transaction: {error}"
+                        ))
                     })?;
                 drop(conn);
                 clear_codex_replay_caches();
@@ -713,7 +729,10 @@ pub fn sync_codex_usage(db: &Database) -> Result<SessionSyncResult, AppError> {
                 }
             }
             Err(e) => {
-                let msg = format!("Failed to Codex session file parse {}: {e}", file_path.display());
+                let msg = format!(
+                    "Failed to Codex session file parse {}: {e}",
+                    file_path.display()
+                );
                 log::warn!("[CODEX-SYNC] {msg}");
                 result.errors.push(msg);
             }
@@ -794,8 +813,8 @@ fn parse_codex_file(
     file_path: &Path,
     root_thread_id: Option<String>,
 ) -> Result<ParsedCodexFile, AppError> {
-    let file =
-        fs::File::open(file_path).map_err(|e| AppError::Config(format!("Cannot open file: {e}")))?;
+    let file = fs::File::open(file_path)
+        .map_err(|e| AppError::Config(format!("Cannot open file: {e}")))?;
     let mut reader = BufReader::new(file);
     let mut root_meta_seen = false;
     let mut root_timestamp = None;
@@ -1036,8 +1055,12 @@ fn parent_signatures_before(
     parent_path: &Path,
     cutoff: DateTime<Utc>,
 ) -> Result<Vec<TokenUsageSignature>, String> {
-    let file = fs::File::open(parent_path)
-        .map_err(|error| format!("Cannot open parent rollout {}: {error}", parent_path.display()))?;
+    let file = fs::File::open(parent_path).map_err(|error| {
+        format!(
+            "Cannot open parent rollout {}: {error}",
+            parent_path.display()
+        )
+    })?;
     let stamp = ParentFileStamp::from_file(&file);
     let cached_timeline = stamp.and_then(|stamp| {
         replay_caches().lock().ok().and_then(|caches| {
@@ -1401,9 +1424,11 @@ fn sync_single_codex_file(
     for (batch_index, batch) in to_insert.chunks(CODEX_INSERT_BATCH_SIZE).enumerate() {
         let is_last_batch = batch_index + 1 == batch_count;
         let conn = lock_conn!(db.conn);
-        let tx = conn
-            .unchecked_transaction()
-            .map_err(|e| AppError::Database(format!("Failed to begin Codex session write transaction: {e}")))?;
+        let tx = conn.unchecked_transaction().map_err(|e| {
+            AppError::Database(format!(
+                "Failed to begin Codex session write transaction: {e}"
+            ))
+        })?;
 
         let mut batch_imported = 0u32;
         let mut batch_skipped = 0u32;
@@ -1434,8 +1459,11 @@ fn sync_single_codex_file(
             // 不会出现"游标已推进但数据缺失"的丢数据窗口。
             update_codex_sync_state_on_conn(&tx, &file_path_str, file_modified, &parsed)?;
         }
-        tx.commit()
-            .map_err(|e| AppError::Database(format!("Failed to commit Codex session write transaction: {e}")))?;
+        tx.commit().map_err(|e| {
+            AppError::Database(format!(
+                "Failed to commit Codex session write transaction: {e}"
+            ))
+        })?;
 
         result.imported = result.imported.saturating_add(batch_imported);
         result.skipped = result.skipped.saturating_add(batch_skipped);

@@ -205,7 +205,8 @@ impl Database {
         temp_conn.authorizer(
             None::<fn(rusqlite::hooks::AuthContext<'_>) -> rusqlite::hooks::Authorization>,
         );
-        batch_result.map_err(|e| AppError::Database(format!("Failed to execute SQL import: {e}")))?;
+        batch_result
+            .map_err(|e| AppError::Database(format!("Failed to execute SQL import: {e}")))?;
         if !temp_conn.is_autocommit() {
             let _ = temp_conn.execute_batch("ROLLBACK;");
             return Err(AppError::localized(
@@ -332,16 +333,16 @@ impl Database {
                 format!("INSERT INTO {quoted_table} ({quoted_columns}) VALUES ({placeholders})");
 
             // INSERT 语句每表只 prepare 一次，不再逐行重复解析。
-            let mut insert_stmt = tx
-                .prepare(&insert_sql)
-                .map_err(|e| AppError::Database(format!("Failed to prepare insert for table {table}: {e}")))?;
+            let mut insert_stmt = tx.prepare(&insert_sql).map_err(|e| {
+                AppError::Database(format!("Failed to prepare insert for table {table}: {e}"))
+            })?;
 
             let mut stmt = source_conn
                 .prepare(&format!("SELECT {quoted_columns} FROM {quoted_table}"))
                 .map_err(|e| AppError::Database(format!("Failed to read table {table}: {e}")))?;
-            let mut rows = stmt
-                .query([])
-                .map_err(|e| AppError::Database(format!("Failed to query data from table {table}: {e}")))?;
+            let mut rows = stmt.query([]).map_err(|e| {
+                AppError::Database(format!("Failed to query data from table {table}: {e}"))
+            })?;
 
             while let Some(row) = rows.next().map_err(|e| AppError::Database(e.to_string()))? {
                 let mut values = Vec::with_capacity(columns.len());
@@ -354,14 +355,17 @@ impl Database {
 
                 insert_stmt
                     .execute(rusqlite::params_from_iter(values.iter()))
-                    .map_err(|e| AppError::Database(format!("Failed to restore data for table {table}: {e}")))?;
+                    .map_err(|e| {
+                        AppError::Database(format!("Failed to restore data for table {table}: {e}"))
+                    })?;
             }
         }
 
         Self::restore_sqlite_sequences(source_conn, &tx, tables)?;
 
-        tx.commit()
-            .map_err(|e| AppError::Database(format!("Failed to commit restore transaction: {e}")))?;
+        tx.commit().map_err(|e| {
+            AppError::Database(format!("Failed to commit restore transaction: {e}"))
+        })?;
         Ok(())
     }
 
@@ -381,28 +385,34 @@ impl Database {
                 "SELECT seq FROM sqlite_sequence
                  WHERE name = ?1 ORDER BY rowid DESC LIMIT 1",
             )
-            .map_err(|e| AppError::Database(format!("Failed to read AUTOINCREMENT sequence: {e}")))?;
+            .map_err(|e| {
+                AppError::Database(format!("Failed to read AUTOINCREMENT sequence: {e}"))
+            })?;
         for table in tables {
             target_conn
                 .execute("DELETE FROM sqlite_sequence WHERE name = ?1", [*table])
                 .map_err(|e| {
-                    AppError::Database(format!("Failed to clean AUTOINCREMENT sequence for table {table}: {e}"))
+                    AppError::Database(format!(
+                        "Failed to clean AUTOINCREMENT sequence for table {table}: {e}"
+                    ))
                 })?;
 
-            let mut rows = source_stmt
-                .query([*table])
-                .map_err(|e| AppError::Database(format!("Failed to query sequence for table {table}: {e}")))?;
+            let mut rows = source_stmt.query([*table]).map_err(|e| {
+                AppError::Database(format!("Failed to query sequence for table {table}: {e}"))
+            })?;
             if let Some(row) = rows.next().map_err(|e| AppError::Database(e.to_string()))? {
-                let sequence = row
-                    .get::<_, rusqlite::types::Value>(0)
-                    .map_err(|e| AppError::Database(format!("Failed to parse sequence for table {table}: {e}")))?;
+                let sequence = row.get::<_, rusqlite::types::Value>(0).map_err(|e| {
+                    AppError::Database(format!("Failed to parse sequence for table {table}: {e}"))
+                })?;
                 target_conn
                     .execute(
                         "INSERT INTO sqlite_sequence (name, seq) VALUES (?1, ?2)",
                         rusqlite::params![table, sequence],
                     )
                     .map_err(|e| {
-                        AppError::Database(format!("Failed to restore AUTOINCREMENT sequence for table {table}: {e}"))
+                        AppError::Database(format!(
+                            "Failed to restore AUTOINCREMENT sequence for table {table}: {e}"
+                        ))
                     })?;
             }
         }
@@ -544,9 +554,9 @@ impl Database {
         Self::complete_backup(&backup, "Create database safety backup")?;
         drop(backup);
         Self::validate_sqlite_integrity(&dest_conn)?;
-        dest_conn
-            .close()
-            .map_err(|(_, e)| AppError::Database(format!("Failed to close database safety backup: {e}")))?;
+        dest_conn.close().map_err(|(_, e)| {
+            AppError::Database(format!("Failed to close database safety backup: {e}"))
+        })?;
         before_publish(temp_db_path, &backup_path)?;
 
         loop {
@@ -661,7 +671,10 @@ impl Database {
 
         Err(AppError::localized(
             "backup.db.integrity_failed",
-            format!("Database backup integrity check failed: {}", results.join("; ")),
+            format!(
+                "Database backup integrity check failed: {}",
+                results.join("; ")
+            ),
             format!(
                 "Database backup integrity check failed: {}",
                 results.join("; ")
@@ -851,21 +864,23 @@ impl Database {
 
         let mut stmt = conn
             .prepare("SELECT name, seq FROM sqlite_sequence ORDER BY name")
-            .map_err(|e| AppError::Database(format!("Failed to read AUTOINCREMENT sequence: {e}")))?;
-        let mut rows = stmt
-            .query([])
-            .map_err(|e| AppError::Database(format!("Failed to query AUTOINCREMENT sequence: {e}")))?;
+            .map_err(|e| {
+                AppError::Database(format!("Failed to read AUTOINCREMENT sequence: {e}"))
+            })?;
+        let mut rows = stmt.query([]).map_err(|e| {
+            AppError::Database(format!("Failed to query AUTOINCREMENT sequence: {e}"))
+        })?;
         let mut values = Vec::new();
         while let Some(row) = rows.next().map_err(|e| AppError::Database(e.to_string()))? {
-            let table: String = row
-                .get(0)
-                .map_err(|e| AppError::Database(format!("Failed to parse AUTOINCREMENT table name: {e}")))?;
+            let table: String = row.get(0).map_err(|e| {
+                AppError::Database(format!("Failed to parse AUTOINCREMENT table name: {e}"))
+            })?;
             if skip_tables.iter().any(|skipped| *skipped == table) {
                 continue;
             }
-            let sequence = row
-                .get_ref(1)
-                .map_err(|e| AppError::Database(format!("Failed to parse sequence for table {table}: {e}")))?;
+            let sequence = row.get_ref(1).map_err(|e| {
+                AppError::Database(format!("Failed to parse sequence for table {table}: {e}"))
+            })?;
             values.push(format!(
                 "({}, {})",
                 Self::format_sql_value(ValueRef::Text(table.as_bytes()))?,

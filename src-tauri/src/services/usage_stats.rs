@@ -504,7 +504,11 @@ pub(crate) fn has_suspected_codex_session_duplicate(
                 |row| row.get::<_, bool>(0),
             )
         })
-        .map_err(|error| AppError::Database(format!("Failed to query suspected duplicate Codex session usage: {error}")))
+        .map_err(|error| {
+            AppError::Database(format!(
+                "Failed to query suspected duplicate Codex session usage: {error}"
+            ))
+        })
 }
 
 #[derive(Debug, Clone, Default)]
@@ -1213,8 +1217,9 @@ impl Database {
 
         for row in rollup_rows {
             let (bucket_date, (req, cost, tok, inp, out, cc, cr)) = row?;
-            let date = NaiveDate::parse_from_str(&bucket_date, "%Y-%m-%d")
-                .map_err(|err| AppError::Database(format!("Failed to parse rollup trend date: {err}")))?;
+            let date = NaiveDate::parse_from_str(&bucket_date, "%Y-%m-%d").map_err(|err| {
+                AppError::Database(format!("Failed to parse rollup trend date: {err}"))
+            })?;
             let entry = map.entry(date).or_insert_with(|| DailyStats {
                 date: String::new(),
                 request_count: 0,
@@ -1849,9 +1854,11 @@ impl Database {
             return Ok(0);
         }
 
-        let tx = conn
-            .unchecked_transaction()
-            .map_err(|e| AppError::Database(format!("Failed to begin usage cost backfill transaction: {e}")))?;
+        let tx = conn.unchecked_transaction().map_err(|e| {
+            AppError::Database(format!(
+                "Failed to begin usage cost backfill transaction: {e}"
+            ))
+        })?;
 
         let mut updated = 0u64;
         let mut pricing_cache = HashMap::new();
@@ -1860,8 +1867,11 @@ impl Database {
                 updated += 1;
             }
         }
-        tx.commit()
-            .map_err(|e| AppError::Database(format!("Failed to commit usage cost backfill transaction: {e}")))?;
+        tx.commit().map_err(|e| {
+            AppError::Database(format!(
+                "Failed to commit usage cost backfill transaction: {e}"
+            ))
+        })?;
 
         if updated > 0 {
             log::info!("已回填 {updated} 条缺失的用量成本");
@@ -1982,10 +1992,12 @@ impl Database {
                 .map_err(|e| AppError::Database(format!("Failed to parse input price: {e}")))?,
             output: rust_decimal::Decimal::from_str(&output)
                 .map_err(|e| AppError::Database(format!("Failed to parse output price: {e}")))?,
-            cache_read: rust_decimal::Decimal::from_str(&cache_read)
-                .map_err(|e| AppError::Database(format!("Failed to parse cache-read price: {e}")))?,
-            cache_creation: rust_decimal::Decimal::from_str(&cache_creation)
-                .map_err(|e| AppError::Database(format!("Failed to parse cache-write price: {e}")))?,
+            cache_read: rust_decimal::Decimal::from_str(&cache_read).map_err(|e| {
+                AppError::Database(format!("Failed to parse cache-read price: {e}"))
+            })?,
+            cache_creation: rust_decimal::Decimal::from_str(&cache_creation).map_err(|e| {
+                AppError::Database(format!("Failed to parse cache-write price: {e}"))
+            })?,
         };
 
         cache.insert(model.to_string(), pricing.clone());

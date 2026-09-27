@@ -254,8 +254,9 @@ impl Database {
         &self,
         config: &crate::proxy::types::RectifierConfig,
     ) -> Result<(), AppError> {
-        let json = serde_json::to_string(config)
-            .map_err(|e| AppError::Database(format!("Failed to serialize rectifier config: {e}")))?;
+        let json = serde_json::to_string(config).map_err(|e| {
+            AppError::Database(format!("Failed to serialize rectifier config: {e}"))
+        })?;
         self.set_setting("rectifier_config", &json)
     }
 
@@ -277,8 +278,9 @@ impl Database {
         &self,
         config: &crate::proxy::types::OptimizerConfig,
     ) -> Result<(), AppError> {
-        let json = serde_json::to_string(config)
-            .map_err(|e| AppError::Database(format!("Failed to serialize optimizer config: {e}")))?;
+        let json = serde_json::to_string(config).map_err(|e| {
+            AppError::Database(format!("Failed to serialize optimizer config: {e}"))
+        })?;
         self.set_setting("optimizer_config", &json)
     }
 
@@ -291,8 +293,9 @@ impl Database {
         &self,
     ) -> Result<crate::proxy::types::CopilotOptimizerConfig, AppError> {
         match self.get_setting("copilot_optimizer_config")? {
-            Some(json) => serde_json::from_str(&json)
-                .map_err(|e| AppError::Database(format!("Failed to parse Copilot optimizer config: {e}"))),
+            Some(json) => serde_json::from_str(&json).map_err(|e| {
+                AppError::Database(format!("Failed to parse Copilot optimizer config: {e}"))
+            }),
             None => Ok(crate::proxy::types::CopilotOptimizerConfig::default()),
         }
     }
@@ -302,8 +305,9 @@ impl Database {
         &self,
         config: &crate::proxy::types::CopilotOptimizerConfig,
     ) -> Result<(), AppError> {
-        let json = serde_json::to_string(config)
-            .map_err(|e| AppError::Database(format!("Failed to serialize Copilot optimizer config: {e}")))?;
+        let json = serde_json::to_string(config).map_err(|e| {
+            AppError::Database(format!("Failed to serialize Copilot optimizer config: {e}"))
+        })?;
         self.set_setting("copilot_optimizer_config", &json)
     }
 

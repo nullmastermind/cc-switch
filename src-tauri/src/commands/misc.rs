@@ -53,7 +53,8 @@ pub async fn copy_text_to_clipboard(text: String) -> Result<bool, String> {
 /// 判断是否为便携版（绿色版）运行
 #[tauri::command]
 pub async fn is_portable_mode() -> Result<bool, String> {
-    let exe_path = std::env::current_exe().map_err(|e| format!("Failed to get executable path: {e}"))?;
+    let exe_path =
+        std::env::current_exe().map_err(|e| format!("Failed to get executable path: {e}"))?;
     if let Some(dir) = exe_path.parent() {
         Ok(dir.join("portable.ini").is_file())
     } else {
@@ -209,7 +210,9 @@ fn run_tool_lifecycle_silently(command_line: &str, _label: &str) -> Result<(), S
         let inherited = std::env::var("PATH").unwrap_or_default();
         cmd.env("PATH", merge_path_segments(&login_path, &inherited));
     }
-    let output = cmd.output().map_err(|e| format!("Failed to start installer: {e}"))?;
+    let output = cmd
+        .output()
+        .map_err(|e| format!("Failed to start installer: {e}"))?;
     finish_lifecycle_output(&output)
 }
 
@@ -229,7 +232,8 @@ fn run_tool_lifecycle_silently(command_line: &str, label: &str) -> Result<(), St
         std::process::id(),
         seq
     ));
-    std::fs::write(&bat_file, command_line).map_err(|e| format!("Failed to write batch file: {e}"))?;
+    std::fs::write(&bat_file, command_line)
+        .map_err(|e| format!("Failed to write batch file: {e}"))?;
 
     let output = Command::new("cmd")
         .arg("/C")
@@ -4335,9 +4339,13 @@ fn resolve_launch_cwd(cwd: Option<String>) -> Result<Option<PathBuf>, String> {
         return Err(format!("Directory not found: {raw_path}"));
     }
 
-    let resolved = std::fs::canonicalize(path).map_err(|e| format!("Failed to resolve directory: {e}"))?;
+    let resolved =
+        std::fs::canonicalize(path).map_err(|e| format!("Failed to resolve directory: {e}"))?;
     if !resolved.is_dir() {
-        return Err(format!("Selected path is not a directory: {}", resolved.display()));
+        return Err(format!(
+            "Selected path is not a directory: {}",
+            resolved.display()
+        ));
     }
 
     #[cfg(target_os = "windows")]
@@ -4399,10 +4407,11 @@ fn write_claude_config(
 
     config_obj.insert("env".to_string(), serde_json::Value::Object(env_obj));
 
-    let config_json =
-        serde_json::to_string_pretty(&config_obj).map_err(|e| format!("Failed to serialize config: {e}"))?;
+    let config_json = serde_json::to_string_pretty(&config_obj)
+        .map_err(|e| format!("Failed to serialize config: {e}"))?;
 
-    std::fs::write(config_file, config_json).map_err(|e| format!("Failed to write config file: {e}"))
+    std::fs::write(config_file, config_json)
+        .map_err(|e| format!("Failed to write config file: {e}"))
 }
 
 /// macOS: 根据用户首选终端启动
@@ -4440,7 +4449,8 @@ echo "{config_path}"
         exec_line = exec_line,
     );
 
-    std::fs::write(&script_file, &script_content).map_err(|e| format!("Failed to write startup script: {e}"))?;
+    std::fs::write(&script_file, &script_content)
+        .map_err(|e| format!("Failed to write startup script: {e}"))?;
 
     // Make script executable
     std::fs::set_permissions(&script_file, std::fs::Permissions::from_mode(0o755))
@@ -4784,7 +4794,9 @@ fn launch_macos_warp(script_file: &std::path::Path) -> Result<(), String> {
     let warp_url = warp_url.to_string();
     cmd.arg(warp_url);
 
-    let output = cmd.output().map_err(|e| format!("Failed to start Warp: {e}"))?;
+    let output = cmd
+        .output()
+        .map_err(|e| format!("Failed to start Warp: {e}"))?;
     if !output.status.success() {
         let stderr = decode_command_output(&output.stderr);
         return Err(format!(
@@ -4843,7 +4855,8 @@ echo "{config_path}"
         exec_line = exec_line,
     );
 
-    std::fs::write(&script_file, &script_content).map_err(|e| format!("Failed to write startup script: {e}"))?;
+    std::fs::write(&script_file, &script_content)
+        .map_err(|e| format!("Failed to write startup script: {e}"))?;
 
     std::fs::set_permissions(&script_file, std::fs::Permissions::from_mode(0o755))
         .map_err(|e| format!("Failed to set script permissions: {e}"))?;
@@ -5183,7 +5196,8 @@ read -r _
             label = label,
             cmd = command_line,
         );
-        std::fs::write(&bat_file, &content).map_err(|e| format!("Failed to write batch file: {e}"))?;
+        std::fs::write(&bat_file, &content)
+            .map_err(|e| format!("Failed to write batch file: {e}"))?;
 
         let bat_path = bat_file.to_string_lossy();
         let ps_cmd = format!("& '{}'", bat_path);

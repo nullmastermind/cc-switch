@@ -80,8 +80,9 @@ pub fn import_from_grokbuild(config: &mut MultiAppConfig) -> Result<usize, AppEr
     if text.trim().is_empty() {
         return Ok(0);
     }
-    let root: toml::Table = toml::from_str(&text)
-        .map_err(|e| AppError::McpValidation(format!("Failed to parse ~/.grok/ config.toml: {e}")))?;
+    let root: toml::Table = toml::from_str(&text).map_err(|e| {
+        AppError::McpValidation(format!("Failed to parse ~/.grok/ config.toml: {e}"))
+    })?;
     let Some(entries) = root.get("mcp_servers").and_then(toml::Value::as_table) else {
         return Ok(0);
     };

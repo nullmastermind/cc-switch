@@ -1174,8 +1174,8 @@ impl SkillService {
     }
 
     fn collect_tree_entries(current: &Path, entries: &mut Vec<PathBuf>) -> Result<()> {
-        for entry in
-            fs::read_dir(current).with_context(|| format!("Failed to read directory: {}", current.display()))?
+        for entry in fs::read_dir(current)
+            .with_context(|| format!("Failed to read directory: {}", current.display()))?
         {
             let entry = entry?;
             let path = entry.path();
@@ -2237,14 +2237,24 @@ impl SkillService {
     /// - Windows: 使用 std::os::windows::fs::symlink_dir
     #[cfg(unix)]
     fn create_symlink(src: &Path, dest: &Path) -> Result<()> {
-        std::os::unix::fs::symlink(src, dest)
-            .with_context(|| format!("Failed to create symlink: {} -> {}", src.display(), dest.display()))
+        std::os::unix::fs::symlink(src, dest).with_context(|| {
+            format!(
+                "Failed to create symlink: {} -> {}",
+                src.display(),
+                dest.display()
+            )
+        })
     }
 
     #[cfg(windows)]
     fn create_symlink(src: &Path, dest: &Path) -> Result<()> {
-        std::os::windows::fs::symlink_dir(src, dest)
-            .with_context(|| format!("Failed to create symlink: {} -> {}", src.display(), dest.display()))
+        std::os::windows::fs::symlink_dir(src, dest).with_context(|| {
+            format!(
+                "Failed to create symlink: {} -> {}",
+                src.display(),
+                dest.display()
+            )
+        })
     }
 
     /// 检查路径是否为符号链接

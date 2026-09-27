@@ -55,8 +55,9 @@ pub fn import_from_codex(config: &mut MultiAppConfig) -> Result<usize, AppError>
         return Ok(0);
     }
 
-    let root: toml::Table = toml::from_str(&text)
-        .map_err(|e| AppError::McpValidation(format!("Failed to parse ~/.codex/ config.toml: {e}")))?;
+    let root: toml::Table = toml::from_str(&text).map_err(|e| {
+        AppError::McpValidation(format!("Failed to parse ~/.codex/ config.toml: {e}"))
+    })?;
 
     // 确保新结构存在
     let servers = config.mcp.servers.get_or_insert_with(HashMap::new);
@@ -375,7 +376,9 @@ fn upsert_mcp_server_table(
     let servers = doc
         .get_mut("mcp_servers")
         .and_then(toml_edit::Item::as_table_like_mut)
-        .ok_or_else(|| AppError::McpValidation("config.toml mcp_servers is not a table".to_string()))?;
+        .ok_or_else(|| {
+            AppError::McpValidation("config.toml mcp_servers is not a table".to_string())
+        })?;
     servers.insert(id, toml_edit::Item::Table(table));
     Ok(())
 }

@@ -705,7 +705,9 @@ fn save_settings_file(settings: &AppSettings) -> Result<(), AppError> {
     let mut normalized = settings.clone();
     normalized.normalize_paths();
     let Some(path) = AppSettings::settings_path() else {
-        return Err(AppError::Config("Cannot determine user home directory".to_string()));
+        return Err(AppError::Config(
+            "Cannot determine user home directory".to_string(),
+        ));
     };
 
     if let Some(parent) = path.parent() {

@@ -649,7 +649,8 @@ impl CodexOAuthManager {
             .filter(|token| !token.trim().is_empty())
             .ok_or_else(|| {
                 CodexOAuthError::TokenFetchFailed(
-                    "Login response is missing id_token; account not saved. Please sign in again".to_string(),
+                    "Login response is missing id_token; account not saved. Please sign in again"
+                        .to_string(),
                 )
             })?;
         if crate::codex_config::extract_codex_id_token_subject(&id_token).is_none() {
@@ -1381,7 +1382,9 @@ impl CodexOAuthManager {
             .get(account_id)
             .ok_or_else(|| CodexOAuthError::AccountNotFound(account_id.to_string()))?;
         account.chatgpt_account_id.clone().ok_or_else(|| {
-            CodexOAuthError::ParseError("Account is missing chatgpt_account_id; please sign in again".to_string())
+            CodexOAuthError::ParseError(
+                "Account is missing chatgpt_account_id; please sign in again".to_string(),
+            )
         })
     }
 

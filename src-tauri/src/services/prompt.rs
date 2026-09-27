@@ -142,7 +142,9 @@ impl PromptService {
 
         if let Some(prompt) = prompts.get(id) {
             if prompt.enabled {
-                return Err(AppError::InvalidInput("Cannot delete an enabled prompt".to_string()));
+                return Err(AppError::InvalidInput(
+                    "Cannot delete an enabled prompt".to_string(),
+                ));
             }
         }
 
@@ -618,7 +620,9 @@ fn delete_pi_prompt(state: &AppState, id: &str) -> Result<(), AppError> {
     let prompts = state.db.get_prompts(AppType::Pi.as_str())?;
     let snapshot = guard.read()?;
     if pi_active_prompt_id(&prompts, snapshot.content.as_deref()).as_deref() == Some(id) {
-        return Err(AppError::InvalidInput("Cannot delete an enabled prompt".to_string()));
+        return Err(AppError::InvalidInput(
+            "Cannot delete an enabled prompt".to_string(),
+        ));
     }
     state.db.delete_prompt(AppType::Pi.as_str(), id)?;
     Ok(())

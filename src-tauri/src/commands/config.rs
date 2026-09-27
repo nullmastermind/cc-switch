@@ -213,7 +213,8 @@ pub async fn open_config_folder(
     };
 
     if !config_dir.exists() {
-        std::fs::create_dir_all(&config_dir).map_err(|e| format!("Failed to create directory: {e}"))?;
+        std::fs::create_dir_all(&config_dir)
+            .map_err(|e| format!("Failed to create directory: {e}"))?;
     }
 
     handle
@@ -266,7 +267,8 @@ pub async fn open_app_config_folder(handle: AppHandle<crate::AppRuntime>) -> Res
     let config_dir = config::get_app_config_dir();
 
     if !config_dir.exists() {
-        std::fs::create_dir_all(&config_dir).map_err(|e| format!("Failed to create directory: {e}"))?;
+        std::fs::create_dir_all(&config_dir)
+            .map_err(|e| format!("Failed to create directory: {e}"))?;
     }
 
     handle
