@@ -85,7 +85,7 @@ jobs:
         run: bun run test:unit
 
       - name: Build frontend
-        run: pnpm build:renderer
+        run: bun run build:renderer
 
   backend:
     name: Backend Checks
