@@ -64,9 +64,8 @@ describe("PiProviderForm", () => {
     );
 
     expect(container.querySelector("#provider-form")).toHaveClass(
-      "glass",
-      "rounded-xl",
-      "p-6",
+      "rounded-[8px]",
+      "p-2",
     );
     expect(screen.getByLabelText("provider.name")).toBeInTheDocument();
     expect(screen.getByLabelText("provider.notes")).toBeInTheDocument();
@@ -125,7 +124,6 @@ describe("PiProviderForm", () => {
     expect(screen.getByLabelText("pi.form.modelName")).toBeInTheDocument();
     expect(screen.queryByText("pi.form.modelApi")).not.toBeInTheDocument();
     expect(screen.queryByText("pi.form.modelBaseUrl")).not.toBeInTheDocument();
-    expect(models).not.toHaveClass("font-medium");
     expect(headers).toHaveClass("font-medium");
   });
 

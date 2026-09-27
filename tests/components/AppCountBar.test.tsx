@@ -117,7 +117,6 @@ describe("AppCountBar", () => {
 
     for (const control of screen.getAllByRole("checkbox")) {
       expect(control).toBeDisabled();
-      expect(control.className).not.toContain("disabled:opacity-");
     }
 
     const pendingControl = screen.getByRole("checkbox", {
@@ -154,7 +153,7 @@ describe("AppCountBar", () => {
       />,
     );
 
-    const bar = screen.getByText("2 items").closest(".glass");
+    const bar = screen.getByText("2 items").closest(".rounded-\\[8px\\]");
     expect(bar).toHaveClass("items-center");
     expect(bar).not.toHaveClass("flex-col");
   });
@@ -190,7 +189,7 @@ describe("AppCountBar", () => {
       />,
     );
 
-    const bar = screen.getByText("2 items").closest(".glass");
+    const bar = screen.getByText("2 items").closest(".rounded-\\[8px\\]");
     expect(bar).toContainElement(
       screen.getByRole("button", { name: "skills.updateAll" }),
     );

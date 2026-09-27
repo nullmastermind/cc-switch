@@ -2860,7 +2860,7 @@ wire_api = "responses"
             assert!(
                 error
                     .to_string()
-                    .contains("Cannot safely tell which refresh token is newer"),
+                    .contains("newer refresh token cannot be determined safely"),
                 "update should explain the safe-write rejection: {error}"
             );
 
@@ -2952,7 +2952,7 @@ wire_api = "responses"
                 assert!(
                     error
                         .to_string()
-                        .contains("Cannot safely tell which refresh token is newer"),
+                        .contains("newer refresh token cannot be determined safely"),
                     "attempt {attempt} should remain ambiguous: {error}"
                 );
                 let live_after: Value = read_json_file(&crate::codex_config::get_codex_auth_path())

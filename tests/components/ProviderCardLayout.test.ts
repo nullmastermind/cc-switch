@@ -27,9 +27,9 @@ describe("ProviderCard layout", () => {
   it("lets website links use available card width before truncating", () => {
     expect(source).not.toContain("max-w-[280px]");
     expect(source).toContain("flex min-w-0 flex-1 items-center gap-2");
-    expect(source).toContain("min-w-0 flex-1 space-y-1");
+    expect(source).toContain("min-w-0 flex-1");
     expect(source).toContain(
-      "inline-flex max-w-full items-center overflow-hidden text-left text-sm",
+      "h-auto max-w-full min-w-0 overflow-hidden px-0 py-0 text-left leading-[1.3] whitespace-normal",
     );
   });
 

@@ -240,7 +240,6 @@ describe("CodexOAuthSection", () => {
 
     const accountPlaceholder = screen.getByText("请选择登录方式");
     expect(accountPlaceholder.parentElement).toHaveClass(
-      "text-sm",
       "font-normal",
       "text-muted-foreground",
     );

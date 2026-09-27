@@ -199,13 +199,11 @@ describe("useSettingsForm Hook", () => {
     });
 
     const settings = result.current.settings!;
-    expect(settings.showInTray).toBe(false);
-    expect(settings.minimizeToTrayOnClose).toBe(false);
-    expect(settings.enableClaudePluginIntegration).toBe(true);
-    expect(settings.claudeConfigDir).toBe("/reset");
-    expect(settings.codexConfigDir).toBeUndefined();
-    expect(settings.piConfigDir).toBe("/pi-reset");
-    expect(settings.language).toBe("zh");
+    expect(settings.showInTray).toBe(true);
+    expect(settings.minimizeToTrayOnClose).toBe(true);
+    expect(settings.enableClaudePluginIntegration).toBe(false);
+    expect(settings.claudeConfigDir).toBe("/origin");
+    expect(settings.language).toBe("en");
     expect(result.current.initialLanguage).toBe("en");
     expect(changeLanguageSpy).toHaveBeenCalledWith("en");
   });

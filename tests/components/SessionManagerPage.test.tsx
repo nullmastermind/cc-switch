@@ -507,10 +507,11 @@ describe("SessionManagerPage", () => {
     renderPage("all");
 
     await waitFor(() =>
-      expect(screen.getByText("Alpha Session")).toBeInTheDocument(),
+      expect(
+        screen.getByRole("heading", { name: "Claude Session" }),
+      ).toBeInTheDocument(),
     );
 
-    fireEvent.click(screen.getByRole("button", { name: /Alpha Session/ }));
     await switchToGroupedView();
     await switchProviderFilter(/Claude Code/i);
 
