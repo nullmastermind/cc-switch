@@ -650,11 +650,11 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
-          name: Cli-Switch ${{ github.ref_name }}
+          name: Viber-Switch ${{ github.ref_name }}
           prerelease: false
           make_latest: true
           body: |
-            ## Cli-Switch ${{ github.ref_name }}
+            ## Viber-Switch ${{ github.ref_name }}
 
             🌐 **Official Website / 官方网站 / 公式サイト**: [viber.vn](https://viber.vn)
 
