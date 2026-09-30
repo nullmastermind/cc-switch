@@ -2675,7 +2675,10 @@ fn switch_claude_refuses_a_settings_file_it_cannot_parse() {
         .expect("mtime");
 
     let err = ProviderService::switch(&state, AppType::Claude, "b").expect_err("must refuse");
-    assert!(err.to_string().contains("第 4 行"), "{err}");
+    assert!(
+        err.to_string().contains("第 4 行") || err.to_string().contains("line 4"),
+        "{err}"
+    );
     assert_eq!(claude_live_text(), broken);
     assert_eq!(
         std::fs::metadata(&path)
@@ -2707,7 +2710,7 @@ fn provider_service_switch_missing_provider_returns_error() {
     match err {
         AppError::Message(msg) => {
             assert!(
-                msg.contains("not found") || msg.contains("not found"),
+                msg.contains("不存在") || msg.contains("not found"),
                 "expected provider not found message, got {msg}"
             );
         }
@@ -2905,18 +2908,14 @@ fn provider_service_delete_current_provider_returns_error() {
     let err = ProviderService::delete(&app_state, AppType::Claude, "keep")
         .expect_err("deleting current provider should fail");
     match err {
-        AppError::Localized { zh, .. } => assert!(
-            zh.contains("Cannot delete the provider currently in use")
-                || zh.contains("Cannot delete the provider currently in use"),
-            "unexpected message: {zh}"
+        AppError::Localized { zh, en, .. } => assert!(
+            zh.contains("无法删除当前正在使用的供应商")
+                || zh.contains("Cannot delete the provider currently in use")
+                || en.contains("Cannot delete the provider currently in use"),
+            "unexpected message: zh={zh} en={en}"
         ),
-        AppError::Config(msg) => assert!(
-            msg.contains("Cannot delete the provider currently in use")
-                || msg.contains("Cannot delete the provider currently in use"),
-            "unexpected message: {msg}"
-        ),
-        AppError::Message(msg) => assert!(
-            msg.contains("Cannot delete the provider currently in use")
+        AppError::Config(msg) | AppError::Message(msg) => assert!(
+            msg.contains("无法删除当前正在使用的供应商")
                 || msg.contains("Cannot delete the provider currently in use"),
             "unexpected message: {msg}"
         ),
