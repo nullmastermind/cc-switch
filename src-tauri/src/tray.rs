@@ -527,7 +527,6 @@ pub fn handle_provider_tray_event(
     false
 }
 
-
 /// 处理供应商点击：关闭 auto_failover + 切换供应商
 fn handle_provider_click(
     app: &tauri::AppHandle<crate::AppRuntime>,

@@ -170,12 +170,21 @@ function renderForm(
 }
 
 function clickPreset(presetName: string) {
-  const matches = screen
-    .getAllByRole("button")
+  let matches = screen
+    .queryAllByRole("button")
     .filter(
       (button) =>
         button.querySelector("span.truncate")?.textContent === presetName,
     );
+  if (matches.length === 0) {
+    fireEvent.click(screen.getByRole("button", { name: /unofficial/i }));
+    matches = screen
+      .queryAllByRole("button")
+      .filter(
+        (button) =>
+          button.querySelector("span.truncate")?.textContent === presetName,
+      );
+  }
   expect(matches, `预设按钮「${presetName}」应唯一`).toHaveLength(1);
   fireEvent.click(matches[0]);
 }

@@ -58,7 +58,9 @@ const outdated = new Set<string>();
 const missing = new Set<string>();
 
 function card(name: string) {
-  return within(screen.getByText(name).closest(".rounded-xl") as HTMLElement);
+  return within(
+    screen.getByText(name).closest(".border.bg-card") as HTMLElement,
+  );
 }
 
 function updateButton(name: string) {

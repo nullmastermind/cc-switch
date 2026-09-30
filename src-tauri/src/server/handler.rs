@@ -363,5 +363,5 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::enter_lightweight_mode,
         commands::exit_lightweight_mode,
         commands::is_lightweight_mode,
-        ]
+    ]
 }
