@@ -69,6 +69,7 @@
     "effortMax": "最大强度思考",
     "disableAutoUpgrade": "禁用自动升级",
     "disableArtifact": "禁用 Artifact 工具",
+    "enableTodoTools": "启用 Todo 工具",
     "keyFieldsHint": "地址、Key、模型、上下文窗口和兼容开关随供应商切换；其余字段是 Claude Code 全局设置，保存后对所有供应商生效。",
     "inactiveFieldsHint": "这个供应商还保存着 {{count}} 个不随切换生效的字段。点击可加入上方的全局设置，保存后写入配置文件；供应商里保存的原值不会删除。",
     "addToGlobalSettings": "加入全局设置"

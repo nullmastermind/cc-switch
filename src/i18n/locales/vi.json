@@ -86,6 +86,7 @@
     "effortMax": "Thinking mức max",
     "disableAutoUpgrade": "Tắt Auto-Upgrade",
     "disableArtifact": "Tắt Artifact Tool",
+    "enableTodoTools": "Bật Todo Tools",
     "addToGlobalSettings": "Thêm vào setting global",
     "inactiveFieldsHint": "Provider này còn lưu {{count}} field không có hiệu lực khi chuyển. Bấm để thêm vào setting global phía trên; lưu sẽ ghi vào file config, giá trị trong Provider vẫn giữ.",
     "keyFieldsHint": "Endpoint, key, model, context window và các công tắc tương thích đi theo Provider; phần còn lại là setting global của Claude Code, lưu xong áp cho mọi Provider."

@@ -112,7 +112,7 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
       <span
         className={cn(
           "inline-flex items-center justify-center flex-shrink-0 rounded-[4px]",
-          "bg-muted leading-none font-semibold text-muted-foreground",
+          "bg-muted leading-[1.3] font-semibold text-muted-foreground",
           className,
         )}
         title={name}

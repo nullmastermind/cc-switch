@@ -69,6 +69,7 @@
     "effortMax": "Max Effort Thinking",
     "disableAutoUpgrade": "Disable Auto-Upgrade",
     "disableArtifact": "Disable Artifact Tool",
+    "enableTodoTools": "Enable Todo Tools",
     "keyFieldsHint": "Endpoint, key, models, context window and compatibility switches follow the provider; everything else is a global Claude Code setting and applies to every provider once saved.",
     "inactiveFieldsHint": "This provider still stores {{count}} field(s) that do not take effect when switching. Click one to add it to the global settings above; it is written to the config file on save, and the value stored in the provider is kept.",
     "addToGlobalSettings": "Add to global settings"

@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { useEffect, useState, useCallback, useMemo } from "react";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import JsonEditor from "@/components/JsonEditor";
 import type { ProviderEditorInactiveField } from "@/lib/api/providers";
@@ -94,6 +95,9 @@ export function CommonConfigEditor({
         disableArtifact:
           config?.env?.CLAUDE_CODE_DISABLE_ARTIFACT === "1" ||
           config?.env?.CLAUDE_CODE_DISABLE_ARTIFACT === 1,
+        enableTodoTools:
+          config?.env?.CLAUDE_CODE_ENABLE_TODO_TOOLS === "1" ||
+          config?.env?.CLAUDE_CODE_ENABLE_TODO_TOOLS === 1,
       };
     } catch {
       return {
@@ -103,6 +107,7 @@ export function CommonConfigEditor({
         effortMax: false,
         disableAutoUpgrade: false,
         disableArtifact: false,
+        enableTodoTools: false,
       };
     }
   }, [localValue]);
@@ -168,6 +173,17 @@ export function CommonConfigEditor({
               if (Object.keys(config.env).length === 0) delete config.env;
             }
             break;
+          case "enableTodoTools":
+            // Opus 4.8 / Sonnet 5 / Fable 5 / Mythos 5+ 默认不再带 TodoWrite
+            // 与 TaskCreate/Get/Update/List；设 1 把这些工具加回 tools 数组。
+            if (!config.env) config.env = {};
+            if (checked) {
+              config.env.CLAUDE_CODE_ENABLE_TODO_TOOLS = "1";
+            } else {
+              delete config.env.CLAUDE_CODE_ENABLE_TODO_TOOLS;
+              if (Object.keys(config.env).length === 0) delete config.env;
+            }
+            break;
         }
 
         handleLocalChange(JSON.stringify(config, null, 2));
@@ -214,62 +230,28 @@ export function CommonConfigEditor({
         })}
       </p>
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-        <label className="inline-flex items-center gap-2 text-ui text-muted-foreground cursor-pointer">
-          <input
-            type="checkbox"
-            checked={toggleStates.hideAttribution}
-            onChange={(e) => handleToggle("hideAttribution", e.target.checked)}
-            className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
-          />
-          <span>{t("claudeConfig.hideAttribution")}</span>
-        </label>
-        <label className="inline-flex items-center gap-2 text-ui text-muted-foreground cursor-pointer">
-          <input
-            type="checkbox"
-            checked={toggleStates.teammates}
-            onChange={(e) => handleToggle("teammates", e.target.checked)}
-            className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
-          />
-          <span>{t("claudeConfig.enableTeammates")}</span>
-        </label>
-        <label className="inline-flex items-center gap-2 text-ui text-muted-foreground cursor-pointer">
-          <input
-            type="checkbox"
-            checked={toggleStates.enableToolSearch}
-            onChange={(e) => handleToggle("enableToolSearch", e.target.checked)}
-            className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
-          />
-          <span>{t("claudeConfig.enableToolSearch")}</span>
-        </label>
-        <label className="inline-flex items-center gap-2 text-ui text-muted-foreground cursor-pointer">
-          <input
-            type="checkbox"
-            checked={toggleStates.effortMax}
-            onChange={(e) => handleToggle("effortMax", e.target.checked)}
-            className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
-          />
-          <span>{t("claudeConfig.effortMax")}</span>
-        </label>
-        <label className="inline-flex items-center gap-2 text-ui text-muted-foreground cursor-pointer">
-          <input
-            type="checkbox"
-            checked={toggleStates.disableAutoUpgrade}
-            onChange={(e) =>
-              handleToggle("disableAutoUpgrade", e.target.checked)
-            }
-            className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
-          />
-          <span>{t("claudeConfig.disableAutoUpgrade")}</span>
-        </label>
-        <label className="inline-flex items-center gap-2 text-ui text-muted-foreground cursor-pointer">
-          <input
-            type="checkbox"
-            checked={toggleStates.disableArtifact}
-            onChange={(e) => handleToggle("disableArtifact", e.target.checked)}
-            className="w-4 h-4 text-blue-500 bg-white dark:bg-gray-800 border-border-default rounded focus:ring-blue-500 dark:focus:ring-blue-400 focus:ring-2"
-          />
-          <span>{t("claudeConfig.disableArtifact")}</span>
-        </label>
+        {(
+          [
+            ["hideAttribution", "hideAttribution"],
+            ["teammates", "enableTeammates"],
+            ["enableToolSearch", "enableToolSearch"],
+            ["effortMax", "effortMax"],
+            ["disableAutoUpgrade", "disableAutoUpgrade"],
+            ["disableArtifact", "disableArtifact"],
+            ["enableTodoTools", "enableTodoTools"],
+          ] as const
+        ).map(([key, label]) => (
+          <label
+            key={key}
+            className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer"
+          >
+            <Checkbox
+              checked={toggleStates[key]}
+              onCheckedChange={(checked) => handleToggle(key, checked)}
+            />
+            <span>{t(`claudeConfig.${label}`)}</span>
+          </label>
+        ))}
       </div>
       <JsonEditor
         value={localValue}
