@@ -27,6 +27,7 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::get_current_provider,
         commands::add_provider,
         commands::update_provider,
+        commands::get_provider_editor_view,
         commands::delete_provider,
         commands::remove_provider_from_live_config,
         commands::switch_provider,
@@ -54,7 +55,6 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::set_claude_common_config_snippet,
         commands::get_common_config_snippet,
         commands::set_common_config_snippet,
-        commands::update_toml_common_config_snippet,
         commands::extract_common_config_snippet,
         commands::read_live_provider_settings,
         commands::get_settings,
@@ -130,10 +130,11 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::delete_profile,
         commands::clear_current_profile,
         commands::apply_profile,
-        // model list fetch (OpenAI-compatible /v1/models)
+        // Fetch OpenAI-compatible and Anthropic model lists. Response data structure:
+        // data[].id, data[]?.owned_by. Special: supports Zhipu OpenAI Responses models[].slug.
         commands::fetch_models_for_config,
         commands::get_opencode_models,
-        // ours: endpoint speed test + custom endpoint management
+        // endpoint speed test + custom endpoint management
         commands::test_api_endpoints,
         commands::get_custom_endpoints,
         commands::add_custom_endpoint,
@@ -144,7 +145,7 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::set_app_config_dir_override,
         // provider sort order management
         commands::update_providers_sort_order,
-        // theirs: config import/export and dialogs
+        // config import/export and dialogs
         commands::export_config_to_file,
         commands::import_config_from_file,
         commands::webdav_test_connection,
@@ -171,6 +172,7 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::merge_deeplink_config,
         commands::import_from_deeplink,
         commands::import_from_deeplink_unified,
+        crate::update_tray_menu,
         // Environment variable management
         commands::check_env_conflicts,
         commands::delete_env_vars,
@@ -212,6 +214,7 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::stop_proxy_with_restore,
         commands::get_proxy_takeover_status,
         commands::set_proxy_takeover_for_app,
+        commands::get_direct_provider,
         commands::get_proxy_status,
         commands::get_proxy_config,
         commands::update_proxy_config,
@@ -220,8 +223,6 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::update_global_proxy_config,
         commands::get_proxy_config_for_app,
         commands::update_proxy_config_for_app,
-        commands::get_default_cost_multiplier,
-        commands::set_default_cost_multiplier,
         commands::get_pricing_model_source,
         commands::set_pricing_model_source,
         commands::is_proxy_running,
@@ -262,9 +263,6 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::get_usage_data_sources,
         // Stream health check
         commands::stream_check_provider,
-        commands::stream_check_all_providers,
-        commands::get_stream_check_config,
-        commands::save_stream_check_config,
         // Session manager
         commands::list_sessions,
         commands::get_session_messages,
@@ -365,12 +363,5 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::enter_lightweight_mode,
         commands::exit_lightweight_mode,
         commands::is_lightweight_mode,
-        // The one command implemented in `lib.rs` itself rather than under
-        // `commands/`. The frontend calls it after every provider add/delete/
-        // switch and profile change (15 call sites). Headless has no tray, so
-        // `tray_by_id` returns `None` and this resolves `false` — a value the
-        // callers already handle, rather than a rejection that would log an
-        // error each time. Verified over the bridge: `200` with body `false`.
-        crate::update_tray_menu,
-    ]
+        ]
 }

@@ -15,7 +15,6 @@ import {
   Cloud,
   ScrollText,
   HardDriveDownload,
-  FlaskConical,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -47,7 +46,6 @@ import { BackupListSection } from "@/components/settings/BackupListSection";
 import { WebdavSyncSection } from "@/components/settings/WebdavSyncSection";
 import { AboutSection } from "@/components/settings/AboutSection";
 import { ProxyTabContent } from "@/components/settings/ProxyTabContent";
-import { ConnectivityCheckConfigPanel } from "@/components/usage/ConnectivityCheckConfigPanel";
 import { UsageDashboard } from "@/components/usage/UsageDashboard";
 import { LogConfigPanel } from "@/components/settings/LogConfigPanel";
 import { AuthCenterPanel } from "@/components/settings/AuthCenterPanel";
@@ -327,7 +325,7 @@ export function SettingsPage({
                     >
                       <AccordionItem
                         value="directory"
-                        className="rounded-[8px] glass-card overflow-hidden"
+                        className="rounded-[8px] border border-border-default overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-2">
@@ -366,7 +364,7 @@ export function SettingsPage({
 
                       <AccordionItem
                         value="data"
-                        className="rounded-[8px] glass-card overflow-hidden"
+                        className="rounded-[8px] border border-border-default overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-2">
@@ -398,7 +396,7 @@ export function SettingsPage({
 
                       <AccordionItem
                         value="backup"
-                        className="rounded-[8px] glass-card overflow-hidden"
+                        className="rounded-[8px] border border-border-default overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-2">
@@ -431,7 +429,7 @@ export function SettingsPage({
 
                       <AccordionItem
                         value="cloudSync"
-                        className="rounded-[8px] glass-card overflow-hidden"
+                        className="rounded-[8px] border border-border-default overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-2">
@@ -457,32 +455,9 @@ export function SettingsPage({
                       </AccordionItem>
 
                       <AccordionItem
-                        value="connectivityCheck"
-                        className="rounded-[8px] glass-card overflow-hidden"
-                      >
-                        <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
-                          <div className="flex items-center gap-2">
-                            <FlaskConical className="h-4 w-4 text-emerald-500" />
-                            <div className="text-left">
-                              <h3 className="text-ui font-semibold">
-                                {t("settings.advanced.connectivityCheck.title")}
-                              </h3>
-                              <p className="text-ui text-muted-foreground font-normal">
-                                {t(
-                                  "settings.advanced.connectivityCheck.description",
-                                )}
-                              </p>
-                            </div>
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="px-2 pb-2 pt-2 border-t border-border/50">
-                          <ConnectivityCheckConfigPanel />
-                        </AccordionContent>
-                      </AccordionItem>
 
-                      <AccordionItem
                         value="logConfig"
-                        className="rounded-[8px] glass-card overflow-hidden"
+                        className="rounded-[8px] border border-border-default overflow-hidden"
                       >
                         <AccordionTrigger className="px-2 py-2 hover:no-underline hover:bg-muted/50 data-[state=open]:bg-muted/50">
                           <div className="flex items-center gap-2">

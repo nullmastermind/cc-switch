@@ -19,27 +19,30 @@ export function ProviderEmptyState({
   // live 节点里），没有可导入的内容，列表也不提供导入按钮，因此不能沿用
   // "请点击导入当前配置"的通用文案。
   const emptyCopyNs = appId === "pi" || appId === "mcode" ? appId : null;
-  const showSnippetHint =
-    appId === "claude" || appId === "codex" || appId === "gemini";
+  const showKeyFieldsHint =
+    appId === "claude" ||
+    appId === "codex" ||
+    appId === "gemini" ||
+    appId === "grokbuild";
 
   return (
-    <div className="flex flex-col items-center justify-center rounded-lg border border-dashed border-border p-10 text-center">
+    <div className="flex flex-col items-center justify-center rounded-[8px] border border-dashed border-border p-10 text-center">
       <div className="mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-muted">
         <Users className="h-7 w-7 text-muted-foreground" />
       </div>
-      <h3 className="text-lg font-semibold">
+      <h3 className="text-ui font-semibold">
         {emptyCopyNs
           ? t(`${emptyCopyNs}.empty.title`)
           : t("provider.noProviders")}
       </h3>
-      <p className="mt-2 max-w-lg text-sm text-muted-foreground">
+      <p className="mt-2 max-w-lg text-ui text-muted-foreground">
         {emptyCopyNs
           ? t(`${emptyCopyNs}.empty.description`)
           : t("provider.noProvidersDescription")}
       </p>
-      {showSnippetHint && (
-        <p className="mt-1 max-w-lg text-sm text-muted-foreground">
-          {t("provider.noProvidersDescriptionSnippet")}
+      {showKeyFieldsHint && (
+        <p className="mt-1 max-w-lg text-ui text-muted-foreground">
+          {t("provider.noProvidersDescriptionKeyFields")}
         </p>
       )}
       <div className="mt-6 flex flex-col gap-2">

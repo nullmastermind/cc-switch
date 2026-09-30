@@ -85,7 +85,10 @@
     "enableToolSearch": "Bật Tool Search",
     "effortMax": "Thinking mức max",
     "disableAutoUpgrade": "Tắt Auto-Upgrade",
-    "disableArtifact": "Tắt Artifact Tool"
+    "disableArtifact": "Tắt Artifact Tool",
+    "addToGlobalSettings": "Thêm vào setting global",
+    "inactiveFieldsHint": "Provider này còn lưu {{count}} field không có hiệu lực khi chuyển. Bấm để thêm vào setting global phía trên; lưu sẽ ghi vào file config, giá trị trong Provider vẫn giữ.",
+    "keyFieldsHint": "Endpoint, key, model, context window và các công tắc tương thích đi theo Provider; phần còn lại là setting global của Claude Code, lưu xong áp cho mọi Provider."
   },
   "header": {
     "viewOnGithub": "Xem trên GitHub",
@@ -179,7 +182,17 @@
         "apiKeyPlaceholder": "Nhập Gemini API Key"
       }
     },
-    "duplicateLiveIdsLoadFailed": "Không đọc được identifier Provider từ config. Sửa config rồi thử lại."
+    "duplicateLiveIdsLoadFailed": "Không đọc được identifier Provider từ config. Sửa config rồi thử lại.",
+    "directProvider": "Direct",
+    "directProviderHint": "Tắt routing sẽ chuyển về Provider này",
+    "editConflict": {
+      "keepMine": "Ghi đè bằng bản sửa của tôi",
+      "keepTheirs": "Giữ thay đổi bên ngoài",
+      "message": "Sau khi mở editor, setting bên dưới bị chương trình khác (ví dụ Claude Code) sửa. Ghi đè bằng bản của bạn, hay giữ thay đổi bên ngoài? Các sửa khác vẫn được lưu.",
+      "title": "File config đã đổi trong lúc bạn đang sửa"
+    },
+    "editorViewFailed": "Không đọc được file config của client, nên hiển thị config Provider đã lưu: {{error}}",
+    "noProvidersDescriptionKeyFields": "Chuyển Provider chỉ thay key, endpoint và model; plugin và setting khác ở lại file config và áp cho mọi Provider"
   },
   "claudeCode": {
     "needsRouting": "Cần Routing",
@@ -294,7 +307,8 @@
     "windowControlFailed": "Không chỉnh được cửa sổ: {{error}}",
     "officialBlockedByProxy": "Không chuyển sang Provider official khi local routing đang bật. Dùng routing với API official có thể bị khóa tài khoản.",
     "proxyOfficialWarning": "Provider hiện tại {{name}} là official. Nên chuyển sang Provider third-party trước khi dùng local routing.",
-    "proxyReasonClaudeDesktop": "Đang dùng chế độ local routing Claude Desktop"
+    "proxyReasonClaudeDesktop": "Đang dùng chế độ local routing Claude Desktop",
+    "geminiRestartRequired": "Đã chuyển. Khởi động lại Gemini CLI để áp dụng."
   },
   "confirm": {
     "deleteProvider": "Xóa Provider",
@@ -1083,7 +1097,10 @@
     "defaultModelHint": "Model mà Grok Build request mặc định; đổi bất cứ lúc nào, không cần đợi preset update.",
     "advancedSectionHint": "Format upstream, ghi đè reasoning, User-Agent tùy chỉnh. Provider dùng protocol Chat Completions hoặc Anthropic Messages cần bật routing takeover.",
     "reasoningEffortHint": "Bật khi upstream hỗ trợ chỉnh độ sâu thinking như low/high/max. Bật mục này cũng bật thinking mode và đổi reasoning effort của request thành tham số Chat phía upstream.",
-    "maxOutputTokensHint": "Giới hạn mặc định 8192 có thể cắt response dài hoặc nặng thinking (stop_reason=max_tokens). Giá trị này ghi đè max_tokens của request trên đường Anthropic. Đừng vượt giới hạn output thật của model/gateway, dễ bị 400. Để trống thì dùng 8192."
+    "maxOutputTokensHint": "Giới hạn mặc định 8192 có thể cắt response dài hoặc nặng thinking (stop_reason=max_tokens). Giá trị này ghi đè max_tokens của request trên đường Anthropic. Đừng vượt giới hạn output thật của model/gateway, dễ bị 400. Để trống thì dùng 8192.",
+    "inactiveFieldCopied": "Đã copy",
+    "inactiveFieldsHint": "Provider này còn lưu {{count}} setting không đi theo Provider. Bấm để copy TOML rồi dán phía trên nếu cần; giá trị trong Provider vẫn giữ.",
+    "keyFieldsHint": "Model mặc định (models.default) và bảng model nó trỏ tới đi theo Provider; phần còn lại là setting global của Grok Build, lưu xong áp cho mọi Provider."
   },
   "sessionManager": {
     "title": "Quản lý session",
@@ -1553,7 +1570,10 @@
     "reasoningGroupTitle": "Khả năng reasoning",
     "reasoningSectionHint": "Provider preset được cấu hình sẵn. Provider tùy chỉnh được đoán từ tên/URL. Chỉ ghi đè tay khi đoán sai.",
     "advancedSectionHint": "Format upstream, model mapping, ghi đè reasoning, User-Agent tùy chỉnh. Provider dùng Chat Completions cần bật routing takeover.",
-    "noCommonConfigToApply": "Common Config snippet trống hoặc không có gì để ghi"
+    "noCommonConfigToApply": "Common Config snippet trống hoặc không có gì để ghi",
+    "inactiveFieldCopied": "Đã copy",
+    "inactiveFieldsHint": "Provider này còn lưu {{count}} setting không áp khi chuyển. Bấm để copy TOML rồi dán phía trên nếu cần; giá trị đã lưu vẫn giữ.",
+    "keyFieldsHint": "Endpoint, key, model, reasoning effort, context window và các công tắc tương thích đi theo Provider; phần còn lại là setting global của Codex, lưu xong áp cho mọi Provider."
   },
   "geminiConfig": {
     "envFile": "Biến môi trường (.env)",
@@ -1574,7 +1594,10 @@
     "commonConfigInvalidValues": "Giá trị trong Common Config snippet phải là string",
     "noCommonConfigToApply": "Common Config snippet trống hoặc không có mục nào dùng được",
     "configMergeFailed": "Merge config thất bại: {{error}}",
-    "configReplaceFailed": "Thay config thất bại: {{error}}"
+    "configReplaceFailed": "Thay config thất bại: {{error}}",
+    "addToGlobalSettings": "Thêm vào setting global",
+    "inactiveFieldsHint": "Provider này còn lưu {{count}} setting không đi theo Provider. Bấm để thêm vào setting global phía trên; lưu sẽ ghi vào file config, giá trị trong Provider vẫn giữ.",
+    "keyFieldsHint": "Endpoint, key, tên model và kiểu auth đi theo Provider; các biến môi trường khác và settings.json là setting global của Gemini CLI, lưu xong áp cho mọi Provider."
   },
   "opencode": {
     "npmPackage": "Format API",
@@ -1623,7 +1646,10 @@
     "modelExtraFieldKeyPlaceholder": "variants",
     "sdkOptions": "Tùy chọn SDK",
     "modelOptionKeyPlaceholder": "provider",
-    "modelOptionValuePlaceholder": "{\"order\": [\"baseten\"]}"
+    "modelOptionValuePlaceholder": "{\"order\": [\"baseten\"]}",
+    "builtinDefaults": "Dùng mặc định Provider có sẵn của OpenCode",
+    "customProviderRequired": "ID Provider mới cần gói npm và ít nhất một model. Chỉ ID đã có trong live config mới được kế thừa mặc định.",
+    "duplicateRequiresDefinition": "Provider này thiếu gói npm hoặc định nghĩa model nên không nhân bản trực tiếp được. Chỉ định gói npm và ít nhất một model trước khi copy thành Provider tùy chỉnh."
   },
   "providerPreset": {
     "label": "Preset Provider",

@@ -35,6 +35,7 @@ pub const BRIDGED_EVENTS: &[&str] = &[
     "update-download-progress",
     "deeplink-import",
     "deeplink-error",
+    "skill-auto-update-status",
 ];
 
 /// Buffered events per connection. Generous enough to absorb a burst (a sync
@@ -146,6 +147,8 @@ mod tests {
             include_str!("../services/proxy.rs"),
             include_str!("../services/webdav_auto_sync.rs"),
             include_str!("../services/s3_auto_sync.rs"),
+            include_str!("../services/skill_auto_update.rs"),
+            include_str!("../mode/controller.rs"),
         ] {
             for (index, _) in source.match_indices(".emit(") {
                 let tail = &source[index + ".emit(".len()..];

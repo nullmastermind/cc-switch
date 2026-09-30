@@ -282,24 +282,8 @@ fn spawn_background_workers(app: &tauri::App<AppRuntime>) {
     tauri::async_runtime::spawn(async move {
         let state = app_handle.state::<AppState>();
 
-        let has_backups = match state.db.has_any_live_backup().await {
-            Ok(v) => v,
-            Err(e) => {
-                log::error!("检查 Live 备份失败: {e}");
-                false
-            }
-        };
-        let live_taken_over = state.proxy_service.detect_takeover_in_live_configs();
-
-        if has_backups || live_taken_over {
-            log::warn!("检测到上次异常退出（存在接管残留），正在恢复 Live 配置...");
-            if let Err(e) = state.proxy_service.recover_from_crash().await {
-                log::error!("恢复 Live 配置失败: {e}");
-            } else {
-                log::info!("Live 配置已恢复");
-            }
-        }
-
+        // Must run before auto-extract: credentials leaked into the Gemini
+        // shared snippet would otherwise be copied back into live config.
         if let Err(e) =
             crate::services::provider::ProviderService::scrub_leaked_gemini_common_config(&state)
                 .await
@@ -308,6 +292,10 @@ fn spawn_background_workers(app: &tauri::App<AppRuntime>) {
         }
 
         crate::initialize_common_config_snippets(&state);
-        crate::restore_proxy_state_on_startup(&state).await;
+
+        // Settle each app's direct/proxy mode (including leftover takeover
+        // from older versions), then attach proxy-mode apps. After snippet
+        // extract so it reads the direct live files.
+        crate::mode::controller::startup(&state).await;
     });
 }

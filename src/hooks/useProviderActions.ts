@@ -16,6 +16,7 @@ import type {
   OpenClawDefaultModel,
 } from "@/types";
 import type { OpenClawSuggestedDefaults } from "@/config/openclawProviderPresets";
+import type { ProviderEditorSave } from "@/lib/api/providers";
 import { injectCodingPlanUsageScript } from "@/config/codingPlanProviders";
 import {
   useAddProviderMutation,
@@ -90,6 +91,7 @@ export function useProviderActions(
         addToLive?: boolean;
         ensureClaudeDesktopOfficialSeed?: boolean;
         ensureGrokBuildOfficialSeed?: boolean;
+        editorSave?: ProviderEditorSave;
       },
     ) => {
       const enhanced = injectCodingPlanUsageScript(activeApp, provider);
@@ -146,10 +148,15 @@ export function useProviderActions(
 
   // 更新供应商
   const updateProvider = useCallback(
-    async (provider: Provider, originalId?: string) => {
+    async (
+      provider: Provider,
+      originalId?: string,
+      editorSave?: ProviderEditorSave,
+    ) => {
       await updateProviderMutation.mutateAsync({
         provider,
         originalId,
+        editorSave,
       });
 
       // 更新托盘菜单（失败不影响主操作）
@@ -331,24 +338,24 @@ export function useProviderActions(
         // 若已弹过 proxyRequired 警告则不再弹 success
         if (!proxyRequiredReason) {
           let messageKey = "notifications.switchSuccess";
-          let defaultMessage = "Switched successfully!";
+          let defaultMessage = "切换成功！";
           if (activeApp === "codex") {
             messageKey = "notifications.codexRestartRequired";
-            defaultMessage =
-              "Switched successfully. Restart the client to apply.";
+            defaultMessage = "切换成功，请重启客户端以生效";
+          } else if (activeApp === "gemini") {
+            messageKey = "notifications.geminiRestartRequired";
+            defaultMessage = "切换成功，请重启 Gemini CLI 以生效";
           } else if (activeApp === "grokbuild") {
             messageKey = "notifications.grokBuildRestartRequired";
-            defaultMessage =
-              "Switched successfully. Restart Grok Build to apply.";
+            defaultMessage = "切换成功，请重启 Grok Build 以生效";
           } else if (activeApp === "claude-desktop") {
             if (provider.meta?.claudeDesktopMode === "proxy") {
               messageKey = "notifications.claudeDesktopProxyRestartRequired";
               defaultMessage =
-                "Switched successfully. Keep Viber Switch running and restart Claude Desktop to apply.";
+                "切换成功，请保持 Cli-Switch 运行，并重启 Claude Desktop 后生效";
             } else {
               messageKey = "notifications.claudeDesktopRestartRequired";
-              defaultMessage =
-                "Switched successfully. Restart Claude Desktop to apply.";
+              defaultMessage = "切换成功，重启 Claude Desktop 后生效";
             }
           } else if (
             activeApp === "opencode" ||
@@ -356,7 +363,7 @@ export function useProviderActions(
             activeApp === "mcode"
           ) {
             messageKey = "notifications.addToConfigSuccess";
-            defaultMessage = "Added to config";
+            defaultMessage = "已添加到配置";
           }
           toast.success(t(messageKey, { defaultValue: defaultMessage }), {
             closeButton: true,

@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import {
   Dialog,
   DialogContent,
@@ -33,6 +34,12 @@ export function ToolUpgradeConfirmDialog({
   onCancel,
 }: ToolUpgradeConfirmDialogProps) {
   const { t } = useTranslation();
+  const titleRef = useRef<HTMLHeadingElement>(null);
+
+  // 队首切换后移开操作按钮的焦点，按住 Enter/Space 不能继续处理下一项。
+  useEffect(() => {
+    if (isOpen) titleRef.current?.focus();
+  }, [isOpen, plans]);
 
   return (
     <Dialog
@@ -44,22 +51,30 @@ export function ToolUpgradeConfirmDialog({
       <DialogContent
         className="w-full max-w-[480px] gap-2 rounded-[8px] p-2 text-ui sm:rounded-[8px]"
         zIndex="alert"
+        onOpenAutoFocus={(event) => {
+          event.preventDefault();
+          titleRef.current?.focus();
+        }}
       >
         <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
-          <DialogTitle className="flex items-center gap-2 text-[12.35px] font-semibold leading-[1.3] tracking-normal">
-            <AlertTriangle className="h-4 w-4 text-yellow-500" />
+          <DialogTitle
+            ref={titleRef}
+            tabIndex={-1}
+            className="flex items-center gap-2 text-ui font-semibold"
+          >
+            <AlertTriangle className="h-5 w-5 text-yellow-500" />
             {t("settings.toolUpgradeConfirmTitle")}
           </DialogTitle>
-          <DialogDescription className="text-[12.35px] leading-[1.3]">
+          <DialogDescription className="text-ui leading-[1.3]">
             {t("settings.toolUpgradeConfirmHint")}
           </DialogDescription>
         </DialogHeader>
 
-        <div className="max-h-[50vh] space-y-2 overflow-y-auto">
+        <div className="max-h-[50vh] space-y-3 overflow-y-auto">
           {plans.map((plan) => (
             <div
               key={plan.tool}
-              className="space-y-2 rounded-[8px] border border-yellow-500/20 bg-yellow-500/5 p-2"
+              className="space-y-1.5 rounded-[8px] border border-yellow-500/20 bg-yellow-500/5 p-2"
             >
               <div className="text-ui font-medium">
                 {displayName(plan.tool)}
@@ -76,12 +91,12 @@ export function ToolUpgradeConfirmDialog({
                   </li>
                 ))}
               </ul>
-              <div className="space-y-1">
+              <div className="space-y-0.5">
                 <div className="text-ui text-muted-foreground">
                   {t("settings.toolUpgradeWillRun")}
                 </div>
                 <code
-                  className="block min-h-6 truncate rounded-[4px] bg-background/80 px-2 py-1 font-mono text-ui text-foreground"
+                  className="block truncate rounded-[8px] bg-background/80 px-1.5 py-0.5 font-mono text-ui text-foreground"
                   title={plan.command}
                 >
                   {plan.command}
@@ -92,10 +107,20 @@ export function ToolUpgradeConfirmDialog({
         </div>
 
         <DialogFooter className="gap-2 border-t-0 bg-transparent p-0 sm:justify-end">
-          <Button variant="outline" onClick={onCancel}>
+          <Button
+            variant="outline"
+            onClick={(event) => {
+              if (event.detail <= 1) onCancel();
+            }}
+          >
             {t("common.cancel")}
           </Button>
-          <Button onClick={onConfirm}>
+          <Button
+            onClick={(event) => {
+              // 第二次 click 可能已经面对下一项计划，不能把双击视作两次授权。
+              if (event.detail <= 1) onConfirm();
+            }}
+          >
             {t("settings.toolUpgradeConfirmBtn")}
           </Button>
         </DialogFooter>

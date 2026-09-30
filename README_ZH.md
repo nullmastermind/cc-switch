@@ -39,14 +39,22 @@
 
 ### 供应商管理
 
-- **9 个支持工具，50+ 预设** — Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes、MiniMax Code；复制 key 即可一键导入
+- **90+ 供应商预设** — 选择预设、填入 Key 即可添加，也可以创建自定义配置
+- **只改关键字段** — 切换时只替换请求地址、Key、模型等连接信息，插件、Hook、MCP、你自己加的设置和注释都原样保留
+- **项目** — 把 Claude Code 或 Codex 当前的供应商、MCP、Skills 和提示词文件保存为一个项目（Claude Desktop 只保存供应商），之后在主页顶部的项目切换器或托盘里一键整套切换；切到其他项目时，当前状态会自动存回原项目
+- **OAuth 认证中心（Beta）** — 在「设置 → 认证」里登录多个 GitHub Copilot、ChatGPT、xAI（Grok）账号，把订阅当作供应商用在 Claude Code、Claude Desktop 和 Codex 中（除 Codex 的 OpenAI Official 外，都需要开启本地路由）。在官方客户端以外使用订阅可能违反厂商的服务条款，请自行评估风险
+- **Claude Desktop 接入第三方** — 可以直连 Anthropic 兼容端点；非 Claude 模型选“模型映射”，经本地路由把 Sonnet、Opus、Haiku 等档位映射到供应商的实际模型
 - **通用供应商** — 一份配置同步到 Claude Code、Codex 和 Gemini CLI
 - 一键切换、系统托盘快速访问、拖拽排序、导入导出
 
 ### 代理与故障转移
 
-- **本地代理热切换** — 格式转换、自动故障转移、熔断器、供应商健康监控和整流器
-- **应用级代理接管** — 独立为 Claude、Codex、Gemini 或 Grok Build 配置代理，具体到单个供应商
+- **接口格式转换** — 本地路由在 Anthropic Messages、OpenAI Chat Completions、OpenAI Responses 和 Gemini Native 之间转换请求格式：Claude Code 和 Claude Desktop 可以使用 OpenAI 或 Gemini 格式的供应商，Codex 和 Grok Build 可以使用 Chat Completions 或 Anthropic Messages 格式的供应商
+- **按工具开启** — Claude Code、Codex、Gemini CLI、Grok Build 可以分别开启本地路由；开启后，切换供应商会立即作用于后续请求（如果切换改变了模型，Codex、Gemini CLI 和 Grok Build 仍可能需要重启）
+- **自动故障转移** — 为每个工具配置故障转移队列，请求失败时按队列顺序自动改用下一个供应商，配合熔断器和供应商健康监控
+- **整流器** — 自动修正部分上游不兼容的请求（如 Thinking 签名、不支持图片时降级）
+- 官方供应商（如 Claude Official）不能走本地路由（Codex 的 OpenAI Official 除外）
+- 使用攻略：[在 Claude Code 中使用 GPT](docs/guides/claude-codex-routing-guide-zh.md) · [在 Codex 中使用 Claude](docs/guides/codex-claude-routing-guide-zh.md)
 
 ### MCP、Prompts 与 Skills
 
@@ -81,21 +89,32 @@ Cli-Switch 支持九个工具：**Claude Code**、**Claude Desktop**、**Codex**
 <details>
 <summary><strong>切换供应商后需要重启终端吗？</strong></summary>
 
-大多数工具需要重启终端或 CLI 工具才能使更改生效。例外的是 **Claude Code**，它目前支持供应商数据的热切换，无需重启。
+视工具而定：
+
+- **Claude Code**：支持供应商数据的热切换，无需重启。
+- **Codex、Gemini CLI、Grok Build**：需要重启终端或 CLI 工具才能生效（切换成功后会有提示）。开启本地路由后，请求会立即转发到新供应商；但如果切换改变了模型，这三个工具仍可能需要重启。
+- **Claude Desktop**：需要完全退出并重新打开 Claude Desktop；使用“模型映射”时，还需要保持 Cli-Switch 运行。
+- **OpenCode、OpenClaw、Hermes、Pi、MiniMax Code**：这些是共存式工具，点击“添加”（Pi 为“启用”）会把供应商写入工具自身的配置、与其他供应商共存，之后在工具里选择要使用的模型即可。
 
 </details>
 
 <details>
-<summary><strong>切换供应商之后我的插件配置怎么不见了？</strong></summary>
+<summary><strong>切换供应商会改掉我的插件、Hook 等设置吗？</strong></summary>
 
-Cli-Switch 使用“通用配置片段”功能，在不同的供应商之间传递 Key 和请求地址之外的通用数据，您可以在“编辑供应商”菜单的“通用配置面板”里，点击“从当前供应商提取”，把所有的通用数据提取到通用配置中，之后在新建“供应商”的时候，只要勾选“应用通用配置”（默认勾选），就会把插件等数据写入到新的供应商配置中。您的所有配置项都会保存在运行本软件的时候，第一次导入的默认供应商里面，不会丢失。
+不会。Claude Code、Codex、Gemini CLI、Grok Build 切换供应商时，Cli-Switch 只替换配置文件里的**关键字段**：请求地址、Key、模型名和接口协议（Codex 还包括推理档位，Gemini CLI 还包括认证方式），以及少数跟着供应商走的兼容选项（如 Claude Code 的“禁用 Artifact 工具”、上下文窗口）。插件、Hook、权限、MCP、你自己加的环境变量、注释和排版都原样保留，对所有供应商生效。
+
+这些共享设置可以直接在工具里改，或手动编辑配置文件；也可以在 Cli-Switch 里编辑任意一个供应商：编辑框显示的是“切到这个供应商之后配置文件的样子”，保存时关键字段存进这个供应商，其余改动写进配置文件，对所有供应商生效。
+
+所以以前的“通用配置片段”已经不需要了，相关按钮已移除。升级前片段里的设置在切换时早已写进配置文件，会继续保留。Cli-Switch 第一次改写每个配置文件之前，还会把原文件备份到 `~/.cc-switch/backups/live-first-write/`。
 
 </details>
 
 <details>
-<summary><strong>macOS 安装</strong></summary>
+<summary><strong>在工具里换了模型，切走再切回来怎么又变回去了？</strong></summary>
 
-Cli-Switch macOS 版本已通过 Apple 代码签名和公证，可直接下载安装，无需额外操作。推荐使用 `.dmg` 安装包。
+模型属于关键字段，归供应商所有。在工具里换的模型（如 Claude Code 的 `/model`）会一直生效到下次切换；切换时，配置文件里的模型会换成目标供应商保存的那个，Cli-Switch 不会把你在工具里换的模型存回原来的供应商。想长期使用某个模型，请在 Cli-Switch 里编辑这个供应商。
+
+旧版本会在切走时把整份配置文件存回供应商，现在不再这样做：那样会把插件等共享设置冻结进某一个供应商，切到别的供应商时就丢了。
 
 </details>
 
@@ -111,7 +130,38 @@ Cli-Switch macOS 版本已通过 Apple 代码签名和公证，可直接下载�
 <details>
 <summary><strong>如何切换回官方登录？</strong></summary>
 
-可以在预设供应商里面添加一个官方供应商。切换过去之后，执行一遍 Log out / Log in 流程，之后便可以在官方供应商和第三方供应商之间随意切换。CodeX 可以在不同官方供应商之间进行切换，方便多个 Plus 或者 Team 账号之间切换。
+Claude Code、Claude Desktop、Codex、Gemini CLI、Grok Build 的供应商列表里都自带一个官方供应商（**Claude Official**、**Claude Desktop Official**、**OpenAI Official**、**Google Official**、**Grok Official**），如果删掉了，可以从预设里重新添加。切换到官方供应商后，按照工具自身的登录流程操作（如 Claude Code 的 `/login`、Codex 的 `codex login`），之后便可以在官方供应商和第三方供应商之间随意切换。
+
+Codex 还可以在 Cli-Switch 里用“使用 ChatGPT 登录”登录多个 ChatGPT 账号，再为每张 **OpenAI Official** 卡片选择“使用的账号”，多个 Plus、Pro 或 Team 账号之间一键切换；选择“跟随 Codex 登录”的卡片则沿用 Codex CLI 自己的登录。
+
+注意：开启本地路由时不能切换到官方供应商，Codex 的 OpenAI Official 卡片除外。
+
+</details>
+
+<details>
+<summary><strong>开启本地路由后，配置文件里的地址为什么变成了 127.0.0.1？</strong></summary>
+
+开启本地路由后，工具的请求会先发到 Cli-Switch 的本地路由（默认 `http://127.0.0.1:15721`），再由 Cli-Switch 转发给你选中的供应商。所以工具的配置文件里只有本地地址和占位密钥 `PROXY_MANAGED`；Claude Code 的模型名还会写成 `claude-sonnet-5` 之类的固定别名（`/model` 菜单里仍显示真实模型名）。真实的供应商地址、密钥和模型都保存在 Cli-Switch 里。
+
+在「设置 → 使用统计 → 请求日志」里可以看到每条请求的“请求模型 → 实际模型”。
+
+开启本地路由期间，切换的是本地路由使用的供应商，开启前在用的供应商保持不变，卡片上标“直连”。关闭本地路由后，配置文件会写回这个直连供应商的配置。退出 Cli-Switch 时也会先写回直连供应商，下次启动再重新接上本地路由。
+
+</details>
+
+<details>
+<summary><strong>能在 Claude Code 里使用 OpenAI 兼容接口、Gemini 或本地模型吗？</strong></summary>
+
+可以，但需要开启本地路由。编辑供应商时，在“高级选项”的“上游格式”里选择和供应商一致的接口格式：只提供 Chat Completions 接口的服务（很多本地模型服务都是这样）选“OpenAI Chat Completions”，提供 Responses 接口的选“OpenAI Responses API”，Gemini 选“Gemini Native generateContent”。然后按[快速开始](#快速开始)第 5 步为 Claude Code 开启本地路由。格式选错或没有开启本地路由，通常会报 404 或 405 错误。
+
+反过来，在 Codex 或 Grok Build 的“上游格式”里选“Anthropic Messages”，就能使用 Claude 格式的供应商，同样需要开启本地路由。详见[在 Claude Code 中使用 GPT](docs/guides/claude-codex-routing-guide-zh.md) 和 [在 Codex 中使用 Claude](docs/guides/codex-claude-routing-guide-zh.md)。
+
+</details>
+
+<details>
+<summary><strong>“检测连通”通过了，为什么请求还是失败？</strong></summary>
+
+供应商卡片上的“检测连通”只检查供应商地址能不能连上，不会发送真实的模型请求，所以验证不了 API Key 和模型名是否正确。请求失败时，请检查 Key、模型名和上游格式；开启本地路由时，还可以在「设置 → 使用统计 → 请求日志」里查看具体报错。
 
 </details>
 
@@ -121,11 +171,37 @@ Cli-Switch macOS 版本已通过 Apple 代码签名和公证，可直接下载�
 所有数据都存放在主目录下的同一个文件夹中。可从 **设置 → Cli-Switch 配置目录**
 打开该目录，也可以在那里把它指向云同步文件夹。
 
-- **数据库**：配置数据库（SQLite — 供应商、MCP、提示词、技能）
-- **本地设置**：`settings.json`（设备级 UI 偏好设置）
-- **备份**：`backups/`（自动轮换，保留最近 10 个）
-- **SKILLS**：`skills/`（默认通过软链接连接到对应应用）
-- **技能备份**：`skill-backups/`（卸载前自动创建，保留最近 20 个）
+- **数据库**：`cc-switch.db`（SQLite — 供应商、MCP、提示词、Skills、项目、用量记录等）
+- **本地设置**：`settings.json`（设备级设置，如各工具的配置目录、备份策略、云同步连接信息）
+- **备份**：`backups/`（默认每 24 小时自动备份一次、保留最近 10 个，可在「设置 → 高级 → 备份与恢复」中调整）
+- **Skills**：`skills/`（可在设置中改为 `~/.agents/skills`），默认通过软链接同步到各工具，失败时改为复制
+- **技能备份**：`skill-backups/`（卸载或更新技能前自动创建，保留最近 20 个）
+- **OAuth 登录凭据**：`copilot_auth.json`、`codex_oauth_auth.json`、`xai_oauth_auth.json`
+- **日志**：`logs/cc-switch.log` 和 `crash.log`，反馈问题时请附上
+- **本机状态**：`live-state.json`（各工具是直连还是走本地路由、上一次写入了什么）、`codex-login-stash.json`（切到第三方时被移走的 Codex 官方登录，切回官方时还原）
+- **配置文件原件**：`backups/live-first-write/`（Cli-Switch 第一次改写各工具配置文件之前的原文件）
+
+在「设置 → 高级 → 配置文件目录」里修改“Cli-Switch 配置目录”后，除 `settings.json`、本机状态和配置文件原件以外的上述文件都改为存放在新目录。Cli-Switch 不会自动搬运已有文件，需要先手动复制过去。`settings.json`、本机状态和配置文件原件只属于这台电脑，始终在默认目录，也不参与云同步。
+
+</details>
+
+<details>
+<summary><strong>在 Windows 上怎么管理 WSL 里的工具？</strong></summary>
+
+Cli-Switch 不会自动识别 WSL。请在「设置 → 高级 → 配置文件目录 → 配置目录覆盖（高级）」里，把对应工具的目录改成 WSL 里的路径，例如 `\\wsl.localhost\Ubuntu\home\<用户名>\.claude`，保存后 Cli-Switch 就会读写 WSL 里的配置（Claude Code、Codex、Gemini CLI、Grok Build、OpenCode、OpenClaw、Hermes、Pi 支持设置）。设置之后，「关于」页也会在对应的 WSL 发行版里检测和升级该工具。
+
+注意：本地路由写入配置的地址是 `127.0.0.1`。WSL2 默认的 NAT 网络模式下，WSL 里的 `127.0.0.1` 连不到 Windows 上的本地路由，需要改用 WSL 的 mirrored 网络模式。
+
+</details>
+
+<details>
+<summary><strong>有命令行版本或无界面版本吗？</strong></summary>
+
+Cli-Switch 提供需要图形界面的桌面版（系统要求见[下载安装](#下载安装)）。同一套界面也可以通过 **[@spec-ade/cli-switch](https://www.npmjs.com/package/@spec-ade/cli-switch)**（`npx @spec-ade/cli-switch`）在浏览器或无桌面环境中运行，并与桌面版共用 `~/.cc-switch` 数据库。
+
+若只要终端 TUI / 命令行，推荐社区维护的 **[CC Switch CLI](https://github.com/SaladDay/cc-switch-cli)**：支持 Claude Code、Codex、Gemini CLI、OpenCode、OpenClaw、Hermes、Pi，可通过 Homebrew（`brew install cc-switch-cli`）或安装脚本安装。
+
+CC Switch CLI 默认与桌面版共用数据目录 `~/.cc-switch`，也兼容桌面版的 WebDAV 同步。两个项目分别发版，CLI 版支持的数据库版本有时会落后于桌面版；遇到“数据库版本过新”的提示时，请升级 CLI 版，或等它跟进更新。
 
 </details>
 
