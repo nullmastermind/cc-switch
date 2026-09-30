@@ -1763,7 +1763,11 @@ mod mode_tests {
         );
         failpoint::crash_at(None);
         let error = refused.expect_err("refused while unsettled");
-        assert!(error.to_string().contains("补不完"), "{error}");
+        assert!(
+            error.to_string().contains("补不完")
+                || error.to_string().contains("cannot be completed"),
+            "{error}"
+        );
         let b_token = |state: &AppState| {
             state
                 .db

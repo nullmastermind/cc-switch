@@ -2879,7 +2879,10 @@ wire_api = "responses"
             assert!(
                 error
                     .to_string()
-                    .contains("无法安全判断 refresh token 新旧"),
+                    .contains("无法安全判断 refresh token 新旧")
+                    || error
+                        .to_string()
+                        .contains("newer refresh token cannot be determined safely"),
                 "update should explain the safe-write rejection: {error}"
             );
 
@@ -2971,7 +2974,10 @@ wire_api = "responses"
                 assert!(
                     error
                         .to_string()
-                        .contains("无法安全判断 refresh token 新旧"),
+                        .contains("无法安全判断 refresh token 新旧")
+                        || error
+                            .to_string()
+                            .contains("newer refresh token cannot be determined safely"),
                     "attempt {attempt} should remain ambiguous: {error}"
                 );
                 let live_after: Value = read_json_file(&crate::codex_config::get_codex_auth_path())
@@ -3154,7 +3160,10 @@ wire_api = "responses"
                         let error = runtime
                             .block_on(crate::mode::controller::enter(state, &AppType::Codex))
                             .unwrap_err();
-                        assert!(error.contains("选择账号"), "{error}");
+                        assert!(
+                            error.contains("选择账号") || error.contains("Select account"),
+                            "{error}"
+                        );
                         assert!(!crate::mode::current::is_proxy(&AppType::Codex));
                         assert!(!state
                             .proxy_service

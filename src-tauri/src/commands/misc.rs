@@ -279,7 +279,6 @@ fn run_tool_lifecycle_silently(command_line: &str, _label: &str) -> Result<(), S
 fn run_tool_lifecycle_silently(command_line: &str, label: &str) -> Result<(), String> {
     use std::os::windows::process::CommandExt;
     use std::process::Command;
-    use std::sync::atomic::{AtomicU64, Ordering};
 
     // 每次调用使用独立目录，避免同进程并发升级时覆盖或删除另一工具的脚本。
     let script_dir = tempfile::Builder::new()
