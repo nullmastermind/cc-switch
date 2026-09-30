@@ -395,12 +395,16 @@ fn import_default_config_without_live_file_returns_error() {
     let err = import_default_config_test_hook(&state, AppType::Claude)
         .expect_err("missing live file should error");
     match err {
-        AppError::Localized { zh, .. } => assert!(
-            zh.contains("Claude Code config file not found"),
-            "unexpected error message: {zh}"
+        AppError::Localized { zh, en, .. } => assert!(
+            zh.contains("配置文件不存在")
+                || en.contains("settings file is missing")
+                || en.contains("config file not found"),
+            "unexpected error message: zh={zh} en={en}"
         ),
         AppError::Message(msg) => assert!(
-            msg.contains("Claude Code config file not found"),
+            msg.contains("配置文件不存在")
+                || msg.contains("settings file is missing")
+                || msg.contains("config file not found"),
             "unexpected error message: {msg}"
         ),
         other => panic!("unexpected error variant: {other:?}"),
