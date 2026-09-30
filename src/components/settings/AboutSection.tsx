@@ -630,8 +630,7 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
       const failureDescription = isBatch
         ? failures
             .map(
-              (f) =>
-                `${TOOL_DISPLAY_NAMES[f.toolName]}: ${lastLine(f.detail)}`,
+              (f) => `${TOOL_DISPLAY_NAMES[f.toolName]}: ${lastLine(f.detail)}`,
             )
             .join("\n")
         : failures[0]?.detail;

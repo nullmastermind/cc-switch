@@ -455,7 +455,6 @@ export function SettingsPage({
                       </AccordionItem>
 
                       <AccordionItem
-
                         value="logConfig"
                         className="rounded-[8px] border border-border-default overflow-hidden"
                       >
