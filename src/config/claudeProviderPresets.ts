@@ -91,7 +91,8 @@ export const providerPresets: ProviderPreset[] = [
   {
     name: "Kimi",
     primePartner: true,
-    websiteUrl: "https://platform.kimi.com",
+    websiteUrl:
+      "https://platform.kimi.com?track_id=track-7cf2b91dcde043eda6ef9a95951a042c&aff=cc-switch",
     settingsConfig: {
       env: {
         ANTHROPIC_BASE_URL: "https://api.moonshot.cn/anthropic",
@@ -110,7 +111,8 @@ export const providerPresets: ProviderPreset[] = [
   // API 开放平台海外/Global 变体：platform.kimi.ai + api.moonshot.ai 端点
   {
     name: "Kimi Global",
-    websiteUrl: "https://platform.kimi.ai?aff=cc-switch",
+    websiteUrl:
+      "https://platform.kimi.ai?track_id=track-674ed6e2af924a5682a87421f7cf753a&aff=cc-switch",
     settingsConfig: {
       env: {
         ANTHROPIC_BASE_URL: "https://api.moonshot.ai/anthropic",
@@ -794,22 +796,6 @@ export const providerPresets: ProviderPreset[] = [
     partnerPromotionKey: "rightcode",
     icon: "rc",
     iconColor: "#E96B2C",
-  },
-  {
-    name: "ETok.ai",
-    websiteUrl: "https://etok.ai",
-    apiKeyUrl: "https://etok.ai",
-    settingsConfig: {
-      env: {
-        ANTHROPIC_BASE_URL: "https://api.etok.ai",
-        ANTHROPIC_AUTH_TOKEN: "",
-      },
-    },
-    category: "third_party",
-    isPartner: true, // 合作伙伴
-    partnerPromotionKey: "etok", // 促销信息 i18n key
-    icon: "etok",
-    iconColor: "#000000",
   },
   {
     name: "Cubence",
@@ -1932,5 +1918,25 @@ export const providerPresets: ProviderPreset[] = [
     endpointCandidates: ["https://api.aicodewith.ai"],
     icon: "aicodewith",
     iconColor: "#3A3B40",
+  },
+  {
+    name: "Command Code",
+    websiteUrl: "https://commandcode.ai",
+    apiKeyUrl: "https://commandcode.ai/settings/keys",
+    settingsConfig: {
+      env: {
+        ANTHROPIC_BASE_URL: "https://api.commandcode.ai/provider",
+        ANTHROPIC_AUTH_TOKEN: "",
+        ANTHROPIC_MODEL: "deepseek/deepseek-v4.1-flash",
+        ANTHROPIC_DEFAULT_HAIKU_MODEL: "deepseek/deepseek-v4.1-flash",
+        ANTHROPIC_DEFAULT_SONNET_MODEL: "deepseek/deepseek-v4.1-flash",
+        ANTHROPIC_DEFAULT_OPUS_MODEL: "deepseek/deepseek-v4.1-flash",
+      },
+    },
+    category: "third_party",
+    apiFormat: "openai_chat",
+    endpointCandidates: ["https://api.commandcode.ai/provider"],
+    modelsUrl: "https://api.commandcode.ai/provider/v1/models",
+    icon: "commandcode",
   },
 ];

@@ -214,6 +214,7 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::stop_proxy_with_restore,
         commands::get_proxy_takeover_status,
         commands::set_proxy_takeover_for_app,
+        commands::exit_proxy_apps_in_mode,
         commands::get_direct_provider,
         commands::get_proxy_status,
         commands::get_proxy_config,
@@ -228,6 +229,9 @@ pub fn invoke_handler() -> impl Fn(Invoke<AppRuntime>) -> bool + Send + Sync + '
         commands::is_proxy_running,
         commands::is_live_takeover_active,
         commands::switch_proxy_provider,
+        commands::get_proxy_stack,
+        commands::set_proxy_stack_member,
+        commands::restart_codex_app_server_daemon,
         // Proxy failover commands
         commands::get_provider_health,
         commands::reset_circuit_breaker,

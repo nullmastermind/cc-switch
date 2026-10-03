@@ -17,6 +17,8 @@ const requiredKeys = [
   "toolActionDone",
   "toolActionPartial",
   "toolActionFailed",
+  "toolActionInProgress",
+  "toolActionInProgressDetail",
   "toolNotRunnable",
   "toolActionVersionUnchangedTitle",
   "toolActionVersionUnchanged",

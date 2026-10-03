@@ -150,8 +150,9 @@ export const codexProviderPresets: CodexProviderPreset[] = [
   {
     name: "Kimi",
     primePartner: true,
-    websiteUrl: "https://platform.kimi.com",
-    apiKeyUrl: "https://platform.kimi.com/console/api-keys",
+    websiteUrl:
+      "https://platform.kimi.com?track_id=track-7cf2b91dcde043eda6ef9a95951a042c&aff=cc-switch",
+    apiKeyUrl: "https://platform.kimi.com/console/api-keys?aff=cc-switch",
     auth: generateThirdPartyAuth(""),
     config: generateThirdPartyConfig(
       "kimi",
@@ -212,7 +213,8 @@ export const codexProviderPresets: CodexProviderPreset[] = [
   // 接入形态与国内版一致（原生 Responses 直连），依据见上方国内版注释
   {
     name: "Kimi Global",
-    websiteUrl: "https://platform.kimi.ai?aff=cc-switch",
+    websiteUrl:
+      "https://platform.kimi.ai?track_id=track-674ed6e2af924a5682a87421f7cf753a&aff=cc-switch",
     apiKeyUrl: "https://platform.kimi.ai/console/api-keys?aff=cc-switch",
     auth: generateThirdPartyAuth(""),
     config: generateThirdPartyConfig(
@@ -1132,23 +1134,6 @@ requires_openai_auth = true`,
     partnerPromotionKey: "rightcode",
     icon: "rc",
     iconColor: "#E96B2C",
-  },
-  {
-    name: "ETok.ai",
-    websiteUrl: "https://etok.ai",
-    apiKeyUrl: "https://etok.ai",
-    auth: generateThirdPartyAuth(""),
-    config: generateThirdPartyConfig(
-      "etok",
-      "https://api.etok.ai/v1",
-      "gpt-5.6-sol",
-    ),
-    endpointCandidates: ["https://api.etok.ai/v1"],
-    category: "third_party",
-    isPartner: true, // 合作伙伴
-    partnerPromotionKey: "etok", // 促销信息 i18n key
-    icon: "etok",
-    iconColor: "#000000",
   },
   {
     name: "Cubence",
@@ -3363,5 +3348,40 @@ base_url = "https://cc-api.pipellm.ai/v1"`,
     category: "aggregator",
     icon: "aicodewith",
     iconColor: "#3A3B40",
+  },
+  {
+    name: "Command Code",
+    websiteUrl: "https://commandcode.ai",
+    apiKeyUrl: "https://commandcode.ai/settings/keys",
+    auth: generateThirdPartyAuth(""),
+    config: generateThirdPartyConfig(
+      "command_code",
+      "https://api.commandcode.ai/provider/v1",
+      "deepseek/deepseek-v4.1-flash",
+    ),
+    endpointCandidates: ["https://api.commandcode.ai/provider/v1"],
+    apiFormat: "openai_responses",
+    // Claude models are only available on /provider/v1/messages. Keep the
+    // Codex Responses catalog limited to models accepted by
+    // /provider/v1/responses.
+    modelCatalog: modelCatalog([
+      {
+        model: "deepseek/deepseek-v4.1-flash",
+        displayName: "DeepSeek V4.1 Flash",
+        contextWindow: 1000000,
+      },
+      {
+        model: "z-ai/glm-5.3-flash",
+        displayName: "GLM-5.3 Flash",
+        contextWindow: 1048576,
+      },
+      {
+        model: "Qwen/Qwen3.8-Flash",
+        displayName: "Qwen 3.8 Flash",
+        contextWindow: 1000000,
+      },
+    ]),
+    category: "third_party",
+    icon: "commandcode",
   },
 ];

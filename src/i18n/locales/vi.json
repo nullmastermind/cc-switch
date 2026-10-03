@@ -193,7 +193,21 @@
       "title": "File config đã đổi trong lúc bạn đang sửa"
     },
     "editorViewFailed": "Không đọc được file config của client, nên hiển thị config Provider đã lưu: {{error}}",
-    "noProvidersDescriptionKeyFields": "Chuyển Provider chỉ thay key, endpoint và model; plugin và setting khác ở lại file config và áp cho mọi Provider"
+    "noProvidersDescriptionKeyFields": "Chuyển Provider chỉ thay key, endpoint và model; plugin và setting khác ở lại file config và áp cho mọi Provider",
+    "configOwnsCatalog": "Model Stack không hiện trong Codex: model_catalog_json trong config.toml trỏ tới file catalog khác",
+    "officialModelsBundled": "Danh sách model official chưa có, tạm dùng danh sách built-in của Codex; model riêng tài khoản có thể thiếu",
+    "officialModelsUnavailable": "Model Stack tạm không dùng được: không đọc được danh sách model Codex",
+    "routeOwnsCatalog": "Model Stack không hiện trong Codex: provider đang route dùng file catalog riêng (model_catalog_json)",
+    "stackBadge": "Stack",
+    "stackBadgeHint": "Chọn trong model picker của {{client}}: {{models}}",
+    "stackBadgeNoModels": "Provider này chưa cấu hình model, nên không hiện trong model picker",
+    "stackDefaultCannotRemove": "Không gỡ được provider mặc định; hãy đặt provider khác làm mặc định trước",
+    "stackDefaultHint": "Đây là provider mặc định: model đầu danh sách xử lý lúc Claude Code khởi động và task nền",
+    "stackFailed": "Không lưu được model Stack: {{error}}",
+    "stackModelsChanged": "Model Stack đã đổi. Restart {{client}} để áp dụng",
+    "stackPartial": "Đã ghi một phần; sẽ hoàn tất ở lần đổi tiếp theo hoặc khi CC Switch restart",
+    "stackReselectHint": "Mỗi lần CC Switch ghi lại config client, hãy chọn lại model Stack trong model picker",
+    "stackSaved": "Đã lưu. Restart {{client}} để áp dụng"
   },
   "claudeCode": {
     "needsRouting": "Cần Routing",
@@ -383,7 +397,9 @@
         "enableFailoverToggle": "Hiện nút Failover trên trang chính",
         "enableFailoverToggleDescription": "Khi bật, nút failover hiện riêng ở đầu trang chính",
         "running": "Đang chạy",
-        "stopped": "Đã dừng"
+        "stopped": "Đã dừng",
+        "enableStackMode": "Hiện công tắc Stack mode trên trang chính",
+        "enableStackModeDescription": "Khi bật, công tắc trang chính của Claude Code và Codex thành Stack mode: thêm nhiều provider như OpenCode, mọi model hiện trong danh sách model của client (sau khi restart client). Không có failover. Công tắc này và routing local loại trừ nhau; đổi sẽ đưa Claude Code và Codex về direct trước"
       },
       "connectivityCheck": {
         "title": "Cài đặt kiểm tra kết nối",
@@ -921,7 +937,9 @@
       "defaultCostMultiplierRequired": "Cần hệ số nhân mặc định",
       "defaultCostMultiplierInvalid": "Định dạng hệ số nhân không hợp lệ"
     },
-    "saveFailedGeneric": "Lưu thất bại, thử lại"
+    "saveFailedGeneric": "Lưu thất bại, thử lại",
+    "toolActionInProgress": "Cài hoặc cập nhật vẫn đang chạy",
+    "toolActionInProgressDetail": "Cài hoặc cập nhật {{tool}} đang được xử lý nền. Hãy đợi xong; không cần chạy lại."
   },
   "apps": {
     "claude": "Claude",
@@ -1344,7 +1362,65 @@
     "fetchModelsNotSupported": "Provider này không hỗ trợ lấy danh sách model",
     "fetchModelsEndpointNotFound": "Không tới được endpoint models. Kiểm tra Base URL, hoặc xem Provider có mở API này không.",
     "fetchModelsTimeout": "Request hết timeout, kiểm tra mạng",
-    "requiredFields": "Điền tên Provider, API Endpoint, API Key và model"
+    "requiredFields": "Điền tên Provider, API Endpoint, API Key và model",
+    "addStackModel": "Thêm model",
+    "modelMetadataFilled": "Đã điền context window và tham số khác cho {{model}} (nguồn: {{source}}). Hãy kiểm tra lại.",
+    "modelMetadataFilledMany": "Đã điền context window và tham số khác cho {{count}} model (nguồn: {{source}}). Hãy kiểm tra lại.",
+    "modelMetadataSourceBoth": "preset và models.dev",
+    "modelMetadataSourcePreset": "preset",
+    "partnerPromotion": {
+      "9527code": "9527 CODE là relay AI cấp doanh nghiệp, đủ năng lực, chuyển tiếp nhanh và ổn định cho Claude Code, Codex và các model mainstream. Một năm vận hành liên tục, ổn định 99.9%, hỗ trợ người 7×24. User mới liên hệ support để nhận credit dùng thử; hoa hồng giới thiệu không giới hạn!",
+      "a6api": "A6API là nền tảng gom token, có bảng giá realtime tự chọn giá thấp nhất thị trường. Mượt, ổn định, dễ dùng, không phải so giá thủ công. Đăng ký để nhận credit dùng thử!",
+      "aicodemirror": "AICodeMirror là đối tác chính thức của CC Switch. Đăng ký qua link này để được giảm 20%!",
+      "aicoding": "AI Coding giảm riêng cho user CC Switch — giảm 10% lần nạp đầu!",
+      "aigocode": "AIGoCode là đối tác chính thức của CC Switch. Đăng ký qua link này và nhận thêm 10% credit lần nạp đầu!",
+      "apikeyfun": "APIKEY.FUN ưu đãi riêng cho user CC Switch. Đăng ký qua link độc quyền để được giảm tới 5% vĩnh viễn mỗi lần nạp.",
+      "apinebula": "APINEBULA giảm riêng cho user CC Switch: đăng ký qua link và nhập mã \"ccswitch\" lúc nạp đầu để giảm 10%.",
+      "byteplus": "Đăng ký qua link này để nhận 500.000 token inference miễn phí mỗi model.",
+      "ccsub": "CCSub là relay API ổn định, giá thấp — thay thế subscription Claude.ai và OpenAI, một key cho mọi model với giá khoảng 30% API trực tiếp.",
+      "claudeapi": "ClaudeAPI ưu đãi riêng cho user CC Switch. Đăng ký qua link này để nhận credit dùng thử.",
+      "claudecn": "ClaudeCN là gateway AI cấp doanh nghiệp do công ty đăng ký vận hành, hỗ trợ mua sắm doanh nghiệp: chuyển khoản công ty, hợp đồng và tuân thủ.",
+      "code0": "code0.ai là nền tảng coding AI cho developer, hỗ trợ Claude Code, Codex và Gemini. Riêng user CC Switch: liên hệ support trên website chính thức để nhận credit dùng thử!",
+      "crazyrouter": "CrazyRouter thưởng riêng cho user CC Switch — thêm 30% credit lần nạp đầu!",
+      "cubence": "Cubence là đối tác chính thức của CC Switch. Đăng ký qua link này và nhập mã \"CCSWITCH\" khi nạp để giảm 10% mỗi lần nạp",
+      "dmxapi": "Model độc quyền Claude Code đang giảm 66%!",
+      "doubaoseed": "DouBao ưu đãi riêng cho user CC Switch: đăng ký qua link này để nhận 500K token inference cho mọi model text DouBao và 5M token Seedance 2.0 miễn phí.",
+      "fenno": "Fenno.ai là relay API ổn định, hiệu quả, truy cập nhiều model mainstream. Ưu đãi riêng CC Switch: đăng ký gói Trial $1.99 trị giá $50 credit, hạn 7 ngày, qua link này!",
+      "fluxa": "FluxA và Baidu AI Cloud ra mắt AgenticPlan, để agent tự mua, quản lý và dùng model, API, tool. Gồm Baidu Qianfan TokenPlan giảm tới 40% với model flagship như DeepSeek V4, GLM 5.2 và Kimi, cộng credit API FluxA AgentMarket mở 13.000+ API trả phí: search, scrape, social, finance, crypto, ảnh và video.",
+      "kimi": "User Kimi mới được hoàn 10% lần nạp thành công đầu tiên thành credit API, tối đa CNY ¥1.000.",
+      "micu": "Micu là đối tác chính thức của CC Switch",
+      "opencode_go": "OpenCode Go bán subscription cho một nhóm model coding. Xem gói và đăng ký qua link này.",
+      "packycode": "PackyCode là đối tác chính thức của CC Switch. Đăng ký qua link này và nhập mã \"cc-switch\" khi nạp để giảm 10%",
+      "patewayai": "PatewayAI ưu đãi riêng cho user CC Switch. Đăng ký qua link này để nhận $3 credit.",
+      "ppio": "PPIO là nhà cung cấp Agentic Cloud độc lập hàng đầu Trung Quốc, một API key cho mọi model open-source flagship. Đăng ký qua link này và xác minh danh tính để nhận voucher ¥10.",
+      "qiniu": "Qiniu Cloud là relay AI đa giao thức: một key cho model Claude, GPT và Gemini native, hỗ trợ API Anthropic, OpenAI và Gemini.",
+      "rightcode": "RightCode là đối tác chính thức của CC Switch. Đăng ký qua link này và nhận thêm 5% credit mỗi lần nạp!",
+      "runapi": "RunAPI ưu đãi riêng cho user CC Switch. Đăng ký qua link này và giảm 10% lần nạp đầu.",
+      "shengsuanyun": "Shengsuanyun ưu đãi riêng cho user CC Switch. User mới đăng ký qua link này nhận ¥10 credit miễn phí và thêm 10% lần nạp đầu!",
+      "siliconflow": "SiliconFlow là đối tác chính thức của CC Switch",
+      "soleapi": "SoleAPI là gateway model AI cho developer và doanh nghiệp: một API key tới 30+ model hàng đầu gồm Claude, GPT và Gemini, tương thích native OpenAI và Anthropic, route thông minh realtime, failover mili-giây, sẵn sàng 99.99% và support 24/7. Đăng ký qua link giới thiệu để nhận credit dùng thử và hoa hồng khi bạn bè nạp.",
+      "sssaicode": "SSAI Code thưởng riêng cho user CC Switch — thêm $10 credit mỗi lần nạp!",
+      "subrouter": "SubRouter là aggregator relay AI, một key truy cập nhiều model và provider.",
+      "sudocode": "Một key SudoCode: Claude Code và Claude Desktop dùng Claude Opus 5, Codex dùng GPT-5.6. Đăng ký, vào nhóm QQ 726213516, liên hệ chủ nhóm để nhận credit dùng thử CNY ¥10.",
+      "teamorouter": "TeamoRouter là gateway Agentic LLM cấp doanh nghiệp, giá giảm tới 90%. Ưu đãi riêng user CC Switch: đăng ký qua link này, user mới giảm 10% lần nạp đầu!",
+      "ucloud": "Compshare thưởng riêng cho user CC Switch — đăng ký qua link này để nhận ¥5 credit dùng thử nền tảng!",
+      "volcengine_agentplan": "Volcengine Ark Agent Plan ưu đãi riêng cho user CC Switch: đăng ký qua link này, khách mới giảm 75% hai tháng đầu, thêm 5% với mã 6J6FV5N2 — thấp nhất ¥9.4/tháng!",
+      "volcengine_codingplan": "Volcengine Ark Coding Plan ưu đãi riêng cho user CC Switch: đăng ký qua link này, khách mới giảm 75% hai tháng đầu, thêm 5% với mã 6J6FV5N2 — thấp nhất ¥9.4/tháng!",
+      "xycai": "XycAi là token factory cấp doanh nghiệp: một chạm tới 200+ model toàn cầu, bồi thường SLA tự động, hoàn 100% phí cache bất thường!",
+      "zetaapi": "ZetaAPI giao model thật, không pha loãng, giá thấp tới 35% giá official. Ưu đãi riêng CC Switch: đăng ký qua link này và dùng mã CC-SWITCH để giảm 10% lần nạp đầu!"
+    },
+    "stackLayout": {
+      "advancedHint": "User-Agent tùy chỉnh và request override; thường không cần đổi.",
+      "fullForm": "Hiện form đầy đủ",
+      "noModels": "Danh sách model trống: provider này sẽ không hiện trong model picker khi thêm vào Stack",
+      "simpleForm": "Về form Stack"
+    },
+    "stackModelDefault": "Model mặc định",
+    "stackModelMakeDefault": "Đặt làm model mặc định",
+    "stackModelPlaceholder": "vd. deepseek-v4-pro",
+    "stackModelsEmpty": "Chưa cấu hình model: provider này sẽ không hiện trong model picker khi thêm vào Stack",
+    "stackModelsHint": "Các model này hiện trong menu /model của Claude Code; chọn một model thì request đi thẳng tới provider này. Model đầu (★) là model mặc định: khi provider này là mặc định, Claude Code dùng nó lúc khởi động và cho task nền. Đổi xong cần restart Claude Code.",
+    "stackModelsLabel": "Model"
   },
   "copilot": {
     "authSection": "Đăng nhập GitHub Copilot",
@@ -1574,7 +1650,13 @@
     "noCommonConfigToApply": "Common Config snippet trống hoặc không có gì để ghi",
     "inactiveFieldCopied": "Đã copy",
     "inactiveFieldsHint": "Provider này còn lưu {{count}} setting không áp khi chuyển. Bấm để copy TOML rồi dán phía trên nếu cần; giá trị đã lưu vẫn giữ.",
-    "keyFieldsHint": "Endpoint, key, model, reasoning effort, context window và các công tắc tương thích đi theo Provider; phần còn lại là setting global của Codex, lưu xong áp cho mọi Provider."
+    "keyFieldsHint": "Endpoint, key, model, reasoning effort, context window và các công tắc tương thích đi theo Provider; phần còn lại là setting global của Codex, lưu xong áp cho mọi Provider.",
+    "addToModelList": "Thêm vào danh sách",
+    "modelListEmpty": "Chưa cấu hình model: ở Stack mode chỉ model mặc định của provider này (model trong config.toml) được công bố.",
+    "modelListTitle": "Model",
+    "stackAdvancedHint": "Reasoning, tùy chọn riêng Anthropic, User-Agent tùy chỉnh và request override; thường không cần đổi.",
+    "stackDefaultNotInList": "Model mặc định {{model}} không có trong danh sách: Codex vẫn request nó mặc định, nhưng /model sẽ không hiện.",
+    "stackModelListHint": "Các model này hiện trong menu /model của Codex; chọn một model thì request đi thẳng tới provider này. Model đánh dấu ★ là model mặc định: khi provider này là mặc định, Codex dùng nó mặc định. Đổi xong cần restart Codex."
   },
   "geminiConfig": {
     "envFile": "Biến môi trường (.env)",
@@ -2978,7 +3060,29 @@
       "stopFailed": "Không dừng được routing service: {{detail}}"
     },
     "stoppedWithRestore": "Routing service đã dừng, mọi config routing đã restore",
-    "stopWithRestoreFailed": "Dừng thất bại: {{detail}}"
+    "stopWithRestoreFailed": "Dừng thất bại: {{detail}}",
+    "stackMode": {
+      "ariaLabel": "Stack mode {{appLabel}}",
+      "codexStale": {
+        "confirm": "Restart",
+        "confirmMessage": "Mọi session codex trong terminal dùng chung daemon này, nên task đang chạy sẽ bị ngắt. Mở lại codex sau đó để thấy model Stack.",
+        "confirmTitle": "Restart daemon Codex?",
+        "daemon": "CLI: mở lại codex chưa đủ; daemon nền cần restart.",
+        "failed": "Không restart được daemon Codex: {{error}}",
+        "notRunning": "Daemon Codex không chạy. Lần codex khởi động sau sẽ tải danh sách model mới",
+        "others": "App desktop: thoát hẳn rồi mở lại (⌘Q trên macOS; đóng cửa sổ chưa đủ). Extension editor: mở lại cửa sổ editor.",
+        "restart": "Restart daemon Codex",
+        "restarted": "Đã restart daemon Codex. Mở lại codex để thấy model Stack",
+        "title": "Codex vẫn dùng danh sách model cũ, nên model Stack không hiện"
+      },
+      "enabled": "{{app}} đang ở Stack mode",
+      "exitedToDirect": "{{apps}} đã về direct",
+      "failoverUnavailable": "{{appLabel}} đang ở Stack mode, không có failover. Hàng đợi và cài đặt được giữ, áp dụng lại ở routing mode",
+      "tooltip": {
+        "active": "Stack mode {{appLabel}} đang bật: model của các provider đã thêm hiện trong danh sách sau khi restart client",
+        "inactive": "Vào Stack mode: thêm nhiều provider và mọi model của chúng hiện trong danh sách model {{appLabel}}"
+      }
+    }
   },
   "streamCheck": {
     "reachable": "{{providerName}} tới được ({{responseTimeMs}}ms)",
