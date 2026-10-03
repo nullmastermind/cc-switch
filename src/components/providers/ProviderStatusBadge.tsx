@@ -1,11 +1,7 @@
 import { cn } from "@/lib/utils";
 
 export type ProviderStatusBadgeTone =
-  | "info"
-  | "muted"
-  | "success"
-  | "warning"
-  | "stack";
+  "info" | "muted" | "success" | "warning" | "stack";
 
 export interface ProviderStatusBadgeData {
   label: string;
