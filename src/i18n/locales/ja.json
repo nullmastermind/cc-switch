@@ -150,6 +150,7 @@
     "searchCloseAriaLabel": "検索を閉じる",
     "noSearchResults": "一致するプロバイダーがありません。",
     "duplicate": "複製",
+    "copyProxyUrl": "プロキシ URL をコピー",
     "sortUpdateFailed": "並び順の更新に失敗しました",
     "configureUsage": "利用状況を設定",
     "managedByHermes": "Hermes 管理",

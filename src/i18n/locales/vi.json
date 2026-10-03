@@ -151,6 +151,7 @@
     "searchCloseAriaLabel": "Đóng tìm Provider",
     "noSearchResults": "Không có Provider nào khớp.",
     "duplicate": "Nhân bản",
+    "copyProxyUrl": "Sao chép URL proxy",
     "sortUpdateFailed": "Không cập nhật được thứ tự",
     "configureUsage": "Cấu hình usage query",
     "managedByHermes": "Do Hermes quản lý",

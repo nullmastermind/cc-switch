@@ -294,32 +294,32 @@ jobs:
           fi
 
           # 1) Collect .tar.gz (updater artifact)
-          NEW_TAR_GZ="Cli-Switch-${VERSION}-macOS.tar.gz"
+          NEW_TAR_GZ="Viber-Switch-${VERSION}-macOS.tar.gz"
           cp "$TAR_GZ" "release-assets/$NEW_TAR_GZ"
           [ -f "$TAR_GZ.sig" ] && cp "$TAR_GZ.sig" "release-assets/$NEW_TAR_GZ.sig" || echo ".sig for macOS not found yet"
           echo "macOS updater artifact copied: $NEW_TAR_GZ"
 
           # 2) Collect .app as zip
-          NEW_ZIP="Cli-Switch-${VERSION}-macOS.zip"
+          NEW_ZIP="Viber-Switch-${VERSION}-macOS.zip"
           ditto -c -k --sequesterRsrc --keepParent "$APP_PATH" "release-assets/$NEW_ZIP"
           echo "macOS zip ready: $NEW_ZIP"
 
           HOMEBREW_NO_AUTO_UPDATE=1 brew install create-dmg
-          NEW_DMG="Cli-Switch-${VERSION}-macOS.dmg"
+          NEW_DMG="Viber-Switch-${VERSION}-macOS.dmg"
           DMG_STAGE_DIR="$RUNNER_TEMP/dmg-stage"
           rm -rf "$DMG_STAGE_DIR"
           mkdir -p "$DMG_STAGE_DIR"
-          ditto "$APP_PATH" "$DMG_STAGE_DIR/Cli-Switch.app"
+          ditto "$APP_PATH" "$DMG_STAGE_DIR/Viber-Switch.app"
 
           if [ -n "${APPLE_SIGNING_IDENTITY:-}" ]; then
             create-dmg \
-              --volname "Cli-Switch" \
+              --volname "Viber-Switch" \
               --background "src-tauri/icons/dmg-background.png" \
               --window-size 660 400 \
               --window-pos 200 120 \
               --icon-size 80 \
-              --icon "Cli-Switch.app" 180 220 \
-              --hide-extension "Cli-Switch.app" \
+              --icon "Viber-Switch.app" 180 220 \
+              --hide-extension "Viber-Switch.app" \
               --app-drop-link 480 220 \
               --codesign "$APPLE_SIGNING_IDENTITY" \
               --no-internet-enable \
@@ -328,13 +328,13 @@ jobs:
           else
             echo "Creating unsigned DMG (no APPLE_SIGNING_IDENTITY)"
             create-dmg \
-              --volname "Cli-Switch" \
+              --volname "Viber-Switch" \
               --background "src-tauri/icons/dmg-background.png" \
               --window-size 660 400 \
               --window-pos 200 120 \
               --icon-size 80 \
-              --icon "Cli-Switch.app" 180 220 \
-              --hide-extension "Cli-Switch.app" \
+              --icon "Viber-Switch.app" 180 220 \
+              --hide-extension "Viber-Switch.app" \
               --app-drop-link 480 220 \
               --no-internet-enable \
               "release-assets/$NEW_DMG" \
@@ -451,7 +451,7 @@ jobs:
             $msi = Get-ChildItem -Path (Join-Path $targetRoot 'bundle') -Recurse -Include *.msi -ErrorAction SilentlyContinue | Select-Object -First 1
           }
           if ($null -ne $msi) {
-            $dest = "Cli-Switch-$VERSION-Windows$assetSuffix.msi"
+            $dest = "Viber-Switch-$VERSION-Windows$assetSuffix.msi"
             Copy-Item $msi.FullName (Join-Path release-assets $dest)
             Write-Host "Installer copied: $dest"
             $sigPath = "$($msi.FullName).sig"
@@ -471,36 +471,36 @@ jobs:
 
           # 绿色版（portable）：仅可执行文件打 zip（不参与 Updater）
           $exeCandidates = if ($isArm64) {
-            @('src-tauri/target/aarch64-pc-windows-msvc/release/cc-switch.exe')
+            @('src-tauri/target/aarch64-pc-windows-msvc/release/viber-switch.exe')
           } else {
             @(
-              'src-tauri/target/release/cc-switch.exe',
-              'src-tauri/target/x86_64-pc-windows-msvc/release/cc-switch.exe'
+              'src-tauri/target/release/viber-switch.exe',
+              'src-tauri/target/x86_64-pc-windows-msvc/release/viber-switch.exe'
             )
           }
           $exePath = $exeCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
           if ($null -ne $exePath) {
-            $portableDir = 'release-assets/Cli-Switch-Portable'
+            $portableDir = 'release-assets/Viber-Switch-Portable'
             New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
             Copy-Item $exePath $portableDir
             $portableIniPath = Join-Path $portableDir 'portable.ini'
             $portableContent = if ($isArm64) {
               @(
-                '# Cli-Switch portable ARM64 build marker',
+                '# Viber-Switch portable ARM64 build marker',
                 'portable=true',
                 'arch=arm64'
               )
             } else {
               @(
-                '# Cli-Switch portable build marker',
+                '# Viber-Switch portable build marker',
                 'portable=true'
               )
             }
             $portableContent | Set-Content -Path $portableIniPath -Encoding UTF8
-            $portableZip = "release-assets/Cli-Switch-$VERSION-Windows$assetSuffix-Portable.zip"
+            $portableZip = "release-assets/Viber-Switch-$VERSION-Windows$assetSuffix-Portable.zip"
             Compress-Archive -Path "$portableDir/*" -DestinationPath $portableZip -Force
             Remove-Item -Recurse -Force $portableDir
-            Write-Host "Windows portable zip created: Cli-Switch-$VERSION-Windows$assetSuffix-Portable.zip"
+            Write-Host "Windows portable zip created: Viber-Switch-$VERSION-Windows$assetSuffix-Portable.zip"
           } elseif ($isArm64) {
             throw 'Portable ARM64 exe not found'
           } else {
@@ -518,7 +518,7 @@ jobs:
           # Updater artifact: AppImage（含对应 .sig）
           APPIMAGE=$(find src-tauri/target/release/bundle -name "*.AppImage" | head -1 || true)
           if [ -n "$APPIMAGE" ]; then
-            NEW_APPIMAGE="Cli-Switch-${VERSION}-Linux-${ARCH}.AppImage"
+            NEW_APPIMAGE="Viber-Switch-${VERSION}-Linux-${ARCH}.AppImage"
             cp "$APPIMAGE" "release-assets/$NEW_APPIMAGE"
             [ -f "$APPIMAGE.sig" ] && cp "$APPIMAGE.sig" "release-assets/$NEW_APPIMAGE.sig" || echo ".sig for AppImage not found"
             echo "AppImage copied: $NEW_APPIMAGE"
@@ -528,16 +528,16 @@ jobs:
           # 额外上传 .deb（用于手动安装，不参与 Updater）
           DEB=$(find src-tauri/target/release/bundle -name "*.deb" | head -1 || true)
           if [ -n "$DEB" ]; then
-            cp "$DEB" "release-assets/Cli-Switch-${VERSION}-Linux-${ARCH}.deb"
-            echo "Deb package copied: Cli-Switch-${VERSION}-Linux-${ARCH}.deb"
+            cp "$DEB" "release-assets/Viber-Switch-${VERSION}-Linux-${ARCH}.deb"
+            echo "Deb package copied: Viber-Switch-${VERSION}-Linux-${ARCH}.deb"
           else
             echo "No .deb found (optional)"
           fi
           # 额外上传 .rpm（用于 Fedora/RHEL/openSUSE 等，不参与 Updater）
           RPM=$(find src-tauri/target/release/bundle -name "*.rpm" | head -1 || true)
           if [ -n "$RPM" ]; then
-            cp "$RPM" "release-assets/Cli-Switch-${VERSION}-Linux-${ARCH}.rpm"
-            echo "RPM package copied: Cli-Switch-${VERSION}-Linux-${ARCH}.rpm"
+            cp "$RPM" "release-assets/Viber-Switch-${VERSION}-Linux-${ARCH}.rpm"
+            echo "RPM package copied: Viber-Switch-${VERSION}-Linux-${ARCH}.rpm"
           else
             echo "No .rpm found (optional)"
           fi
@@ -626,12 +626,12 @@ jobs:
               }
 
           platforms = {}
-          add(platforms, "darwin-aarch64", f"Cli-Switch-{tag}-macOS.tar.gz")
-          add(platforms, "darwin-x86_64", f"Cli-Switch-{tag}-macOS.tar.gz")
-          add(platforms, "windows-x86_64", f"Cli-Switch-{tag}-Windows.msi")
-          add(platforms, "windows-aarch64", f"Cli-Switch-{tag}-Windows-arm64.msi")
-          add(platforms, "linux-x86_64", f"Cli-Switch-{tag}-Linux-x86_64.AppImage")
-          add(platforms, "linux-aarch64", f"Cli-Switch-{tag}-Linux-arm64.AppImage")
+          add(platforms, "darwin-aarch64", f"Viber-Switch-{tag}-macOS.tar.gz")
+          add(platforms, "darwin-x86_64", f"Viber-Switch-{tag}-macOS.tar.gz")
+          add(platforms, "windows-x86_64", f"Viber-Switch-{tag}-Windows.msi")
+          add(platforms, "windows-aarch64", f"Viber-Switch-{tag}-Windows-arm64.msi")
+          add(platforms, "linux-x86_64", f"Viber-Switch-{tag}-Linux-x86_64.AppImage")
+          add(platforms, "linux-aarch64", f"Viber-Switch-{tag}-Linux-arm64.AppImage")
           if not platforms:
               raise SystemExit("no signed updater artifacts for latest.json")
 
@@ -662,11 +662,11 @@ jobs:
 
             ### 下载
 
-            - **macOS**: `Cli-Switch-${{ github.ref_name }}-macOS.dmg` or `.zip` (unsigned builds: right-click → Open)
-            - **Windows (x86_64)**: `Cli-Switch-${{ github.ref_name }}-Windows.msi`（安装版）或 `Cli-Switch-${{ github.ref_name }}-Windows-Portable.zip`（绿色版）
-            - **Windows (ARM64)**: `Cli-Switch-${{ github.ref_name }}-Windows-arm64.msi`（安装版）或 `Cli-Switch-${{ github.ref_name }}-Windows-arm64-Portable.zip`（绿色版）
-            - **Linux (x86_64)**: `Cli-Switch-${{ github.ref_name }}-Linux-x86_64.AppImage` / `.deb` / `.rpm`
-            - **Linux (ARM64)**: `Cli-Switch-${{ github.ref_name }}-Linux-arm64.AppImage` / `.deb` / `.rpm`
+            - **macOS**: `Viber-Switch-${{ github.ref_name }}-macOS.dmg` or `.zip` (unsigned builds: right-click → Open)
+            - **Windows (x86_64)**: `Viber-Switch-${{ github.ref_name }}-Windows.msi`（安装版）或 `Viber-Switch-${{ github.ref_name }}-Windows-Portable.zip`（绿色版）
+            - **Windows (ARM64)**: `Viber-Switch-${{ github.ref_name }}-Windows-arm64.msi`（安装版）或 `Viber-Switch-${{ github.ref_name }}-Windows-arm64-Portable.zip`（绿色版）
+            - **Linux (x86_64)**: `Viber-Switch-${{ github.ref_name }}-Linux-x86_64.AppImage` / `.deb` / `.rpm`
+            - **Linux (ARM64)**: `Viber-Switch-${{ github.ref_name }}-Linux-arm64.AppImage` / `.deb` / `.rpm`
 
 
             ---

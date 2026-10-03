@@ -358,6 +358,11 @@ function App() {
   const isCurrentAppTakeoverActive = proxyAppId
     ? takeoverStatus?.[proxyAppId] || false
     : false;
+  const pinnedTakeoverOn =
+    isProxyRunning &&
+    (activeApp === "claude-desktop"
+      ? Boolean(takeoverStatus?.["claude-desktop"])
+      : isCurrentAppTakeoverActive);
   const activeProviderId = useMemo(() => {
     if (!proxyAppId) return undefined;
     const target = proxyStatus?.active_targets?.find(
@@ -1236,6 +1241,9 @@ function App() {
                       isProxyTakeover={
                         isProxyRunning && isCurrentAppTakeoverActive
                       }
+                      pinnedTakeoverOn={pinnedTakeoverOn}
+                      proxyListenAddress={proxyStatus?.address ?? ""}
+                      proxyListenPort={proxyStatus?.port ?? 0}
                       activeProviderId={activeProviderId}
                       onSwitch={
                         activeApp === "pi"

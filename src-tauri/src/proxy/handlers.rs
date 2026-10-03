@@ -90,10 +90,14 @@ pub async fn get_status(State(state): State<ProxyState>) -> Result<Json<ProxySta
 /// 按 [`is_claude_model_discovery`] 认出来，返回 Anthropic 形状的 Stack 模型列表。
 pub async fn handle_models(
     State(state): State<ProxyState>,
+    pinned: Option<axum::extract::Extension<super::provider_pin::PinnedProvider>>,
     uri: axum::http::Uri,
     headers: axum::http::HeaderMap,
 ) -> Result<Json<Value>, ProxyError> {
     if is_claude_model_discovery(&uri, &headers) {
+        if let Some(axum::extract::Extension(pin)) = pinned {
+            return Ok(Json(pinned_claude_models(&pin.provider)));
+        }
         return Ok(Json(claude_model_discovery(&state)));
     }
     let config_dir = crate::codex_config::get_codex_config_dir();
@@ -131,7 +135,10 @@ pub async fn handle_models(
 
 /// Claude Code 的模型发现请求：`GET /v1/models?limit=1000`，经 Anthropic SDK 发出，带
 /// `anthropic-version`。Codex 取目录时两者都没有（它带的是 `client_version`）。
-fn is_claude_model_discovery(uri: &axum::http::Uri, headers: &axum::http::HeaderMap) -> bool {
+pub(crate) fn is_claude_model_discovery(
+    uri: &axum::http::Uri,
+    headers: &axum::http::HeaderMap,
+) -> bool {
     if headers.contains_key("anthropic-version") {
         return true;
     }
@@ -160,6 +167,63 @@ fn claude_model_discovery(state: &ProxyState) -> Value {
                 "display_name": model.display_name,
                 "description": model.description,
             })
+        })
+        .collect();
+    json!({
+        "data": data,
+        "has_more": false,
+    })
+}
+
+const PINNED_CLAUDE_MODELS: &[(&str, &str)] = &[
+    ("ANTHROPIC_MODEL", "ANTHROPIC_MODEL_NAME"),
+    (
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL",
+        "ANTHROPIC_DEFAULT_HAIKU_MODEL_NAME",
+    ),
+    (
+        "ANTHROPIC_DEFAULT_SONNET_MODEL",
+        "ANTHROPIC_DEFAULT_SONNET_MODEL_NAME",
+    ),
+    (
+        "ANTHROPIC_DEFAULT_OPUS_MODEL",
+        "ANTHROPIC_DEFAULT_OPUS_MODEL_NAME",
+    ),
+    (
+        "ANTHROPIC_DEFAULT_FABLE_MODEL",
+        "ANTHROPIC_DEFAULT_FABLE_MODEL_NAME",
+    ),
+];
+
+fn pinned_claude_models(provider: &crate::provider::Provider) -> Value {
+    let env = provider
+        .settings_config
+        .get("env")
+        .and_then(|value| value.as_object());
+    let mut seen = std::collections::HashSet::new();
+    let data: Vec<Value> = PINNED_CLAUDE_MODELS
+        .iter()
+        .filter_map(|(model_key, name_key)| {
+            let id = env
+                .and_then(|env| env.get(*model_key))
+                .and_then(|value| value.as_str())
+                .map(str::trim)
+                .filter(|id| !id.is_empty())?;
+            if !seen.insert(id.to_string()) {
+                return None;
+            }
+            let display_name = env
+                .and_then(|env| env.get(*name_key))
+                .and_then(|value| value.as_str())
+                .map(str::trim)
+                .filter(|name| !name.is_empty())
+                .unwrap_or(id);
+            Some(json!({
+                "type": "model",
+                "id": id,
+                "display_name": display_name,
+                "description": "",
+            }))
         })
         .collect();
     json!({
@@ -300,9 +364,14 @@ async fn handle_messages_for_app(
         .to_bytes();
     let mut body: Value = serde_json::from_slice(&body_bytes)
         .map_err(|e| ProxyError::Internal(format!("Failed to parse request body: {e}")))?;
-    let stack = match resolve_stack_target(&state, &app_type, &mut body) {
-        Ok(stack) => stack,
-        Err(rejected) => return Ok(*rejected),
+    let pinned = super::provider_pin::pinned_provider(&extensions);
+    let stack = if pinned.is_some() {
+        None
+    } else {
+        match resolve_stack_target(&state, &app_type, &mut body) {
+            Ok(stack) => stack,
+            Err(rejected) => return Ok(*rejected),
+        }
     };
 
     let mut ctx = RequestContext::new(
@@ -313,6 +382,7 @@ async fn handle_messages_for_app(
         tag,
         app_type_str,
         stack,
+        pinned,
     )
     .await?;
 
@@ -905,9 +975,14 @@ pub async fn handle_chat_completions(
     let body_bytes = decode_codex_request_body(&mut headers, body_bytes)?;
     let mut body: Value = serde_json::from_slice(&body_bytes)
         .map_err(|e| ProxyError::Internal(format!("Failed to parse request body: {e}")))?;
-    let stack = match resolve_stack_target(&state, &AppType::Codex, &mut body) {
-        Ok(stack) => stack,
-        Err(rejected) => return Ok(*rejected),
+    let pinned = super::provider_pin::pinned_provider(&extensions);
+    let stack = if pinned.is_some() {
+        None
+    } else {
+        match resolve_stack_target(&state, &AppType::Codex, &mut body) {
+            Ok(stack) => stack,
+            Err(rejected) => return Ok(*rejected),
+        }
     };
 
     let mut ctx = RequestContext::new(
@@ -918,6 +993,7 @@ pub async fn handle_chat_completions(
         "Codex",
         "codex",
         stack,
+        pinned,
     )
     .await?;
     let endpoint = endpoint_with_query(&uri, "/chat/completions");
@@ -1023,9 +1099,14 @@ async fn handle_responses_for_app(
     let body_bytes = decode_codex_request_body(&mut headers, body_bytes)?;
     let mut body: Value = serde_json::from_slice(&body_bytes)
         .map_err(|e| ProxyError::Internal(format!("Failed to parse request body: {e}")))?;
-    let stack = match resolve_stack_target(&state, &app_type, &mut body) {
-        Ok(stack) => stack,
-        Err(rejected) => return Ok(*rejected),
+    let pinned = super::provider_pin::pinned_provider(&extensions);
+    let stack = if pinned.is_some() {
+        None
+    } else {
+        match resolve_stack_target(&state, &app_type, &mut body) {
+            Ok(stack) => stack,
+            Err(rejected) => return Ok(*rejected),
+        }
     };
 
     let mut ctx = RequestContext::new(
@@ -1036,6 +1117,7 @@ async fn handle_responses_for_app(
         tag,
         app_type_str,
         stack,
+        pinned,
     )
     .await?;
     let endpoint = endpoint_with_query(&uri, "/responses");
@@ -1259,6 +1341,7 @@ async fn handle_codex_standalone_passthrough(
         "Codex",
         "codex",
         None,
+        super::provider_pin::pinned_provider(&extensions),
     )
     .await?;
     let endpoint = endpoint_with_query(&uri, canonical_endpoint);
@@ -1335,9 +1418,14 @@ async fn handle_responses_compact_for_app(
     let mut body: Value = serde_json::from_slice(&body_bytes)
         .map_err(|e| ProxyError::Internal(format!("Failed to parse request body: {e}")))?;
     // 压缩请求也带着客户端选中的模型：不解码的话，会带着前缀落到默认路由。
-    let stack = match resolve_stack_target(&state, &app_type, &mut body) {
-        Ok(stack) => stack,
-        Err(rejected) => return Ok(*rejected),
+    let pinned = super::provider_pin::pinned_provider(&extensions);
+    let stack = if pinned.is_some() {
+        None
+    } else {
+        match resolve_stack_target(&state, &app_type, &mut body) {
+            Ok(stack) => stack,
+            Err(rejected) => return Ok(*rejected),
+        }
     };
 
     let mut ctx = RequestContext::new(
@@ -1348,6 +1436,7 @@ async fn handle_responses_compact_for_app(
         tag,
         app_type_str,
         stack,
+        pinned,
     )
     .await?;
     let endpoint = endpoint_with_query(&uri, "/responses/compact");
@@ -2355,6 +2444,7 @@ pub async fn handle_gemini(
         "Gemini",
         "gemini",
         None,
+        super::provider_pin::pinned_provider(&extensions),
     )
     .await?
     .with_model_from_uri(&uri);
@@ -4007,6 +4097,7 @@ mod stack_tests {
             "Claude",
             "claude",
             Some(target),
+            None,
         )
         .await
         .expect("context");
@@ -4057,6 +4148,7 @@ mod stack_tests {
         headers.insert("anthropic-version", "2023-06-01".parse().unwrap());
         let Json(body) = handle_models(
             State(proxy_state()),
+            None,
             "/v1/models?limit=1000".parse().unwrap(),
             headers,
         )

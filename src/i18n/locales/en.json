@@ -150,6 +150,7 @@
     "searchCloseAriaLabel": "Close provider search",
     "noSearchResults": "No providers match your search.",
     "duplicate": "Duplicate",
+    "copyProxyUrl": "Copy proxy URL",
     "sortUpdateFailed": "Failed to update sort order",
     "configureUsage": "Configure usage query",
     "managedByHermes": "Hermes Managed",

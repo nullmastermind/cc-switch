@@ -150,6 +150,7 @@
     "searchCloseAriaLabel": "關閉供應商搜尋",
     "noSearchResults": "沒有符合搜尋條件的供應商。",
     "duplicate": "複製",
+    "copyProxyUrl": "複製代理 URL",
     "sortUpdateFailed": "排序更新失敗",
     "configureUsage": "設定用量查詢",
     "managedByHermes": "Hermes 託管",

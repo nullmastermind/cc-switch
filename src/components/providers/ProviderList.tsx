@@ -19,6 +19,8 @@ import { toast } from "sonner";
 import type { Provider } from "@/types";
 import type { ProxyStackMember, ProxyStackNotice } from "@/types/proxy";
 import type { AppId } from "@/lib/api";
+import { isTauri } from "@tauri-apps/api/core";
+import { pinnedProxyUrl } from "@/lib/pinnedProxyUrl";
 import { providersApi } from "@/lib/api/providers";
 import { extractErrorMessage } from "@/utils/errorUtils";
 import { useDragSort } from "@/hooks/useDragSort";
@@ -78,6 +80,9 @@ interface ProviderListProps {
   isProxyTakeover?: boolean; // 代理接管模式（Live配置已被接管）
   activeProviderId?: string; // 代理当前实际使用的供应商 ID（用于故障转移模式下标注绿色边框）
   onSetAsDefault?: (provider: Provider, modelId?: string) => void; // OpenClaw: set as default model
+  pinnedTakeoverOn?: boolean;
+  proxyListenAddress?: string;
+  proxyListenPort?: number;
 }
 
 export function ProviderList({
@@ -100,6 +105,9 @@ export function ProviderList({
   isProxyTakeover = false,
   activeProviderId,
   onSetAsDefault,
+  pinnedTakeoverOn = false,
+  proxyListenAddress = "",
+  proxyListenPort = 0,
 }: ProviderListProps) {
   const { t } = useTranslation();
   const { checkProvider, isChecking } = useStreamCheck(appId);
@@ -490,6 +498,20 @@ export function ProviderList({
                       : provider.id === currentProviderId;
             // Stack 模式下官方账号只能设为默认，不能添加。
             const canStack = isStackMode && !isOfficialAccount(appId, provider);
+            const copyProxyUrl =
+              pinnedProxyUrl({
+                appId,
+                providerId: provider.id,
+                takeoverOn: pinnedTakeoverOn,
+                proxyRunning: isProxyRunning,
+                isTauri: isTauri(),
+                pageHostname:
+                  typeof window === "undefined"
+                    ? "localhost"
+                    : window.location.hostname,
+                listenAddress: proxyListenAddress,
+                port: proxyListenPort,
+              }) ?? undefined;
             return (
               <SortableProviderCard
                 key={provider.id}
@@ -572,6 +594,7 @@ export function ProviderList({
                     ? (modelId) => onSetAsDefault(provider, modelId)
                     : undefined
                 }
+                copyProxyUrl={copyProxyUrl}
               />
             );
           })}
@@ -674,6 +697,7 @@ interface SortableProviderCardProps {
   isRemovalProtected?: boolean;
   isStateChangeProtected?: boolean;
   onSetAsDefault?: (modelId?: string) => void;
+  copyProxyUrl?: string;
 }
 
 function SortableProviderCard({
@@ -711,6 +735,7 @@ function SortableProviderCard({
   isRemovalProtected,
   isStateChangeProtected,
   onSetAsDefault,
+  copyProxyUrl,
 }: SortableProviderCardProps) {
   const {
     setNodeRef,
@@ -771,6 +796,7 @@ function SortableProviderCard({
         isRemovalProtected={isRemovalProtected}
         isStateChangeProtected={isStateChangeProtected}
         onSetAsDefault={onSetAsDefault}
+        copyProxyUrl={copyProxyUrl}
       />
     </div>
   );

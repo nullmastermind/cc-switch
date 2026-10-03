@@ -194,6 +194,8 @@ pub struct RequestForwarder {
     /// Stack 模型的请求（`mode::stack`）：挂在结构体上，整流器重试再次调用 `forward()` 时照样
     /// 生效。见 [`Self::routing_state_enabled`]。
     stack_request: bool,
+    /// Provider id in the path. Does not write In Use, but still records circuit results.
+    pinned_request: bool,
 }
 
 impl RequestForwarder {
@@ -310,6 +312,7 @@ impl RequestForwarder {
             ),
             max_attempts,
             stack_request: false,
+            pinned_request: false,
         }
     }
 
@@ -319,10 +322,19 @@ impl RequestForwarder {
         self
     }
 
+    pub fn pinned_request(mut self, pinned_request: bool) -> Self {
+        self.pinned_request = pinned_request;
+        self
+    }
+
     /// 这个请求读写路由状态吗：熔断器（许可、结果、健康度）、「正在使用」、代理统计
     /// （总数、成功率、故障转移次数、最近错误、活跃连接）、故障转移切换。Stack 模型的请求
     /// 和普通路由完全分开，一律不碰；只有用量日志照常按供应商记。以后新增路由状态也先问它。
     fn routing_state_enabled(&self) -> bool {
+        !self.stack_request && !self.pinned_request
+    }
+
+    fn records_circuit(&self) -> bool {
         !self.stack_request
     }
 
@@ -447,14 +459,13 @@ impl RequestForwarder {
             outbound_model,
             connection_guard: None,
         };
+        if self.records_circuit() {
+            self.record_success_result(&provider.id, app_type_str, used_half_open_permit)
+                .await;
+        }
         if !self.routing_state_enabled() {
             return result;
         }
-
-        // 普通闭合熔断状态异步记录，避免阻塞流式首包返回；
-        // HalfOpen 探测仍同步等待，保证 permit 与熔断状态及时释放。
-        self.record_success_result(&provider.id, app_type_str, used_half_open_permit)
-            .await;
 
         {
             let mut current_providers = self.current_providers.write().await;
@@ -495,20 +506,21 @@ impl RequestForwarder {
         error: &ProxyError,
         last_error: String,
     ) {
-        if !self.routing_state_enabled() {
-            return;
+        if self.records_circuit() {
+            let _ = self
+                .router
+                .record_result(
+                    &provider.id,
+                    app_type_str,
+                    used_half_open_permit,
+                    false,
+                    Some(error.to_string()),
+                )
+                .await;
         }
-        let _ = self
-            .router
-            .record_result(
-                &provider.id,
-                app_type_str,
-                used_half_open_permit,
-                false,
-                Some(error.to_string()),
-            )
-            .await;
-        self.status.write().await.last_error = Some(last_error);
+        if self.routing_state_enabled() {
+            self.status.write().await.last_error = Some(last_error);
+        }
     }
 
     /// 不计入熔断的失败（客户端错误、整流后仍被拒）：只释放 HalfOpen 名额，这个请求记为失败。
@@ -3967,6 +3979,7 @@ mod tests {
             streaming_first_byte_timeout,
             max_attempts: 1,
             stack_request: false,
+            pinned_request: false,
         }
     }
 

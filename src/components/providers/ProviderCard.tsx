@@ -87,6 +87,7 @@ interface ProviderCardProps {
   isRemovalProtected?: boolean;
   isStateChangeProtected?: boolean;
   onSetAsDefault?: (modelId?: string) => void;
+  copyProxyUrl?: string;
 }
 
 /** 判断是否为官方供应商（无自定义 base URL / API key，直连官方 API） */
@@ -209,6 +210,7 @@ export function ProviderCard({
   isRemovalProtected,
   isStateChangeProtected,
   onSetAsDefault,
+  copyProxyUrl,
 }: ProviderCardProps) {
   const { t } = useTranslation();
   const codexOfficialIdentity = resolveCodexOfficialIdentity(appId, provider);
@@ -773,6 +775,7 @@ export function ProviderCard({
               isOfficialBlockedByProxy={isOfficialBlockedByProxy}
               isReadOnly={isHermesReadOnly}
               isOmo={isAnyOmo}
+              copyProxyUrl={copyProxyUrl}
               onSwitch={() => onSwitch(provider)}
               onEdit={() => onEdit(provider)}
               onDuplicate={() => onDuplicate(provider)}

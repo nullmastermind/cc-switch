@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Activity,
   BarChart3,
@@ -5,6 +6,7 @@ import {
   ChevronDown,
   Copy,
   Edit,
+  Link2,
   Loader2,
   Minus,
   Play,
@@ -13,6 +15,7 @@ import {
   Trash2,
   Zap,
 } from "lucide-react";
+import { toast } from "sonner";
 import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import {
@@ -23,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { copyText } from "@/lib/clipboard";
 import type { AppId } from "@/lib/api";
 import { isAdditiveAppId } from "@/config/appConfig";
 
@@ -64,6 +68,8 @@ interface ProviderActionsProps {
   isStateChangeProtected?: boolean;
   defaultModelOptions?: OpenClawDefaultModelOption[];
   onSetAsDefault?: (modelId?: string) => void;
+  /** Pinned proxy base URL. Absent means the copy button is not rendered. */
+  copyProxyUrl?: string;
 }
 
 // 主按钮的呈现状态。title 用于 disabled 态向用户解释为何不可点击；
@@ -108,8 +114,10 @@ export function ProviderActions({
   isStateChangeProtected = false,
   defaultModelOptions = [],
   onSetAsDefault,
+  copyProxyUrl,
 }: ProviderActionsProps) {
   const { t } = useTranslation();
+  const [copiedProxyUrl, setCopiedProxyUrl] = useState(false);
   const iconButtonClass = "h-6 w-6 p-1";
 
   // Additive provider membership: providers can coexist in the native config.
@@ -477,6 +485,35 @@ export function ProviderActions({
             className={iconButtonClass}
           >
             <Copy className="h-4 w-4" />
+          </Button>
+        )}
+
+        {copyProxyUrl && (
+          <Button
+            size="icon"
+            variant="ghost"
+            title={t("provider.copyProxyUrl")}
+            aria-label={t("provider.copyProxyUrl")}
+            className={iconButtonClass}
+            onClick={() => {
+              const url = copyProxyUrl;
+              void copyText(url)
+                .then(() => {
+                  setCopiedProxyUrl(true);
+                  window.setTimeout(() => setCopiedProxyUrl(false), 2000);
+                })
+                .catch((error: unknown) => {
+                  toast.error(
+                    error instanceof Error ? error.message : String(error),
+                  );
+                });
+            }}
+          >
+            {copiedProxyUrl ? (
+              <Check className="h-4 w-4 text-green-500" />
+            ) : (
+              <Link2 className="h-4 w-4" />
+            )}
           </Button>
         )}
 
