@@ -160,6 +160,7 @@ const OFFICIAL_COMPANY_NAMES = new Set([
   "gemini native",
   "github copilot",
   "codex",
+  "command code",
   "xai (grok)",
   "nvidia",
   "opencode go",

@@ -421,6 +421,14 @@ describe("ProviderPresetSelector pure helpers", () => {
     ).toBe(true);
     expect(
       isOfficialCompanyPreset({
+        name: "Command Code",
+        websiteUrl: "https://commandcode.ai",
+        settingsConfig: {},
+        category: "third_party",
+      }),
+    ).toBe(true);
+    expect(
+      isOfficialCompanyPreset({
         name: "PackyCode",
         websiteUrl: "https://packy.example.com",
         settingsConfig: {},
