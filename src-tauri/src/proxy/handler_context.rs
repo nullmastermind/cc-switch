@@ -91,6 +91,7 @@ impl RequestContext {
     ///
     /// # Errors
     /// 返回 `ProxyError` 如果 Provider 选择失败
+    #[allow(clippy::too_many_arguments)]
     pub async fn new(
         state: &ProxyState,
         body: &serde_json::Value,

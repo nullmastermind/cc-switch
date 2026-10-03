@@ -127,7 +127,7 @@ fn infer_app(path: &str, claude_discovery: bool) -> Option<AppType> {
         .iter()
         .find(|(route, _)| *route == path)
         .map(|(_, app)| app.clone())
-        .or_else(|| match path {
+        .or(match path {
             "/v1/messages" | "/claude/v1/messages" => Some(AppType::Claude),
             "/claude-desktop/v1/messages" | "/claude-desktop/v1/models" => {
                 Some(AppType::ClaudeDesktop)
@@ -173,6 +173,7 @@ const CODEX_ROUTES: &[(&str, AppType)] = &[
     ("/v1/v1/images/edits", AppType::Codex),
     ("/codex/v1/images/edits", AppType::Codex),
 ];
+#[cfg(test)]
 mod tests {
     use super::*;
 
