@@ -25,7 +25,24 @@ class BrowserWindow {
     return false;
   }
 
+  async isFullscreen(): Promise<boolean> {
+    return false;
+  }
+
+  /** The tab is sized by the browser; `false` keeps the edge-resize cursors off. */
+  async isResizable(): Promise<boolean> {
+    return false;
+  }
+
+  async scaleFactor(): Promise<number> {
+    return typeof window === "undefined" ? 1 : window.devicePixelRatio || 1;
+  }
+
   async onResized(): Promise<UnlistenFn> {
+    return () => {};
+  }
+
+  async onScaleChanged(): Promise<UnlistenFn> {
     return () => {};
   }
 

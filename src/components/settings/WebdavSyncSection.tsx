@@ -964,9 +964,6 @@ export function WebdavSyncSection({
         <h3 className="text-ui font-semibold text-foreground">
           {t("settings.webdavSync.title")}
         </h3>
-        <p className="text-ui text-muted-foreground">
-          {t("settings.webdavSync.description")}
-        </p>
       </header>
 
       {/* ─── Sync type selector ───────────────────────────── */}
@@ -1077,9 +1074,6 @@ export function WebdavSyncSection({
             <div className="flex items-center gap-2">
               <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
                 {t("settings.webdavSync.remoteRoot")}
-                <span className="block text-[12.35px] leading-[1.3] font-normal text-muted-foreground">
-                  {t("settings.webdavSync.remoteRootDefault")}
-                </span>
               </label>
               <Input
                 value={form.remoteRoot}
@@ -1094,9 +1088,6 @@ export function WebdavSyncSection({
             <div className="flex items-center gap-2">
               <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
                 {t("settings.webdavSync.profile")}
-                <span className="block text-[12.35px] leading-[1.3] font-normal text-muted-foreground">
-                  {t("settings.webdavSync.profileDefault")}
-                </span>
               </label>
               <Input
                 value={form.profile}
@@ -1354,9 +1345,6 @@ export function WebdavSyncSection({
             <div className="flex items-center gap-2">
               <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
                 {t("settings.s3Sync.remoteRoot")}
-                <span className="block text-[12.35px] leading-[1.3] font-normal text-muted-foreground">
-                  {t("settings.s3Sync.remoteRootDefault")}
-                </span>
               </label>
               <Input
                 value={s3RemoteRoot}
@@ -1374,9 +1362,6 @@ export function WebdavSyncSection({
             <div className="flex items-center gap-2">
               <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
                 {t("settings.s3Sync.profile")}
-                <span className="block text-[12.35px] leading-[1.3] font-normal text-muted-foreground">
-                  {t("settings.s3Sync.profileDefault")}
-                </span>
               </label>
               <Input
                 value={s3Profile}

@@ -301,8 +301,8 @@ pub async fn set_auto_failover_enabled(
         let _ = app.emit("provider-switched", event_data);
     }
 
-    // 刷新托盘菜单，确保状态同步。没有托盘（server / MockRuntime）时直接跳过：
-    // 在 MockRuntime 上重建菜单每秒只处理一个任务，会让这个命令卡住几十秒。
+    // 刷新托盘，确保状态同步（Linux 重建原生菜单，其它平台通知托盘面板，不挂原生菜单）。
+    // 没有托盘（server / MockRuntime）时直接跳过。
     crate::tray::refresh_tray_menu(&app);
 
     Ok(())

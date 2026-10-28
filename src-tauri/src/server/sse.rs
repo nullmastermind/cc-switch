@@ -33,8 +33,9 @@ pub const BRIDGED_EVENTS: &[&str] = &[
     "webdav-sync-status-updated",
     "s3-sync-status-updated",
     "tray-navigate",
-    "deeplink-import",
-    "deeplink-error",
+    // Upstream now stashes the parsed link and only signals the frontend to
+    // read it (`peek_pending_deeplink` / `ack_pending_deeplink`).
+    "deeplink-pending",
     "skill-auto-update-status",
 ];
 

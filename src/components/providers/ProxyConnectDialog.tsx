@@ -121,6 +121,8 @@ const AUTH_PROVIDER_LABEL: Record<ManagedAuthProvider, string> = {
   github_copilot: "GitHub Copilot",
   codex_oauth: "ChatGPT (Codex OAuth)",
   xai_oauth: "xAI OAuth",
+  agy_oauth: "Google (Antigravity OAuth)",
+  claude_official: "Claude (official account)",
 };
 
 /** API key row: a static key is copyable; managed OAuth / env / CLI login are explained instead. */

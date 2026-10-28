@@ -179,10 +179,10 @@
     "copyProxyUrl": "Sao chép URL proxy",
     "connect": {
       "title": "Kết nối: {{name}}",
-      "desc": "Dùng proxy CC Switch, hoặc kết nối thẳng tới upstream.",
-      "proxyTitle": "Proxy CC Switch",
+      "desc": "Dùng proxy Viber Switch, hoặc kết nối thẳng tới upstream.",
+      "proxyTitle": "Proxy Viber Switch",
       "proxyUrl": "URL proxy",
-      "proxyHint": "Trỏ client vào đây. Key thật vẫn nằm trong CC Switch nên dùng key giả bất kỳ (vd PROXY_MANAGED).",
+      "proxyHint": "Trỏ client vào đây. Key thật vẫn nằm trong Viber Switch nên dùng key giả bất kỳ (vd PROXY_MANAGED).",
       "upstreamTitle": "Upstream (kết nối thẳng)",
       "baseUrl": "Base URL",
       "apiKey": "API key",
@@ -195,12 +195,12 @@
       "fullEndpoint": "Endpoint đầy đủ",
       "apiKeyEnv": "API key (biến môi trường)",
       "nativeLogin": "Đăng nhập ChatGPT của Codex CLI",
-      "nativeHint": "Dùng đăng nhập ChatGPT của chính Codex CLI. CC Switch không lưu API key.",
+      "nativeHint": "Dùng đăng nhập ChatGPT của chính Codex CLI. Viber Switch không lưu API key.",
       "defaultAccount": "{{name}} (tài khoản mặc định)",
       "noAccount": "Chưa đăng nhập tài khoản nào",
       "needsReauth": "Cần đăng nhập lại: refresh credential không còn hợp lệ.",
-      "managedHint": "Không có API key tĩnh: token OAuth này do CC Switch giữ và tự làm mới, chỉ proxy mới gắn vào request. Muốn dùng provider này, hãy kết nối qua URL proxy ở trên.",
-      "oauthHint": "Bên dưới là access token OAuth upstream hiện tại, có hạn ngắn và được CC Switch tự làm mới khi còn dưới 1 giờ; hãy lấy token hiện tại từ URL token thay vì copy lại.",
+      "managedHint": "Không có API key tĩnh: token OAuth này do Viber Switch giữ và tự làm mới, chỉ proxy mới gắn vào request. Muốn dùng provider này, hãy kết nối qua URL proxy ở trên.",
+      "oauthHint": "Bên dưới là access token OAuth upstream hiện tại, có hạn ngắn và được Viber Switch tự làm mới khi còn dưới 1 giờ; hãy lấy token hiện tại từ URL token thay vì copy lại.",
       "token": "Access token",
       "tokenUntil": "Access token (hiệu lực đến {{time}})",
       "tokenUrl": "URL token (GET)",
@@ -234,6 +234,42 @@
         "oauthTitle": "Chế độ OAuth",
         "oauthHint": "Google official dùng OAuth cá nhân, không cần điền API Key. Lần đầu dùng, trình duyệt sẽ tự mở để đăng nhập.",
         "apiKeyPlaceholder": "Nhập Gemini API Key"
+      },
+      "agy": {
+        "endpointHelp": "Để trống để dùng API mặc định của Google. Endpoint bên thứ ba phải hỗ trợ Gemini API và các model Gemini built-in của agy.",
+        "modelHelp": "Dùng tên hiển thị trong danh sách model (Fetch Models). Chỉ áp dụng cho session đó.",
+        "keyFieldsHint": "Model, key và endpoint chỉ được dùng bởi \"Mở Terminal\" và không bao giờ ghi vào cài đặt riêng của Antigravity.",
+        "envFile": "Biến môi trường của launcher",
+        "envFileHint": "Khi agy được khởi động từ \"Mở Terminal\" trên card, Viber Switch chỉ truyền API key và endpoint cho đúng process agy đó và không bao giờ ghi chúng ra file. Các biến môi trường khác không được áp dụng.",
+        "configJson": "Cấu hình model (format Viber Switch)",
+        "configJsonHint": "Ở đây chỉ hỗ trợ cài đặt model. Đổi các tùy chọn Antigravity khác trong agy; quản lý MCP ở mục MCP.",
+        "account": "Tài khoản",
+        "accountFollow": "Theo đăng nhập hiện tại của agy",
+        "accountMissing": "Tài khoản không có trên máy này",
+        "accountHelp": "Khi đã chọn tài khoản, Mở Terminal sẽ chuyển đăng nhập của agy sang tài khoản đó trước (áp dụng global: các session agy mở sau đó đều dùng nó). Thêm tài khoản ở trang Tài khoản."
+      },
+      "claudeAccount": {
+        "label": "Cách đăng nhập",
+        "default": "Theo login Claude Code",
+        "defaultDescription": "Tài khoản đổi theo login Claude Code hiện tại",
+        "missing": "Tài khoản không có trên máy này",
+        "manage": "Thêm hoặc quản lý tài khoản Claude",
+        "helpTerminal": "Thư mục config Claude đã bị ghi đè trong Cài đặt, nên chuyển sang card này không đổi đăng nhập của Claude Code. Dùng Mở Terminal trên card để dùng tài khoản đã chọn.",
+        "helpWsl": "Thư mục config Claude nằm trong WSL, nơi chưa hỗ trợ tài khoản Claude. Chuyển sang card này không đổi đăng nhập của Claude Code.",
+        "help": "Chuyển sang card này sẽ đổi ngay đăng nhập của Claude Code sang tài khoản đã chọn, kể cả các session đang chạy. Muốn dùng nhiều tài khoản cùng lúc, hãy dùng Mở Terminal trên card.",
+        "claudeAccount": "Tài khoản Claude",
+        "reauthBadge": "Cần đăng nhập lại",
+        "terminalHint": "Dùng qua Mở Terminal",
+        "wslHint": "Không hỗ trợ trong WSL",
+        "plan": {
+          "pro": "Pro",
+          "max": "Max",
+          "max5x": "Max 5x",
+          "max20x": "Max 20x",
+          "team": "Team",
+          "teamPremium": "Team Premium",
+          "enterprise": "Enterprise"
+        }
       }
     },
     "duplicateLiveIdsLoadFailed": "Không đọc được identifier Provider từ config. Sửa config rồi thử lại.",
@@ -249,7 +285,25 @@
     "formSubtitleStack": "{{app}} (chế độ Tổng hợp)",
     "editCurrentNoticeFile": "Đây là provider đang dùng. Khi lưu, nó được ghi ngay vào",
     "editCurrentNoticeFileEnd": "; request tiếp theo sẽ dùng nó.",
-    "editCurrentNotice": "Đây là provider đang dùng. Lưu xong có hiệu lực ngay; request tiếp theo dùng cài đặt mới."
+    "editCurrentNotice": "Đây là provider đang dùng. Lưu xong có hiệu lực ngay; request tiếp theo dùng cài đặt mới.",
+    "openTerminalIsolated": "Mở Terminal với Provider này (cô lập)",
+    "openTerminalWithProvider": "Mở Terminal với Provider này",
+    "openTerminalDialog": {
+      "title": "Mở terminal trong thư mục nào?",
+      "description": "Terminal sẽ mở trong thư mục bạn chọn và khởi động {{app}} với cài đặt của \"{{name}}\". Thường bạn sẽ chọn thư mục project.",
+      "isolationTitle": "Terminal này được cô lập",
+      "isolationBody": "Terminal này luôn dùng \"{{name}}\": đổi provider trong Viber Switch sau đó không ảnh hưởng tới nó, và nó cũng không đổi provider mà Viber Switch đang dùng.",
+      "isolationBodyAgy": "Key và endpoint của \"{{name}}\" chỉ được truyền cho agy trong terminal này và không bao giờ ghi ra file; chạy agy trực tiếp ở terminal khác vẫn dùng đăng nhập Google của bạn.",
+      "noDir": "Chưa chọn thư mục",
+      "choose": "Chọn thư mục…",
+      "change": "Đổi…",
+      "recent": "Gần đây",
+      "forget": "Xóa khỏi danh sách gần đây",
+      "confirm": "Mở Terminal",
+      "agySwitchTitle": "Thao tác này đổi đăng nhập của agy",
+      "agySwitchBody": "Trước khi mở, đăng nhập của agy sẽ chuyển sang {{account}}, và các session agy mở sau đó dùng tài khoản này.",
+      "agySwitchRunning": "agy đang chạy: các session agy đang mở vẫn giữ tài khoản cũ và có thể ghi đè lại. Nếu được, hãy thoát chúng trước."
+    }
   },
   "claudeCode": {
     "needsRouting": "Cần Routing",
@@ -312,7 +366,8 @@
         "inactive": "Bật local routing Claude Desktop cho Provider cần model mapping hoặc chuyển format. Địa chỉ: {{address}}:{{port}}"
       },
       "stopBlockedByTakeover": "App khác đang dùng proxy takeover. Tắt takeover của app đó trong cài đặt trước khi dừng local routing."
-    }
+    },
+    "modelModeHint": "Nếu Provider có model Claude native, bạn có thể dùng Trực tiếp. Với model bên thứ ba như DeepSeek hoặc Kimi, hãy dùng Model Mapping."
   },
   "notifications": {
     "providerAdded": "Đã thêm Provider",
@@ -364,7 +419,8 @@
     "codexAuthCleanupFailed": "Đã chuyển, nhưng không xóa được auth.json. Credential login official vẫn còn trên disk; xóa auth.json trong thư mục config Codex để gỡ",
     "windowControlFailed": "Không chỉnh được cửa sổ: {{error}}",
     "officialBlockedByProxy": "Không chuyển sang Provider official khi local routing đang bật. Dùng routing với API official có thể bị khóa tài khoản.",
-    "proxyOfficialWarning": "Provider hiện tại {{name}} là official. Nên chuyển sang Provider third-party trước khi dùng local routing."
+    "proxyOfficialWarning": "Provider hiện tại {{name}} là official. Nên chuyển sang Provider third-party trước khi dùng local routing.",
+    "proxyReasonDesktopMapping": "dùng model mapping (Claude Desktop chỉ nhận tên model Claude)"
   },
   "confirm": {
     "deleteProvider": "Xóa Provider",
@@ -421,7 +477,11 @@
       "checkToolUpdatesHelp": "Khi bật, mỗi lần khởi động Viber Switch sẽ kiểm tra phiên bản mới của các app dòng lệnh đã cài, và hiện một chấm ở mục Apps trong sidebar nếu có. Không có gì được nâng cấp tự động.",
       "windowAndTerminal": "Cửa sổ và terminal",
       "minimizeToTrayHelp": "Khi bật, nút đóng chỉ ẩn cửa sổ và Viber Switch tiếp tục chạy ở system tray (chế độ nhẹ nằm trong menu tray). Khi tắt, nút đóng sẽ thoát app.",
-      "terminalHelp": "Terminal được dùng bởi “Mở terminal” trên card provider. Nếu không có, sẽ dùng terminal mặc định của hệ thống."
+      "terminalHelp": "Terminal được dùng bởi “Mở terminal” trên card provider. Nếu không có, sẽ dùng terminal mặc định của hệ thống.",
+      "trayStyle": "Kiểu tray",
+      "trayStylePanel": "Panel",
+      "trayStyleMenu": "Menu",
+      "trayStyleHelp": "Thứ sẽ mở khi bấm vào icon tray (trên Windows, click trái luôn mở cửa sổ chính, click phải mở kiểu đã chọn). Panel: provider đang dùng, quota và usage của từng app, có tìm kiếm và chuyển provider. Menu: menu native của hệ thống. Có hiệu lực ngay."
     },
     "tabGeneral": "Chung",
     "tabAuth": "Auth",
@@ -1086,7 +1146,35 @@
     },
     "data": {
       "location": "Vị trí"
-    }
+    },
+    "languageOptionTurkish": "Türkçe",
+    "ompConfigDir": "Thư mục config Oh My Pi",
+    "browsePlaceholderOmp": "vd. /home/<your-username>/.omp/agent",
+    "portableUpdateHint": "Chế độ portable: nút ở trên tải file zip mới. Giải nén rồi thay viber-switch.exe hiện có. Cài đặt và dữ liệu của bạn nằm trong .cc-switch ở thư mục user và không bị ảnh hưởng.",
+    "manualUninstallCommands": "Lệnh gỡ cài đặt thủ công",
+    "manualUninstallHint": "Mặc định môi trường của từng app được tự động phát hiện, và bạn có thể tự chọn môi trường khác. Chọn đúng cách cài đặt ban đầu, rồi sao chép lệnh của app muốn gỡ và chạy trong terminal. Sau đó bấm “Kiểm tra cập nhật” để làm mới trạng thái.",
+    "manualUninstallMethod": "Cách cài đặt",
+    "manualUninstallBunLauncherHint": "Bun có thể để lại launcher OpenClaw. Kiểm tra header “OpenClaw Bun launcher” và đường dẫn package của nó trước khi xóa file đó; giữ lại thư mục bin dùng chung.",
+    "manualUninstallOpenClawHint": "Trước tiên chạy thành công openclaw uninstall --service --yes --non-interactive để gỡ Gateway service mà vẫn giữ cấu hình và workspace. Sau đó gỡ CLI bằng lệnh bên dưới.",
+    "manualUninstallEnvironment": "Môi trường",
+    "manualUninstallEnvironmentHint": "Dùng cùng môi trường Node và package manager như lần cài ban đầu. Chỉ thêm --prefix khi đã xác nhận global npm prefix. Lệnh cho app trong WSL phải chạy bên trong distribution tương ứng.",
+    "manualUninstallOtherMethods": "Chỉ liệt kê các cách đã đối chiếu với hướng dẫn cài đặt official. Các lệnh giữ lại cấu hình và dữ liệu session. Với bản cài bằng script, tải trực tiếp hoặc cách khác, hãy làm theo hướng dẫn của trình cài đặt gốc; đừng thay bằng lệnh npm global. Với Pi cài bằng script, chạy lại trình cài đặt và chọn “Uninstall Pi”.",
+    "copyToolUninstallCommand": "Sao chép lệnh gỡ cài đặt {{tool}}",
+    "uninstallCommandCopied": "Đã sao chép lệnh gỡ cài đặt",
+    "uninstallCommandCopyFailed": "Sao chép thất bại. Hãy tự chọn và sao chép lệnh.",
+    "toolUninstall": "Gỡ cài đặt",
+    "toolUninstallConfirmTitle": "Gỡ cài đặt {{tool}}?",
+    "toolUninstallConfirmHint": "Chọn bản cài cần gỡ. Cấu hình và dữ liệu session được giữ lại, các bản cài khác không bị ảnh hưởng.",
+    "toolUninstallPreparing": "Đang kiểm tra bản cài…",
+    "toolUninstallManualRequired": "Không gỡ tự động được. Hãy gỡ app này thủ công.",
+    "toolUninstallChooseInstall": "Bản cài cần gỡ",
+    "toolUninstallNativeHint": "Chỉ xóa các file liệt kê trong lệnh ở trên, không bao giờ xóa thư mục. Cấu hình và dữ liệu session được giữ lại.",
+    "toolUninstallReinstalledByUpdater": "Trình cập nhật của {{tool}} đã cài bản này song song với bản kia. Nếu chỉ gỡ bản này, lần cập nhật tới sẽ cài lại nó.",
+    "toolUninstallFailed": "Gỡ cài đặt thất bại",
+    "toolUninstallWarningTitle": "Lệnh gỡ cài đặt đã chạy xong; hãy kiểm tra kết quả",
+    "toolUninstallHermesWindowsHint": "Trên Windows, Hermes có thể để lại một số file chương trình vì Python đang chạy của nó bị khóa khi gỡ. Sau khi lệnh chạy xong, kiểm tra thư mục cài đặt ban đầu xem còn file sót không; khi dọn dẹp hãy giữ lại cấu hình và dữ liệu session.",
+    "toolUninstallRemaining": "Đã gỡ bản cài đã chọn; các bản cài khác vẫn còn",
+    "toolUninstallCheckFailed": "Không xác minh được trạng thái cài đặt sau khi gỡ. Bấm “Kiểm tra cập nhật” để thử lại."
   },
   "apps": {
     "claude": "Claude",
@@ -1100,7 +1188,9 @@
     "openclaw": "OpenClaw",
     "hermes": "Hermes",
     "pi": "Pi",
-    "mcode": "MiniMax Code"
+    "mcode": "MiniMax Code",
+    "agy": "Antigravity",
+    "omp": "Oh My Pi"
   },
   "mcode": {
     "empty": {
@@ -1273,7 +1363,8 @@
     "maxOutputTokensHint": "Giới hạn mặc định 8192 có thể cắt response dài hoặc nặng thinking (stop_reason=max_tokens). Giá trị này ghi đè max_tokens của request trên đường Anthropic. Đừng vượt giới hạn output thật của model/gateway, dễ bị 400. Để trống thì dùng 8192.",
     "keyFieldsHint": "Model mặc định (models.default) và bảng model nó trỏ tới đi theo Provider; phần còn lại là setting global của Grok Build, lưu xong áp cho mọi Provider.",
     "inactiveFieldsHint": "Provider này còn lưu {{count}} setting không đi theo Provider. Bấm để copy TOML rồi dán phía trên nếu cần; giá trị trong Provider vẫn giữ.",
-    "inactiveFieldCopied": "Đã copy"
+    "inactiveFieldCopied": "Đã copy",
+    "routeOnlySettingsHint": "Hai cài đặt bên dưới chỉ áp dụng ở chế độ routing."
   },
   "sessionManager": {
     "title": "Quản lý session",
@@ -1576,7 +1667,8 @@
       "rawMatch": "Khớp trong nguồn",
       "expandContent": "Xem toàn bộ nội dung",
       "collapseContent": "Thu gọn"
-    }
+    },
+    "agyDeleteHint": "Xóa session này trong Antigravity để xóa luôn trạng thái runtime của nó"
   },
   "console": {
     "providerSwitchReceived": "Nhận event chuyển Provider:",
@@ -1626,7 +1718,9 @@
       "openrouter": "OpenRouter",
       "deepseek": "DeepSeek",
       "together": "Together AI",
-      "tuzi": "Tu-zi"
+      "tuzi": "Tu-zi",
+      "yylx": "YYLX",
+      "tokenfactory": "TokenFactory"
     },
     "parameterConfig": "Config tham số - {{name}} *",
     "mainModel": "Model chính (không bắt buộc)",
@@ -1751,7 +1845,34 @@
     "fetchModelsNotSupported": "Provider này không hỗ trợ lấy danh sách model",
     "fetchModelsEndpointNotFound": "Không tới được endpoint models. Kiểm tra Base URL, hoặc xem Provider có mở API này không.",
     "fetchModelsTimeout": "Request hết timeout, kiểm tra mạng",
-    "requiredFields": "Điền tên Provider, API Endpoint, API Key và model"
+    "requiredFields": "Điền tên Provider, API Endpoint, API Key và model",
+    "fullUrlHelp": "Chỉ dành cho gateway có endpoint path không chuẩn: nhập URL request đầy đủ và routing dùng nguyên URL đó, không nối thêm path. Không dùng được ở chế độ direct.",
+    "fullUrlHelpGeminiNative": "Với Gemini Native, URL Gemini chuẩn được chuẩn hóa theo từng model, còn full URL của relay tùy chỉnh được dùng nguyên bản, chỉ thêm query parameter. Không dùng được ở chế độ direct.",
+    "stackModelDefaultHelp": "Các model này hiện trong menu /model của Claude Code, chọn model nào thì request gửi thẳng tới provider này. Dòng đầu tiên là model mặc định và cũng được ghi thành ANTHROPIC_MODEL của card này.",
+    "fallbackModelHelpDirect": "Ghi vào ANTHROPIC_MODEL: model chính mà Claude Code dùng khi khởi động. Task nền thì dùng tier Haiku.",
+    "fallbackModelHelp": "Request không map vào tier Sonnet, Opus, Fable hoặc Haiku sẽ được gửi lên upstream với model này.",
+    "fallbackModelHaikuMissing": "Tier Haiku đang trống: task nền sẽ gửi nguyên tên model Claude gốc lên upstream, endpoint bên thứ ba có thể từ chối.",
+    "fallbackModelMissing": "Đang trống: request không map vào tier nào sẽ gửi nguyên tên model Claude gốc lên upstream và có thể thất bại.",
+    "gptContextWindowHint": "GPT trên relay thường lấy từ gói đăng ký ChatGPT, context window chỉ 272K. Window lớn hơn sẽ làm compaction bị trễ cho tới khi upstream từ chối request và lượt đó thất bại; chỉ dùng nếu provider này hỗ trợ.",
+    "modelPicker": {
+      "title": "Chọn model",
+      "lead": "Model được tick sẽ thêm vào danh sách; bỏ tick sẽ gỡ model khỏi danh sách.",
+      "refresh": "Fetch lại",
+      "selectAll": "Chọn tất cả",
+      "selectNone": "Bỏ chọn tất cả",
+      "selectedCount": "Đã chọn {{selected}}/{{total}}",
+      "reasoning": "Reasoning",
+      "image": "Ảnh",
+      "onlySelected": "Chỉ mục đã chọn",
+      "notInProvider": "Không có trong danh sách của provider",
+      "fromProvider": "Từ provider",
+      "apply": "Áp dụng"
+    },
+    "customUserAgentHelp": "Thay User-Agent của request được chuyển tiếp tới provider.",
+    "localProxyRequestOverridesHelp": "Áp vào request upstream sau khi chuyển format.",
+    "apiFormatHelp": "Chọn protocol mà provider hỗ trợ native: Anthropic Messages được chuyển tiếp nguyên bản, không chuyển đổi; routing chuyển ba loại còn lại sang Anthropic Messages.",
+    "directModeFormatInUse": "Card này đang được dùng ở chế độ direct: lưu với format này sẽ làm request thất bại. Hãy chuyển sang routing hoặc Tổng hợp trước.",
+    "directModeFormatSwitch": "Format này không chạy ở chế độ direct; hãy chuyển sang routing hoặc Tổng hợp để dùng card này."
   },
   "copilot": {
     "authSection": "Đăng nhập GitHub Copilot",
@@ -1790,7 +1911,9 @@
     "deploymentType": "Loại GitHub deployment",
     "deploymentGitHubCom": "GitHub.com",
     "deploymentEnterprise": "GitHub Enterprise Server",
-    "enterpriseDomainPlaceholder": "vd. company.ghe.com"
+    "enterpriseDomainPlaceholder": "vd. company.ghe.com",
+    "automaticFormat": "Routing tự động chọn",
+    "automaticFormatHint": "Routing chọn format upstream Copilot theo từng model; cài đặt format thủ công sẽ bị bỏ qua."
   },
   "codexOauth": {
     "authStatus": "Trạng thái auth",
@@ -1831,7 +1954,12 @@
     "retry": "Thử lại",
     "copyCode": "Sao chép mã",
     "fastMode": "Chế độ FAST",
-    "fastModeDescription": "Gửi service_tier=\"priority\" để giảm latency. Mặc định tắt. Bật thì tốn quota ChatGPT nhanh hơn."
+    "fastModeDescription": "Gửi service_tier=\"priority\" để giảm latency. Mặc định tắt. Bật thì tốn quota ChatGPT nhanh hơn.",
+    "loginMethod": "Cách đăng nhập",
+    "browserLogin": "Đăng nhập qua trình duyệt",
+    "deviceCodeLogin": "Đăng nhập bằng device code",
+    "openBrowserLogin": "Mở trình duyệt để đăng nhập",
+    "loginExpired": "Đăng nhập đã hết hạn. Hãy thử lại."
   },
   "xaiOauth": {
     "authStatus": "OAuth xAI",
@@ -1988,7 +2116,25 @@
     "advancedSectionHint": "Format upstream, model mapping, ghi đè reasoning, User-Agent tùy chỉnh. Provider dùng Chat Completions cần bật routing takeover.",
     "keyFieldsHint": "Endpoint, key, model, reasoning effort, context window và các công tắc tương thích đi theo Provider; phần còn lại là setting global của Codex, lưu xong áp cho mọi Provider.",
     "inactiveFieldsHint": "Provider này còn lưu {{count}} setting không áp khi chuyển. Bấm để copy TOML rồi dán phía trên nếu cần; giá trị đã lưu vẫn giữ.",
-    "inactiveFieldCopied": "Đã copy"
+    "inactiveFieldCopied": "Đã copy",
+    "subagentModelLabel": "Model sub-agent",
+    "subagentModelPlaceholder": "Để trống để theo model chính",
+    "subagentReasoningEffortLabel": "Reasoning effort của sub-agent",
+    "subagentReasoningEffortDefault": "Effort mặc định",
+    "subagentModelHint": "Model và reasoning effort mà sub-agent của Codex dùng mặc định. Để trống thì theo agent chính; chỉ đặt model thì dùng effort mặc định của model đó. Bị bỏ qua ở chế độ Tổng hợp, khi đó model sub-agent trong cài đặt của tab Tổng hợp được áp dụng.",
+    "subagentModelNotInCatalog": "Model này không có trong danh sách model: Codex không lấy được context window của nó, và khi routing chuyển request sang Chat / Anthropic, nó sẽ bị thay bằng model mặc định.",
+    "autoReviewModelLabel": "Model Auto Review",
+    "autoReviewModelHint": "Model mà Codex dùng để quyết định một thao tác có được thực hiện hay không khi bật duyệt tự động (Approve for me). Request duyệt được gửi tới cùng provider với cuộc trò chuyện, nên chỉ chọn được model trong danh sách model của card này. Bị bỏ qua ở chế độ Tổng hợp, khi đó model Auto Review trong cài đặt của tab Tổng hợp được áp dụng. Restart Codex sau khi thay đổi.",
+    "autoReviewModelCodexDefault": "Mặc định của Codex (codex-auto-review)",
+    "autoReviewModelMainDefault": "Model chính tự duyệt (mặc định)",
+    "autoReviewModelNoList": "Card này chưa có danh sách model: Codex duyệt bằng codex-auto-review official, chỉ một số relay chuyển tiếp tới tài khoản ChatGPT chấp nhận; số còn lại trả về 404. Thêm model vào danh sách ở trên để chọn.",
+    "modelListHint": "Restart Codex sau khi thay đổi.",
+    "modelListDefaultHelp": "Các model này hiện trong menu /model của Codex; dòng đầu tiên là model mặc định. Dòng mang tên một model GPT official sẽ dùng entry official, nên tên hiển thị, window và mức reasoning của dòng đó bị bỏ qua.",
+    "stackModelDefaultHelp": "Các model này hiện trong menu /model của Codex, chọn model nào thì request gửi thẳng tới provider này. Dòng đầu tiên là model mặc định, được dùng khi provider này là provider mặc định.",
+    "defaultModelNotInList": "Model mặc định {{model}} không có trong danh sách: Codex vẫn request nó theo mặc định, nhưng /model sẽ không hiện nó.",
+    "upstreamFormatCopilotRouteHint": "Mọi chế độ đều cần routing, vì routing inject credential của tài khoản Copilot. Protocol bạn chọn cụ thể sẽ thất bại với model không hỗ trợ nó.",
+    "maxOutputTokensWarning": "Không vượt quá giới hạn output thực của model hoặc gateway, nếu không request sẽ trả về 400.",
+    "routeOnlySettingsHint": "Hai cài đặt bên dưới chỉ áp dụng ở chế độ routing và Tổng hợp."
   },
   "geminiConfig": {
     "envFile": "Biến môi trường (.env)",
@@ -2077,7 +2223,8 @@
       "thirdparty": "Nền tảng bên thứ ba",
       "cloud": "Provider cloud",
       "plugin": "Config plugin",
-      "universal": "Provider universal"
+      "universal": "Provider universal",
+      "local": "Local"
     },
     "crossApp": "Nhiều app",
     "groupHint": {
@@ -2086,7 +2233,8 @@
       "thirdparty": "Nền tảng tổng hợp nhiều model, hoặc relay bán lại các model official.",
       "cloud": "Gọi model bằng tài khoản của nhà cung cấp cloud.",
       "plugin": "Config gán model cho các plugin OpenCode.",
-      "universal": "Cấu hình một lần, đồng bộ sang Claude Code, Codex và Gemini CLI."
+      "universal": "Cấu hình một lần, đồng bộ sang Claude Code, Codex và Gemini CLI.",
+      "local": "Inference server chạy trên máy này. Hãy khởi động server và pull model trước; key chỉ là placeholder."
     },
     "noResults": "Không tìm thấy kết quả cho “{{query}}”",
     "noResultsHint": "Bạn có thể dùng config tùy chỉnh và tự nhập URL request và API key.",
@@ -2102,7 +2250,8 @@
       "chatgpt": "Đăng nhập bằng tài khoản ChatGPT",
       "github": "Đăng nhập bằng tài khoản GitHub",
       "xai": "Đăng nhập bằng tài khoản xAI",
-      "google": "Đăng nhập bằng tài khoản Google"
+      "google": "Đăng nhập bằng tài khoản Google",
+      "kimi": "Đăng nhập bằng tài khoản Kimi"
     },
     "versionCount": "{{domain}} · {{n}} phiên bản",
     "matchedVersion": "Khớp với {{name}}",
@@ -2361,7 +2510,9 @@
       "minutesAgo": "Log session · sync {{count}} phút trước",
       "off": "Log session · tắt tự động quét",
       "tipAuto": "Log session được quét mỗi 60 giây",
-      "tipOff": "Log session chỉ được quét khi bạn sync thủ công"
+      "tipOff": "Log session chỉ được quét khi bạn sync thủ công",
+      "syncing": "Đang sync…",
+      "tip": "Bấm để sync ngay"
     },
     "refreshMenu": {
       "label": "Tự làm mới {{seconds}}s",
@@ -2401,7 +2552,10 @@
       "requests": "Request",
       "tokens": "Token",
       "cost": "Chi phí",
-      "requestsLegend": "Request"
+      "requestsLegend": "Request",
+      "titleMetric": "{{metric}} · {{granularity}}",
+      "hourly": "theo giờ",
+      "daily": "theo ngày"
     },
     "tabs": {
       "label": "Chi tiết",
@@ -2442,7 +2596,8 @@
       "speedEstimateTooFew": "Dưới 200 output token nên không ước tính",
       "noTimingSession": "Log session không có dữ liệu thời gian",
       "noFirstToken": "Không có thời điểm token đầu tiên nên không có tốc độ",
-      "providerId": "Provider ID"
+      "providerId": "Provider ID",
+      "firstTokenEstimated": "Token đầu (ước tính)"
     },
     "sources": {
       "scanTitle": "Tự động quét log session",
@@ -2486,7 +2641,50 @@
       "cacheWrite": "Cache write"
     },
     "prevMonth": "Tháng trước",
-    "nextMonth": "Tháng sau"
+    "nextMonth": "Tháng sau",
+    "pageSize": "{{count}} / trang",
+    "pageSizeLabel": "Số dòng mỗi trang",
+    "display": {
+      "title": "Hiển thị",
+      "currency": "Tiền tệ",
+      "rate": "Tỷ giá",
+      "rateHint": "Nhập tay và chỉ dùng để hiển thị; cost vẫn được ghi bằng USD.",
+      "rateInvalid": "Nhập số lớn hơn 0",
+      "approxNote": "Rê chuột lên số tiền đã quy đổi để xem giá trị USD.",
+      "sidebarToday": "\"Hôm nay\" trên sidebar",
+      "sidebarTodayItems": {
+        "cost": "Cost",
+        "tokens": "Token",
+        "requests": "Request",
+        "hitRate": "Tỷ lệ cache hit",
+        "none": "Ẩn"
+      },
+      "sidebarTodayLimit": "Chọn tối đa {{count}}",
+      "logColumns": "Cột của log request",
+      "trendChartType": "Biểu đồ xu hướng",
+      "trendChartTypes": {
+        "bar": "Cột",
+        "area": "Vùng"
+      }
+    },
+    "firstToken": "Token đầu",
+    "firstTokenHelpTitle": "Thời gian token đầu",
+    "firstTokenHelp": "Thời gian từ lúc routing service nhận request tới lúc upstream bắt đầu trả output. Giá trị có ≈ được suy ra từ timestamp trong log session khi routing tắt: nó tính từ lúc dòng log trước được ghi, nên gồm cả thời gian client tự chuẩn bị request và thường cao hơn thực tế. Claude Code chỉ cho ra giá trị này khi câu trả lời bắt đầu bằng thinking; Codex chỉ với log mới hơn, và không có khi câu trả lời mở đầu bằng tool call.",
+    "firstTokenSumHelpTitle": "Cách tính thời gian token đầu",
+    "firstTokenSumHelp": "Thời gian từ lúc routing service nhận request tới lúc upstream bắt đầu trả output. Mỗi dòng hiển thị giá trị trung vị của các request trong đó, nên thỉnh thoảng có request chậm (xếp hàng, cold start) cũng không đẩy nó lên. Chỉ tính các request streaming thành công đi qua routing service; request cũ hơn 30 ngày, đã gộp vào rollup theo ngày, thì không tính. Giá trị có ≈ được suy ra từ log session (thường cao hơn thực tế, và chỉ một số request có giá trị) và chỉ hiển thị khi dòng đó không có dữ liệu routing.",
+    "estimatedTimingTipWithFirstToken": "Khoảng {{duration}}s · token đầu khoảng {{ttft}}s (ước tính từ timestamp trong log session)",
+    "logColumns": {
+      "reset": "Khôi phục mặc định",
+      "cacheWrite": "Cache Write",
+      "hitRate": "Tỷ lệ hit",
+      "hitRateTip": "Cache hit {{read}} trên {{total}} input có thể cache",
+      "duration": "Tổng thời gian"
+    },
+    "settings": {
+      "title": "Cài đặt usage",
+      "pricingSummary": "Đặt giá theo từng model trên mỗi triệu token, hoặc sync từ models.dev",
+      "managePricing": "Quản lý giá…"
+    }
   },
   "usageScript": {
     "title": "Cấu hình usage query",
@@ -2574,7 +2772,9 @@
     "fieldExtra": "• extra: String, chữ hiện thêm",
     "tip1": "• Biến {{apiKey}} và {{baseUrl}} được thay tự động",
     "tip2": "• Hàm extractor chạy trong sandbox, hỗ trợ cú pháp ES2020+",
-    "tip3": "• Cả config phải bọc trong () thành object literal"
+    "tip3": "• Cả config phải bọc trong () thành object literal",
+    "templateSub2API": "Sub2API",
+    "officialSubscriptionHintAgy": "Chạy lệnh /usage built-in của agy để kiểm tra quota của tài khoản đang đăng nhập. Không đọc credential đăng nhập; mỗi lần kiểm tra mất khoảng 10 giây. Mặc định tắt, chỉ chạy sau khi bạn bật."
   },
   "dbUpgrade": {
     "title": "Phiên bản database quá mới",
@@ -3097,7 +3297,10 @@
       "removeModel": "Xóa model",
       "modelsHint": "Khi bật, model đầu tiên thành mặc định của Hermes.",
       "rateLimitDelay": "Delay rate limit (giây)",
-      "rateLimitDelayHint": "Delay tối thiểu giữa hai request (giây, không bắt buộc). Để trống là không giới hạn."
+      "rateLimitDelayHint": "Delay tối thiểu giữa hai request (giây, không bắt buộc). Để trống là không giới hạn.",
+      "providerKeyBuiltin": "\"{{key}}\" là ID của một provider built-in trong Hermes. Hermes sẽ dùng provider built-in đó (cần biến môi trường API key riêng) và bỏ qua endpoint và key của card này. Hãy dùng key khác, vd. cc-switch-{{key}}.",
+      "providerKeyBuiltinLocked": "\"{{key}}\" là ID của một provider built-in trong Hermes. Hermes sẽ dùng provider built-in đó và bỏ qua endpoint và key của card này. Key đã bị khóa: hãy thêm lại provider này với key khác (vd. cc-switch-{{key}}), rồi xóa card này.",
+      "supportsVision": "Hỗ trợ input ảnh"
     },
     "webui": {
       "open": "Mở Hermes Web UI",
@@ -3254,7 +3457,8 @@
         "checkPermission": "Kiểm tra quyền thư mục",
         "uninstallFirst": "Gỡ Skill cùng tên đang có trước",
         "checkZipContent": "Kiểm tra file ZIP có thư mục Skill hợp lệ (có SKILL.md)"
-      }
+      },
+      "archiveDownloadTooLarge": "File nén repository tải về vượt giới hạn {{limit_mb}} MB; đã hủy"
     },
     "repo": {
       "title": "Quản lý repo Skill",
@@ -3456,7 +3660,8 @@
       "name": "Tên",
       "description": "Mô tả",
       "contentPreview": "Xem trước nội dung",
-      "enabledWarning": "Import xong, prompt này sẽ bật ngay và prompt khác sẽ tắt"
+      "enabledWarning": "Import xong, prompt này sẽ bật ngay và prompt khác sẽ tắt",
+      "enableAfterImport": "Bật sau khi import"
     },
     "skill": {
       "title": "Thêm repo Skill Claude",
@@ -3482,7 +3687,15 @@
       "envHijack": "Config này đặt biến môi trường làm thay đổi cách process load code (ví dụ nhét thư viện hoặc thay CA). Chỉ import từ nguồn bạn tin.",
       "privateEndpoint": "Địa chỉ này trỏ localhost hoặc mạng nội bộ. Đừng import trừ khi đó là service local của bạn.",
       "shellCommand": "Config này chạy cả command line qua shell. Phần thật sự chạy nằm ở arguments. Đọc từng dòng."
-    }
+    },
+    "providerEnabledWarning": "Sau khi import, Viber Switch sẽ chuyển sang provider này ngay, và request của client sẽ đi tới endpoint ở trên",
+    "apiFormat": "Format API",
+    "switchAfterImport": "Chuyển sang provider này sau khi import",
+    "addToAppAfterImport": "Thêm vào config {{app}} sau khi import",
+    "enableInPiAfterImport": "Bật trong Pi sau khi import",
+    "codexConfigScopeHint": "Chỉ import các cài đặt thuộc về provider này (endpoint, auth, model, reasoning effort, v.v.); các cài đặt global như [features], MCP và permissions sẽ bị bỏ qua.",
+    "grokConfigScopeHint": "Chỉ import bảng model được chỉ định bởi [models] default (tên hiển thị, mô tả, API backend, context window, v.v.); endpoint và key lấy từ tham số của link, các bảng model khác bị bỏ qua.",
+    "usageCodingPlan": "Quota gói: {{name}}"
   },
   "iconPicker": {
     "search": "Tìm icon",
@@ -3493,6 +3706,32 @@
       "cloud": "Nền tảng cloud",
       "tool": "Dev tool",
       "other": "Khác"
+    },
+    "clear": "Xóa icon",
+    "myIcons": "Icon của tôi",
+    "builtinIcons": "Icon có sẵn",
+    "myIconsEmpty": "Ảnh bạn tải lên và đặt tên sẽ được giữ ở đây, để provider khác cũng dùng được.",
+    "currentIcon": "Icon hiện tại",
+    "saveToLibrary": "Lưu vào Icon của tôi",
+    "saveCurrentTitle": "Lưu icon hiện tại vào Icon của tôi",
+    "uploadTitle": "Đặt tên cho icon này",
+    "uploadDescription": "Khi đã có trong Icon của tôi, provider khác cũng dùng được.",
+    "saveAndUse": "Lưu và dùng",
+    "renameTitle": "Đổi tên icon",
+    "rename": "Đổi tên",
+    "delete": "Xóa",
+    "deleteTitle": "Xóa icon",
+    "deleteMessage": "Xóa \"{{name}}\" khỏi Icon của tôi? Provider đang dùng nó không bị ảnh hưởng.",
+    "alreadySaved": "Ảnh này đã có trong Icon của tôi với tên \"{{name}}\"",
+    "nameLabel": "Tên",
+    "namePlaceholder": "vd. Relay của tôi",
+    "upload": "Tải lên",
+    "uploadHint": "PNG, JPG, WebP hoặc SVG, tối đa 2 MB. Ảnh được thu nhỏ thành PNG nhỏ, lưu vào Icon của tôi và đồng bộ theo cloud sync.",
+    "uploadError": {
+      "unsupported": "Format ảnh không được hỗ trợ. Hãy chọn file PNG, JPG, WebP hoặc SVG",
+      "tooLarge": "Ảnh lớn hơn 2 MB",
+      "decodeFailed": "Không đọc được ảnh này, hãy thử ảnh khác",
+      "dimensions": "Ảnh quá lớn (chiều rộng và chiều cao không được vượt quá 4096 px)"
     }
   },
   "providerIcon": {
@@ -4020,7 +4259,11 @@
       "geminiFlashLite": "Lite",
       "monthly": "Tháng",
       "credits": "Credit",
-      "copilotPremium": "Premium"
+      "copilotPremium": "Premium",
+      "agyGeminiFiveHour": "Gemini 5h",
+      "agyGeminiWeekly": "Gemini tuần",
+      "agyThirdPartyFiveHour": "Claude 5h",
+      "agyThirdPartyWeekly": "Claude tuần"
     },
     "fiveHour": "5 giờ",
     "sevenDay": "7 ngày",
@@ -4041,7 +4284,13 @@
     "expired": "Session hết hạn",
     "expiredHint": "Chạy lệnh {{tool}} để làm mới login",
     "queryFailed": "Query thất bại",
-    "refresh": "Làm mới"
+    "refresh": "Làm mới",
+    "agyGemini": "Gemini",
+    "agyThirdParty": "Claude/GPT",
+    "agyGeminiFiveHour": "Gemini 5 giờ",
+    "agyGeminiWeekly": "Gemini hàng tuần",
+    "agyThirdPartyFiveHour": "Claude/GPT 5 giờ",
+    "agyThirdPartyWeekly": "Claude/GPT hàng tuần"
   },
   "languagePicker": {
     "title": "Chọn ngôn ngữ",
@@ -4071,7 +4320,10 @@
       "mappingFull": "Model mapping"
     },
     "needsAttention": "Cần chú ý",
-    "back": "Quay lại"
+    "back": "Quay lại",
+    "today": "Hôm nay {{value}}",
+    "todayRequests": "{{value}} req",
+    "todayHitRate": "Hit {{value}}"
   },
   "appsPage": {
     "showInSidebar": "Hiện {{name}} trong sidebar",
@@ -4119,8 +4371,14 @@
       "openclaw": "Cài bằng npm",
       "hermes": "Cài bằng script chính thức",
       "pi": "Cài bằng npm",
-      "mcode": "Cài bằng script chính thức, nếu lỗi thì dùng npm"
-    }
+      "mcode": "Cài bằng script chính thức, nếu lỗi thì dùng npm",
+      "agy": "Cài bằng script official",
+      "omp": "Cài bằng script official"
+    },
+    "sectionInstalled": "Đã cài · {{count}}",
+    "sectionNotInstalled": "Chưa cài · {{count}}",
+    "dragHandle": "Kéo để sắp xếp {{name}}",
+    "updateNeedsNode": "{{version}} cần Node {{required}}, nhưng bản cài này đang chạy trên Node {{current}}. Hãy nâng cấp Node trước."
   },
   "appPage": {
     "moreActions": "Thêm thao tác cho {{name}}",
@@ -4178,7 +4436,13 @@
       "defaultRemembered": "{{provider}} sẽ là provider mặc định khi bạn chuyển sang Aggregation.",
       "restartHint": " Khởi động lại {{app}} để áp dụng.",
       "undo": "Hoàn tác",
-      "failed": "Không chuyển được: {{detail}}"
+      "failed": "Không chuyển được: {{detail}}",
+      "enteredStackDesktop": "{{app}} đã chuyển sang Tổng hợp. Restart {{app}} để thấy các model tổng hợp trong danh sách model.",
+      "routeRemembered": "Đã lưu provider {{provider}} để dùng khi client kết nối qua routing hoặc tổng hợp.",
+      "routeTargetChanged": "Đã đặt đích route là {{provider}}.",
+      "routeSwitched": "Đã chuyển route sang {{provider}}. Request mới sẽ dùng provider này.",
+      "stackDefaultChanged": "Đã đặt {{provider}} làm mặc định của Tổng hợp. Các model tổng hợp đã chọn vẫn dùng provider tương ứng của chúng.",
+      "clientConfigChanged": " Cấu hình client cũng đã thay đổi. Restart {{app}} để nạp cấu hình mới."
     },
     "dialog": {
       "routeTitle": "Dùng routing cho {{app}}?",
@@ -4203,13 +4467,45 @@
       "needsRouteTitle": "{{provider}} cần routing",
       "needsRouteLead": "{{provider}}: {{reason}}. Nếu chuyển thẳng sang provider này, {{app}} sẽ không dùng được.",
       "switchAnyway": "Vẫn chuyển direct",
-      "routeAndUse": "Bắt đầu routing và dùng"
+      "routeAndUse": "Bắt đầu routing và dùng",
+      "desktopRouteNoteModels": "Danh sách model của Claude Desktop sẽ thành các model của provider được route; đổi provider route sau này sẽ ghi lại file config.",
+      "desktopRouteNoteRestart": "{{app}} chỉ đọc config khi khởi động: hãy restart {{app}} sau khi xác nhận.",
+      "desktopRouteNoteKeepRunning": "Hãy để Viber Switch chạy để request của {{app}} đi ra được.",
+      "desktopStackNoteMembers": "{{names}} thêm {{count}} model vào danh sách model của Claude Desktop, hiển thị dạng \"Provider / model\".",
+      "stackSubagentLead": "Mặc định sub-agent theo model chính; bạn cũng có thể chọn một model tổng hợp (đổi lại bất cứ lúc nào trong Cài đặt Tổng hợp).",
+      "leaveStackNote": "Các model tổng hợp ccs- sẽ biến mất khỏi /model. Danh sách tổng hợp vẫn được giữ và chúng sẽ quay lại khi bạn chuyển sang tổng hợp lần nữa. Nếu đang dùng một trong số đó, hãy chọn model thường trong /model.",
+      "desktopLeaveStackNote": "Sau khi restart, các model tổng hợp sẽ bị gỡ khỏi danh sách model của Claude Desktop. Danh sách tổng hợp vẫn được giữ và chúng sẽ quay lại khi bạn chuyển sang tổng hợp lần nữa. Nếu đang dùng một trong số đó, hãy chọn model thường.",
+      "exitTitle": "Chuyển {{app}} từ “{{from}}” về direct?",
+      "exitLead": "{{app}} sẽ kết nối thẳng tới {{provider}}; request không còn đi qua Viber Switch.",
+      "exitNoteFile": "Ghi lại địa chỉ và key trong {{file}} về của {{provider}}; các cài đặt khác giữ nguyên.",
+      "exitNoteRouteKept": "Đích routing, failover queue và cài đặt được giữ lại và sẽ quay lại ở lần bắt đầu routing tiếp theo.",
+      "desktopExitNoteRouteKept": "Đích routing được giữ lại và sẽ quay lại ở lần bắt đầu routing tiếp theo.",
+      "confirmDirect": "Quay lại direct"
     },
     "help": {
       "title": "Các chế độ kết nối khác nhau thế nào",
       "direct": "Direct: client kết nối thẳng tới provider đã chọn; khi chuyển sẽ ghi lại config của client.",
       "route": "Routing: request đi qua Viber Switch trên máy này trước; có failover.",
       "stack": "Aggregation: model của nhiều provider được liệt kê chung trong /model; không có failover."
+    },
+    "stackSettings": {
+      "title": "Cài đặt Tổng hợp",
+      "subagentDescription": "Mặc định sub-agent theo model chính. Chọn một model tổng hợp thì các sub-agent do agent chính tạo ra sẽ dùng nó mặc định (trừ khi agent chính chỉ định model khi tạo). Không cần restart Codex: cuộc trò chuyện mới sẽ áp dụng, cuộc trò chuyện đang mở giữ cài đặt cũ.",
+      "subagentModel": "Model sub-agent",
+      "followMain": "Theo model chính",
+      "subagentEffort": "Reasoning effort của sub-agent",
+      "effortModelDefault": "Mặc định của model",
+      "effortModelDefaultNamed": "Mặc định của model ({{effort}})",
+      "unavailableOption": "{{model}} (không còn trong tổng hợp)",
+      "unavailable": "Model đã chọn không còn trong danh sách tổng hợp (provider đã bị gỡ hoặc ngừng cung cấp model đó), nên tạm thời sub-agent theo model chính. Model sẽ quay lại khi bạn thêm lại.",
+      "noModels": "Chưa có model tổng hợp nào. Hãy thêm provider vào danh sách tổng hợp trước.",
+      "classicOff": "Sub-agent chạy trên provider khác với agent chính, nên các tool sub-agent mới của Codex mã hóa task của nó theo cách chỉ provider của agent chính đọc được, và sub-agent không nhận được gì. Bạn phải bật \"Tool sub-agent kiểu cũ trong chế độ tổng hợp\" bên dưới.",
+      "autoReviewModel": "Model Auto Review",
+      "autoReviewDescription": "Model mà Codex dùng để quyết định một thao tác có được thực hiện hay không khi bật duyệt tự động (Approve for me). Có thể là model tổng hợp của provider khác. Restart Codex sau khi thay đổi.",
+      "autoReviewDefaultOfficial": "Auto Review official (mặc định)",
+      "autoReviewDefaultMain": "Model chính tự duyệt (mặc định)",
+      "autoReviewUnavailable": "Model đã chọn không còn trong danh sách tổng hợp (provider đã bị gỡ hoặc ngừng cung cấp model đó), nên tạm thời việc duyệt dùng reviewer mặc định. Model sẽ quay lại khi bạn thêm lại.",
+      "saveFailed": "Lưu thất bại: {{error}}"
     }
   },
   "providerCard": {
@@ -4235,7 +4531,8 @@
       "edit": "Sửa {{name}}",
       "more": "Thêm thao tác cho {{name}}",
       "moveUp": "Chuyển {{name}} lên",
-      "moveDown": "Chuyển {{name}} xuống"
+      "moveDown": "Chuyển {{name}} xuống",
+      "openTerminal": "Mở terminal với {{name}}"
     },
     "chip": {
       "official": "Official",
@@ -4258,7 +4555,8 @@
       "defaultCannotRemove": "Không thể gỡ provider mặc định. Hãy đặt provider khác làm mặc định trước.",
       "currentCannotRemove": "Không thể gỡ provider đang dùng. Hãy bật provider khác trước.",
       "inUseCannotDelete": "Không thể xóa provider đang dùng. Hãy chuyển sang provider khác trước.",
-      "noFailover": "Tài khoản official không tham gia được failover queue: chúng dùng đăng nhập riêng của client và không luân phiên với provider khác được."
+      "noFailover": "Tài khoản official không tham gia được failover queue: chúng dùng đăng nhập riêng của client và không luân phiên với provider khác được.",
+      "directDefaultCannotDelete": "Rời routing sẽ chuyển về provider này, nên không xóa được. Ở trang direct, hãy chọn \"Quay lại direct và dùng\" trên provider khác trước."
     },
     "section": {
       "queue": "Queue · theo độ ưu tiên ({{count}})",
@@ -4275,7 +4573,8 @@
       "addedHelp": "Các provider đã thêm đều được ghi vào config của {{app}}; chọn model ngay trong {{app}}.",
       "addedEmpty": "Chưa thêm provider nào.",
       "available": "Khả dụng · {{count}}",
-      "stackNoDefault": "Chưa có provider mặc định. Bạn sẽ chọn khi chuyển sang Aggregation."
+      "stackNoDefault": "Chưa có provider mặc định. Bạn sẽ chọn khi chuyển sang Aggregation.",
+      "stackDefaultHelpDesktop": "Request cho model mặc định và các model đã map sẽ đi tới provider này; các provider đã thêm khác hiện trong danh sách model dạng \"Provider / model\"."
     }
   },
   "desktopAccess": {
@@ -4321,7 +4620,11 @@
     "exitAllTitle": "Chuyển mọi app về direct?",
     "exitAllMessage": "Các app ở chế độ routing hoặc Aggregation sẽ được ghi lại config direct, sau đó routing service dừng. Đích route, queue và danh sách aggregation được giữ lại.",
     "exitAllConfirm": "Chuyển tất cả về direct",
-    "failoverHelp": "Tinh chỉnh timeout, retry và circuit breaker của từng app tại đây. Queue được quản lý ở tab Routing của mỗi app."
+    "failoverHelp": "Tinh chỉnh timeout, retry và circuit breaker của từng app tại đây. Queue được quản lý ở tab Routing của mỗi app.",
+    "clientHost": "Địa chỉ kết nối",
+    "clientHostHint": "Nơi client kết nối tới. Để trống: dùng địa chỉ lắng nghe",
+    "clientHostInvalid": "Nhập địa chỉ IP hoặc hostname mà client truy cập được",
+    "clientHostHelp": "Host mà Viber Switch ghi vào config của client (kể cả gateway URL của Claude Desktop). Để trống để suy ra từ địa chỉ lắng nghe. Đặt giá trị này khi client không truy cập máy này qua loopback được, vd. session Claude Desktop bên trong WSL2 (chế độ NAT): đặt địa chỉ lắng nghe là 0.0.0.0 và nhập một IP Windows mà WSL truy cập được (như địa chỉ adapter vEthernet (WSL)), đồng thời mở port đó trên firewall."
   },
   "quota": {
     "tierShort": "{{label}} {{value}}%",
@@ -4360,6 +4663,10 @@
       "text": "Credit ≈ {{usd}}",
       "usd": "≈ {{usd}}",
       "detail": "Số dư credit {{balance}} · ≈ {{usd}} theo giá API · chỉ dùng sau khi hết giới hạn của bạn"
+    },
+    "windows": {
+      "title": "Tất cả giới hạn",
+      "showAll": "Hiện tất cả giới hạn"
     }
   },
   "appMatrix": {
@@ -4387,6 +4694,11 @@
       "on": "{{name}} · {{app}}: đã bật",
       "off": "{{name}} · {{app}}: đã tắt",
       "fail": "{{name}} · {{app}}: ghi thất bại, bấm để thử lại"
+    },
+    "ompDiscovery": {
+      "title": "Những gì Oh My Pi thực sự nạp",
+      "help": "Ngoài config riêng ở ~/.omp/agent, Oh My Pi còn tự phát hiện MCP server, skill, command, hook, rule và setting từ thư mục của các agent khác (vd. ~/.claude của Claude, ~/.codex của Codex). Để những gì Oh My Pi thực sự nạp khớp với giao diện Viber Switch, hãy tắt các nguồn phát hiện không cần qua disabledProviders trong ~/.omp/agent/config.yml (id khớp với tài liệu, vd. claude, codex, gemini, opencode, github, agents).",
+      "docsLink": "Cách ngăn Oh My Pi nạp config của agent khác"
     }
   },
   "mcpPage": {
@@ -4546,7 +4858,11 @@
       "tags": "Tag",
       "tagsPlaceholder": "Cách nhau bằng dấu phẩy, VD: docs, web",
       "homepage": "Trang chủ",
-      "docs": "Tài liệu"
+      "docs": "Tài liệu",
+      "sseAsHttpTitle": "{{apps}} không hỗ trợ SSE và sẽ kết nối qua HTTP",
+      "sseAsHttpBody": "{{apps}} chỉ hỗ trợ stdio và HTTP (Streamable HTTP), nên URL này sẽ được dùng như HTTP server; nếu server chỉ hỗ trợ SSE thì sẽ không kết nối được. Nếu server cũng có Streamable HTTP, hãy chuyển sang HTTP.",
+      "sseRejectedTitle": "{{apps}} không hỗ trợ SSE",
+      "sseRejectedBody": "Các app này chỉ hỗ trợ stdio và HTTP (Streamable HTTP), nên ghi vào chúng sẽ thất bại khi lưu. Hãy chuyển sang HTTP, hoặc bỏ tick các app này."
     },
     "resync": "Ghi lại config của mọi app theo các công tắc này"
   },
@@ -4639,7 +4955,9 @@
       "noUpdatesInSelection": "Không Skill nào trong số đã chọn có bản cập nhật",
       "selectionAlreadyOn": "{{count}} Skills đã chọn đều đã bật trong {{app}}",
       "selectionAlreadyOff": "Không Skill nào trong {{count}} Skills đã chọn đang bật trong {{app}}",
-      "disabledSelection": "Đã tắt {{count}} {{noun}} trong {{app}}"
+      "disabledSelection": "Đã tắt {{count}} {{noun}} trong {{app}}",
+      "copiedName": "Đã sao chép {{name}}",
+      "openDirFailed": "Không mở được thư mục"
     },
     "installTo": {
       "prefix": "Cài vào: ",
@@ -4717,7 +5035,8 @@
     "headerUpdatesShow": "Chỉ hiện Skills có bản cập nhật",
     "headerUpdatesClear": "Hiện tất cả Skills",
     "updateAllCount": "Cập nhật tất cả ({{count}})",
-    "updatingProgress": "Đang cập nhật {{done}}/{{total}}…"
+    "updatingProgress": "Đang cập nhật {{done}}/{{total}}…",
+    "openDir": "Mở thư mục"
   },
   "newLayoutNotice": {
     "title": "Viber Switch có diện mạo mới",
@@ -4745,7 +5064,11 @@
       "helpTitle": "Cách dùng tài khoản {{service}}",
       "copilotHelp": "Được dùng bởi các preset GitHub Copilot trong Claude Code và Claude Desktop. Provider chưa chọn tài khoản sẽ dùng tài khoản Mặc định.",
       "chatgptHelp": "Được dùng bởi các preset ChatGPT trong Claude Code và Claude Desktop, và bởi liên kết đăng nhập official của Codex. Provider chưa chọn tài khoản sẽ dùng tài khoản Mặc định.",
-      "xaiHelp": "Được dùng bởi các preset xAI trong Claude Code, Claude Desktop và Codex. Provider chưa chọn tài khoản sẽ dùng tài khoản Mặc định."
+      "xaiHelp": "Được dùng bởi các preset xAI trong Claude Code, Claude Desktop và Codex. Provider chưa chọn tài khoản sẽ dùng tài khoản Mặc định.",
+      "agyHelp": "Đăng nhập official của Antigravity CLI (agy). agy chỉ đăng nhập được một tài khoản mỗi lúc; Chuyển sẽ thay đăng nhập của agy bằng tài khoản đã chọn, và các session agy mở sau đó dùng tài khoản này. Tài khoản agy đang đăng nhập sẵn được tự động thêm vào đây, nên chuyển đi cũng không bị mất.",
+      "claudeHelpTerminal": "Tài khoản gói đăng ký Claude Code official (Pro / Max / Team). Thư mục config Claude đã bị ghi đè trong Cài đặt, nên chuyển card không đổi đăng nhập của Claude Code. Hãy chọn tài khoản trên một card official và dùng Mở Terminal trên card.",
+      "claudeHelpWsl": "Tài khoản gói đăng ký Claude Code official (Pro / Max / Team). Chưa hỗ trợ khi thư mục config Claude nằm trong WSL.",
+      "claudeHelp": "Tài khoản gói đăng ký Claude Code official (Pro / Max / Team). Chọn tài khoản trên một card Claude official: sau khi chuyển sang card, đăng nhập của Claude Code đổi sang tài khoản đó ngay. Muốn dùng nhiều tài khoản cùng lúc, hãy dùng Mở Terminal trên card. Token đăng nhập chỉ nằm trên máy này, không bao giờ bị tải lên, làm mới hay đăng xuất. Lần chuyển đầu tiên sẽ lưu tài khoản Claude Code đang đăng nhập; mỗi lần chuyển sẽ ngắt Remote Control và build lại prompt cache."
     },
     "addAccount": "Thêm tài khoản",
     "groupMenu": "Thêm thao tác cho {{service}}",
@@ -4776,7 +5099,9 @@
       "copy": "Sao chép mã",
       "copied": "Đã sao chép mã.",
       "open": "Mở trang cấp quyền",
-      "note": "Trang cấp quyền đã mở trong trình duyệt; mục này tự cập nhật khi bạn hoàn tất. Lưu ý điều khoản sử dụng của {{service}}."
+      "note": "Trang cấp quyền đã mở trong trình duyệt; mục này tự cập nhật khi bạn hoàn tất. Lưu ý điều khoản sử dụng của {{service}}.",
+      "browserNote": "Trang đăng nhập {{service}} đã mở trong trình duyệt. Đăng nhập và cấp quyền, mục này sẽ tự cập nhật.",
+      "reopen": "Mở lại trang đăng nhập"
     },
     "toast": {
       "added": "Đã thêm tài khoản {{service}}.",
@@ -4787,6 +5112,134 @@
       "loading": "Đang kiểm tra quota…",
       "refresh": "Làm mới quota",
       "refreshAria": "Làm mới quota của {{login}}"
+    },
+    "agy": {
+      "reauthNote": "Đăng nhập đã hết hạn, không chuyển sang được",
+      "addedOn": "Thêm lúc {{date}}",
+      "statusLoadFailed": "Không đọc được tài khoản Antigravity. Thử lại.",
+      "empty": "Chưa có tài khoản Antigravity nào. Tài khoản agy đang đăng nhập sẽ tự hiện ở đây.",
+      "current": "agy đang dùng",
+      "switchTo": "Chuyển agy sang tài khoản này",
+      "removeNote": "agy vẫn giữ đăng nhập: nếu agy đang dùng tài khoản này, nó vẫn chạy bình thường sau khi xóa.",
+      "switched": "Đã chuyển. Session agy mới sẽ dùng tài khoản này.",
+      "switchedWhileRunning": "Đã chuyển. agy đang chạy: các session agy đang mở vẫn dùng tài khoản cũ và có thể ghi đè lại. Hãy thoát agy rồi mở lại."
+    },
+    "claude": {
+      "pasteSubmitted": "Đã gửi. Đang hoàn tất đăng nhập…",
+      "pasteToggle": "Không tự quay lại đây sau khi cấp quyền?",
+      "pasteHint": "Dán địa chỉ trên thanh địa chỉ của trình duyệt sau khi cấp quyền, hoặc mã hiển thị trên trang.",
+      "pasteLabel": "Mã cấp quyền hoặc địa chỉ",
+      "pasteSubmit": "Gửi",
+      "reauthNote": "Đăng nhập đã hết hạn. Hãy đăng nhập lại.",
+      "addedOn": "Thêm lúc {{date}}",
+      "loginExpiresOn": "Đăng nhập hết hạn khoảng {{date}}; sau đó hãy đăng nhập lại",
+      "loginMaybeExpired": "Đăng nhập có thể đã hết hạn. Hãy đăng nhập lại trước khi chuyển sang tài khoản này.",
+      "statusLoadFailed": "Không đọc được tài khoản Claude. Thử lại.",
+      "empty": "Chưa có tài khoản Claude nào. Đăng nhập ở đây để chuyển qua lại giữa nhiều tài khoản gói đăng ký.",
+      "removeNote": "Chỉ xóa đăng nhập mà Viber Switch đã lưu cho tài khoản này; tài khoản không bị đăng xuất ở nơi khác, và đăng nhập hiện tại của Claude Code (~/.claude) không bị đụng tới. Các card gắn với tài khoản này sẽ chuyển sang đăng nhập hiện tại của Claude Code.",
+      "wslUnsupported": "Thư mục config Claude nằm trong WSL. Chưa hỗ trợ thêm và chuyển tài khoản Claude ở đó."
     }
+  },
+  "kimi": {
+    "oauth": {
+      "useAccount": "Dùng tài khoản này",
+      "title": "Đăng nhập official Kimi Code",
+      "description": "Thêm tài khoản gói coding Kimi với credential và provider riêng. Quản lý đăng nhập ở đây, rồi chọn một tài khoản để dùng các model official của nó.",
+      "region": "Khu vực đăng nhập",
+      "mainland-cn": "Trung Quốc đại lục",
+      "global": "Quốc tế",
+      "signIn": "Đăng nhập Kimi",
+      "removeAccount": "Xóa tài khoản",
+      "dismissAccount": "Ẩn khỏi danh sách",
+      "signedOut": "Đã đăng xuất",
+      "noSubscription": "Không có gói đăng ký",
+      "statusFailed": "Không đọc được trạng thái đăng nhập",
+      "expired": "Mã cấp quyền đã hết hạn. Hãy đăng nhập lại.",
+      "denied": "Cấp quyền bị từ chối. Hãy đăng nhập lại.",
+      "cancelled": "Lần đăng nhập này đã bị hủy hoặc bị thay thế. Hãy đăng nhập lại.",
+      "success": "Đã đăng nhập Kimi Code và thêm các model official.",
+      "removeConfirm": "Xóa {{name}}? Provider và model của nó sẽ bị gỡ khỏi Kimi Code, cùng với credential local và card của nó. Các tài khoản khác không bị ảnh hưởng.",
+      "dismissConfirm": "Ẩn {{name}} khỏi danh sách? Đây là login riêng của Kimi Code; Viber Switch sẽ không đăng xuất nó và vẫn giữ credential cùng model. Muốn đăng xuất, hãy chạy /logout trong Kimi Code. Đăng nhập lại sẽ đưa nó trở lại danh sách.",
+      "primaryHidden": "Login riêng của Kimi Code đã bị ẩn khỏi danh sách; đăng nhập lại cùng tài khoản để đưa nó trở lại",
+      "removeCurrentHint": "Tài khoản này đang được dùng. Hãy chuyển sang tài khoản khác trước khi xóa.",
+      "manageAccounts": "Quản lý tài khoản Kimi",
+      "managedHint": "Hãy gỡ tài khoản official này trước, hoặc xóa nó (cùng login) ở trang Tài khoản.",
+      "connectionManaged": "Kết nối và login được quản lý ở trang Tài khoản; ở đây chỉ sửa model. Fetch model sẽ đọc các model official hiện có cho tài khoản này.",
+      "current": "Kimi đang dùng",
+      "primaryShort": "Login riêng của Kimi Code",
+      "empty": "Chưa có tài khoản Kimi nào. Tài khoản đang đăng nhập Kimi Code sẽ tự hiện ở đây.",
+      "help": "Thêm nhiều tài khoản gói coding Kimi; mỗi tài khoản có provider và model riêng trong Kimi Code. \"Dùng tài khoản này\" sẽ chuyển model mặc định của Kimi Code sang tài khoản đó, và các session mới sẽ dùng nó từ đó trở đi. Tài khoản mà chính Kimi Code đang đăng nhập sẽ tự hiện ở đây và luôn được dùng cho web search và fetch; xóa nó ở đây chỉ ẩn khỏi danh sách và không bao giờ đăng xuất Kimi Code."
+    },
+    "modelSelectionHint": "Dùng nút chuyển trên card provider để chọn. Muốn chọn model khác, hãy dùng /model trong Kimi Code.",
+    "contextSize": "Kích thước context",
+    "capabilities": {
+      "image_in": "Input ảnh",
+      "thinking": "Thinking",
+      "always_thinking": "Luôn thinking",
+      "tool_use": "Dùng tool",
+      "dynamically_loaded_tools": "Nạp tool theo nhu cầu"
+    },
+    "capabilityHints": {
+      "always_thinking": "Tick khi không tắt được thinking của model: Kimi sẽ bật thinking khi chọn model này và ẩn tùy chọn tắt",
+      "dynamically_loaded_tools": "Cho phép model nạp mô tả tool theo nhu cầu để request ngắn gọn. Chỉ model của chính Kimi hỗ trợ; để tắt với model bên thứ ba. Cũng cần KIMI_CODE_EXPERIMENTAL_TOOL_SELECT"
+    },
+    "empty": {
+      "title": "Thêm Provider Kimi Code",
+      "description": "Cấu hình endpoint, API key và model. Cấu hình Kimi có sẵn được import tự động."
+    },
+    "deleteSessionHint": "Xóa session này trong Kimi Code để cập nhật index và lịch sử cùng lúc.",
+    "error": {
+      "defaultModelInUse": "Kimi Code đang dùng một model của provider này. Hãy chuyển sang model khác bằng /model trong Kimi Code trước.",
+      "secondaryModelInUse": "Model subagent của Kimi Code đang dùng một model của provider này. Hãy đổi nó bằng /secondary-model trong Kimi Code trước."
+    }
+  },
+  "omp": {
+    "empty": {
+      "title": "Chưa có Provider API key nào",
+      "description": "Bấm nút + ở góc trên phải để thêm preset hoặc Provider tùy chỉnh."
+    },
+    "provider": {
+      "enabled": "Đã bật trong Oh My Pi",
+      "enableFailed": "Không bật được provider này trong Oh My Pi",
+      "removed": "Đã gỡ khỏi Oh My Pi"
+    },
+    "current": {
+      "readFailed": "Không đọc được cấu hình provider của Oh My Pi",
+      "stateUnavailableHint": "Thay đổi provider bị tắt cho tới khi Viber Switch đọc được cấu hình provider của Oh My Pi."
+    },
+    "form": {
+      "discoveryType": "Phát hiện model",
+      "discoveryOff": "Tắt",
+      "discoveryHint": "Khi bật, Oh My Pi sẽ hỏi endpoint xem có những model nào, nên bạn không cần liệt kê tay và model mới sẽ tự xuất hiện. Hầu hết dịch vụ online dùng “OpenAI model list”; với model chạy trên máy bạn, hãy chọn app tương ứng. Endpoint format Anthropic thường không có danh sách model, nên để tắt. Model thêm thủ công vẫn được áp dụng.",
+      "discoveryTypes": {
+        "openaiModelsList": "OpenAI model list (hầu hết dịch vụ online)",
+        "proxy": "Proxy (mỗi model tự đặt format)",
+        "ollama": "Ollama (local)",
+        "llamaCpp": "llama.cpp (local)",
+        "lmStudio": "LM Studio (local)",
+        "litellm": "LiteLLM gateway",
+        "appleFoundationModels": "Model on-device của Apple (macOS)"
+      }
+    },
+    "errors": {
+      "fileTooLarge": "Cấu hình Oh My Pi vượt giới hạn 1 MiB.",
+      "externalChange": "Cấu hình Oh My Pi đã bị thay đổi bên ngoài Viber Switch. Hãy làm mới rồi thử lại.",
+      "rollbackConflict": "Lưu database thất bại và cấu hình Oh My Pi đã bị thay đổi từ bên ngoài. Hãy khôi phục thủ công.",
+      "invalidMcp": "MCP JSON của Oh My Pi không hợp lệ. Root và mcpServers phải là object.",
+      "invalidYaml": "YAML của Oh My Pi không hợp lệ. Root và providers phải là mapping.",
+      "invalidProvider": "Provider Oh My Pi không hợp lệ. Kiểm tra các trường bắt buộc, API format và kiểu dữ liệu của trường.",
+      "manualEdit": "YAML này dùng bố cục hoặc cấu trúc mà Viber Switch không sửa an toàn được. Hãy sửa models.yml thủ công.",
+      "duplicateProvider": "Key provider Oh My Pi này đã tồn tại.",
+      "renameProvider": "Không đổi tên được key provider Oh My Pi.",
+      "providerMissing": "Provider Oh My Pi này không còn được lưu.",
+      "legacyModelsJson": "Oh My Pi vẫn còn models.json cũ, omp sẽ migrate sang models.yml ở lần khởi động tới. Hãy chạy omp một lần, rồi thêm lại provider."
+    }
+  },
+  "dsh": {
+    "empty": {
+      "title": "Thêm Provider DeepSeek Harness",
+      "description": "Cấu hình endpoint, API key và model. Provider tùy chỉnh có sẵn sẽ tự hiện ở đây."
+    },
+    "deleteSessionHint": "Xóa session này trong DeepSeek Harness để giữ lịch sử nhất quán."
   }
 }

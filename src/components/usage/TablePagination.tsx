@@ -2,6 +2,13 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { HoverTip } from "@/components/ui/hover-tip";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { fmtInt, getLocaleFromLanguage } from "./format";
 
 interface TablePaginationProps {
@@ -11,17 +18,28 @@ interface TablePaginationProps {
   /** 总条数，显示在左侧 */
   total: number;
   onPageChange: (page: number) => void;
+  /** 传了就在总数旁边给「每页 N 条」下拉 */
+  pageSize?: number;
+  pageSizeOptions?: readonly number[];
+  onPageSizeChange?: (size: number) => void;
 }
 
 const NAV_BUTTON =
   "inline-flex h-6 w-6 items-center justify-center rounded-[4px] text-muted-foreground transition-colors hover:bg-subtle hover:text-foreground disabled:pointer-events-none disabled:opacity-45";
 
-/** 用量页表格共用的翻页条：总数、上一页、可输入的页码、下一页。 */
+/**
+ * 用量页表格共用的翻页条：总数、上一页、可输入的页码、下一页。
+ * 只有一页时不画——翻不了页，总数在页签计数里已经有；
+ * 能改每页条数时，只要条数多过最小一档就画（不然调大以后就找不回来了）。
+ */
 export function TablePagination({
   page,
   totalPages,
   total,
   onPageChange,
+  pageSize,
+  pageSizeOptions,
+  onPageSizeChange,
 }: TablePaginationProps) {
   const { t, i18n } = useTranslation();
   const locale = getLocaleFromLanguage(
@@ -44,9 +62,40 @@ export function TablePagination({
     onPageChange(parsed - 1);
   };
 
+  const canResize =
+    pageSize != null && onPageSizeChange != null && !!pageSizeOptions?.length;
+  const resizable = canResize && total > Math.min(...pageSizeOptions!);
+  if (totalPages <= 1 && !resizable) return null;
+
   return (
-    <div className="flex h-6 items-center gap-2 text-ui text-muted-foreground">
+    <div className="flex h-8 items-center gap-2 border-t border-border bg-subtle px-2 text-[12.35px] leading-[1.3] text-muted-foreground">
       <span className="tabular-nums">{t("usage.totalRecords", { total })}</span>
+      {resizable && (
+        <Select
+          value={String(pageSize)}
+          onValueChange={(next) => {
+            const size = Number(next);
+            // Radix Select 偶尔回报空串，忽略
+            if (pageSizeOptions!.includes(size) && size !== pageSize) {
+              onPageSizeChange!(size);
+            }
+          }}
+        >
+          <SelectTrigger
+            className="h-6 w-auto gap-1 px-2 text-[12.35px] leading-[1.3] text-muted-foreground"
+            aria-label={t("usage.pageSizeLabel")}
+          >
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {pageSizeOptions!.map((size) => (
+              <SelectItem key={size} value={String(size)}>
+                {t("usage.pageSize", { count: size })}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
       <div className="flex-1" />
       <HoverTip content={t("usage.prevPage")}>
         <button
@@ -64,7 +113,7 @@ export function TablePagination({
           type="text"
           inputMode="numeric"
           aria-label={t("usage.pageInputPlaceholder")}
-          className="h-6 w-9 rounded-[4px] border border-transparent bg-transparent text-center text-ui text-foreground transition-[border-color,box-shadow] hover:border-border-strong focus:border-ring focus:bg-card focus:outline-none focus:ring-[3px] focus:ring-ring/20"
+          className="h-6 w-10 rounded-[4px] border border-border-strong bg-card text-center text-[12.35px] leading-[1.3] text-foreground transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/20"
           value={pageDraft ?? String(page + 1)}
           onChange={(event) => setPageDraft(event.target.value)}
           onFocus={(event) => event.target.select()}

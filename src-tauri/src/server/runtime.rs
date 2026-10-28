@@ -223,7 +223,7 @@ fn apply_log_level(db: &crate::database::Database) {
     }
 }
 
-/// The four extra managed states desktop installs, which many commands take as
+/// The extra managed states desktop installs, which many commands take as
 /// `State<'_, T>` and would otherwise panic on.
 fn manage_auxiliary_state(app: &tauri::App<AppRuntime>) {
     use crate::commands::{CodexOAuthState, CopilotAuthState, SkillServiceState, XaiOAuthState};
@@ -250,8 +250,22 @@ fn manage_auxiliary_state(app: &tauri::App<AppRuntime>) {
         app.state::<AppState>().codex_oauth_manager.clone(),
     ));
     app.manage(XaiOAuthState(Arc::new(RwLock::new(XaiOAuthManager::new(
-        app_config_dir,
+        app_config_dir.clone(),
     )))));
+    app.manage(crate::services::kimi_oauth::KimiOAuthManager::default());
+    app.manage(crate::commands::AgyAccountState(Arc::new(
+        crate::services::agy_account::AgyAccountManager::new(app_config_dir.clone()),
+    )));
+    app.manage(crate::commands::ClaudeAccountState(Arc::new(
+        crate::services::claude_account::ClaudeAccountManager::new(app_config_dir.clone()),
+    )));
+    let db = app.state::<AppState>().db.clone();
+    std::thread::spawn(move || {
+        // Same as desktop: finish an interrupted Claude login switch, then
+        // resync settings/MCP shared into each account's CLAUDE_CONFIG_DIR.
+        crate::services::provider::claude_official::recover_login_switch(&db);
+        crate::services::claude_account::sync_all_shared(&app_config_dir)
+    });
 }
 
 fn init_outbound_proxy(app: &tauri::App<AppRuntime>) {
@@ -297,5 +311,9 @@ fn spawn_background_workers(app: &tauri::App<AppRuntime>) {
         // from older versions), then attach proxy-mode apps. After snippet
         // extract so it reads the direct live files.
         crate::mode::controller::startup(&state).await;
+        // #8268: undo the agy wrapper / shell-rc edits a test build installed.
+        if let Err(e) = crate::services::provider::agy_direct::migrate_legacy_launcher(&state.db) {
+            log::warn!("清理旧版 agy 启动器失败: {e}");
+        }
     });
 }

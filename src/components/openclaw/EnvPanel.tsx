@@ -79,9 +79,6 @@ const EnvPanel: React.FC = () => {
   return (
     <div className="px-6 pt-4 pb-8">
       <p className="text-[12.35px] leading-[1.3] text-fg-2 mb-4">
-        {t("openclaw.env.description")}
-      </p>
-      <p className="text-[12.35px] leading-[1.3] text-fg-2 mb-4">
         {t("openclaw.env.editorHint", {
           defaultValue:
             "Edit the full env section as JSON. Nested objects such as env.vars and env.shellEnv are supported.",

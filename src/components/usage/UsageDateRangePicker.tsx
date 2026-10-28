@@ -336,16 +336,17 @@ export function UsageDateRangePicker({
           className="max-w-[220px] shrink-0 gap-1 pe-2 ps-2"
           title={`${t("usage.timeRange")}: ${triggerLabel}`}
         >
-          {selection.preset === "custom" && (
-            <CalendarDays className="h-4 w-4 shrink-0 text-muted-foreground" />
-          )}
+          <CalendarDays
+            aria-hidden="true"
+            className="h-4 w-4 shrink-0 text-muted-foreground"
+          />
           <span className="min-w-0 truncate">{triggerLabel}</span>
           <ChevronDown className="h-4 w-4 shrink-0 text-muted-foreground" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
         className="usage-range-popover w-[620px] max-w-[calc(100vw-2rem)] rounded-[8px] border-border bg-card p-2 shadow-md"
-        align="end"
+        align="start"
       >
         {/* Preset shortcuts */}
         <div className="flex flex-wrap gap-2 pb-2 border-b border-border">

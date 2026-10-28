@@ -60,7 +60,14 @@ const ApiKeyInput: React.FC<ApiKeyInputProps> = ({
           // 原生校验会抢先拦下提交
           aria-required={required || undefined}
           autoComplete="off"
-          className="pr-8"
+          // 切成明文后手打 Key，macOS 会把首字母改成大写
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          className={cn(
+            "pe-8",
+            disabled && "border-border bg-subtle text-fg-3 opacity-100",
+          )}
         />
         {!disabled && value && (
           <Button

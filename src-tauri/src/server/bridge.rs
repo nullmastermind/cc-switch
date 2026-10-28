@@ -40,6 +40,12 @@ const NATIVE_ONLY_COMMANDS: &[&str] = &[
     "exit_lightweight_mode",
     // Native title-bar theming: there is no OS window to re-theme.
     "set_window_theme",
+    // The tray panel is a native window attached to the system tray icon.
+    "tray_panel_state",
+    "tray_panel_placement",
+    "tray_panel_layout",
+    "tray_panel_hide",
+    "tray_panel_action",
     // Desktop process lifecycle. In browser mode the process is owned by npx,
     // and updates come from npm.
     "restart_app",

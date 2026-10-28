@@ -67,11 +67,13 @@ pub fn map_proxy_error_to_status(error: &ProxyError) -> u16 {
 pub fn get_error_message(error: &ProxyError) -> String {
     match error {
         ProxyError::UpstreamError { status, body } => {
-            if let Some(body) = body {
-                format!("Upstream error ({status}): {body}")
-            } else {
-                format!("Upstream error ({status})")
-            }
+            // 上游没给内容时要明说，否则用户会以为是代理把错误内容吞了（#6895）
+            let body = body
+                .as_deref()
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+                .unwrap_or("upstream returned no error body");
+            format!("Upstream error ({status}): {body}")
         }
         ProxyError::Timeout(msg) => format!("Request timed out: {msg}"),
         ProxyError::ForwardFailed(msg) => format!("Forward failed: {msg}"),
@@ -153,5 +155,26 @@ mod tests {
         assert!(msg.contains("Upstream error"));
         assert!(msg.contains("500"));
         assert!(msg.contains("Internal Server Error"));
+    }
+
+    #[test]
+    fn test_get_error_message_empty_body() {
+        let error_empty = ProxyError::UpstreamError {
+            status: 502,
+            body: Some("   ".to_string()),
+        };
+        assert_eq!(
+            get_error_message(&error_empty),
+            "Upstream error (502): upstream returned no error body"
+        );
+
+        let error_none = ProxyError::UpstreamError {
+            status: 502,
+            body: None,
+        };
+        assert_eq!(
+            get_error_message(&error_none),
+            "Upstream error (502): upstream returned no error body"
+        );
     }
 }

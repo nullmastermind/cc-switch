@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useSettingsQuery } from "@/lib/query";
 import type { Settings } from "@/types";
 
-type Language = "zh" | "zh-TW" | "en" | "ja" | "vi";
+type Language = "zh" | "zh-TW" | "en" | "ja" | "tr" | "vi";
 
 export type SettingsFormState = Omit<Settings, "language"> & {
   language: Language;
@@ -26,7 +26,7 @@ const normalizeLanguage = (lang?: string | null): Language => {
     return "zh-TW";
   }
 
-  if (normalized === "en" || normalized === "ja") {
+  if (normalized === "en" || normalized === "ja" || normalized === "tr") {
     return normalized;
   }
 
@@ -47,6 +47,7 @@ const isSupportedLanguage = (lang?: string | null): boolean => {
   return (
     normalized === "en" ||
     normalized === "ja" ||
+    normalized === "tr" ||
     normalized === "vi" ||
     normalized.startsWith("vi") ||
     normalized.startsWith("zh")
@@ -127,7 +128,7 @@ export function useSettingsForm(): UseSettingsFormResult {
       preserveCodexOfficialAuthOnSwitch:
         data.preserveCodexOfficialAuthOnSwitch ?? false,
       unifyCodexSessionHistory: data.unifyCodexSessionHistory ?? false,
-      codexStackClassicSubagents: data.codexStackClassicSubagents ?? false,
+      codexStackClassicTools: data.codexStackClassicTools ?? true,
       claudeConfigDir: sanitizeDir(data.claudeConfigDir),
       codexConfigDir: sanitizeDir(data.codexConfigDir),
       geminiConfigDir: sanitizeDir(data.geminiConfigDir),
@@ -156,7 +157,7 @@ export function useSettingsForm(): UseSettingsFormResult {
             skipClaudeOnboarding: false,
             preserveCodexOfficialAuthOnSwitch: false,
             unifyCodexSessionHistory: false,
-            codexStackClassicSubagents: false,
+            codexStackClassicTools: true,
             language: readPersistedLanguage(),
           } as SettingsFormState);
 
@@ -197,8 +198,7 @@ export function useSettingsForm(): UseSettingsFormResult {
         preserveCodexOfficialAuthOnSwitch:
           serverData.preserveCodexOfficialAuthOnSwitch ?? false,
         unifyCodexSessionHistory: serverData.unifyCodexSessionHistory ?? false,
-        codexStackClassicSubagents:
-          serverData.codexStackClassicSubagents ?? false,
+        codexStackClassicTools: serverData.codexStackClassicTools ?? true,
         claudeConfigDir: sanitizeDir(serverData.claudeConfigDir),
         codexConfigDir: sanitizeDir(serverData.codexConfigDir),
         geminiConfigDir: sanitizeDir(serverData.geminiConfigDir),

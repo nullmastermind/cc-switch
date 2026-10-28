@@ -125,6 +125,8 @@ const OAUTH_ENDPOINT: Record<ManagedAuthProvider, string> = {
   xai_oauth: "https://api.x.ai/v1/responses",
   codex_oauth: "https://chatgpt.com/backend-api/codex/responses",
   github_copilot: "https://api.githubcopilot.com/chat/completions",
+  agy_oauth: "https://cloudcode-pa.googleapis.com/v1internal",
+  claude_official: "https://api.anthropic.com/v1/messages",
 };
 
 const asWireFormat = (value: unknown, fallback: WireFormat): WireFormat =>

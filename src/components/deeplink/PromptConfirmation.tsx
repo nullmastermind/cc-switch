@@ -2,11 +2,17 @@ import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { DeepLinkImportRequest } from "../../lib/api/deeplink";
 import { decodeBase64Utf8 } from "../../lib/utils/base64";
+import { Switch } from "../ui/switch";
 
 export function PromptConfirmation({
   request,
+  enableAfterImport,
+  onEnableAfterImportChange,
 }: {
   request: DeepLinkImportRequest;
+  /** 导入后是否立即启用：用户在确认框里决定，链接里的 enabled 只是初始值 */
+  enableAfterImport: boolean;
+  onEnableAfterImportChange: (enabled: boolean) => void;
 }) {
   const { t } = useTranslation();
 
@@ -58,7 +64,21 @@ export function PromptConfirmation({
         </pre>
       </div>
 
-      {request.enabled && (
+      <div className="flex items-center justify-between gap-4">
+        <label
+          htmlFor="deeplink-prompt-enable-after-import"
+          className="text-[12.35px] leading-[1.3] font-medium"
+        >
+          {t("deeplink.prompt.enableAfterImport")}
+        </label>
+        <Switch
+          id="deeplink-prompt-enable-after-import"
+          checked={enableAfterImport}
+          onCheckedChange={onEnableAfterImportChange}
+        />
+      </div>
+
+      {enableAfterImport && (
         <div className="text-warning-text text-[12.35px] leading-[1.3] flex items-center gap-2">
           <span>⚠️</span>
           <span>{t("deeplink.prompt.enabledWarning")}</span>

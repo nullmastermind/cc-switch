@@ -19,13 +19,14 @@ type Translate = (key: string) => unknown;
  * （很多行为依赖它）。
  */
 export type PresetGroup =
-  "login" | "vendor" | "thirdparty" | "cloud" | "plugin";
+  "login" | "vendor" | "thirdparty" | "cloud" | "local" | "plugin";
 
 export const PRESET_GROUP_ORDER: PresetGroup[] = [
   "login",
   "vendor",
   "thirdparty",
   "cloud",
+  "local",
   "plugin",
 ];
 
@@ -46,6 +47,8 @@ export function presetGroup(preset: AnyPreset): PresetGroup {
       return "vendor";
     case "cloud_provider":
       return "cloud";
+    case "local":
+      return "local";
     case "omo":
     case "omo-slim":
       return "plugin";
@@ -356,6 +359,8 @@ const OFFICIAL_COMPANY_CATEGORIES: ReadonlySet<ProviderCategory> = new Set([
   "official",
   "cn_official",
   "cloud_provider",
+  // 本地运行时（Ollama / LM Studio / vLLM / llama.cpp）是一方软件，不是转售
+  "local",
 ]);
 
 /** category 不是官方，但本身就是一线厂商 / 官方入口的预设（按名称认） */
@@ -371,6 +376,13 @@ const OFFICIAL_COMPANY_NAMES = new Set([
   "siliconflow en",
   "modelscope",
   "openrouter",
+  // 一线推理平台 / 网关（category 是 aggregator，但本身就是公司官方入口）
+  "groq",
+  "hugging face",
+  "vercel ai gateway",
+  "nebius token factory",
+  "deepinfra",
+  "baseten",
 ]);
 
 /** 官方公司预设常驻显示；聚合 / 转售 / 第三方折叠在「非官方」里 */
@@ -418,7 +430,7 @@ export function presetRowGroup(row: PresetRowItem): PresetGroup {
 }
 
 /**
- * 「全部」按左侧分类分段（账号登录 → 模型厂商 → 第三方平台 → 云服务商 → 插件配置），
+ * 「全部」按左侧分类分段（账号登录 → 模型厂商 → 第三方平台 → 云服务商 → 本地 → 插件配置），
  * 段内保持传入的顺序（已按名称排）；空段不出现。
  */
 export function sectionPresetRows<T extends { row: PresetRowItem }>(
@@ -520,9 +532,12 @@ export function loginAccountKey(
     case "codex":
       return "chatgpt";
     case "gemini":
+    case "agy":
       return "google";
     case "grokbuild":
       return "xai";
+    case "kimi":
+      return "kimi";
     default:
       return "claude";
   }

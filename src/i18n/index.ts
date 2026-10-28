@@ -3,25 +3,28 @@ import { initReactI18next } from "react-i18next";
 
 import en from "./locales/en.json";
 import ja from "./locales/ja.json";
+import tr from "./locales/tr.json";
 import vi from "./locales/vi.json";
 import zh from "./locales/zh.json";
 import zhTW from "./locales/zh-TW.json";
 
-type Language = "zh" | "zh-TW" | "en" | "ja" | "vi";
+type Language = "zh" | "zh-TW" | "en" | "ja" | "tr" | "vi";
 
 const DEFAULT_LANGUAGE: Language = "zh";
+
+const isLanguage = (value: unknown): value is Language =>
+  value === "zh" ||
+  value === "zh-TW" ||
+  value === "en" ||
+  value === "ja" ||
+  value === "tr" ||
+  value === "vi";
 
 const getInitialLanguage = (): Language => {
   if (typeof window !== "undefined") {
     try {
       const stored = window.localStorage.getItem("language");
-      if (
-        stored === "zh" ||
-        stored === "zh-TW" ||
-        stored === "en" ||
-        stored === "ja" ||
-        stored === "vi"
-      ) {
+      if (isLanguage(stored)) {
         return stored;
       }
     } catch (error) {
@@ -56,6 +59,10 @@ const getInitialLanguage = (): Language => {
     return "ja";
   }
 
+  if (navigatorLang?.startsWith("tr")) {
+    return "tr";
+  }
+
   if (navigatorLang?.startsWith("vi")) {
     return "vi";
   }
@@ -64,10 +71,12 @@ const getInitialLanguage = (): Language => {
     return "en";
   }
 
-  return DEFAULT_LANGUAGE;
+  // 认得出系统语言、但界面没有这种语言（德、法、韩…）时用英文：英文大多数人能读，简中几乎不能
+  return navigatorLang ? "en" : DEFAULT_LANGUAGE;
 };
 
 const resources = {
+  tr: { translation: tr },
   en: {
     translation: en,
   },
@@ -90,20 +99,14 @@ const HTML_LANG: Record<Language, string> = {
   "zh-TW": "zh-TW",
   en: "en",
   ja: "ja",
+  tr: "tr",
   vi: "vi",
 };
 
 const applyDocumentMeta = (lng?: string) => {
   if (typeof document === "undefined") return;
   document.title = i18n.t("app.title");
-  const resolved: Language =
-    lng === "zh" ||
-    lng === "zh-TW" ||
-    lng === "en" ||
-    lng === "ja" ||
-    lng === "vi"
-      ? lng
-      : "en";
+  const resolved: Language = isLanguage(lng) ? lng : "en";
   document.documentElement.lang = HTML_LANG[resolved];
 };
 
@@ -121,5 +124,28 @@ i18n.use(initReactI18next).init({
 
 applyDocumentMeta(i18n.language);
 i18n.on("languageChanged", applyDocumentMeta);
+
+/**
+ * 用后端 settings.json 里保存的语言校正界面语言。
+ *
+ * 首屏语言取自 localStorage（同步可读），但它只是缓存：开发版与正式版的
+ * WebView 来源不同、WebView 数据被清空时都会读不到或读到旧值，界面就落到
+ * 系统语言。启动后拿到后端设置再对一次，不一致时切换并回写缓存。
+ */
+export const syncLanguageFromSettings = (language?: string | null): void => {
+  if (!isLanguage(language)) return;
+
+  if (i18n.language !== language) {
+    void i18n.changeLanguage(language);
+  }
+
+  try {
+    if (window.localStorage.getItem("language") !== language) {
+      window.localStorage.setItem("language", language);
+    }
+  } catch (error) {
+    console.warn("[i18n] Failed to persist language preference", error);
+  }
+};
 
 export default i18n;

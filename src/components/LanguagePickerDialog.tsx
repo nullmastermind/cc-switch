@@ -13,13 +13,14 @@ import { cn } from "@/lib/utils";
 import { useSettingsQuery } from "@/lib/query";
 import { settingsApi } from "@/lib/api";
 
-type LanguageOption = "zh" | "zh-TW" | "en" | "ja" | "vi";
+type LanguageOption = "zh" | "zh-TW" | "en" | "ja" | "tr" | "vi";
 
 const LANGUAGE_OPTIONS: { value: LanguageOption; labelKey: string }[] = [
   { value: "zh", labelKey: "settings.languageOptionChinese" },
   { value: "zh-TW", labelKey: "settings.languageOptionTraditionalChinese" },
   { value: "en", labelKey: "settings.languageOptionEnglish" },
   { value: "ja", labelKey: "settings.languageOptionJapanese" },
+  { value: "tr", labelKey: "settings.languageOptionTurkish" },
   { value: "vi", labelKey: "settings.languageOptionVietnamese" },
 ];
 

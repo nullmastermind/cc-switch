@@ -41,6 +41,10 @@ const APP_ICON_NAME: Record<AppId, string> = {
   hermes: "hermes",
   pi: "pi",
   mcode: "minimax",
+  kimi: "kimi",
+  dsh: "deepseek",
+  agy: "antigravity",
+  omp: "omp",
 };
 
 const APP_DISPLAY_NAME: Record<AppId, string> = {
@@ -54,6 +58,10 @@ const APP_DISPLAY_NAME: Record<AppId, string> = {
   hermes: "Hermes",
   pi: "Pi",
   mcode: "MiniMax Code",
+  kimi: "Kimi Code",
+  dsh: "DeepSeek Harness",
+  agy: "Antigravity",
+  omp: "Oh My Pi",
 };
 
 // 单色图标经 currentColor 继承按钮的 muted 文字色，未选中时自然变灰；

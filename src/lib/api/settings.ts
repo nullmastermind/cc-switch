@@ -268,6 +268,7 @@ export const settingsApi = {
       installed_but_broken: boolean;
       env_type: "windows" | "wsl" | "macos" | "linux" | "unknown";
       wsl_distro: string | null;
+      update_blocked_by_node: NodeRequirementGap | null;
     }>
   > {
     return await invoke("get_tool_versions", { tools, wslShellByTool });
@@ -275,22 +276,35 @@ export const settingsApi = {
 
   async runToolLifecycleAction(
     tools: string[],
-    action: "install" | "update",
+    action: "install" | "update" | "uninstall",
     wslShellByTool?: Record<
       string,
       { wslShell?: string | null; wslShellFlag?: string | null }
     >,
+    uninstallPlan?: ToolUninstallPlan,
   ): Promise<void> {
     await invoke("run_tool_lifecycle_action", {
       tools,
       action,
       wslShellByTool,
+      uninstallPlan,
     });
   },
 
   /** 卸载工具的某一处安装（仅多处安装时可用）。path 必须是探测结果里的入口。 */
   async uninstallToolInstallation(tool: string, path: string): Promise<void> {
     await invoke("uninstall_tool_installation", { tool, path });
+  },
+
+  /** List every installation with its read-only uninstall preview; execution checks the chosen one is still current. */
+  async prepareToolUninstall(
+    tool: string,
+    wslShellByTool?: Record<
+      string,
+      { wslShell?: string | null; wslShellFlag?: string | null }
+    >,
+  ): Promise<ToolUninstallCandidate[]> {
+    return await invoke("prepare_tool_uninstall", { tool, wslShellByTool });
   },
 
   /** 探测各工具安装分布：枚举所有安装、标记冲突、生成锚定升级命令。
@@ -333,6 +347,15 @@ export const settingsApi = {
   },
 };
 
+export interface ToolUninstallPlan {
+  tool: string;
+  path: string;
+  real_path: string;
+  command: string;
+  native: boolean;
+  wsl_distro: string | null;
+}
+
 /** 单处工具安装的诊断信息（多处安装冲突检测）。字段对应后端 ToolInstallation。 */
 export interface ToolInstallation {
   path: string;
@@ -345,6 +368,20 @@ export interface ToolInstallation {
   can_uninstall: boolean;
   /** true 时没有包管理器可调用，卸载 = 只删这个可执行文件。 */
   uninstall_removes_file: boolean;
+}
+
+/** 卸载对话框里的一处安装：能自动卸载就带 plan，否则给出原因。对应后端 ToolUninstallCandidate。 */
+/** 新版本要求的 Node（`engines.node` 原文）与这处安装用的 Node 版本。 */
+export interface NodeRequirementGap {
+  required: string;
+  current: string;
+}
+
+export interface ToolUninstallCandidate extends ToolInstallation {
+  plan: ToolUninstallPlan | null;
+  unavailable_reason: string | null;
+  /** 工具自己的更新程序会把这份装回来（Grok 的 npm 模式），单独删掉只是暂时的。 */
+  reinstalled_by_updater: boolean;
 }
 
 /** 一次"探测工具安装分布"的结果。字段对应后端 ToolInstallationReport。 */

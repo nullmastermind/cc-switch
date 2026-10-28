@@ -31,6 +31,9 @@ pub fn ensure_test_home() -> &'static Path {
         // 涉及 Claude Desktop 供应商切换的测试会写进开发者真实的桌面版配置。
         #[cfg(windows)]
         std::env::set_var("LOCALAPPDATA", base.join("AppData").join("Local"));
+        // A Hermes install exports HERMES_HOME, which get_hermes_dir() prefers over the
+        // test home; left set, Hermes tests write the developer's real config.yaml.
+        std::env::remove_var("HERMES_HOME");
         base
     })
     .as_path()
