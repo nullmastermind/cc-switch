@@ -1152,7 +1152,15 @@ describe("App integration with MSW", () => {
     setSettings({ useAppWindowControls: true });
     const { default: App } = await import("@/App");
     renderApp(App);
-    const header = document.querySelector("header")!;
+    // Fork: the Linux window controls live in the fixed top drag bar (not in the
+    // page header), and DRAG_REGION_ATTR is empty on Linux, so test that bar.
+    const header = await waitFor(() => {
+      const bar = document.querySelector<HTMLElement>(
+        "[data-tauri-drag-region]",
+      );
+      expect(bar?.querySelector("button")).toBeTruthy();
+      return bar!;
+    });
     await waitFor(() => {
       fireEvent.mouseMove(header, { clientX: 500, clientY: 1 });
       expect(header.style.cursor).toBe("ns-resize");
