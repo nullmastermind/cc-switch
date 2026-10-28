@@ -5,7 +5,6 @@ import {
   useMemo,
   useRef,
   useState,
-  type ReactNode,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "@/lib/toast";
@@ -13,12 +12,8 @@ import { invoke } from "@tauri-apps/api/core";
 import { useQueryClient } from "@tanstack/react-query";
 import {
   ArrowLeft,
-  // Book, // Fork: Prompts toolbar button is commented out — do not restore on upstream merge
-  BarChart2,
   ExternalLink,
-  History,
   KeyRound,
-  LayoutGrid,
   MoreHorizontal,
   Plus,
   Search,
@@ -44,7 +39,7 @@ import {
 } from "@/lib/api";
 import { checkAllEnvConflicts, checkEnvConflicts } from "@/lib/api/env";
 import { useProviderActions } from "@/hooks/useProviderActions";
-import { useHeaderNavLabels } from "@/hooks/useHeaderNavLabels";
+import { useHeaderBrandFit } from "@/hooks/useHeaderBrandFit";
 import { openclawKeys, useOpenClawHealth } from "@/hooks/useOpenClaw";
 import { hermesKeys, useOpenHermesWebUI } from "@/hooks/useHermes";
 import { hermesApi } from "@/lib/api/hermes";
@@ -121,7 +116,7 @@ import UnifiedSkillsPanel from "@/components/skills/UnifiedSkillsPanel";
 import { DeepLinkImportDialog } from "@/components/DeepLinkImportDialog";
 import { FirstRunNoticeDialog } from "@/components/FirstRunNoticeDialog";
 import { LanguagePickerDialog } from "@/components/LanguagePickerDialog";
-import { McpIcon, SkillsIcon, ViberSwitchLogo } from "@/components/BrandIcons";
+import { ViberSwitchLogo } from "@/components/BrandIcons";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { HoverTip } from "@/components/ui/hover-tip";
@@ -176,31 +171,25 @@ const getInitialApp = (): AppId => {
   return "claude";
 };
 
-/** Header nav buttons in DOM order; labels appear left to right as space allows. */
-const HEADER_NAV_COUNT = 6;
-
+/** Header nav tab: text only, no glyph (fork choice). */
 function HeaderNavButton({
   label,
   title,
   onClick,
   disabled,
   visible = true,
-  showLabel = true,
   dot = false,
   active = false,
-  children,
 }: {
   label: string;
   title?: string;
   onClick: () => void;
   disabled?: boolean;
   visible?: boolean;
-  showLabel?: boolean;
   /** Small indicator (e.g. "updates available") */
   dot?: boolean;
   /** Current page: same raised chip as the active app in AppSwitcher */
   active?: boolean;
-  children: ReactNode;
 }) {
   return (
     <Button
@@ -212,30 +201,17 @@ function HeaderNavButton({
       aria-label={title ?? label}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "relative h-7 min-w-0 gap-1 rounded-[8px] px-2",
+        "relative h-7 min-w-0 rounded-[8px] px-2",
         active
           ? "bg-background text-foreground shadow-sm hover:bg-background"
           : "text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5",
         "transition-all duration-200 ease-in-out",
-        !showLabel && "w-7 px-1",
         visible
           ? "opacity-100"
           : "pointer-events-none ml-0 w-0 min-w-0 scale-75 overflow-hidden px-0 opacity-0",
       )}
     >
-      {children}
-      {/* Always rendered so useHeaderNavLabels can measure it; hidden ones take no space. */}
-      <span
-        data-nav-label
-        data-nav-hidden={showLabel ? undefined : ""}
-        aria-hidden={showLabel ? undefined : true}
-        className={cn(
-          !showLabel &&
-            "pointer-events-none invisible absolute whitespace-nowrap",
-        )}
-      >
-        {label}
-      </span>
+      <span data-nav-label>{label}</span>
       {dot ? (
         <span
           aria-hidden="true"
@@ -247,7 +223,7 @@ function HeaderNavButton({
 }
 
 function App() {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
   useDesktopAppUpdateToast();
 
@@ -388,14 +364,12 @@ function App() {
   const headerClusterRef = useRef<HTMLDivElement>(null);
   const headerBrandRef = useRef<HTMLDivElement>(null);
   const [appsFullWidth, setAppsFullWidth] = useState(0);
-  const { count: navLabelCount, showBrand } = useHeaderNavLabels({
+  const showBrand = useHeaderBrandFit({
     rowRef: headerRowRef,
     slotRef: headerSlotRef,
     clusterRef: headerClusterRef,
     brandRef: headerBrandRef,
     appsWidth: appsFullWidth,
-    itemCount: HEADER_NAV_COUNT,
-    labelKey: i18n.language,
   });
   const providerScrollContainerRef = useRef<HTMLDivElement>(null);
 
@@ -1937,7 +1911,7 @@ function App() {
               className={cn("flex items-center gap-2", !inAppPage && "hidden")}
             >
               <ViberSwitchLogo />
-              {/* Always rendered so useHeaderNavLabels can measure it; hidden takes no space. */}
+              {/* Always rendered so useHeaderBrandFit can measure it; hidden takes no space. */}
               <span
                 data-brand-word
                 data-brand-hidden={showBrand ? undefined : ""}
@@ -1990,56 +1964,40 @@ function App() {
               >
                 <HeaderNavButton
                   label={t("skills.manage")}
-                  showLabel={navLabelCount > 0}
                   active={
                     currentView === "skills" ||
                     currentView === "skillsDiscovery"
                   }
                   onClick={() => openPageFromNav("skills")}
-                >
-                  <SkillsIcon className="h-4 w-4 shrink-0" />
-                </HeaderNavButton>
+                />
                 {/* Fork: keep Prompts out of the header toolbar. Do not restore on upstream merge.
                   <HeaderNavButton
                     label={t("prompts.manage")}
                     onClick={() => openPageFromNav("prompts")}
-                  >
-                    <Book className="h-4 w-4 shrink-0" />
-                  </HeaderNavButton>
+                  />
                   */}
                 <HeaderNavButton
                   label={t("mcp.nav", { defaultValue: "MCP" })}
                   title={t("mcp.title")}
-                  showLabel={navLabelCount > 1}
                   active={currentView === "mcp"}
                   onClick={() => openPageFromNav("mcp")}
-                >
-                  <McpIcon size={16} />
-                </HeaderNavButton>
+                />
                 <HeaderNavButton
                   label={t("nav.usage")}
-                  showLabel={navLabelCount > 2}
                   active={currentView === "usage"}
                   onClick={() => openPageFromNav("usage")}
-                >
-                  <BarChart2 className="h-4 w-4 shrink-0" />
-                </HeaderNavButton>
+                />
                 <HeaderNavButton
-                  label={t("sessionManager.title")}
-                  showLabel={navLabelCount > 3}
+                  label={t("nav.sessions")}
+                  title={t("sessionManager.title")}
                   active={currentView === "sessions"}
                   onClick={() => openPageFromNav("sessions")}
-                >
-                  <History className="h-4 w-4 shrink-0" />
-                </HeaderNavButton>
+                />
                 <HeaderNavButton
                   label={t("nav.auth")}
-                  showLabel={navLabelCount > 4}
                   active={currentView === "auth"}
                   onClick={() => openPageFromNav("auth")}
-                >
-                  <KeyRound className="h-4 w-4 shrink-0" />
-                </HeaderNavButton>
+                />
                 <HeaderNavButton
                   label={t("nav.apps")}
                   title={
@@ -2047,13 +2005,10 @@ function App() {
                       ? t("nav.appsHasUpdate")
                       : t("nav.appsTitle")
                   }
-                  showLabel={navLabelCount > 5}
                   active={currentView === "apps"}
                   dot={appsUpdateAvailable}
                   onClick={() => openPageFromNav("apps")}
-                >
-                  <LayoutGrid className="h-4 w-4 shrink-0" />
-                </HeaderNavButton>
+                />
               </div>
               <div className="inline-flex h-7 shrink-0 items-center gap-1 rounded-[8px] bg-muted/50 px-1.5">
                 <ThemeToggle />
