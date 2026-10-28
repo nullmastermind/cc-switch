@@ -400,7 +400,7 @@ export function SettingsPage({
               body: t("settings.advanced.globalProxy.description"),
             }}
           >
-            <div className="rounded-[8px] border border-border bg-card p-2">
+            <div className="rounded-panel border border-border bg-card p-4">
               <GlobalProxySettings />
             </div>
           </SettingsBlock>
@@ -446,7 +446,7 @@ export function SettingsPage({
                 body: t("settings.advanced.data.description"),
               }}
             >
-              <div className="rounded-[8px] border border-border bg-card p-2">
+              <div className="rounded-panel border border-border bg-card p-4">
                 <ImportExportSection
                   status={importStatus}
                   selectedFile={selectedFile}
@@ -467,7 +467,7 @@ export function SettingsPage({
                 body: t("settings.advanced.backup.description"),
               }}
             >
-              <div className="rounded-[8px] border border-border bg-card p-2">
+              <div className="rounded-panel border border-border bg-card p-4">
                 <BackupListSection
                   backupIntervalHours={settings.backupIntervalHours}
                   backupRetainCount={settings.backupRetainCount}
@@ -482,7 +482,7 @@ export function SettingsPage({
                 body: t("settings.advanced.cloudSync.description"),
               }}
             >
-              <div className="rounded-[8px] border border-border bg-card p-2">
+              <div className="rounded-panel border border-border bg-card p-4">
                 <WebdavSyncSection
                   config={settings.webdavSync}
                   s3Config={settings.s3Sync}
@@ -507,7 +507,7 @@ export function SettingsPage({
                 </Button>
               }
             >
-              <div className="rounded-[8px] border border-border bg-card p-2">
+              <div className="rounded-panel border border-border bg-card p-4">
                 <LogConfigPanel />
               </div>
             </SettingsBlock>
@@ -542,16 +542,11 @@ export function SettingsPage({
         open={showRestartPrompt}
         onOpenChange={(open) => !open && handleRestartLater()}
       >
-        <DialogContent
-          zIndex="alert"
-          className="max-w-[480px] gap-2 rounded-[8px] border-border p-2"
-        >
+        <DialogContent zIndex="alert" className="max-w-lg">
           <DialogHeader className="border-b-0 bg-transparent p-0">
-            <DialogTitle className="text-[12.35px] leading-[1.3]">
-              {t("settings.restartRequired")}
-            </DialogTitle>
+            <DialogTitle>{t("settings.restartRequired")}</DialogTitle>
           </DialogHeader>
-          <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+          <p className="text-body text-muted-foreground">
             {t("settings.restartRequiredMessage")}
           </p>
           <DialogFooter className="border-t-0 bg-transparent p-0">

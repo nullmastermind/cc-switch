@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1 whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 text-[12.35px] leading-[1.3]",
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap font-medium transition-[color,background-color,border-color,transform] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-50 text-body",
   {
     variants: {
       variant: {
@@ -36,15 +36,16 @@ const buttonVariants = cva(
           "bg-stack-solid text-stack-on hover:brightness-110 active:brightness-95",
       },
       size: {
-        default: "h-6 min-w-[60px] px-2 py-1 rounded-[4px]",
-        sm: "h-5 min-w-[48px] px-1 rounded-[3px]",
-        lg: "h-7 min-w-[60px] px-2 py-1 rounded-[4px]",
-        icon: "h-6 w-6 min-w-0 p-1 rounded-[3px]",
-        // v7 sizes (upstream callers), mapped onto the fork's compact scale
-        compact: "h-6 min-w-[60px] px-2 py-1 rounded-[4px]",
-        regular: "h-7 min-w-[60px] px-2 py-1 rounded-[4px]",
+        // Comfortable scale (docs/design-system.html): 32 page/toolbar,
+        // 28 inside cards / dialogs / rows, 36 for prominent actions.
+        default: "h-8 min-w-[64px] px-3.5 rounded-control",
+        sm: "h-7 min-w-[56px] px-3 rounded-control",
+        lg: "h-9 min-w-[72px] px-4 rounded-control",
+        icon: "h-8 w-8 min-w-0 p-0 rounded-control",
+        compact: "h-7 min-w-[56px] px-3 rounded-control",
+        regular: "h-8 min-w-[64px] px-3.5 rounded-control",
         "icon-compact":
-          "h-6 w-6 min-w-0 p-1 rounded-[3px] text-muted-foreground hover:text-foreground",
+          "h-7 w-7 min-w-0 p-0 rounded-control text-muted-foreground hover:text-foreground",
       },
     },
     defaultVariants: {

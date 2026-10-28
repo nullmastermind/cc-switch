@@ -30,25 +30,25 @@ export function UniversalProviderCard({
   ].filter((app): app is string => app !== null);
 
   return (
-    <div className="group relative rounded-[8px] border border-border/50 bg-card p-2 transition-all hover:border-border hover:shadow-md">
+    <div className="group relative rounded-panel border border-border/50 bg-card p-4 transition-all hover:border-border hover:shadow-md">
       {/* 头部：图标和名称 */}
-      <div className="flex items-start justify-between">
-        <div className="flex items-center gap-2">
-          <div className="flex h-6 w-6 items-center justify-center rounded-[4px] bg-accent">
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex min-w-0 items-center gap-3">
+          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-control bg-accent">
             <ProviderIcon icon={provider.icon} name={provider.name} size={16} />
           </div>
-          <div>
-            <h3 className="text-[12.35px] leading-[1.3] font-semibold text-foreground">
+          <div className="min-w-0">
+            <h3 className="truncate text-strong font-semibold text-foreground">
               {provider.name}
             </h3>
-            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+            <p className="truncate text-caption text-muted-foreground">
               {provider.providerType}
             </p>
           </div>
         </div>
 
         {/* 操作按钮 */}
-        <div className="flex items-center gap-1 opacity-30 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
+        <div className="flex shrink-0 items-center gap-1 opacity-30 transition-opacity duration-200 group-hover:opacity-100 group-focus-within:opacity-100">
           <HoverTip
             content={t("universalProvider.sync", {
               defaultValue: "同步到应用",
@@ -56,7 +56,7 @@ export function UniversalProviderCard({
           >
             <Button
               variant="ghost"
-              size="icon"
+              size="icon-compact"
               onClick={() => onSync(provider.id)}
               aria-label={t("universalProvider.sync", {
                 defaultValue: "同步到应用",
@@ -70,7 +70,7 @@ export function UniversalProviderCard({
           >
             <Button
               variant="ghost"
-              size="icon"
+              size="icon-compact"
               onClick={() => onDuplicate(provider)}
               aria-label={t("universalProvider.duplicate", {
                 defaultValue: "复制",
@@ -82,7 +82,7 @@ export function UniversalProviderCard({
           <HoverTip content={t("common.edit", { defaultValue: "编辑" })}>
             <Button
               variant="ghost"
-              size="icon"
+              size="icon-compact"
               onClick={() => onEdit(provider)}
               aria-label={t("common.edit", { defaultValue: "编辑" })}
             >
@@ -92,7 +92,7 @@ export function UniversalProviderCard({
           <HoverTip content={t("common.delete", { defaultValue: "删除" })}>
             <Button
               variant="ghost"
-              size="icon"
+              size="icon-compact"
               className="text-destructive hover:text-destructive"
               onClick={() => onDelete(provider.id)}
               aria-label={t("common.delete", { defaultValue: "删除" })}
@@ -104,10 +104,10 @@ export function UniversalProviderCard({
       </div>
 
       {/* 配置信息 */}
-      <div className="mt-2 space-y-2">
+      <div className="mt-3 space-y-2">
         {/* Base URL */}
-        <div className="flex items-center gap-2 text-[12.35px] leading-[1.3]">
-          <Globe className="h-3.5 w-3.5 text-muted-foreground" />
+        <div className="flex min-w-0 items-center gap-2 text-body">
+          <Globe className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
           <span className="truncate text-muted-foreground">
             {provider.baseUrl || "-"}
           </span>
@@ -118,13 +118,13 @@ export function UniversalProviderCard({
           {enabledApps.map((app) => (
             <span
               key={app}
-              className="inline-flex items-center rounded-full bg-primary/10 px-2 py-0.5 text-[12.35px] leading-[1.3] font-medium text-primary"
+              className="inline-flex h-5 items-center rounded-full bg-primary/10 px-2 text-badge font-medium text-primary"
             >
               {app}
             </span>
           ))}
           {enabledApps.length === 0 && (
-            <span className="text-[12.35px] leading-[1.3] text-muted-foreground">
+            <span className="text-caption text-muted-foreground">
               {t("universalProvider.noAppsEnabled", {
                 defaultValue: "未启用任何应用",
               })}
@@ -135,7 +135,7 @@ export function UniversalProviderCard({
 
       {/* 备注 */}
       {provider.notes && (
-        <p className="mt-2 text-[12.35px] leading-[1.3] text-muted-foreground line-clamp-2">
+        <p className="mt-3 text-caption text-muted-foreground line-clamp-2">
           {provider.notes}
         </p>
       )}

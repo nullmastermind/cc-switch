@@ -68,7 +68,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
           backgroundPosition: "center",
         }}
         className={cn(
-          "h-4 w-4 shrink-0 appearance-none rounded-[2px] border border-border-default bg-transparent p-px",
+          "h-4 w-4 shrink-0 appearance-none rounded-[4px] border border-border-default bg-transparent p-px",
           "checked:border-transparent checked:bg-blue-600 dark:checked:bg-blue-600",
           isOn && "border-transparent bg-blue-600",
           "focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring",

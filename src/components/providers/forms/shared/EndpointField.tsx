@@ -41,9 +41,9 @@ export function EndpointField({
   });
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <div className="flex flex-wrap items-center justify-between gap-2">
-        <div className="flex items-center gap-0.5">
+        <div className="flex items-center gap-1">
           <FormLabel
             htmlFor={id}
             className={required ? REQUIRED_LABEL : undefined}
@@ -55,7 +55,12 @@ export function EndpointField({
           ) : null}
         </div>
         {showManageButton && onManageClick ? (
-          <Button type="button" variant="ghost" onClick={onManageClick}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            onClick={onManageClick}
+          >
             <Zap className="h-4 w-4" />
             {manageButtonLabel || defaultManageLabel}
           </Button>
@@ -71,9 +76,7 @@ export function EndpointField({
         aria-required={required}
       />
       {hint ? (
-        <p className="text-[12.35px] leading-[1.3] text-fg-2">
-          {hint.replace(/^💡\s*/u, "")}
-        </p>
+        <p className="text-caption text-fg-2">{hint.replace(/^💡\s*/u, "")}</p>
       ) : null}
     </div>
   );

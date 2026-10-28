@@ -23,42 +23,38 @@ export function PromptConfirmation({
 
   return (
     <div className="space-y-4">
-      <h3 className="text-[12.35px] leading-[1.3] font-semibold">
+      <h3 className="text-strong font-semibold">
         {t("deeplink.prompt.title")}
       </h3>
 
       <div>
-        <label className="block text-[12.35px] leading-[1.3] font-medium text-fg-2">
+        <label className="block text-body font-medium text-fg-2">
           {t("deeplink.prompt.app")}
         </label>
-        <div className="mt-1 text-[12.35px] leading-[1.3] capitalize">
-          {request.app}
-        </div>
+        <div className="mt-1.5 text-body capitalize">{request.app}</div>
       </div>
 
       <div>
-        <label className="block text-[12.35px] leading-[1.3] font-medium text-fg-2">
+        <label className="block text-body font-medium text-fg-2">
           {t("deeplink.prompt.name")}
         </label>
-        <div className="mt-1 text-[12.35px] leading-[1.3]">{request.name}</div>
+        <div className="mt-1.5 text-body">{request.name}</div>
       </div>
 
       {request.description && (
         <div>
-          <label className="block text-[12.35px] leading-[1.3] font-medium text-fg-2">
+          <label className="block text-body font-medium text-fg-2">
             {t("deeplink.prompt.description")}
           </label>
-          <div className="mt-1 text-[12.35px] leading-[1.3]">
-            {request.description}
-          </div>
+          <div className="mt-1.5 text-body">{request.description}</div>
         </div>
       )}
 
       <div>
-        <label className="block text-[12.35px] leading-[1.3] font-medium text-fg-2">
+        <label className="block text-body font-medium text-fg-2">
           {t("deeplink.prompt.contentPreview")}
         </label>
-        <pre className="mt-1 max-h-48 overflow-auto bg-subtle p-2 rounded text-[12.35px] leading-[1.3] whitespace-pre-wrap border">
+        <pre className="mt-1.5 max-h-48 overflow-auto whitespace-pre-wrap rounded-panel border bg-subtle p-3 text-body">
           {decodedContent.substring(0, 500)}
           {decodedContent.length > 500 && "..."}
         </pre>
@@ -67,7 +63,7 @@ export function PromptConfirmation({
       <div className="flex items-center justify-between gap-4">
         <label
           htmlFor="deeplink-prompt-enable-after-import"
-          className="text-[12.35px] leading-[1.3] font-medium"
+          className="text-body font-medium"
         >
           {t("deeplink.prompt.enableAfterImport")}
         </label>
@@ -79,7 +75,7 @@ export function PromptConfirmation({
       </div>
 
       {enableAfterImport && (
-        <div className="text-warning-text text-[12.35px] leading-[1.3] flex items-center gap-2">
+        <div className="text-warning-text text-body flex items-center gap-2">
           <span>⚠️</span>
           <span>{t("deeplink.prompt.enabledWarning")}</span>
         </div>

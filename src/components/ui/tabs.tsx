@@ -11,7 +11,7 @@ const TabsList = React.forwardRef<
   <TabsPrimitive.List
     ref={ref}
     className={cn(
-      "inline-flex h-8 items-center justify-center gap-1 rounded-[4px] bg-muted p-1 text-muted-foreground",
+      "inline-flex h-9 items-center justify-center gap-0.5 rounded-panel bg-muted p-[3px] text-muted-foreground",
       className,
     )}
     {...props}
@@ -26,7 +26,7 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "inline-flex h-6 min-w-[60px] items-center justify-center whitespace-nowrap rounded-[4px] px-2 text-[12.35px] leading-[1.3] font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-blue-600 data-[state=inactive]:hover:bg-muted/80 data-[state=inactive]:hover:text-foreground",
+      "inline-flex h-full min-w-[64px] items-center justify-center gap-1.5 whitespace-nowrap rounded-[7px] px-3.5 text-body font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-blue-500 data-[state=active]:text-white data-[state=active]:shadow-sm dark:data-[state=active]:bg-blue-600 data-[state=inactive]:hover:bg-muted/80 data-[state=inactive]:hover:text-foreground",
       className,
     )}
     {...props}

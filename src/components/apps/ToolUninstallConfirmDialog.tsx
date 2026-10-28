@@ -88,7 +88,7 @@ export function ToolUninstallConfirmDialog({
             {t("settings.toolUninstallConfirmHint")}
           </DialogDescription>
         </DialogHeader>
-        <div className="min-h-0 space-y-3 overflow-y-auto px-6">
+        <div className="min-h-0 space-y-4 overflow-y-auto">
           {error !== null ? (
             <div role="alert" className="space-y-2 text-body">
               <p>{t("settings.toolUninstallManualRequired")}</p>
@@ -108,7 +108,7 @@ export function ToolUninstallConfirmDialog({
                 {candidates.map((candidate) => (
                   <label
                     key={candidate.path}
-                    className="flex cursor-pointer items-start gap-2 rounded-control border border-border p-2 has-[:checked]:border-primary/50 has-[:checked]:bg-primary/5 has-[:disabled]:cursor-not-allowed"
+                    className="flex cursor-pointer items-start gap-3 rounded-panel border border-border px-4 py-3 has-[:checked]:border-primary/50 has-[:checked]:bg-primary/5 has-[:disabled]:cursor-not-allowed"
                   >
                     <input
                       type="radio"
@@ -147,7 +147,7 @@ export function ToolUninstallConfirmDialog({
                       {t("settings.toolUpgradeWillRun")}
                     </dt>
                     <dd>
-                      <pre className="overflow-x-auto rounded-control border border-border bg-subtle px-3 py-2.5 font-mono text-caption">
+                      <pre className="overflow-x-auto rounded-panel border border-border bg-subtle px-3 py-2.5 font-mono text-caption">
                         <code>{plan.command}</code>
                       </pre>
                     </dd>

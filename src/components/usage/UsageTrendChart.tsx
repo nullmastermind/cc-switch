@@ -362,8 +362,8 @@ export function UsageTrendChart({
     const point = payload[0]?.payload as UsageTrendChartPoint | undefined;
     const heading = point?.tooltipLabel ?? point?.label ?? "";
     return (
-      <div className="rounded-[8px] border border-border bg-card px-2 py-2 text-ui text-foreground shadow-md">
-        <p className="mb-1 font-semibold">{heading}</p>
+      <div className="rounded-panel border border-border bg-card px-3 py-2.5 text-body text-foreground shadow-md">
+        <p className="mb-1.5 font-semibold">{heading}</p>
         <div className="flex items-center gap-2 tabular-nums">
           <span
             aria-hidden="true"
@@ -379,10 +379,10 @@ export function UsageTrendChart({
   };
 
   return (
-    <section aria-labelledby="usage-trend-title" className="px-2 pb-2 pt-2">
+    <section aria-labelledby="usage-trend-title" className="px-4 pb-4 pt-5">
       <h2
         id="usage-trend-title"
-        className="m-0 min-h-6 whitespace-nowrap text-[12.35px] font-semibold leading-7 text-fg-2"
+        className="m-0 flex min-h-7 items-center whitespace-nowrap text-body font-semibold text-fg-2"
       >
         {t("usage.trend.titleMetric", {
           metric: metricLabel,
@@ -392,7 +392,7 @@ export function UsageTrendChart({
         })}
       </h2>
 
-      <div ref={chartBoxRef} className="mt-1 h-[132px] w-full">
+      <div ref={chartBoxRef} className="mt-3 h-[132px] w-full">
         {isLoading ? (
           <div className="flex h-full items-center justify-center">
             <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />

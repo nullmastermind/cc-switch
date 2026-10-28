@@ -116,7 +116,7 @@ function HelpCard({
         onCloseAutoFocus={(event) => event.preventDefault()}
         onPointerEnter={onPointerEnter}
         onPointerLeave={onPointerLeave}
-        className="z-[120] w-max max-w-[300px] rounded-[8px] border border-border bg-surface p-2 text-[12.35px] leading-[1.3] text-fg-1 shadow-sm outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0"
+        className="z-[120] w-max max-w-[300px] rounded-panel border border-border bg-surface px-3 py-2.5 text-caption text-fg-1 shadow-v7-md outline-none data-[state=open]:animate-in data-[state=open]:fade-in-0 data-[state=closed]:animate-out data-[state=closed]:fade-out-0"
       >
         {title ? (
           <span className="mb-0.5 block font-semibold">{title}</span>
@@ -236,7 +236,7 @@ export function DisabledReason({
     <PopoverPrimitive.Root open={hover.open} onOpenChange={hover.onOpenChange}>
       <PopoverPrimitive.Anchor asChild>
         <span
-          className="inline-flex text-[12.35px] leading-[1.3]"
+          className="inline-flex text-body"
           onPointerEnter={hover.onPointerEnter}
           onPointerLeave={hover.onPointerLeave}
           onFocus={hover.onFocus}

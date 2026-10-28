@@ -64,7 +64,7 @@ function SettingsGroup({
   children: ReactNode;
 }) {
   return (
-    <section className="flex flex-col gap-2">
+    <section className="flex flex-col gap-3">
       <h3 className={settingsGroupTitleClass}>{title}</h3>
       {children}
     </section>
@@ -82,7 +82,7 @@ function RowHeader({
   trailing?: ReactNode;
 }) {
   return (
-    <div className="flex min-h-6 items-center gap-3">
+    <div className="flex min-h-7 items-center gap-3">
       <div className="flex min-w-0 flex-1 items-center gap-0.5">
         <h4 className="m-0 truncate text-strong font-semibold text-fg-1">
           {title}
@@ -109,7 +109,7 @@ function SettingsRow({
   children?: ReactNode;
 }) {
   return (
-    <section className="flex flex-col gap-2 px-2 py-2">
+    <section className="flex flex-col gap-3 px-4 py-3.5">
       <RowHeader title={title} help={help} trailing={trailing} />
       {children}
     </section>
@@ -217,7 +217,7 @@ export function UsageSettingsSheet({
                       }}
                     >
                       <SelectTrigger
-                        className="h-6 w-auto min-w-[120px] text-body"
+                        className="w-auto min-w-[140px]"
                         aria-label={t("usage.refreshInterval")}
                       >
                         <SelectValue />

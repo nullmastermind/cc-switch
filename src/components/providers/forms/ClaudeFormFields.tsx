@@ -550,7 +550,7 @@ export function ClaudeFormFields({
       }));
 
       return (
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <Input
             id={id}
             type="text"
@@ -567,7 +567,7 @@ export function ClaudeFormFields({
 
     if (isCopilotPreset && modelsLoading) {
       return (
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <Input
             id={id}
             type="text"
@@ -752,9 +752,9 @@ export function ClaudeFormFields({
               defaultValue: `${templatePresetName} 参数配置`,
             })}
           </FormLabel>
-          <div className="space-y-2">
+          <div className="space-y-4">
             {templateValueEntries.map(([key, config]) => (
-              <div key={key} className="space-y-2">
+              <div key={key} className="space-y-1.5">
                 <FormLabel htmlFor={`template-${key}`}>
                   {config.label}
                 </FormLabel>
@@ -831,9 +831,7 @@ export function ClaudeFormFields({
   );
 
   const copilotRoutingNotice = isCopilotPreset && (
-    <p className="text-[12.35px] leading-[1.3] text-fg-2">
-      {t("copilot.automaticFormatHint")}
-    </p>
+    <p className="text-caption text-fg-2">{t("copilot.automaticFormatHint")}</p>
   );
 
   // 上游格式、认证字段：经典布局放在高级选项里，Stack 布局放在连接区。
@@ -847,8 +845,8 @@ export function ClaudeFormFields({
       {category !== "cloud_provider" &&
         !isXaiOauthPreset &&
         !isCodexOauthPreset && (
-          <div className="space-y-2">
-            <div className="flex items-center gap-0.5">
+          <div className="space-y-1.5">
+            <div className="flex items-center gap-1">
               <FormLabel htmlFor="apiFormat">{apiFormatLabel}</FormLabel>
               <HelpTip title={apiFormatLabel}>
                 {t("providerForm.apiFormatHelp", {
@@ -903,8 +901,8 @@ export function ClaudeFormFields({
     defaultValue: "认证字段",
   });
   const authFieldSelect = (
-    <div className="space-y-2">
-      <div className="flex items-center gap-0.5">
+    <div className="space-y-1.5">
+      <div className="flex items-center gap-1">
         <FormLabel>{authFieldLabel}</FormLabel>
         <HelpTip title={authFieldLabel}>
           {t("providerForm.authFieldHint", {
@@ -961,7 +959,7 @@ export function ClaudeFormFields({
   // 两项都只在路由、聚合模式下生效：在分组开头说一次，各自的作用收进字段名后的「?」。
   const userAgentAndOverrides = (
     <>
-      <p className="text-[12.35px] leading-[1.3] text-fg-2">
+      <p className="text-caption text-fg-2">
         {t("codexConfig.routeOnlySettingsHint", {
           defaultValue: "以下两项只在路由、聚合模式下生效。",
         })}
@@ -974,7 +972,7 @@ export function ClaudeFormFields({
           defaultValue: "替换转发到供应商的请求里的 User-Agent。",
         })}
       />
-      <div className="border-t border-border pt-3">
+      <div className="border-t border-border pt-4">
         <LocalProxyRequestOverridesField
           headersJson={localProxyHeadersOverride}
           bodyJson={localProxyBodyOverride}
@@ -1032,13 +1030,13 @@ export function ClaudeFormFields({
           <Collapsible
             open={stackAdvancedExpanded}
             onOpenChange={setStackAdvancedExpanded}
-            className="rounded-[8px] border border-border p-2"
+            className="rounded-panel border border-border p-4"
           >
             <CollapsibleTrigger asChild>
               <Button
                 type="button"
                 variant={null}
-                className="h-6 w-full justify-start gap-1.5 px-0 text-[12.35px] leading-[1.3] font-medium text-fg-1 hover:opacity-70 active:scale-100"
+                className="h-8 w-full justify-start gap-1.5 px-0 text-strong font-medium text-fg-1 hover:opacity-70 active:scale-100"
               >
                 {stackAdvancedExpanded ? (
                   <ChevronDown className="h-4 w-4" />
@@ -1048,9 +1046,9 @@ export function ClaudeFormFields({
                 {t("providerForm.advancedOptionsToggle")}
               </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-2 pt-2">
+            <CollapsibleContent className="space-y-4 pt-3">
               {fullUrlToggle && (
-                <div className="border-b border-border pb-3">
+                <div className="border-b border-border pb-4">
                   {fullUrlToggle}
                 </div>
               )}
@@ -1075,13 +1073,13 @@ export function ClaudeFormFields({
         <Collapsible
           open={advancedExpanded}
           onOpenChange={setAdvancedExpanded}
-          className="rounded-[8px] border border-border-default p-2"
+          className="rounded-panel border border-border-default p-4"
         >
           <CollapsibleTrigger asChild>
             <Button
               type="button"
               variant={null}
-              className="h-6 w-full justify-start gap-1.5 px-0 text-[12.35px] leading-[1.3] font-medium text-fg-1 hover:opacity-70 active:scale-100"
+              className="h-8 w-full justify-start gap-1.5 px-0 text-strong font-medium text-fg-1 hover:opacity-70 active:scale-100"
             >
               {advancedExpanded ? (
                 <ChevronDown className="h-4 w-4" />
@@ -1091,7 +1089,7 @@ export function ClaudeFormFields({
               {t("providerForm.advancedOptionsToggle")}
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-4 pt-2">
+          <CollapsibleContent className="space-y-4 pt-3">
             {apiFormatField}
 
             {fullUrlToggle}
@@ -1104,9 +1102,9 @@ export function ClaudeFormFields({
               authFieldSelect}
 
             {/* 模型映射 */}
-            <div className="space-y-1 border-t border-border-default pt-2">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-0.5">
+            <div className="space-y-1 border-t border-border-default pt-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-1">
                   <FormLabel>{t("providerForm.modelMappingLabel")}</FormLabel>
                   <HelpTip title={t("providerForm.modelMappingLabel")}>
                     {t("providerForm.modelMappingHint")}
@@ -1117,6 +1115,7 @@ export function ClaudeFormFields({
                   <Button
                     type="button"
                     variant="outline"
+                    size="sm"
                     onClick={() => {
                       // 按面板从上到下取值，默认兜底模型最后使用。
                       const value =
@@ -1160,6 +1159,7 @@ export function ClaudeFormFields({
                   <Button
                     type="button"
                     variant="outline"
+                    size="sm"
                     onClick={handleModelFetchClick}
                     disabled={modelFetchLoading}
                   >
@@ -1175,7 +1175,7 @@ export function ClaudeFormFields({
             </div>
 
             <div className="space-y-3">
-              <div className="hidden grid-cols-[120px_1fr_minmax(0,1fr)_104px] items-center gap-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground md:grid">
+              <div className="hidden grid-cols-[120px_1fr_minmax(0,1fr)_104px] items-center gap-3 text-caption font-medium text-muted-foreground md:grid">
                 <span>
                   {t("providerForm.modelRoleLabel", {
                     defaultValue: "模型角色",
@@ -1205,9 +1205,9 @@ export function ClaudeFormFields({
                 return (
                   <div
                     key={row.role}
-                    className="grid grid-cols-1 items-center gap-2 md:grid-cols-[120px_1fr_minmax(0,1fr)_104px]"
+                    className="grid grid-cols-1 items-center gap-3 md:grid-cols-[120px_1fr_minmax(0,1fr)_104px]"
                   >
-                    <div className="flex h-6 items-center rounded-[4px] border border-border-default bg-muted px-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground">
+                    <div className="flex h-8 items-center rounded-control border border-border-default bg-muted px-2.5 text-body font-medium text-muted-foreground">
                       {row.label}
                     </div>
                     {row.displayNameField ? (
@@ -1228,7 +1228,7 @@ export function ClaudeFormFields({
                         autoComplete="off"
                       />
                     ) : (
-                      <div className="flex h-6 items-center rounded-[4px] border border-border-default bg-muted px-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+                      <div className="flex h-8 items-center rounded-control border border-border-default bg-muted px-2.5 text-body text-muted-foreground">
                         {t("providerForm.modelNoDisplayName", {
                           defaultValue: "不显示在 /model 菜单",
                         })}
@@ -1245,7 +1245,7 @@ export function ClaudeFormFields({
                           setClaudeOneMMarker(value, usesOneM),
                         ),
                     )}
-                    <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-fg-2">
+                    <label className="flex h-8 items-center gap-2 text-body text-fg-2">
                       <Checkbox
                         checked={usesOneM}
                         onCheckedChange={(checked) =>
@@ -1261,8 +1261,8 @@ export function ClaudeFormFields({
               })}
             </div>
 
-            <div className="space-y-2 border-t border-border pt-4">
-              <div className="flex items-center gap-0.5">
+            <div className="space-y-1.5 border-t border-border pt-4">
+              <div className="flex items-center gap-1">
                 <FormLabel htmlFor="claudeModel">
                   {fallbackModelLabel}
                 </FormLabel>
@@ -1279,7 +1279,7 @@ export function ClaudeFormFields({
                       })}
                 </HelpTip>
               </div>
-              <div className="grid grid-cols-1 gap-2 md:grid-cols-[1fr_minmax(0,104px)]">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_minmax(0,104px)]">
                 {renderModelInput(
                   "claudeModel",
                   stripClaudeOneMMarker(claudeModel),
@@ -1291,7 +1291,7 @@ export function ClaudeFormFields({
                       setClaudeOneMMarker(value, fallbackUsesOneM),
                     ),
                 )}
-                <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-fg-2">
+                <label className="flex h-8 items-center gap-2 text-body text-fg-2">
                   <Checkbox
                     checked={fallbackUsesOneM}
                     onCheckedChange={(checked) => {
@@ -1309,7 +1309,7 @@ export function ClaudeFormFields({
                 </label>
               </div>
               {fallbackModelMissing && (
-                <p className="text-[12.35px] leading-[1.3] text-warning-text">
+                <p className="text-caption text-warning-text">
                   {directModeFormatNotice
                     ? t("providerForm.fallbackModelHaikuMissing", {
                         defaultValue:
@@ -1325,7 +1325,7 @@ export function ClaudeFormFields({
 
             {/* Copilot 的请求由转发层按 Copilot 客户端的样子发，UA 和请求覆盖都会被跳过 */}
             {!isCopilotPreset && (
-              <div className="space-y-2 border-t border-border pt-4">
+              <div className="space-y-4 border-t border-border pt-4">
                 {userAgentAndOverrides}
               </div>
             )}

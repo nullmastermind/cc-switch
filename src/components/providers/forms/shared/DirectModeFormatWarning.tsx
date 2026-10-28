@@ -14,7 +14,7 @@ export function DirectModeFormatWarning({
 }) {
   const { t } = useTranslation();
   return (
-    <p className="text-[12.35px] leading-[1.3] text-warning-text">
+    <p className="text-caption text-warning-text">
       {notice === "inUse"
         ? t("providerForm.directModeFormatInUse", {
             defaultValue:

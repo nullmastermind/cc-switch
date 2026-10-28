@@ -109,8 +109,8 @@ export function RequestHeadersEditor({
   };
 
   return (
-    <div className={cn("space-y-2 border-l border-border pl-3", className)}>
-      <div className="flex items-start justify-between gap-3">
+    <div className={cn("space-y-3 border-l border-border pl-4", className)}>
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex items-center gap-1">
           <Label>{t("opencode.headers", { defaultValue: "Headers" })}</Label>
           <HelpTip title={t("opencode.headers", { defaultValue: "Headers" })}>
@@ -123,6 +123,7 @@ export function RequestHeadersEditor({
         <Button
           type="button"
           variant="outline"
+          size="sm"
           onClick={addHeader}
           aria-label={t("opencode.addHeader", {
             defaultValue: "Add header",
@@ -136,21 +137,21 @@ export function RequestHeadersEditor({
 
       <div aria-live="polite">
         {Object.keys(headers).length === 0 ? (
-          <p className="py-1 text-ui text-muted-foreground">
+          <p className="text-body text-muted-foreground">
             {t("opencode.noHeaders", {
               defaultValue: "No custom headers configured",
             })}
           </p>
         ) : (
           <div className="space-y-2">
-            <div className="mb-1 flex items-center gap-2 text-ui text-muted-foreground">
+            <div className="flex items-center gap-2 text-caption text-muted-foreground">
               <span className="flex-1">
                 {t("opencode.headerName", { defaultValue: "Header" })}
               </span>
               <span className="flex-1">
                 {t("opencode.headerValue", { defaultValue: "Value" })}
               </span>
-              <span className="w-6" />
+              <span className="w-8 shrink-0" />
             </div>
             {Object.entries(headers).map(([key, value]) => (
               <div key={key} className="flex items-center gap-2">

@@ -27,7 +27,7 @@ export function FullUrlToggle({
 
   return (
     <div className={cn("flex items-center justify-between gap-4", className)}>
-      <div className="flex items-center gap-0.5">
+      <div className="flex items-center gap-1">
         <FormLabel>{label}</FormLabel>
         <HelpTip title={label}>
           {geminiNative

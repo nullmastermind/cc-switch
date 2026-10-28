@@ -172,17 +172,17 @@ function BillingDefaultsDialog({
             {t("settings.globalProxy.pricingDefaultsDescription")}
           </DialogDescription>
         </DialogHeader>
-        <div className="flex flex-col px-2 py-2">
+        <div className="flex flex-col">
           {PRICING_APPS.map((app, index) => (
             <div
               key={app}
               className={cn(
-                "flex h-11 items-center gap-2",
+                "flex h-12 items-center gap-3",
                 index < PRICING_APPS.length - 1 && "border-b border-border",
               )}
             >
               <AppGlyph app={app} size={16} badgeClassName="bg-card" />
-              <span className="flex-1 text-ui text-foreground">
+              <span className="flex-1 text-body text-foreground">
                 {APP_DISPLAY_NAME[app]}
               </span>
               <Select
@@ -196,7 +196,7 @@ function BillingDefaultsDialog({
                 disabled={isSaving}
               >
                 <SelectTrigger
-                  className="h-7 w-36 text-ui"
+                  className="w-40"
                   aria-label={`${APP_DISPLAY_NAME[app]} · ${t("settings.globalProxy.pricingModelSourceLabel")}`}
                 >
                   <SelectValue />
@@ -268,15 +268,15 @@ function BillingDefaultsRow() {
 
   return (
     <>
-      <div className="flex items-center gap-2 rounded-[8px] border border-border px-2 py-2">
+      <div className="flex items-center gap-3 rounded-panel border border-border px-4 py-3">
         <Info
           aria-hidden="true"
           className="h-4 w-4 shrink-0 text-muted-foreground"
           strokeWidth={1.5}
         />
-        <div className="flex min-w-0 flex-1 flex-col">
+        <div className="flex min-w-0 flex-1 flex-col gap-0.5">
           <div className="flex min-w-0 items-center gap-0.5">
-            <span className="truncate text-ui font-semibold text-foreground">
+            <span className="truncate text-strong font-semibold text-foreground">
               {t("settings.globalProxy.pricingDefaultsTitle")}
             </span>
             <HelpTip title={t("usage.pricing.billingHelpTitle")}>
@@ -284,7 +284,7 @@ function BillingDefaultsRow() {
             </HelpTip>
           </div>
           <span
-            className="truncate text-ui text-muted-foreground"
+            className="truncate text-caption text-muted-foreground"
             title={summary}
           >
             {isLoading ? "…" : summary}
@@ -336,20 +336,20 @@ export function PricingConfigPanel() {
   const pagination = useClientPagination(rows);
 
   return (
-    <div className="flex flex-col gap-2 pt-2">
+    <div className="flex flex-col gap-4">
       <ModelsDevAutoSyncPanel />
       <BillingDefaultsRow />
 
-      <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-2">
+      <div className="mt-2 flex flex-wrap items-center gap-2">
         <div className="flex items-center gap-0.5">
-          <h3 className="m-0 whitespace-nowrap text-ui font-medium font-semibold text-foreground">
+          <h3 className="m-0 whitespace-nowrap text-section font-semibold text-foreground">
             {t("usage.pricing.tableTitle", { count: rows.length })}
           </h3>
           <HelpTip title={t("usage.pricing.costHelpTitle")}>
             {t("usage.pricing.costHelp")}
           </HelpTip>
         </div>
-        <span className="whitespace-nowrap text-ui text-muted-foreground">
+        <span className="whitespace-nowrap text-caption text-muted-foreground">
           {t("usage.pricing.unit")}
         </span>
         <div className="flex-1" />
@@ -381,110 +381,114 @@ export function PricingConfigPanel() {
           title={`${t("usage.loadPricingError")}: ${String(error)}`}
         />
       ) : (
-        <div className={usageTable.scroller}>
-          <table
-            className={cn(usageTable.table, "min-w-[620px]")}
-            aria-label={t("usage.modelPricing")}
-          >
-            <thead>
-              <tr className={usageTable.headRow}>
-                <th className={usageTable.th}>{t("usage.model")}</th>
-                <th className={usageTable.th}>{t("usage.inputTokens")}</th>
-                <th className={usageTable.th}>{t("usage.outputTokens")}</th>
-                <th className={usageTable.th}>{t("usage.cacheReadTokens")}</th>
-                <th className={usageTable.th}>
-                  {t("usage.pricing.cacheWrite")}
-                </th>
-                <th className="w-[72px]" aria-label={t("common.actions")} />
-              </tr>
-            </thead>
-            <tbody>
-              {rows.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className={usageTable.empty}>
-                    {t("usage.noPricingData")}
-                  </td>
+        <div className="overflow-hidden rounded-panel border border-border bg-surface">
+          <div className={usageTable.scroller}>
+            <table
+              className={cn(usageTable.table, "min-w-[620px]")}
+              aria-label={t("usage.modelPricing")}
+            >
+              <thead>
+                <tr className={usageTable.headRow}>
+                  <th className={usageTable.th}>{t("usage.model")}</th>
+                  <th className={usageTable.th}>{t("usage.inputTokens")}</th>
+                  <th className={usageTable.th}>{t("usage.outputTokens")}</th>
+                  <th className={usageTable.th}>
+                    {t("usage.cacheReadTokens")}
+                  </th>
+                  <th className={usageTable.th}>
+                    {t("usage.pricing.cacheWrite")}
+                  </th>
+                  <th className="w-[72px]" aria-label={t("common.actions")} />
                 </tr>
-              ) : (
-                pagination.pageRows.map((model) => {
-                  const name = model.displayName || model.modelId;
-                  return (
-                    <tr
-                      key={model.modelId}
-                      className={cn(usageTable.row, "group hover:bg-subtle")}
-                    >
-                      <td className={usageTable.td}>
-                        <span className="flex max-w-[340px] items-baseline gap-2">
-                          {model.displayName && (
-                            <span className="truncate text-foreground">
-                              {model.displayName}
-                            </span>
-                          )}
-                          <span
-                            className="truncate font-mono text-ui text-muted-foreground"
-                            title={model.modelId}
-                          >
-                            {model.modelId}
-                          </span>
-                        </span>
-                      </td>
-                      <td className={usageTable.td}>
-                        {formatUnitPrice(model.inputCostPerMillion)}
-                      </td>
-                      <td className={usageTable.td}>
-                        {formatUnitPrice(model.outputCostPerMillion)}
-                      </td>
-                      <td className={usageTable.td}>
-                        {formatUnitPrice(model.cacheReadCostPerMillion)}
-                      </td>
-                      <td
-                        className={cn(usageTable.td, "text-muted-foreground")}
+              </thead>
+              <tbody>
+                {rows.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className={usageTable.empty}>
+                      {t("usage.noPricingData")}
+                    </td>
+                  </tr>
+                ) : (
+                  pagination.pageRows.map((model) => {
+                    const name = model.displayName || model.modelId;
+                    return (
+                      <tr
+                        key={model.modelId}
+                        className={cn(usageTable.row, "group hover:bg-subtle")}
                       >
-                        {formatUnitPrice(model.cacheCreationCostPerMillion)}
-                      </td>
-                      <td className="whitespace-nowrap pe-1 text-end">
-                        <HoverTip content={t("common.edit")}>
-                          <Button
-                            type="button"
-                            variant="quiet"
-                            size="icon-compact"
-                            aria-label={t("usage.pricing.editAria", { name })}
-                            onClick={() => {
-                              setIsAddingNew(false);
-                              setEditingModel(model);
-                            }}
-                          >
-                            <Pencil className="h-4 w-4" strokeWidth={1.75} />
-                          </Button>
-                        </HoverTip>
-                        <HoverTip content={t("common.delete")}>
-                          <Button
-                            type="button"
-                            variant="quiet"
-                            size="icon-compact"
-                            aria-label={t("usage.pricing.deleteAria", { name })}
-                            className="hover:text-danger-text"
-                            onClick={() => setDeleteTarget(model)}
-                          >
-                            <Trash2 className="h-4 w-4" strokeWidth={1.75} />
-                          </Button>
-                        </HoverTip>
-                      </td>
-                    </tr>
-                  );
-                })
-              )}
-            </tbody>
-          </table>
+                        <td className={usageTable.td}>
+                          <span className="flex max-w-[340px] items-baseline gap-2">
+                            {model.displayName && (
+                              <span className="truncate text-foreground">
+                                {model.displayName}
+                              </span>
+                            )}
+                            <span
+                              className="truncate font-mono text-body text-muted-foreground"
+                              title={model.modelId}
+                            >
+                              {model.modelId}
+                            </span>
+                          </span>
+                        </td>
+                        <td className={usageTable.td}>
+                          {formatUnitPrice(model.inputCostPerMillion)}
+                        </td>
+                        <td className={usageTable.td}>
+                          {formatUnitPrice(model.outputCostPerMillion)}
+                        </td>
+                        <td className={usageTable.td}>
+                          {formatUnitPrice(model.cacheReadCostPerMillion)}
+                        </td>
+                        <td
+                          className={cn(usageTable.td, "text-muted-foreground")}
+                        >
+                          {formatUnitPrice(model.cacheCreationCostPerMillion)}
+                        </td>
+                        <td className="whitespace-nowrap pe-3 text-end">
+                          <HoverTip content={t("common.edit")}>
+                            <Button
+                              type="button"
+                              variant="quiet"
+                              size="icon-compact"
+                              aria-label={t("usage.pricing.editAria", { name })}
+                              onClick={() => {
+                                setIsAddingNew(false);
+                                setEditingModel(model);
+                              }}
+                            >
+                              <Pencil className="h-4 w-4" strokeWidth={1.75} />
+                            </Button>
+                          </HoverTip>
+                          <HoverTip content={t("common.delete")}>
+                            <Button
+                              type="button"
+                              variant="quiet"
+                              size="icon-compact"
+                              aria-label={t("usage.pricing.deleteAria", {
+                                name,
+                              })}
+                              className="hover:text-danger-text"
+                              onClick={() => setDeleteTarget(model)}
+                            >
+                              <Trash2 className="h-4 w-4" strokeWidth={1.75} />
+                            </Button>
+                          </HoverTip>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+          <TablePagination
+            page={pagination.page}
+            totalPages={pagination.totalPages}
+            total={pagination.total}
+            onPageChange={pagination.setPage}
+          />
         </div>
-      )}
-      {!isLoading && !error && (
-        <TablePagination
-          page={pagination.page}
-          totalPages={pagination.totalPages}
-          total={pagination.total}
-          onPageChange={pagination.setPage}
-        />
       )}
 
       {editingModel && (

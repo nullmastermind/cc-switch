@@ -46,7 +46,7 @@ const GRID_CLASS = "grid grid-cols-6 sm:grid-cols-8 lg:grid-cols-10 gap-2";
 
 const tileClass = (selected: boolean) =>
   cn(
-    "flex w-full flex-col items-center gap-1 p-2 rounded-[8px]",
+    "flex w-full flex-col items-center gap-1 p-2 rounded-panel",
     "border-2 transition-all duration-200",
     "hover:bg-subtle hover:border-primary/50",
     selected ? "border-primary bg-primary/10" : "border-transparent",
@@ -204,7 +204,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
         type="button"
         aria-label={label}
         onClick={onClick}
-        className="rounded-[4px] bg-surface/90 p-1 text-fg-2 shadow-sm hover:bg-subtle hover:text-fg-1"
+        className="rounded-control bg-surface/90 p-1 text-fg-2 shadow-sm hover:bg-subtle hover:text-fg-1"
       >
         {icon}
       </button>
@@ -212,12 +212,12 @@ export const IconPicker: React.FC<IconPickerProps> = ({
   );
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-6">
       <div>
         <Label htmlFor="icon-search">
           {t("iconPicker.search", { defaultValue: "搜索图标" })}
         </Label>
-        <div className="mt-2 flex gap-2">
+        <div className="mt-1.5 flex gap-2">
           <Input
             id="icon-search"
             type="text"
@@ -237,7 +237,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
       </div>
 
       <section>
-        <h3 className="mb-2 text-[12.35px] leading-[1.3] font-medium text-fg-2">
+        <h3 className="mb-3 text-body font-medium text-fg-2">
           {t("iconPicker.myIcons")}
         </h3>
         <div className={GRID_CLASS}>
@@ -247,7 +247,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
               disabled={uploading}
               onClick={() => fileInputRef.current?.click()}
               className={cn(
-                "flex w-full flex-col items-center gap-1 p-2 rounded-[8px]",
+                "flex w-full flex-col items-center gap-1 p-2 rounded-panel",
                 "border-2 border-dashed border-border text-fg-2 transition-colors",
                 "hover:border-primary/50 hover:bg-subtle hover:text-fg-1",
                 "disabled:cursor-wait disabled:opacity-60",
@@ -260,7 +260,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
                   <Plus className="h-5 w-5" />
                 )}
               </span>
-              <span className="text-[12.35px] leading-[1.3] truncate w-full text-center">
+              <span className="text-caption truncate w-full text-center">
                 {t("iconPicker.upload")}
               </span>
             </button>
@@ -282,7 +282,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
                 title={t("iconPicker.currentIcon")}
               >
                 <ProviderIconBox icon={currentUnsaved} name="" />
-                <span className="text-[12.35px] leading-[1.3] text-fg-2 truncate w-full text-center">
+                <span className="text-caption text-fg-2 truncate w-full text-center">
                   {t("iconPicker.currentIcon")}
                 </span>
               </button>
@@ -310,7 +310,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
                 title={icon.name}
               >
                 <ProviderIconBox icon={icon.data} name={icon.name} />
-                <span className="text-[12.35px] leading-[1.3] text-fg-2 truncate w-full text-center">
+                <span className="text-caption text-fg-2 truncate w-full text-center">
                   {icon.name}
                 </span>
               </button>
@@ -336,14 +336,14 @@ export const IconPicker: React.FC<IconPickerProps> = ({
           ))}
         </div>
         {library.length === 0 && !currentUnsaved && (
-          <p className="mt-2 text-[12.35px] leading-[1.3] text-fg-3">
+          <p className="mt-2 text-caption text-fg-3">
             {t("iconPicker.myIconsEmpty")}
           </p>
         )}
       </section>
 
       <section>
-        <h3 className="mb-2 text-[12.35px] leading-[1.3] font-medium text-fg-2">
+        <h3 className="mb-3 text-body font-medium text-fg-2">
           {t("iconPicker.builtinIcons")}
         </h3>
         <div className={GRID_CLASS}>
@@ -360,7 +360,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
                 title={meta?.displayName || iconName}
               >
                 <ProviderIcon icon={iconName} name={iconName} size={32} />
-                <span className="w-full truncate text-center text-[12.35px] leading-[1.3] text-fg-2">
+                <span className="w-full truncate text-center text-caption text-fg-2">
                   {meta?.displayName || iconName}
                 </span>
               </button>
@@ -368,7 +368,7 @@ export const IconPicker: React.FC<IconPickerProps> = ({
           })}
         </div>
         {filteredIcons.length === 0 && (
-          <div className="text-center py-8 text-fg-2">
+          <div className="text-center py-12 text-body text-fg-2">
             {t("iconPicker.noResults", { defaultValue: "未找到匹配的图标" })}
           </div>
         )}

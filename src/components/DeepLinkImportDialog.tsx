@@ -426,7 +426,7 @@ export function DeepLinkImportDialog() {
   const EnvRow = ({ envKey, value }: { envKey: string; value: string }) => {
     const risk = classifyEnvKey(envKey);
     return (
-      <div className="grid grid-cols-2 gap-2 text-[12.35px] leading-[1.3]">
+      <div className="grid grid-cols-2 gap-2 text-body">
         <span
           className={`font-mono break-all ${
             risk ? "text-warning-text font-semibold" : "text-fg-2"
@@ -470,7 +470,7 @@ export function DeepLinkImportDialog() {
 
   return (
     <Dialog open={isOpen && !!request} onOpenChange={setIsOpen}>
-      <DialogContent className="sm:max-w-[500px]" zIndex="top">
+      <DialogContent className="max-w-lg" zIndex="top">
         {request && (
           <>
             {/* 标题显式左对齐，避免默认居中样式影响 */}
@@ -479,8 +479,7 @@ export function DeepLinkImportDialog() {
               <DialogDescription>{getDescription()}</DialogDescription>
             </DialogHeader>
 
-            {/* 主体内容整体右移，略大于标题内边距，让内容看起来不贴边 */}
-            <div className="space-y-4 px-8 py-4 max-h-[60vh] overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:block [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-subtle">
+            <div className="space-y-4 pe-1 max-h-[60vh] overflow-y-auto [scrollbar-width:thin] [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar]:block [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-subtle">
               {request.resource === "prompt" && (
                 <PromptConfirmation
                   request={request}
@@ -500,7 +499,7 @@ export function DeepLinkImportDialog() {
                 <>
                   {/* Provider Icon - enlarge and center near the top */}
                   {(request.icon || request.iconUrl) && (
-                    <div className="flex justify-center pt-2 pb-1">
+                    <div className="flex justify-center">
                       {/* 下载中或下载失败时显示内置图标或首字母 */}
                       <ProviderIcon
                         icon={linkIcon ?? request.icon}
@@ -513,40 +512,40 @@ export function DeepLinkImportDialog() {
 
                   {/* App Type */}
                   <div className="grid grid-cols-3 items-center gap-4">
-                    <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                    <div className="font-medium text-body text-fg-2">
                       {t("deeplink.app")}
                     </div>
-                    <div className="col-span-2 text-[12.35px] leading-[1.3] font-medium capitalize">
+                    <div className="col-span-2 text-body font-medium capitalize">
                       {request.app}
                     </div>
                   </div>
 
                   {/* Provider Name */}
                   <div className="grid grid-cols-3 items-center gap-4">
-                    <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                    <div className="font-medium text-body text-fg-2">
                       {t("deeplink.providerName")}
                     </div>
-                    <div className="col-span-2 text-[12.35px] leading-[1.3] font-medium">
+                    <div className="col-span-2 text-body font-medium">
                       {request.name}
                     </div>
                   </div>
 
                   {/* Homepage */}
                   <div className="grid grid-cols-3 items-center gap-4">
-                    <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                    <div className="font-medium text-body text-fg-2">
                       {t("deeplink.homepage")}
                     </div>
-                    <div className="col-span-2 text-[12.35px] leading-[1.3] break-all text-fg-1">
+                    <div className="col-span-2 text-body break-all text-fg-1">
                       {request.homepage}
                     </div>
                   </div>
 
                   {/* API Endpoint */}
                   <div className="grid grid-cols-3 items-start gap-4">
-                    <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2 pt-0.5">
+                    <div className="font-medium text-body text-fg-2 pt-0.5">
                       {t("deeplink.endpoint")}
                     </div>
-                    <div className="col-span-2 text-[12.35px] leading-[1.3] break-all space-y-1">
+                    <div className="col-span-2 text-body break-all space-y-1">
                       {request.endpoint?.split(",").map((ep, idx) => {
                         const endpointRisk = classifyEndpoint(ep.trim());
                         return (
@@ -564,12 +563,12 @@ export function DeepLinkImportDialog() {
                             {endpointRisk && <span aria-hidden="true">⚠ </span>}
                             {ep.trim()}
                             {idx === 0 && request.endpoint?.includes(",") && (
-                              <span className="text-[12.35px] leading-[1.3] text-fg-2 ml-2">
+                              <span className="text-body text-fg-2 ml-2">
                                 ({t("deeplink.primaryEndpoint")})
                               </span>
                             )}
                             {endpointRisk && (
-                              <div className="text-[12.35px] leading-[1.3] font-normal mt-0.5">
+                              <div className="text-body font-normal mt-0.5">
                                 {t(riskI18nKey(endpointRisk))}
                               </div>
                             )}
@@ -581,10 +580,10 @@ export function DeepLinkImportDialog() {
 
                   {/* API Key (masked) */}
                   <div className="grid grid-cols-3 items-center gap-4">
-                    <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                    <div className="font-medium text-body text-fg-2">
                       {t("deeplink.apiKey")}
                     </div>
-                    <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono text-fg-2">
+                    <div className="col-span-2 text-body font-mono text-fg-2">
                       {maskedApiKey}
                     </div>
                   </div>
@@ -595,40 +594,40 @@ export function DeepLinkImportDialog() {
                       {/* Claude 四种模型字段 */}
                       {request.haikuModel && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.haikuModel")}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono">
+                          <div className="col-span-2 text-body font-mono">
                             {request.haikuModel}
                           </div>
                         </div>
                       )}
                       {request.sonnetModel && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.sonnetModel")}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono">
+                          <div className="col-span-2 text-body font-mono">
                             {request.sonnetModel}
                           </div>
                         </div>
                       )}
                       {request.opusModel && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.opusModel")}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono">
+                          <div className="col-span-2 text-body font-mono">
                             {request.opusModel}
                           </div>
                         </div>
                       )}
                       {request.model && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.multiModel")}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono">
+                          <div className="col-span-2 text-body font-mono">
                             {request.model}
                           </div>
                         </div>
@@ -639,10 +638,10 @@ export function DeepLinkImportDialog() {
                       {/* Codex 和 Gemini 使用通用 model 字段 */}
                       {request.model && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.model")}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono">
+                          <div className="col-span-2 text-body font-mono">
                             {request.model}
                           </div>
                         </div>
@@ -652,10 +651,10 @@ export function DeepLinkImportDialog() {
 
                   {request.apiFormat && (
                     <div className="grid grid-cols-3 items-center gap-4">
-                      <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                      <div className="font-medium text-body text-fg-2">
                         {t("deeplink.apiFormat")}
                       </div>
-                      <div className="col-span-2 text-[12.35px] leading-[1.3]">
+                      <div className="col-span-2 text-body">
                         {API_FORMAT_LABELS[request.apiFormat] ??
                           request.apiFormat}
                       </div>
@@ -665,10 +664,10 @@ export function DeepLinkImportDialog() {
                   {/* Notes (if present) */}
                   {request.notes && (
                     <div className="grid grid-cols-3 items-start gap-4">
-                      <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                      <div className="font-medium text-body text-fg-2">
                         {t("deeplink.notes")}
                       </div>
-                      <div className="col-span-2 text-[12.35px] leading-[1.3] text-fg-2">
+                      <div className="col-span-2 text-body text-fg-2">
                         {request.notes}
                       </div>
                     </div>
@@ -676,19 +675,19 @@ export function DeepLinkImportDialog() {
 
                   {/* Config File Details (v3.8+) */}
                   {hasConfigFile && (
-                    <div className="space-y-3 pt-2 border-t border-border">
+                    <div className="space-y-3 pt-4 border-t border-border">
                       <div className="grid grid-cols-3 items-center gap-4">
-                        <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                        <div className="font-medium text-body text-fg-2">
                           {t("deeplink.configSource")}
                         </div>
-                        <div className="col-span-2 text-[12.35px] leading-[1.3]">
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-[4px] bg-subtle text-fg-1 text-[12.35px] leading-[1.3] font-medium">
+                        <div className="col-span-2 text-body">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-control bg-subtle text-fg-1 text-body font-medium">
                             {configSource === "base64"
                               ? t("deeplink.configEmbedded")
                               : t("deeplink.configRemote")}
                           </span>
                           {request.configFormat && (
-                            <span className="ml-2 text-[12.35px] leading-[1.3] text-fg-2 uppercase">
+                            <span className="ml-2 text-body text-fg-2 uppercase">
                               {request.configFormat}
                             </span>
                           )}
@@ -697,8 +696,8 @@ export function DeepLinkImportDialog() {
 
                       {/* Parsed Config Details */}
                       {parsedConfig && (
-                        <div className="rounded-[8px] bg-subtle p-3 space-y-2">
-                          <div className="text-[12.35px] leading-[1.3] font-medium text-fg-2 uppercase tracking-wide">
+                        <div className="rounded-panel bg-subtle px-4 py-3 space-y-3">
+                          <div className="text-caption font-medium text-fg-2 uppercase tracking-wide">
                             {t("deeplink.configDetails")}
                           </div>
 
@@ -726,7 +725,7 @@ export function DeepLinkImportDialog() {
                                 parsedConfig.auth &&
                                 Object.keys(parsedConfig.auth).length > 0 && (
                                   <div className="space-y-1.5">
-                                    <div className="text-[12.35px] leading-[1.3] text-fg-2">
+                                    <div className="text-body text-fg-2">
                                       Auth:
                                     </div>
                                     <div className="pl-2 space-y-1.5">
@@ -744,14 +743,14 @@ export function DeepLinkImportDialog() {
                                 )}
                               {parsedConfig.tomlConfig && (
                                 <div className="space-y-1">
-                                  <div className="text-[12.35px] leading-[1.3] text-fg-2">
+                                  <div className="text-body text-fg-2">
                                     TOML Config:
                                   </div>
-                                  <pre className="text-[12.35px] leading-[1.3] font-mono bg-surface p-2 rounded overflow-auto max-h-24 whitespace-pre-wrap break-all">
+                                  <pre className="text-body font-mono bg-surface p-2 rounded-control overflow-auto max-h-24 whitespace-pre-wrap break-all">
                                     {parsedConfig.tomlConfig}
                                   </pre>
                                   {/* 后端按白名单收（deeplink/codex_link.rs、grok_link.rs），原文不会整份导入 */}
-                                  <p className="text-[12.35px] leading-[1.3] text-fg-2">
+                                  <p className="text-caption text-fg-2">
                                     {parsedConfig.type === "codex"
                                       ? t("deeplink.codexConfigScopeHint")
                                       : t("deeplink.grokConfigScopeHint")}
@@ -789,10 +788,10 @@ export function DeepLinkImportDialog() {
                       {/* Config URL (if remote) */}
                       {request.configUrl && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.configUrl")}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono text-fg-2 break-all">
+                          <div className="col-span-2 text-body font-mono text-fg-2 break-all">
                             {request.configUrl}
                           </div>
                         </div>
@@ -815,17 +814,17 @@ export function DeepLinkImportDialog() {
                     request.usageAccessToken ||
                     request.usageUserId ||
                     request.usageAutoInterval !== undefined) && (
-                    <div className="space-y-3 pt-2 border-t border-border">
+                    <div className="space-y-3 pt-4 border-t border-border">
                       {(request.usageScript ||
                         codingPlan ||
                         request.usageEnabled !== undefined) && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.usageScript", {
                               defaultValue: "用量查询",
                             })}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3]">
+                          <div className="col-span-2 text-body">
                             {/*
                             Matches backend `build_provider_meta`: honor the
                             flag when the link sets it; otherwise enable when a
@@ -834,7 +833,7 @@ export function DeepLinkImportDialog() {
                             optimistic nor more conservative than the backend.
                           */}
                             <span
-                              className={`inline-flex items-center px-2 py-0.5 rounded-[4px] text-[12.35px] leading-[1.3] font-medium ${
+                              className={`inline-flex items-center px-2 py-0.5 rounded-control text-body font-medium ${
                                 usageWillBeEnabled
                                   ? "bg-success-soft text-success-text"
                                   : "bg-subtle text-fg-2"
@@ -849,7 +848,7 @@ export function DeepLinkImportDialog() {
                                   })}
                             </span>
                             {codingPlan && (
-                              <span className="ml-2 text-[12.35px] leading-[1.3] text-fg-2">
+                              <span className="ml-2 text-body text-fg-2">
                                 {t("deeplink.usageCodingPlan", {
                                   name: codingPlan.label,
                                   defaultValue: "套餐额度：{{name}}",
@@ -868,10 +867,10 @@ export function DeepLinkImportDialog() {
                         不用 truncate，任何字符都不得被 CSS 藏起来。
                       */}
                           <div className="space-y-1">
-                            <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                            <div className="font-medium text-body text-fg-2">
                               {t("deeplink.usageScriptCode")}
                             </div>
-                            <pre className="max-h-48 overflow-auto rounded border border-border bg-subtle p-2 text-[12.35px] leading-[1.3] font-mono whitespace-pre-wrap break-all">
+                            <pre className="max-h-48 overflow-auto rounded-control border border-border bg-subtle p-2 text-body font-mono whitespace-pre-wrap break-all">
                               {decodeDeeplinkPayload(
                                 request.usageScript,
                                 decodeBase64Utf8,
@@ -884,7 +883,7 @@ export function DeepLinkImportDialog() {
                         配置，用户之后在应用内一键即可开启。挂条件等于让攻击者省略参数就能
                         关掉这条警告。
                       */}
-                          <div className="text-warning-text text-[12.35px] leading-[1.3] flex items-start gap-2">
+                          <div className="text-warning-text text-body flex items-start gap-2">
                             <span aria-hidden="true">⚠️</span>
                             <span>{t("deeplink.usageScriptWarning")}</span>
                           </div>
@@ -895,12 +894,12 @@ export function DeepLinkImportDialog() {
                       {request.usageApiKey &&
                         request.usageApiKey !== request.apiKey && (
                           <div className="grid grid-cols-3 items-center gap-4">
-                            <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                            <div className="font-medium text-body text-fg-2">
                               {t("deeplink.usageApiKey", {
                                 defaultValue: "用量 API Key",
                               })}
                             </div>
-                            <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono text-fg-2">
+                            <div className="col-span-2 text-body font-mono text-fg-2">
                               {request.usageApiKey.length > 4
                                 ? `${request.usageApiKey.substring(0, 4)}${"*".repeat(12)}`
                                 : "****"}
@@ -912,12 +911,12 @@ export function DeepLinkImportDialog() {
                       {request.usageBaseUrl &&
                         request.usageBaseUrl !== request.endpoint && (
                           <div className="grid grid-cols-3 items-center gap-4">
-                            <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                            <div className="font-medium text-body text-fg-2">
                               {t("deeplink.usageBaseUrl", {
                                 defaultValue: "用量查询地址",
                               })}
                             </div>
-                            <div className="col-span-2 text-[12.35px] leading-[1.3] break-all">
+                            <div className="col-span-2 text-body break-all">
                               {request.usageBaseUrl}
                             </div>
                           </div>
@@ -926,12 +925,12 @@ export function DeepLinkImportDialog() {
                       {/* Usage Access Token (if present) */}
                       {request.usageAccessToken && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.usageAccessToken", {
                               defaultValue: "用量访问令牌",
                             })}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono text-fg-2">
+                          <div className="col-span-2 text-body font-mono text-fg-2">
                             {request.usageAccessToken.length > 4
                               ? `${request.usageAccessToken.substring(0, 4)}${"*".repeat(12)}`
                               : "****"}
@@ -942,12 +941,12 @@ export function DeepLinkImportDialog() {
                       {/* Usage User ID (if present) */}
                       {request.usageUserId && (
                         <div className="grid grid-cols-3 items-center gap-4">
-                          <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                          <div className="font-medium text-body text-fg-2">
                             {t("deeplink.usageUserId", {
                               defaultValue: "用量用户 ID",
                             })}
                           </div>
-                          <div className="col-span-2 text-[12.35px] leading-[1.3] font-mono break-all">
+                          <div className="col-span-2 text-body font-mono break-all">
                             {request.usageUserId}
                           </div>
                         </div>
@@ -957,12 +956,12 @@ export function DeepLinkImportDialog() {
                       {request.usageAutoInterval &&
                         request.usageAutoInterval > 0 && (
                           <div className="grid grid-cols-3 items-center gap-4">
-                            <div className="font-medium text-[12.35px] leading-[1.3] text-fg-2">
+                            <div className="font-medium text-body text-fg-2">
                               {t("deeplink.usageAutoInterval", {
                                 defaultValue: "自动查询",
                               })}
                             </div>
-                            <div className="col-span-2 text-[12.35px] leading-[1.3]">
+                            <div className="col-span-2 text-body">
                               {t("deeplink.usageAutoIntervalValue", {
                                 defaultValue: "每 {{minutes}} 分钟",
                                 minutes: request.usageAutoInterval,
@@ -980,10 +979,10 @@ export function DeepLinkImportDialog() {
                         导入后是否立即生效由用户决定，链接里的 enabled 只是初始值。切换式应用打开后
                         会立即切到这家，客户端流量随之改走链接里的地址，所以打开时要给出提示。
                       */}
-                      <div className="flex items-center justify-between gap-4 pt-2 border-t border-border">
+                      <div className="flex items-center justify-between gap-4 pt-4 border-t border-border">
                         <label
                           htmlFor="deeplink-activate-after-import"
-                          className="text-[12.35px] leading-[1.3] font-medium"
+                          className="text-body font-medium"
                         >
                           {request.app && isAdditiveAppId(request.app)
                             ? request.app === "pi"
@@ -1001,7 +1000,7 @@ export function DeepLinkImportDialog() {
                       </div>
                       {activateAfterImport &&
                         !(request.app && isAdditiveAppId(request.app)) && (
-                          <div className="text-warning-text text-[12.35px] leading-[1.3] flex items-start gap-2">
+                          <div className="text-warning-text text-body flex items-start gap-2">
                             <span aria-hidden="true">⚠️</span>
                             <span>{t("deeplink.providerEnabledWarning")}</span>
                           </div>
@@ -1010,7 +1009,7 @@ export function DeepLinkImportDialog() {
                   )}
 
                   {/* Warning */}
-                  <div className="rounded-[8px] bg-warning-soft p-3 text-[12.35px] leading-[1.3] text-warning-text">
+                  <div className="rounded-panel bg-warning-soft px-4 py-3 text-body text-warning-text">
                     {t("deeplink.warning")}
                   </div>
                 </>

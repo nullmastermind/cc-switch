@@ -66,16 +66,13 @@ export function ConfirmDialog({
         }
       }}
     >
-      <DialogContent
-        className="w-full max-w-[480px] gap-2 rounded-[8px] p-2 text-ui sm:rounded-[8px]"
-        zIndex={zIndex}
-      >
-        <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
-          <DialogTitle className="flex items-center gap-2 text-[12.35px] font-semibold leading-[1.3] tracking-normal">
+      <DialogContent className="max-w-lg text-body" zIndex={zIndex}>
+        <DialogHeader className="border-b-0 bg-transparent p-0">
+          <DialogTitle className="flex items-center gap-2">
             <IconComponent className={iconClass} />
             {title}
           </DialogTitle>
-          <DialogDescription className="whitespace-pre-line text-[12.35px] leading-[1.3]">
+          <DialogDescription className="whitespace-pre-line text-body">
             {message}
           </DialogDescription>
         </DialogHeader>
@@ -87,7 +84,7 @@ export function ConfirmDialog({
               onCheckedChange={(value) => setCheckboxChecked(value === true)}
               className="mt-0.5"
             />
-            <span className="text-ui leading-[1.3]">{checkboxLabel}</span>
+            <span className="text-body">{checkboxLabel}</span>
           </label>
         ) : null}
         <DialogFooter className="gap-2 border-t-0 bg-transparent p-0 sm:justify-end">

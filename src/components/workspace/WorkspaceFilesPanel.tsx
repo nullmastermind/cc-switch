@@ -85,10 +85,10 @@ const WorkspaceFilesPanel: React.FC = () => {
   };
 
   return (
-    <div className="px-6 pt-4 pb-8">
+    <div className="px-4 pb-10 pt-5 lg:px-6">
       <HoverTip content={t("workspace.openDirectory")}>
         <p
-          className="text-[12.35px] leading-[1.3] text-muted-foreground mb-6 cursor-pointer hover:text-foreground transition-colors inline-flex items-center gap-1"
+          className="mb-6 inline-flex cursor-pointer items-center gap-1.5 text-body text-muted-foreground transition-colors hover:text-foreground"
           onClick={() => workspaceApi.openDirectory("workspace")}
         >
           ~/.openclaw/workspace/
@@ -107,14 +107,14 @@ const WorkspaceFilesPanel: React.FC = () => {
               type="button"
               variant="outline"
               onClick={() => setEditingFile(file.filename)}
-              className="h-auto items-start justify-start gap-3 p-4 text-left"
+              className="group h-auto items-start justify-start gap-3 whitespace-normal rounded-panel px-4 py-3 text-left"
             >
               <div className="mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors">
                 <Icon className="w-5 h-5" />
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-[12.35px] leading-[1.3] text-foreground">
+                  <span className="text-strong font-medium text-foreground">
                     {file.filename}
                   </span>
                   {exists ? (
@@ -123,7 +123,7 @@ const WorkspaceFilesPanel: React.FC = () => {
                     <Circle className="w-3.5 h-3.5 text-muted-foreground/40 flex-shrink-0" />
                   )}
                 </div>
-                <p className="text-[12.35px] leading-[1.3] text-muted-foreground mt-0.5">
+                <p className="mt-0.5 text-caption font-normal text-muted-foreground">
                   {t(file.descKey)}
                 </p>
               </div>
@@ -136,13 +136,13 @@ const WorkspaceFilesPanel: React.FC = () => {
           type="button"
           variant="outline"
           onClick={() => setShowDailyMemory(true)}
-          className="h-auto items-start justify-start gap-3 p-4 text-left"
+          className="group h-auto items-start justify-start gap-3 whitespace-normal rounded-panel px-4 py-3 text-left"
         >
           <div className="mt-0.5 text-muted-foreground group-hover:text-foreground transition-colors">
             <Calendar className="w-5 h-5" />
           </div>
           <div className="flex-1 min-w-0">
-            <span className="font-medium text-[12.35px] leading-[1.3] text-foreground">
+            <span className="text-strong font-medium text-foreground">
               {t("workspace.dailyMemory.cardTitle")}
             </span>
           </div>

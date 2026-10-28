@@ -98,7 +98,7 @@ export function NewLayoutDialog() {
         if (!open) void handleAcknowledge();
       }}
     >
-      <DialogContent className="max-w-[480px]" zIndex="top">
+      <DialogContent zIndex="top">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="h-4 w-4 text-fg-1" />
@@ -106,7 +106,7 @@ export function NewLayoutDialog() {
           </DialogTitle>
         </DialogHeader>
         <div>
-          <DialogDescription className="whitespace-pre-line leading-[1.3]">
+          <DialogDescription className="whitespace-pre-line">
             {t("newLayoutNotice.body")}
           </DialogDescription>
         </div>

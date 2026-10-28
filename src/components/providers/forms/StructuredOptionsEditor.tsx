@@ -168,18 +168,17 @@ export function StructuredOptionsEditor({
   return (
     <div
       id={id}
-      className={cn("space-y-2 border-l border-border pl-3", className)}
+      className={cn("space-y-3 border-l border-border pl-4", className)}
     >
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex min-w-0 flex-1 items-center gap-1">
-          <span className="block text-[12.35px] leading-[1.3] font-medium text-fg-1">
-            {title}
-          </span>
+          <span className="block text-body font-medium text-fg-1">{title}</span>
           <HelpTip title={title}>{hint}</HelpTip>
         </div>
         <Button
           type="button"
           variant="outline"
+          size="sm"
           onClick={addOption}
           aria-label={addLabel}
           className="shrink-0"
@@ -191,13 +190,13 @@ export function StructuredOptionsEditor({
 
       <div className="space-y-2">
         {!hasRows ? (
-          <p className="py-1 text-ui text-muted-foreground">{emptyLabel}</p>
+          <p className="text-body text-muted-foreground">{emptyLabel}</p>
         ) : (
           <div className="space-y-2">
-            <div className="mb-1 flex items-center gap-2 text-ui text-muted-foreground">
+            <div className="flex items-center gap-2 text-caption text-muted-foreground">
               <span className="flex-1">{keyLabel}</span>
               <span className="flex-1">{valueLabel}</span>
-              <span className="w-6" />
+              <span className="w-8 shrink-0" />
             </div>
 
             {Object.entries(options).map(([key, value]) => (

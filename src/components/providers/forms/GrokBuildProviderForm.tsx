@@ -445,7 +445,7 @@ export function GrokBuildProviderForm({
       <form
         id="provider-form"
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-2 rounded-[8px] p-2 border border-border-default"
+        className="space-y-4 rounded-panel p-4 border border-border-default"
       >
         {!initialData && (
           <ProviderPresetSelector
@@ -535,11 +535,11 @@ export function GrokBuildProviderForm({
               />
             </FormItem>
 
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <FormLabel htmlFor="grokbuild-config-toml">
                 {t("grokBuild.rawConfig", { defaultValue: "config.toml" })}
               </FormLabel>
-              <p className="text-ui text-muted-foreground">
+              <p className="text-caption text-muted-foreground">
                 {t("grokBuild.keyFieldsHint", {
                   defaultValue:
                     "默认模型（models.default）和它指向的模型表随供应商切换；其余是 Grok Build 全局设置，保存后对所有供应商生效。",
@@ -555,7 +555,7 @@ export function GrokBuildProviderForm({
                 language="javascript"
               />
               {rawConfigError && (
-                <p className="text-ui text-destructive">
+                <p className="text-caption text-destructive">
                   {t("grokBuild.invalidToml", {
                     error: rawConfigError,
                     defaultValue: `Invalid config.toml: ${rawConfigError}`,

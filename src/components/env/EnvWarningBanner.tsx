@@ -113,17 +113,17 @@ export function EnvWarningBanner({
   return (
     <>
       <div className="shrink-0 bg-warning-soft border-b border-transparent">
-        <div className="px-6 py-3">
+        <div className="px-4 py-3 lg:px-6">
           <div className="flex items-start gap-3">
             <AlertTriangle className="h-5 w-5 text-warning-text flex-shrink-0 mt-0.5" />
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <h3 className="text-[12.35px] leading-[1.3] font-semibold text-warning-text">
+                  <h3 className="text-strong font-semibold text-warning-text">
                     {t("env.warning.title")}
                   </h3>
-                  <p className="text-[12.35px] leading-[1.3] text-warning-text mt-0.5">
+                  <p className="text-body text-warning-text mt-0.5">
                     {t("env.warning.description", { count: conflicts.length })}
                   </p>
                 </div>
@@ -138,12 +138,12 @@ export function EnvWarningBanner({
                     {isExpanded ? (
                       <>
                         {t("env.actions.collapse")}
-                        <ChevronUp className="h-4 w-4 ml-1" />
+                        <ChevronUp className="h-4 w-4" />
                       </>
                     ) : (
                       <>
                         {t("env.actions.expand")}
-                        <ChevronDown className="h-4 w-4 ml-1" />
+                        <ChevronDown className="h-4 w-4" />
                       </>
                     )}
                   </Button>
@@ -151,7 +151,7 @@ export function EnvWarningBanner({
                   <HoverTip content={t("common.close")}>
                     <Button
                       variant="ghost"
-                      size="icon"
+                      size="icon-compact"
                       aria-label={t("common.close")}
                       onClick={onDismiss}
                       className="text-warning-text hover:bg-warning-soft"
@@ -172,7 +172,7 @@ export function EnvWarningBanner({
                     />
                     <label
                       htmlFor="select-all"
-                      className="text-[12.35px] leading-[1.3] font-medium text-warning-text cursor-pointer"
+                      className="text-body font-medium text-warning-text cursor-pointer"
                     >
                       {t("env.actions.selectAll")}
                     </label>
@@ -184,7 +184,7 @@ export function EnvWarningBanner({
                       return (
                         <div
                           key={key}
-                          className="flex items-start gap-3 p-3 bg-surface rounded-[4px] border border-transparent"
+                          className="flex items-start gap-3 rounded-panel border border-transparent bg-surface px-4 py-3"
                         >
                           <Checkbox
                             id={key}
@@ -195,14 +195,14 @@ export function EnvWarningBanner({
                           <div className="flex-1 min-w-0">
                             <label
                               htmlFor={key}
-                              className="block text-[12.35px] leading-[1.3] font-medium text-fg-1 cursor-pointer"
+                              className="block text-body font-medium text-fg-1 cursor-pointer"
                             >
                               {conflict.varName}
                             </label>
-                            <p className="text-[12.35px] leading-[1.3] text-fg-2 mt-1 break-all">
+                            <p className="mt-0.5 break-all text-caption text-fg-2">
                               {t("env.field.value")}: {conflict.varValue}
                             </p>
-                            <p className="text-[12.35px] leading-[1.3] text-fg-2 mt-1">
+                            <p className="mt-0.5 text-caption text-fg-2">
                               {t("env.field.source")}:{""}
                               {getSourceDescription(conflict)}
                             </p>
@@ -212,7 +212,7 @@ export function EnvWarningBanner({
                     })}
                   </div>
 
-                  <div className="flex items-center justify-end gap-2 pt-2 border-t border-transparent">
+                  <div className="flex flex-wrap items-center justify-end gap-2 border-t border-transparent pt-3">
                     <Button
                       variant="outline"
                       size="sm"
@@ -228,7 +228,6 @@ export function EnvWarningBanner({
                       size="sm"
                       onClick={() => setShowConfirmDialog(true)}
                       disabled={selectedConflicts.size === 0 || isDeleting}
-                      className="gap-1"
                     >
                       <Trash2 className="h-4 w-4" />
                       {isDeleting
@@ -246,17 +245,17 @@ export function EnvWarningBanner({
       </div>
 
       <Dialog open={showConfirmDialog} onOpenChange={setShowConfirmDialog}>
-        <DialogContent className="max-w-md" zIndex="top">
+        <DialogContent zIndex="top">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <AlertTriangle className="h-5 w-5 text-destructive" />
+              <AlertTriangle className="h-4 w-4 text-destructive" />
               {t("env.confirm.title")}
             </DialogTitle>
             <DialogDescription className="space-y-2">
               <p>
                 {t("env.confirm.message", { count: selectedConflicts.size })}
               </p>
-              <p className="text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="text-caption text-fg-2">
                 {t("env.confirm.backupNotice")}
               </p>
             </DialogDescription>

@@ -158,7 +158,7 @@ function isToolPresent(
 
 // 表头和应用行共用列宽；操作列宽取各行按钮和表头量宽按钮的最大值，最后一列是行尾的「⋯」菜单。
 const APP_ROW_GRID =
-  "grid grid-cols-[minmax(0,1fr)_168px_var(--apps-actions-width,0px)_56px_28px] items-center gap-x-2";
+  "grid grid-cols-[minmax(0,1fr)_168px_var(--apps-actions-width,0px)_56px_28px] items-center gap-x-3";
 
 function formatCheckedAt(timestamp: number, locale: string): string {
   const date = new Date(timestamp);
@@ -347,7 +347,7 @@ export function AppsPage() {
           <span className="truncate">{APP_DISPLAY_NAME["claude-desktop"]}</span>
         }
         version={
-          <span className="inline-flex items-center gap-1 text-[12.35px] leading-[1.3] text-fg-2">
+          <span className="inline-flex items-center gap-1 text-body text-fg-2">
             {desktopStatus?.supported === false
               ? t("appsPage.desktopUnsupported")
               : desktopStatus?.configured
@@ -389,7 +389,7 @@ export function AppsPage() {
         }
         actions={
           <>
-            <span className="whitespace-nowrap text-[12.35px] leading-[1.3] text-fg-3">
+            <span className="whitespace-nowrap text-caption text-fg-3">
               {lastChecked}
             </span>
             {(updatableCount > 0 || tools.batchAction) && (
@@ -482,11 +482,11 @@ export function AppsPage() {
         id="main-content"
         className="min-h-0 flex-1 overflow-y-auto scroll-stable"
       >
-        <div ref={tableRef} className="px-2 pb-2 pt-2">
+        <div ref={tableRef} className="px-4 pb-10 pt-4 lg:px-6">
           <div
             className={cn(
               APP_ROW_GRID,
-              "mx-px h-6 pe-2 ps-4 text-[12.35px] font-medium leading-[1.3] text-fg-2",
+              "mx-px mb-1 h-9 pe-4 ps-4 text-caption font-medium text-fg-2",
             )}
           >
             <SectionTitle title={sections[0]?.title} />
@@ -519,7 +519,7 @@ export function AppsPage() {
           {sections.map((section, index) => (
             <section key={section.key} aria-label={section.title}>
               {index > 0 && (
-                <div className="mx-px mt-2 flex h-6 items-center pe-2 ps-4">
+                <div className="mx-px mb-1 mt-6 flex h-9 items-center pe-4 ps-4">
                   <SectionTitle title={section.title} />
                 </div>
               )}
@@ -535,7 +535,7 @@ export function AppsPage() {
                     items={section.rows.map(rowKey)}
                     strategy={verticalListSortingStrategy}
                   >
-                    <div className="divide-y divide-border overflow-hidden rounded-[8px] border border-border bg-surface">
+                    <div className="divide-y divide-border overflow-hidden rounded-panel border border-border bg-surface">
                       {section.rows.map((row) => (
                         <SortableAppRow key={rowKey(row)} id={rowKey(row)}>
                           {renderRow(row)}
@@ -545,7 +545,7 @@ export function AppsPage() {
                   </SortableContext>
                 </DndContext>
               ) : (
-                <div className="divide-y divide-border overflow-hidden rounded-[8px] border border-border bg-surface">
+                <div className="divide-y divide-border overflow-hidden rounded-panel border border-border bg-surface">
                   {section.rows.map(renderRow)}
                 </div>
               )}
@@ -555,15 +555,15 @@ export function AppsPage() {
       </div>
 
       <Dialog open={showCommands} onOpenChange={setShowCommands}>
-        <DialogContent className="max-w-[480px]">
+        <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>{t("settings.manualInstallCommands")}</DialogTitle>
           </DialogHeader>
-          <div className="space-y-2">
-            <p className="text-[12.35px] leading-[1.3] text-fg-2">
+          <div className="space-y-3">
+            <p className="text-body text-fg-2">
               {t("settings.oneClickInstallHint")}
             </p>
-            <pre className="max-h-[50vh] overflow-auto rounded-[4px] border border-border bg-subtle px-2 py-2 font-mono text-[12.35px] leading-[1.3]">
+            <pre className="max-h-[50vh] overflow-auto rounded-panel border border-border bg-subtle px-3 py-2.5 font-mono text-body">
               {ONE_CLICK_INSTALL_COMMANDS}
             </pre>
           </div>
@@ -639,13 +639,13 @@ function AppRow({
   const { t } = useTranslation();
   const dragHandle = useContext(DragHandleContext);
   return (
-    <div data-tool-row={app} className="group relative py-2 pe-2 ps-4">
+    <div data-tool-row={app} className="group relative px-4 py-3">
       {dragHandle && (
         // 放在行首的内边距里，不占列宽，表头和各列照旧对齐
         <button
           type="button"
           className={cn(
-            "absolute start-0 top-2 flex h-8 w-4 cursor-grab items-center justify-center text-fg-3 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 active:cursor-grabbing",
+            "absolute start-0 top-3 flex h-8 w-4 cursor-grab items-center justify-center text-fg-3 opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100 active:cursor-grabbing",
             dragHandle.isDragging && "cursor-grabbing opacity-100",
           )}
           aria-label={t("appsPage.dragHandle", { name: APP_DISPLAY_NAME[app] })}
@@ -659,11 +659,11 @@ function AppRow({
         <div className="flex min-w-0 items-center gap-2">
           <AppGlyph app={app} size={20} badgeClassName="bg-surface" />
           <div className="min-w-0 flex-1">
-            <div className="flex min-w-0 items-center gap-2 text-[12.35px] font-semibold leading-[1.3] text-fg-1">
+            <div className="flex min-w-0 items-center gap-2 text-strong font-semibold text-fg-1">
               {name}
             </div>
             {meta && (
-              <div className="mt-1 flex min-w-0 items-center gap-2 text-[12.35px] leading-[1.3] text-fg-2">
+              <div className="mt-0.5 flex min-w-0 items-center gap-2 text-caption text-fg-2">
                 {meta}
               </div>
             )}
@@ -679,14 +679,14 @@ function AppRow({
         <div className="flex justify-end">{visibility}</div>
         <div className="flex justify-end">{menu}</div>
       </div>
-      {footer && <div className="ms-7 mt-2">{footer}</div>}
+      {footer && <div className="ms-7 mt-3">{footer}</div>}
     </div>
   );
 }
 
 function Pill({ children }: { children: React.ReactNode }) {
   return (
-    <span className="inline-flex h-[18px] shrink-0 items-center rounded-full border border-border-strong px-2 text-[12.35px] leading-[1.3] text-fg-2">
+    <span className="inline-flex h-5 shrink-0 items-center rounded-full border border-border-strong px-2 text-badge font-medium text-fg-2">
       {children}
     </span>
   );
@@ -756,24 +756,22 @@ function ToolRow({
     </span>
   ) : info?.version ? (
     <div>
-      <div className="font-mono text-[12.35px] leading-[1.3] font-medium tabular-nums text-fg-1">
+      <div className="font-mono text-body font-medium tabular-nums text-fg-1">
         {info.version}
       </div>
       {isOutdated && info.latest_version && (
-        <div className="text-[12.35px] leading-[1.3] text-fg-2">
+        <div className="text-caption text-fg-2">
           {t("appsPage.newVersion", { version: info.latest_version })}
         </div>
       )}
     </div>
   ) : broken ? (
-    <span className="inline-flex items-center gap-1 text-[12.35px] leading-[1.3] font-medium text-warning-text">
+    <span className="inline-flex items-center gap-1 text-body font-medium text-warning-text">
       <AlertTriangle className="h-4 w-4" />
       {t("appsPage.notRunnable")}
     </span>
   ) : (
-    <span className="text-[12.35px] leading-[1.3] text-fg-2">
-      {t("common.notInstalled")}
-    </span>
+    <span className="text-body text-fg-2">{t("common.notInstalled")}</span>
   );
 
   const actionButton = action ? (
@@ -827,7 +825,7 @@ function ToolRow({
 
   const wslControls =
     info?.env_type === "wsl" ? (
-      <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] text-fg-2">
+      <div className="flex items-center gap-2 text-body text-fg-2">
         <span>Shell</span>
         <Select
           value={tools.wslShellByTool[tool]?.wslShell || "auto"}
@@ -878,7 +876,7 @@ function ToolRow({
 
   const nodeLine =
     !isVersionLoading && nodeGap ? (
-      <p className="flex items-start gap-1 text-[12.35px] leading-[1.3] text-warning-text">
+      <p className="flex items-start gap-1 text-body text-warning-text">
         <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
         {t("appsPage.updateNeedsNode", {
           version: info?.latest_version,
@@ -890,8 +888,8 @@ function ToolRow({
 
   const conflictList =
     expanded && installs && installs.length > 1 ? (
-      <div className="space-y-1 rounded-[8px] bg-warning-soft p-2">
-        <div className="text-[12.35px] leading-[1.3] font-medium text-warning-text">
+      <div className="space-y-2 rounded-panel bg-warning-soft px-4 py-3">
+        <div className="text-body font-medium text-warning-text">
           {t("appsPage.installsFound", { count: installs.length })}
         </div>
         <ul className="space-y-1">
@@ -903,7 +901,7 @@ function ToolRow({
                   install.can_uninstall ? (
                     <Button
                       variant="ghost"
-                      size="icon"
+                      size="icon-compact"
                       className="shrink-0 text-muted-foreground hover:text-destructive"
                       title={t("appsPage.uninstall")}
                       aria-label={t("appsPage.uninstall")}
@@ -1041,8 +1039,6 @@ function SortableAppRow({
 
 function SectionTitle({ title }: { title?: string }) {
   return (
-    <h2 className="m-0 truncate text-[12.35px] leading-[1.3] font-semibold text-fg-2">
-      {title}
-    </h2>
+    <h2 className="m-0 truncate text-body font-semibold text-fg-2">{title}</h2>
   );
 }

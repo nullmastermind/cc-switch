@@ -347,7 +347,7 @@ function SortableCatalogRow({
         zIndex: isDragging ? 10 : undefined,
       }}
       className={cn(
-        "flex items-start gap-1",
+        "flex items-start gap-2",
         isDragging && "rounded-control bg-surface shadow-v7-md",
       )}
     >
@@ -356,7 +356,7 @@ function SortableCatalogRow({
         ref={setActivatorNodeRef}
         type="button"
         disabled={!canDrag}
-        className="flex h-6 w-4 shrink-0 cursor-grab items-center justify-center text-fg-3 hover:text-fg-1 active:cursor-grabbing disabled:invisible"
+        className="flex h-8 w-4 shrink-0 cursor-grab items-center justify-center text-fg-3 hover:text-fg-1 active:cursor-grabbing disabled:invisible"
         aria-label={t("provider.dragHandle", { defaultValue: "拖拽排序" })}
         {...attributes}
         {...listeners}
@@ -522,7 +522,7 @@ function ReasoningLevelsEditor({
             // 和同一行的 Input、Select 同一套外观，行高才对得齐。
             className={cn(
               fieldClass,
-              "flex h-6 items-center justify-between gap-1 whitespace-nowrap text-start data-[state=open]:border-ring data-[state=open]:ring-[3px] data-[state=open]:ring-ring/20",
+              "flex h-8 items-center justify-between gap-1 whitespace-nowrap text-start data-[state=open]:border-ring data-[state=open]:ring-[3px] data-[state=open]:ring-ring/20",
             )}
           >
             <span
@@ -578,8 +578,8 @@ function ReasoningLevelsEditor({
           </CommandList>
         </Command>
         {selected.length > 0 && (
-          <div className="shrink-0 border-t border-border p-2">
-            <span className="text-[12.35px] leading-[1.3] text-fg-2">
+          <div className="shrink-0 space-y-1.5 border-t border-border p-3">
+            <span className="block text-caption text-fg-2">
               {t("codexConfig.defaultReasoningLevelLabel", {
                 defaultValue: "Default level",
               })}
@@ -592,7 +592,7 @@ function ReasoningLevelsEditor({
                 )
               }
             >
-              <SelectTrigger className="mt-1 w-full">
+              <SelectTrigger className="w-full">
                 <SelectValue
                   placeholder={t(
                     "codexConfig.defaultReasoningLevelPlaceholder",
@@ -1352,7 +1352,7 @@ export function CodexFormFields({
   ]);
 
   const renderCatalogActionButtons = (onAdd: () => void, addLabel: string) => (
-    <div className="flex gap-1">
+    <div className="flex gap-2">
       <FetchedModelPicker
         models={fetchedModels}
         configuredModelIds={catalogRows.map((row) => row.model)}
@@ -1364,12 +1364,7 @@ export function CodexFormFields({
           presets: codexPresetModelSources,
         }}
       />
-      <Button
-        type="button"
-        variant="outline"
-        onClick={onAdd}
-        className="h-6 gap-1"
-      >
+      <Button type="button" variant="outline" size="sm" onClick={onAdd}>
         <Plus className="h-3.5 w-3.5" />
         {addLabel}
       </Button>
@@ -1380,7 +1375,7 @@ export function CodexFormFields({
   // 认证字段放进连接区，其余留在高级选项里。
   // 字段名后面的「?」：规则和术语解释收进去；后果（要开路由、会报错）仍写在页面上。
   const labelWithHelp = (label: string, help: ReactNode, htmlFor?: string) => (
-    <div className="flex items-center gap-0.5">
+    <div className="flex items-center gap-1">
       <FormLabel htmlFor={htmlFor}>{label}</FormLabel>
       <HelpTip title={label}>{help}</HelpTip>
     </div>
@@ -1455,7 +1450,7 @@ export function CodexFormFields({
           <DirectModeFormatWarning notice={directModeFormatNotice} />
         )}
       {isCopilotPreset && (
-        <p className="text-[12.35px] leading-[1.3] text-fg-2">
+        <p className="text-caption text-fg-2">
           {t("codexConfig.upstreamFormatCopilotRouteHint")}
         </p>
       )}
@@ -1497,7 +1492,7 @@ export function CodexFormFields({
   );
 
   const impersonateClaudeCodeToggle = (
-    <div className="flex items-center justify-between gap-4 border-t border-border pt-3">
+    <div className="flex items-center justify-between gap-4 border-t border-border pt-4">
       {labelWithHelp(
         t("codexConfig.impersonateClaudeCodeLabel", {
           defaultValue: "模拟 Claude Code 客户端",
@@ -1518,7 +1513,7 @@ export function CodexFormFields({
   );
 
   const maxOutputTokensField = (
-    <div className="space-y-1.5 border-t border-border pt-3">
+    <div className="space-y-1.5 border-t border-border pt-4">
       {labelWithHelp(
         t("codexConfig.maxOutputTokensLabel", {
           defaultValue: "最大输出 tokens",
@@ -1547,7 +1542,7 @@ export function CodexFormFields({
           defaultValue: "留空则使用默认 8192",
         })}
       />
-      <p className="text-[12.35px] leading-[1.3] text-fg-2">
+      <p className="text-caption text-fg-2">
         {t("codexConfig.maxOutputTokensWarning", {
           defaultValue: "不要超过模型或网关的真实输出上限，否则会返回 400。",
         })}
@@ -1557,7 +1552,7 @@ export function CodexFormFields({
 
   const reasoningFields = (
     <>
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {labelWithHelp(
           t("codexConfig.promptCacheRoutingLabel", {
             defaultValue: "提示词缓存路由",
@@ -1621,7 +1616,7 @@ export function CodexFormFields({
         />
       </div>
 
-      <div className="flex items-center justify-between gap-4 border-t border-border pt-3">
+      <div className="flex items-center justify-between gap-4 border-t border-border pt-4">
         {labelWithHelp(
           t("codexConfig.reasoningEffortToggle", {
             defaultValue: "支持思考等级",
@@ -1651,7 +1646,7 @@ export function CodexFormFields({
   // Copilot 的请求由转发层按 Copilot 客户端的样子发，UA 和请求覆盖都会被跳过，不显示。
   const userAgentAndOverrides = isCopilotPreset ? null : (
     <>
-      <p className="text-[12.35px] leading-[1.3] text-fg-2">
+      <p className="text-caption text-fg-2">
         {isGrokBuild
           ? t("grokBuild.routeOnlySettingsHint", {
               defaultValue: "以下两项只在路由模式下生效。",
@@ -1668,7 +1663,7 @@ export function CodexFormFields({
           defaultValue: "替换转发到供应商的请求里的 User-Agent。",
         })}
       />
-      <div className="border-t border-border-default pt-3">
+      <div className="border-t border-border-default pt-4">
         <LocalProxyRequestOverridesField
           headersJson={localProxyHeadersOverride}
           bodyJson={localProxyBodyOverride}
@@ -1686,7 +1681,7 @@ export function CodexFormFields({
   const renderCatalogRows = () => (
     <div className="space-y-2">
       {/* 列头：md+ 显示 */}
-      <div className="hidden grid-cols-[minmax(0,1fr)_minmax(0,1fr)_140px_minmax(0,1fr)_36px] gap-2 pe-1 ps-6 text-[12.35px] leading-[1.3] font-medium text-fg-2 md:grid">
+      <div className="hidden grid-cols-[minmax(0,1fr)_minmax(0,1fr)_140px_minmax(0,1fr)_32px] gap-3 pe-1 ps-6 text-caption font-medium text-fg-2 md:grid">
         <span>
           {t("codexConfig.catalogColumnDisplay", {
             defaultValue: "菜单显示名",
@@ -1727,7 +1722,7 @@ export function CodexFormFields({
                 id={row.rowId}
                 canDrag={catalogRows.length > 1}
               >
-                <div className="grid grid-cols-1 gap-2 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_140px_minmax(0,1fr)_36px]">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_140px_minmax(0,1fr)_32px]">
                   <Input
                     value={row.displayName ?? ""}
                     onChange={(event) =>
@@ -1745,7 +1740,7 @@ export function CodexFormFields({
                       defaultValue: "菜单显示名",
                     })}
                   />
-                  <div className="flex gap-1">
+                  <div className="flex gap-2">
                     <Input
                       value={row.model}
                       onChange={(event) =>
@@ -1930,7 +1925,7 @@ export function CodexFormFields({
     <FullUrlToggle
       checked={isFullUrl}
       onCheckedChange={onFullUrlChange}
-      className="border-t border-border pt-3"
+      className="border-t border-border pt-4"
     />
   );
 
@@ -1956,7 +1951,7 @@ export function CodexFormFields({
 
   // 默认模型（`model`）不在列表里：没有哪一行是默认，提示并给出加入列表（排第一行）。
   const defaultModelNotInListNotice = isDefaultModelOutsideCatalog && (
-    <p className="flex flex-wrap items-center gap-x-2 text-[12.35px] leading-[1.3] text-fg-2">
+    <p className="flex flex-wrap items-center gap-x-2 text-caption text-fg-2">
       {t("codexConfig.defaultModelNotInList", {
         model: trimmedDefaultModel,
         defaultValue:
@@ -1965,7 +1960,7 @@ export function CodexFormFields({
       <Button
         type="button"
         variant="link"
-        className="h-auto p-0 text-[12.35px] leading-[1.3]"
+        className="h-auto p-0 text-caption"
         onClick={handleAddDefaultModelToCatalog}
       >
         {t("codexConfig.addToModelList", {
@@ -2025,7 +2020,7 @@ export function CodexFormFields({
               }),
           "codexDefaultModel",
         )}
-        <div className="flex gap-1">
+        <div className="flex gap-2">
           <Input
             id="codexDefaultModel"
             value={codexModel}
@@ -2091,8 +2086,8 @@ export function CodexFormFields({
         {canEditCatalog && (
           <div className="space-y-3">
             <div className="space-y-1">
-              <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-0.5">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-1">
                   <FormLabel>
                     {t("codexConfig.modelListTitle", {
                       defaultValue: "模型列表",
@@ -2116,7 +2111,7 @@ export function CodexFormFields({
                   }),
                 )}
               </div>
-              <p className="text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="text-caption text-fg-2">
                 {t("codexConfig.modelListHint", {
                   defaultValue: "修改后需要重启 Codex。",
                 })}
@@ -2126,7 +2121,7 @@ export function CodexFormFields({
             {catalogRows.length > 0 ? (
               renderCatalogRows()
             ) : (
-              <p className="text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="text-caption text-fg-2">
                 {t("codexConfig.modelListEmpty", {
                   defaultValue: "未配置模型：聚合模式下只发布下面的默认模型。",
                 })}
@@ -2140,13 +2135,13 @@ export function CodexFormFields({
           <Collapsible
             open={stackAdvancedExpanded}
             onOpenChange={setStackAdvancedExpanded}
-            className="rounded-[8px] border border-border p-2"
+            className="rounded-panel border border-border p-4"
           >
             <CollapsibleTrigger asChild>
               <Button
                 type="button"
                 variant={null}
-                className="h-6 w-full justify-start gap-1.5 px-0 text-[12.35px] leading-[1.3] font-medium text-fg-1 hover:opacity-70 active:scale-100"
+                className="h-8 w-full justify-start gap-1.5 px-0 text-strong font-medium text-fg-1 hover:opacity-70 active:scale-100"
               >
                 {stackAdvancedExpanded ? (
                   <ChevronDown className="h-4 w-4" />
@@ -2158,7 +2153,7 @@ export function CodexFormFields({
                 })}
               </Button>
             </CollapsibleTrigger>
-            <CollapsibleContent className="space-y-3 pt-3">
+            <CollapsibleContent className="space-y-4 pt-3">
               {showFullUrlToggle && (
                 <FullUrlToggle
                   checked={isFullUrl}
@@ -2172,10 +2167,10 @@ export function CodexFormFields({
               {showReasoning && (
                 <div
                   className={cn(
-                    "space-y-3",
+                    "space-y-4",
                     showFormatFields &&
                       isAnthropicFormat &&
-                      "border-t border-border pt-3",
+                      "border-t border-border pt-4",
                   )}
                 >
                   {reasoningFields}
@@ -2184,11 +2179,11 @@ export function CodexFormFields({
               {userAgentAndOverrides && (
                 <div
                   className={cn(
-                    "space-y-3",
+                    "space-y-4",
                     (showFullUrlToggle ||
                       (showFormatFields && isAnthropicFormat) ||
                       showReasoning) &&
-                      "border-t border-border pt-3",
+                      "border-t border-border pt-4",
                   )}
                 >
                   {userAgentAndOverrides}
@@ -2214,8 +2209,8 @@ export function CodexFormFields({
       {firstRowIsDefault && (
         <div className="space-y-3">
           <div className="space-y-1">
-            <div className="flex items-center justify-between gap-3">
-              <div className="flex items-center gap-0.5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex items-center gap-1">
                 <FormLabel>
                   {t("codexConfig.modelListTitle", {
                     defaultValue: "模型列表",
@@ -2239,7 +2234,7 @@ export function CodexFormFields({
                 }),
               )}
             </div>
-            <p className="text-[12.35px] leading-[1.3] text-fg-2">
+            <p className="text-caption text-fg-2">
               {t("codexConfig.modelListHint", {
                 defaultValue: "修改后需要重启 Codex。",
               })}
@@ -2268,7 +2263,7 @@ export function CodexFormFields({
             }),
             "codexSubagentModel",
           )}
-          <div className="flex gap-1">
+          <div className="flex gap-2">
             <Input
               id="codexSubagentModel"
               value={subagentModel}
@@ -2298,7 +2293,7 @@ export function CodexFormFields({
               )}
           </div>
           {isSubagentModelOutsideCatalog && (
-            <p className="flex flex-wrap items-center gap-x-2 text-[12.35px] leading-[1.3] text-fg-2">
+            <p className="flex flex-wrap items-center gap-x-2 text-caption text-fg-2">
               {t("codexConfig.subagentModelNotInCatalog", {
                 defaultValue:
                   "该模型不在模型列表中：Codex 拿不到它的上下文窗口；经路由转成 Chat / Anthropic 协议时会被换成默认模型。",
@@ -2307,7 +2302,7 @@ export function CodexFormFields({
                 <Button
                   type="button"
                   variant="link"
-                  className="h-auto p-0 text-[12.35px] leading-[1.3]"
+                  className="h-auto p-0 text-caption"
                   onClick={handleAddSubagentModelToCatalog}
                 >
                   {t("codexConfig.addToModelList", {
@@ -2370,7 +2365,7 @@ export function CodexFormFields({
             </SelectContent>
           </Select>
           {autoReviewChoices.length === 0 && (
-            <p className="text-[12.35px] leading-[1.3] text-fg-2">
+            <p className="text-caption text-fg-2">
               {t("codexConfig.autoReviewModelNoList", {
                 defaultValue:
                   "这张卡没有模型列表：Codex 会用官方的 codex-auto-review 审批，只有部分转发 ChatGPT 账号的中转认它，不认就会报 404。在上面的模型列表里加上模型后就能选。",
@@ -2385,13 +2380,13 @@ export function CodexFormFields({
         <Collapsible
           open={advancedExpanded}
           onOpenChange={setAdvancedExpanded}
-          className="rounded-[8px] border border-border-default p-2"
+          className="rounded-panel border border-border-default p-4"
         >
           <CollapsibleTrigger asChild>
             <Button
               type="button"
               variant={null}
-              className="h-6 w-full justify-start gap-1.5 px-0 text-[12.35px] leading-[1.3] font-medium text-fg-1 hover:opacity-70 active:scale-100"
+              className="h-8 w-full justify-start gap-1.5 px-0 text-strong font-medium text-fg-1 hover:opacity-70 active:scale-100"
             >
               {advancedExpanded ? (
                 <ChevronDown className="h-4 w-4" />
@@ -2403,11 +2398,11 @@ export function CodexFormFields({
               })}
             </Button>
           </CollapsibleTrigger>
-          <CollapsibleContent className="space-y-3 pt-3">
+          <CollapsibleContent className="space-y-4 pt-3">
             {/* Copilot supports automatic capability routing or an explicit protocol;
                 other providers retain their existing format controls. */}
             {(shouldShowSpeedTest || isCopilotPreset) && !isXaiOauthPreset && (
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {upstreamFormatSelect}
                 {isAnthropicFormat && anthropicAuthFieldSelect}
                 {isAnthropicFormat && impersonateClaudeCodeToggle}
@@ -2419,8 +2414,8 @@ export function CodexFormFields({
             {isChatFormat && canEditReasoning && (
               <div
                 className={cn(
-                  "space-y-3",
-                  shouldShowSpeedTest && "border-t border-border-default pt-3",
+                  "space-y-4",
+                  shouldShowSpeedTest && "border-t border-border-default pt-4",
                 )}
               >
                 {reasoningFields}
@@ -2430,9 +2425,9 @@ export function CodexFormFields({
             {userAgentAndOverrides && (
               <div
                 className={cn(
-                  "space-y-3",
+                  "space-y-4",
                   (shouldShowSpeedTest || (isChatFormat && canEditReasoning)) &&
-                    "border-t border-border-default pt-3",
+                    "border-t border-border-default pt-4",
                 )}
               >
                 {userAgentAndOverrides}

@@ -182,10 +182,8 @@ const AgentsDefaultsPanel: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="px-6 pt-4 pb-8 flex items-center justify-center min-h-[200px]">
-        <div className="text-[12.35px] leading-[1.3] text-fg-2">
-          {t("common.loading")}
-        </div>
+      <div className="flex min-h-[200px] items-center justify-center px-4 pb-10 pt-5 lg:px-6">
+        <div className="text-body text-fg-2">{t("common.loading")}</div>
       </div>
     );
   }
@@ -198,8 +196,8 @@ const AgentsDefaultsPanel: React.FC = () => {
     typeof agentsData.timeoutSeconds !== "number";
 
   return (
-    <div className="px-6 pt-4 pb-8">
-      <p className="text-[12.35px] leading-[1.3] text-fg-2 mb-6">
+    <div className="px-4 pb-10 pt-5 lg:px-6">
+      <p className="mb-6 text-body text-fg-2">
         {t("openclaw.agents.description")}
       </p>
 
@@ -221,8 +219,8 @@ const AgentsDefaultsPanel: React.FC = () => {
       )}
 
       {/* Model Configuration Card */}
-      <div className="rounded-[8px] border border-border bg-surface p-5 mb-4">
-        <h3 className="text-[12.35px] leading-[1.3] font-medium mb-4">
+      <div className="mb-4 rounded-panel border border-border bg-surface p-4">
+        <h3 className="mb-4 text-strong font-semibold">
           {t("openclaw.agents.modelSection")}
         </h3>
 
@@ -233,7 +231,7 @@ const AgentsDefaultsPanel: React.FC = () => {
               {t("openclaw.agents.primaryModel")}
             </Label>
             {noModels ? (
-              <p className="text-[12.35px] leading-[1.3] text-fg-2 italic">
+              <p className="text-caption italic text-fg-2">
                 {t("openclaw.agents.noModels", {
                   defaultValue:
                     "No configured provider models. Please add an OpenClaw provider first.",
@@ -246,7 +244,7 @@ const AgentsDefaultsPanel: React.FC = () => {
                   setPrimaryModel(v === UNSET_SENTINEL ? "" : v)
                 }
               >
-                <SelectTrigger className="font-mono text-[12.35px] leading-[1.3]">
+                <SelectTrigger className="font-mono text-body">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -261,7 +259,7 @@ const AgentsDefaultsPanel: React.FC = () => {
                 </SelectContent>
               </Select>
             )}
-            <p className="text-[12.35px] leading-[1.3] text-fg-2 mt-1">
+            <p className="mt-1.5 text-caption text-fg-2">
               {t("openclaw.agents.primaryModelHint")}
             </p>
           </div>
@@ -273,7 +271,7 @@ const AgentsDefaultsPanel: React.FC = () => {
             </Label>
 
             {fallbacks.length === 0 && !noModels && (
-              <p className="text-[12.35px] leading-[1.3] text-fg-2 italic mb-2">
+              <p className="mb-2 text-caption italic text-fg-2">
                 {t("openclaw.agents.fallbackModelsHint")}
               </p>
             )}
@@ -292,7 +290,7 @@ const AgentsDefaultsPanel: React.FC = () => {
                         )
                       }
                     >
-                      <SelectTrigger className="font-mono text-[12.35px] leading-[1.3] flex-1">
+                      <SelectTrigger className="font-mono text-body flex-1">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -311,7 +309,7 @@ const AgentsDefaultsPanel: React.FC = () => {
                         variant="ghost"
                         size="icon"
                         aria-label={t("common.delete")}
-                        className="h-9 w-9 shrink-0 text-fg-2 hover:text-destructive"
+                        className="shrink-0 text-fg-2 hover:text-destructive"
                         onClick={() => handleRemoveFallback(index)}
                       >
                         <Trash2 className="w-4 h-4" />
@@ -326,10 +324,10 @@ const AgentsDefaultsPanel: React.FC = () => {
               <Button
                 variant="outline"
                 size="sm"
-                className="mt-2"
+                className="mt-3"
                 onClick={handleAddFallback}
               >
-                <Plus className="w-4 h-4 mr-1" />
+                <Plus className="h-4 w-4" />
                 {t("openclaw.agents.addFallback", {
                   defaultValue: "Add fallback model",
                 })}
@@ -340,8 +338,8 @@ const AgentsDefaultsPanel: React.FC = () => {
       </div>
 
       {/* Runtime Parameters Card */}
-      <div className="rounded-[8px] border border-border bg-surface p-5 mb-4">
-        <h3 className="text-[12.35px] leading-[1.3] font-medium mb-4">
+      <div className="mb-4 rounded-panel border border-border bg-surface p-4">
+        <h3 className="mb-4 text-strong font-semibold">
           {t("openclaw.agents.runtimeSection")}
         </h3>
 
@@ -354,7 +352,7 @@ const AgentsDefaultsPanel: React.FC = () => {
               value={workspace}
               onChange={(e) => setWorkspace(e.target.value)}
               placeholder="~/projects"
-              className="font-mono text-[12.35px] leading-[1.3]"
+              className="font-mono text-body"
             />
           </div>
 
@@ -367,7 +365,7 @@ const AgentsDefaultsPanel: React.FC = () => {
               value={timeout}
               onChange={(e) => setTimeout_(e.target.value)}
               placeholder="300"
-              className="font-mono text-[12.35px] leading-[1.3]"
+              className="font-mono text-body"
             />
           </div>
 
@@ -380,7 +378,7 @@ const AgentsDefaultsPanel: React.FC = () => {
               value={contextTokens}
               onChange={(e) => setContextTokens(e.target.value)}
               placeholder="200000"
-              className="font-mono text-[12.35px] leading-[1.3]"
+              className="font-mono text-body"
             />
           </div>
 
@@ -393,7 +391,7 @@ const AgentsDefaultsPanel: React.FC = () => {
               value={maxConcurrent}
               onChange={(e) => setMaxConcurrent(e.target.value)}
               placeholder="4"
-              className="font-mono text-[12.35px] leading-[1.3]"
+              className="font-mono text-body"
             />
           </div>
         </div>
@@ -401,12 +399,8 @@ const AgentsDefaultsPanel: React.FC = () => {
 
       {/* Save button */}
       <div className="flex justify-end">
-        <Button
-          size="sm"
-          onClick={handleSave}
-          disabled={saveAgentsMutation.isPending}
-        >
-          <Save className="w-4 h-4 mr-1" />
+        <Button onClick={handleSave} disabled={saveAgentsMutation.isPending}>
+          <Save className="h-4 w-4" />
           {saveAgentsMutation.isPending ? t("common.saving") : t("common.save")}
         </Button>
       </div>

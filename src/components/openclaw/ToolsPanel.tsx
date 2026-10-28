@@ -115,16 +115,14 @@ const ToolsPanel: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="px-6 pt-4 pb-8 flex items-center justify-center min-h-[200px]">
-        <div className="text-[12.35px] leading-[1.3] text-fg-2">
-          {t("common.loading")}
-        </div>
+      <div className="flex min-h-[200px] items-center justify-center px-4 pb-10 pt-5 lg:px-6">
+        <div className="text-body text-fg-2">{t("common.loading")}</div>
       </div>
     );
   }
 
   return (
-    <div className="px-6 pt-4 pb-8">
+    <div className="px-4 pb-10 pt-5 lg:px-6">
       {unsupportedProfile && (
         <Alert className="mb-6 border-transparent bg-warning-soft">
           <TriangleAlert className="h-4 w-4" />
@@ -144,7 +142,7 @@ const ToolsPanel: React.FC = () => {
       )}
 
       <div className="mb-6">
-        <Label className="mb-2 block">{t("openclaw.tools.profile")}</Label>
+        <Label className="mb-1.5 block">{t("openclaw.tools.profile")}</Label>
         <Select
           value={getOpenClawToolsProfileSelectValue(config.profile)}
           onValueChange={(value) => {
@@ -186,7 +184,7 @@ const ToolsPanel: React.FC = () => {
       </div>
 
       <div className="mb-6">
-        <Label className="mb-2 block">{t("openclaw.tools.allowList")}</Label>
+        <Label className="mb-1.5 block">{t("openclaw.tools.allowList")}</Label>
         <div className="space-y-2">
           {allowList.map((item, index) => (
             <div key={item.id} className="flex items-center gap-2">
@@ -196,14 +194,14 @@ const ToolsPanel: React.FC = () => {
                   updateListItem(setAllowList, index, e.target.value)
                 }
                 placeholder={t("openclaw.tools.patternPlaceholder")}
-                className="font-mono text-[12.35px] leading-[1.3]"
+                className="font-mono text-body"
               />
               <HoverTip content={t("common.delete")}>
                 <Button
                   variant="ghost"
                   size="icon"
                   aria-label={t("common.delete")}
-                  className="flex-shrink-0 h-9 w-9 text-fg-2 hover:text-destructive"
+                  className="flex-shrink-0 text-fg-2 hover:text-destructive"
                   onClick={() => removeListItem(setAllowList, index)}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -221,14 +219,14 @@ const ToolsPanel: React.FC = () => {
               ])
             }
           >
-            <Plus className="w-4 h-4 mr-1" />
+            <Plus className="h-4 w-4" />
             {t("openclaw.tools.addAllow")}
           </Button>
         </div>
       </div>
 
       <div className="mb-6">
-        <Label className="mb-2 block">{t("openclaw.tools.denyList")}</Label>
+        <Label className="mb-1.5 block">{t("openclaw.tools.denyList")}</Label>
         <div className="space-y-2">
           {denyList.map((item, index) => (
             <div key={item.id} className="flex items-center gap-2">
@@ -238,14 +236,14 @@ const ToolsPanel: React.FC = () => {
                   updateListItem(setDenyList, index, e.target.value)
                 }
                 placeholder={t("openclaw.tools.patternPlaceholder")}
-                className="font-mono text-[12.35px] leading-[1.3]"
+                className="font-mono text-body"
               />
               <HoverTip content={t("common.delete")}>
                 <Button
                   variant="ghost"
                   size="icon"
                   aria-label={t("common.delete")}
-                  className="flex-shrink-0 h-9 w-9 text-fg-2 hover:text-destructive"
+                  className="flex-shrink-0 text-fg-2 hover:text-destructive"
                   onClick={() => removeListItem(setDenyList, index)}
                 >
                   <Trash2 className="w-4 h-4" />
@@ -263,19 +261,15 @@ const ToolsPanel: React.FC = () => {
               ])
             }
           >
-            <Plus className="w-4 h-4 mr-1" />
+            <Plus className="h-4 w-4" />
             {t("openclaw.tools.addDeny")}
           </Button>
         </div>
       </div>
 
       <div className="flex justify-end">
-        <Button
-          size="sm"
-          onClick={handleSave}
-          disabled={saveToolsMutation.isPending}
-        >
-          <Save className="w-4 h-4 mr-1" />
+        <Button onClick={handleSave} disabled={saveToolsMutation.isPending}>
+          <Save className="h-4 w-4" />
           {saveToolsMutation.isPending ? t("common.saving") : t("common.save")}
         </Button>
       </div>

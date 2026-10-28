@@ -64,40 +64,42 @@ export function AboutSection({ isPortable }: AboutSectionProps) {
   const displayVersion = version ?? t("common.unknown");
 
   return (
-    <section className="space-y-2">
+    <section className="space-y-3">
       <header className="space-y-1">
-        <h3 className="text-ui font-semibold">{t("common.about")}</h3>
-        <p className="text-ui text-muted-foreground">
+        <h3 className="text-section font-semibold">{t("common.about")}</h3>
+        <p className="text-caption text-muted-foreground">
           {t("settings.aboutHint")}
         </p>
       </header>
 
-      <div className="rounded-[8px] border border-border bg-card p-2">
-        <div className="flex items-center gap-2">
+      <div className="rounded-panel border border-border bg-card p-4">
+        <div className="flex items-start gap-3">
           <img
             src={appIcon}
             alt={t("app.title")}
-            className="h-8 w-8 shrink-0 rounded-[8px]"
+            className="h-10 w-10 shrink-0 rounded-panel"
           />
-          <div className="flex flex-col gap-1">
-            <h4 className="text-ui font-semibold text-foreground">
-              {t("app.title")}
-            </h4>
-            <div className="flex items-center gap-2">
-              <div className="flex items-center gap-1 text-ui text-muted-foreground">
-                <span>{t("common.version")}</span>
-                {isLoadingVersion ? (
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                ) : (
-                  <span className="font-medium text-foreground">{`v${displayVersion}`}</span>
+          <div className="flex min-w-0 flex-col gap-3">
+            <div className="space-y-0.5">
+              <h4 className="text-strong font-semibold text-foreground">
+                {t("app.title")}
+              </h4>
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="flex items-center gap-1.5 text-caption text-muted-foreground">
+                  <span>{t("common.version")}</span>
+                  {isLoadingVersion ? (
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  ) : (
+                    <span className="font-medium text-foreground">{`v${displayVersion}`}</span>
+                  )}
+                </div>
+                {isPortable && (
+                  <Badge variant="secondary" className="gap-1">
+                    <Info className="h-3 w-3" />
+                    {t("settings.portableMode")}
+                  </Badge>
                 )}
               </div>
-              {isPortable && (
-                <Badge variant="secondary" className="gap-1">
-                  <Info className="h-3 w-3" />
-                  {t("settings.portableMode")}
-                </Badge>
-              )}
             </div>
             <AppUpdateControls />
             {recentEntries.length > 0 && (

@@ -126,7 +126,7 @@ export const PathChip = memo(function PathChip({
     <span
       data-path-chip=""
       className={cn(
-        "inline-flex h-5 max-w-full items-center rounded-[3px] border border-border bg-subtle align-baseline text-[12.35px] leading-[1.3] text-fg-1",
+        "inline-flex h-5 max-w-full items-center rounded-[4px] border border-border bg-subtle align-baseline text-body text-fg-1",
         className,
       )}
     >

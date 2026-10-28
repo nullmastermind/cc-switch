@@ -68,17 +68,15 @@ const EnvPanel: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="px-6 pt-4 pb-8 flex items-center justify-center min-h-[200px]">
-        <div className="text-[12.35px] leading-[1.3] text-fg-2">
-          {t("common.loading")}
-        </div>
+      <div className="flex min-h-[200px] items-center justify-center px-4 pb-10 pt-5 lg:px-6">
+        <div className="text-body text-fg-2">{t("common.loading")}</div>
       </div>
     );
   }
 
   return (
-    <div className="px-6 pt-4 pb-8">
-      <p className="text-[12.35px] leading-[1.3] text-fg-2 mb-4">
+    <div className="px-4 pb-10 pt-5 lg:px-6">
+      <p className="mb-4 text-body text-fg-2">
         {t("openclaw.env.editorHint", {
           defaultValue:
             "Edit the full env section as JSON. Nested objects such as env.vars and env.shellEnv are supported.",
@@ -94,13 +92,9 @@ const EnvPanel: React.FC = () => {
         language="json"
       />
 
-      <div className="flex justify-end mt-4">
-        <Button
-          size="sm"
-          onClick={handleSave}
-          disabled={saveEnvMutation.isPending}
-        >
-          <Save className="w-4 h-4 mr-1" />
+      <div className="mt-4 flex justify-end">
+        <Button onClick={handleSave} disabled={saveEnvMutation.isPending}>
+          <Save className="h-4 w-4" />
           {saveEnvMutation.isPending ? t("common.saving") : t("common.save")}
         </Button>
       </div>

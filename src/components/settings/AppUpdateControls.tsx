@@ -63,27 +63,27 @@ export function AppUpdateControls() {
   if (!isDesktopApp()) return null;
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1.5">
       <div className="flex flex-wrap items-center gap-2">
         {status === "checking" && (
-          <span className="inline-flex items-center gap-1 text-ui text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5 text-body text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
             {t("settings.appUpdate.checking")}
           </span>
         )}
         {status === "upToDate" && (
-          <span className="inline-flex items-center gap-1 text-ui text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5 text-body text-muted-foreground">
             <CheckCircle2 className="h-4 w-4 text-green-500" />
             {t("settings.appUpdate.upToDate")}
           </span>
         )}
         {status === "available" && update && (
-          <span className="inline-flex h-4 min-w-[32px] items-center rounded-[3px] border border-yellow-500/20 bg-yellow-500/10 px-1 text-ui leading-[1.3] text-yellow-600 dark:text-yellow-400">
+          <span className="inline-flex items-center rounded-full border border-yellow-500/20 bg-yellow-500/10 px-2 py-0.5 text-badge text-yellow-600 dark:text-yellow-400">
             {t("settings.appUpdate.available", { version: update.version })}
           </span>
         )}
         {status === "installing" && (
-          <span className="inline-flex items-center gap-1 text-ui text-muted-foreground">
+          <span className="inline-flex items-center gap-1.5 text-body text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
             {percent == null
               ? t("settings.appUpdate.downloading")
@@ -111,7 +111,7 @@ export function AppUpdateControls() {
         )}
       </div>
       {error && (
-        <p className="text-ui text-destructive" role="alert">
+        <p className="text-caption text-destructive" role="alert">
           {error}
         </p>
       )}

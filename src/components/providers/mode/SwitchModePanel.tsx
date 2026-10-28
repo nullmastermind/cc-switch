@@ -544,6 +544,7 @@ export function SwitchModePanel({
         actions={
           <Button
             variant={view}
+            size="compact"
             disabled={modeActions.pending}
             onClick={() =>
               setDialog(
@@ -570,7 +571,7 @@ export function SwitchModePanel({
               aria-label={`${status.lead} ${status.value}`}
               className={cn(
                 badgeVariants({ variant: "outline" }),
-                "max-w-full gap-1 border-border bg-surface px-2 py-1 text-[12.35px] leading-[1.3] font-normal",
+                "max-w-full gap-1 border-border bg-surface px-2 py-1 text-body font-normal",
               )}
             >
               <span
@@ -631,10 +632,10 @@ export function SwitchModePanel({
       <div
         ref={scrollRef}
         id="main-content"
-        className="min-h-0 flex-1 overflow-y-auto scroll-stable overflow-x-hidden px-2 pb-8 pt-2"
+        className="min-h-0 flex-1 overflow-y-auto scroll-stable overflow-x-hidden px-4 pb-10 pt-4 lg:px-6"
       >
         {notices.length > 0 && (
-          <div role="status" className="mb-2 flex flex-col gap-2">
+          <div role="status" className="mb-4 flex flex-col gap-2">
             {notices}
           </div>
         )}

@@ -47,7 +47,7 @@ export const SessionThinkingRow = memo(function SessionThinkingRow({
           {summary || rt("thinkingRedacted")}
         </span>
         {duration && (
-          <span className="ms-auto shrink-0 tabular-nums text-fg-3">
+          <span className="ms-auto shrink-0 text-caption tabular-nums text-fg-3">
             {duration}
           </span>
         )}
@@ -79,7 +79,7 @@ export const SessionThinkingRow = memo(function SessionThinkingRow({
         )}
         <span
           className={cn(
-            "shrink-0 tabular-nums text-fg-3",
+            "shrink-0 text-caption tabular-nums text-fg-3",
             summary ? "ms-auto" : "",
           )}
         >
@@ -91,7 +91,7 @@ export const SessionThinkingRow = memo(function SessionThinkingRow({
           id={regionId}
           role="region"
           aria-label={label}
-          className="pb-2 pe-1.5 ps-8 pt-0.5"
+          className="pb-2 pe-2 ps-8 pt-0.5"
         >
           <BlockText
             preview={step.block.text}

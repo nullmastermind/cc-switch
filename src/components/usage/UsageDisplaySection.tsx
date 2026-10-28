@@ -135,7 +135,7 @@ export function UsageDisplaySection({
   return (
     <section
       aria-labelledby={`${rateId}-title`}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-3"
     >
       <h3 id={`${rateId}-title`} className={settingsGroupTitleClass}>
         {t("usage.display.title")}
@@ -143,7 +143,7 @@ export function UsageDisplaySection({
       {/* 和数据来源、定价同一种卡片（描边、无底色），不再用灰底块 */}
       <div className={cn(settingsCardClass, "gap-0")}>
         {/* 两列「标签 + 控件」：标签列取各自最宽的标签，控件一律同宽，上下左右都对齐 */}
-        <div className="grid grid-cols-[max-content_minmax(0,1fr)] items-center gap-x-3 gap-y-2">
+        <div className="grid grid-cols-[max-content_minmax(0,1fr)] items-center gap-x-4 gap-y-3">
           <span className="text-body text-fg-2">
             {t("usage.display.currency")}
           </span>
@@ -158,7 +158,7 @@ export function UsageDisplaySection({
             }}
           >
             <SelectTrigger
-              className="h-6 w-full text-body"
+              className="w-full"
               aria-label={t("usage.display.currency")}
             >
               <SelectValue />
@@ -185,7 +185,7 @@ export function UsageDisplaySection({
             }}
           >
             <SelectTrigger
-              className="h-6 w-full text-body"
+              className="w-full"
               aria-label={t("usage.display.trendChartType")}
             >
               <SelectValue />
@@ -209,7 +209,7 @@ export function UsageDisplaySection({
                 <Input
                   id={rateId}
                   inputMode="decimal"
-                  className="h-6 w-24 tabular-nums"
+                  className="w-24 tabular-nums"
                   value={rateDraft}
                   aria-invalid={rateInvalid}
                   onChange={(event) => {
@@ -255,8 +255,8 @@ export function UsageDisplaySection({
           <p
             className={
               rateInvalid
-                ? "m-0 mt-1.5 text-caption text-danger-text"
-                : "m-0 mt-1.5 text-caption text-fg-3"
+                ? "m-0 mt-2 text-caption text-danger-text"
+                : "m-0 mt-2 text-caption text-fg-3"
             }
           >
             {rateInvalid

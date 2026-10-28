@@ -18,7 +18,7 @@ export function ThemeToggle() {
       aria-label={nextLabel}
       title={nextLabel}
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      className="h-5 w-5 p-0 shrink-0 rounded-[4px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
+      className="h-[30px] w-[30px] p-0 shrink-0 rounded-[7px] text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5"
       style={{ WebkitAppRegion: "no-drag" } as React.CSSProperties}
     >
       {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}

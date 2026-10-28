@@ -959,16 +959,16 @@ export function WebdavSyncSection({
   // ─── Render ─────────────────────────────────────────────
 
   return (
-    <section className="space-y-2">
-      <header className="space-y-2">
-        <h3 className="text-ui font-semibold text-foreground">
+    <section className="space-y-3">
+      <header className="space-y-1">
+        <h3 className="text-strong font-semibold text-foreground">
           {t("settings.webdavSync.title")}
         </h3>
       </header>
 
       {/* ─── Sync type selector ───────────────────────────── */}
-      <div className="flex items-center gap-2">
-        <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+      <div className="flex items-center gap-3">
+        <label className="w-40 shrink-0 text-body font-medium text-foreground">
           {t("settings.syncType.label")}
         </label>
         <Select
@@ -990,12 +990,12 @@ export function WebdavSyncSection({
 
       {/* ─── WebDAV form ──────────────────────────────────── */}
       {syncType === "webdav" && (
-        <div className="space-y-2 rounded-[8px] border border-border bg-muted/40 p-2">
+        <div className="space-y-4 rounded-panel border border-border bg-muted/40 p-4">
           {/* Config fields */}
-          <div className="space-y-2">
+          <div className="space-y-3">
             {/* Service preset selector */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.webdavSync.presets.label")}
               </label>
               <Select
@@ -1017,8 +1017,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Server URL */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.webdavSync.baseUrl")}
               </label>
               <Input
@@ -1032,8 +1032,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Username */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.webdavSync.username")}
               </label>
               <Input
@@ -1046,8 +1046,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Password */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.webdavSync.password")}
               </label>
               <Input
@@ -1063,7 +1063,7 @@ export function WebdavSyncSection({
 
             {/* Preset hint */}
             {activePreset?.hint && (
-              <div className="flex items-start gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+              <div className="flex items-start gap-2 text-caption text-muted-foreground">
                 <span className="w-40 shrink-0" />
                 <Info className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{t(activePreset.hint)}</span>
@@ -1071,8 +1071,8 @@ export function WebdavSyncSection({
             )}
 
             {/* Remote Root */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.webdavSync.remoteRoot")}
               </label>
               <Input
@@ -1085,8 +1085,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Profile */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.webdavSync.profile")}
               </label>
               <Input
@@ -1098,14 +1098,14 @@ export function WebdavSyncSection({
               />
             </div>
 
-            <div className="flex items-start gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-start gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.webdavSync.autoSync")}
-                <span className="block text-[12.35px] leading-[1.3] font-normal text-muted-foreground">
+                <span className="block text-caption font-normal text-muted-foreground">
                   {t("settings.webdavSync.autoSyncHint")}
                 </span>
               </label>
-              <div className="pt-1">
+              <div className="pt-0.5">
                 <Switch
                   checked={form.autoSync}
                   onCheckedChange={handleAutoSyncChange}
@@ -1118,24 +1118,24 @@ export function WebdavSyncSection({
 
           {/* Last sync time */}
           {lastSyncDisplay && (
-            <p className="text-ui text-muted-foreground">
+            <p className="text-caption text-muted-foreground">
               {t("settings.webdavSync.lastSync", { time: lastSyncDisplay })}
             </p>
           )}
           {showAutoSyncError && (
-            <div className="rounded-[8px] border border-red-300/70 bg-red-50/80 p-2 text-[12.35px] leading-[1.3] text-red-900 dark:border-red-500/50 dark:bg-red-950/30 dark:text-red-200">
+            <div className="rounded-panel border border-red-300/70 bg-red-50/80 px-4 py-3 text-body text-red-900 dark:border-red-500/50 dark:bg-red-950/30 dark:text-red-200">
               <p className="font-medium">
                 {t("settings.webdavSync.autoSyncLastErrorTitle")}
               </p>
               <p className="mt-1 break-all whitespace-pre-wrap">{lastError}</p>
-              <p className="mt-1 text-[12.35px] leading-[1.3] text-red-700/90 dark:text-red-300/80">
+              <p className="mt-1 text-caption text-red-700/90 dark:text-red-300/80">
                 {t("settings.webdavSync.autoSyncLastErrorHint")}
               </p>
             </div>
           )}
 
           {/* Config buttons + save status */}
-          <div className="flex flex-wrap items-center gap-2 pt-2">
+          <div className="flex flex-wrap items-center gap-2">
             <ActionButton
               type="button"
               variant="outline"
@@ -1159,21 +1159,21 @@ export function WebdavSyncSection({
 
             {/* Save status indicator */}
             {dirty && (
-              <span className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-amber-500 dark:text-amber-400 animate-in fade-in duration-200">
+              <span className="inline-flex items-center gap-2 text-body text-amber-500 dark:text-amber-400 animate-in fade-in duration-200">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500 dark:bg-amber-400" />
                 {t("settings.webdavSync.unsaved")}
               </span>
             )}
             {!dirty && justSaved && (
-              <span className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-emerald-600 dark:text-emerald-400 animate-in fade-in duration-200">
-                <Check className="h-3 w-3" />
+              <span className="inline-flex items-center gap-2 text-body text-emerald-600 dark:text-emerald-400 animate-in fade-in duration-200">
+                <Check className="h-3.5 w-3.5" />
                 {t("settings.webdavSync.saved")}
               </span>
             )}
           </div>
 
           {/* Sync buttons */}
-          <div className="flex flex-wrap items-center gap-2 border-t border-border pt-2">
+          <div className="flex flex-wrap items-center gap-2 border-t border-border pt-4">
             <ActionButton
               type="button"
               onClick={handleUploadClick}
@@ -1207,7 +1207,7 @@ export function WebdavSyncSection({
             />
           </div>
           {!hasSavedConfig && (
-            <p className="text-ui text-muted-foreground">
+            <p className="text-caption text-muted-foreground">
               {t("settings.webdavSync.saveBeforeSync")}
             </p>
           )}
@@ -1216,11 +1216,11 @@ export function WebdavSyncSection({
 
       {/* ─── S3 form ──────────────────────────────────────── */}
       {syncType === "s3" && (
-        <div className="space-y-2 rounded-[8px] border border-border bg-muted/40 p-2">
-          <div className="space-y-2">
+        <div className="space-y-4 rounded-panel border border-border bg-muted/40 p-4">
+          <div className="space-y-3">
             {/* S3 preset selector */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.presets.label")}
               </label>
               <Select
@@ -1243,7 +1243,7 @@ export function WebdavSyncSection({
 
             {/* Preset hint */}
             {activeS3Preset?.hint && (
-              <div className="flex items-start gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+              <div className="flex items-start gap-2 text-caption text-muted-foreground">
                 <span className="w-40 shrink-0" />
                 <Info className="mt-0.5 h-4 w-4 shrink-0" />
                 <span>{t(activeS3Preset.hint)}</span>
@@ -1251,8 +1251,8 @@ export function WebdavSyncSection({
             )}
 
             {/* Region */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.region")}
               </label>
               <Input
@@ -1268,8 +1268,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Bucket */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.bucket")}
               </label>
               <Input
@@ -1285,8 +1285,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Access Key ID */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.accessKeyId")}
               </label>
               <Input
@@ -1302,8 +1302,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Secret Access Key */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.secretAccessKey")}
               </label>
               <Input
@@ -1322,10 +1322,10 @@ export function WebdavSyncSection({
             </div>
 
             {/* Endpoint (optional) */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.endpoint")}
-                <span className="block text-[12.35px] leading-[1.3] font-normal text-muted-foreground">
+                <span className="block text-caption font-normal text-muted-foreground">
                   {t("settings.s3Sync.endpointHint")}
                 </span>
               </label>
@@ -1342,8 +1342,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Remote Root */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.remoteRoot")}
               </label>
               <Input
@@ -1359,8 +1359,8 @@ export function WebdavSyncSection({
             </div>
 
             {/* Profile */}
-            <div className="flex items-center gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-center gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.profile")}
               </label>
               <Input
@@ -1376,14 +1376,14 @@ export function WebdavSyncSection({
             </div>
 
             {/* Auto Sync toggle */}
-            <div className="flex items-start gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-start gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.autoSync")}
-                <span className="block text-[12.35px] leading-[1.3] font-normal text-muted-foreground">
+                <span className="block text-caption font-normal text-muted-foreground">
                   {t("settings.s3Sync.autoSyncHint")}
                 </span>
               </label>
-              <div className="pt-1">
+              <div className="pt-0.5">
                 <Switch
                   checked={s3AutoSync}
                   onCheckedChange={(checked) => {
@@ -1397,14 +1397,14 @@ export function WebdavSyncSection({
             </div>
 
             {/* Enabled toggle */}
-            <div className="flex items-start gap-2">
-              <label className="w-40 shrink-0 text-[12.35px] leading-[1.3] font-medium text-foreground">
+            <div className="flex items-start gap-3">
+              <label className="w-40 shrink-0 text-body font-medium text-foreground">
                 {t("settings.s3Sync.enabled")}
-                <span className="block text-[12.35px] leading-[1.3] font-normal text-muted-foreground">
+                <span className="block text-caption font-normal text-muted-foreground">
                   {t("settings.s3Sync.enabledHint")}
                 </span>
               </label>
-              <div className="pt-1">
+              <div className="pt-0.5">
                 <Switch
                   checked={s3Enabled}
                   onCheckedChange={(checked) => {
@@ -1420,26 +1420,26 @@ export function WebdavSyncSection({
 
           {/* Last sync time */}
           {s3LastSyncDisplay && (
-            <p className="text-ui text-muted-foreground">
+            <p className="text-caption text-muted-foreground">
               {t("settings.s3Sync.lastSync", { time: s3LastSyncDisplay })}
             </p>
           )}
           {s3ShowAutoSyncError && (
-            <div className="rounded-[8px] border border-red-300/70 bg-red-50/80 p-2 text-[12.35px] leading-[1.3] text-red-900 dark:border-red-500/50 dark:bg-red-950/30 dark:text-red-200">
+            <div className="rounded-panel border border-red-300/70 bg-red-50/80 px-4 py-3 text-body text-red-900 dark:border-red-500/50 dark:bg-red-950/30 dark:text-red-200">
               <p className="font-medium">
                 {t("settings.s3Sync.autoSyncLastErrorTitle")}
               </p>
               <p className="mt-1 break-all whitespace-pre-wrap">
                 {s3LastError}
               </p>
-              <p className="mt-1 text-[12.35px] leading-[1.3] text-red-700/90 dark:text-red-300/80">
+              <p className="mt-1 text-caption text-red-700/90 dark:text-red-300/80">
                 {t("settings.s3Sync.autoSyncLastErrorHint")}
               </p>
             </div>
           )}
 
           {/* Config buttons + save status */}
-          <div className="flex flex-wrap items-center gap-2 pt-2">
+          <div className="flex flex-wrap items-center gap-2">
             <ActionButton
               type="button"
               variant="outline"
@@ -1463,21 +1463,21 @@ export function WebdavSyncSection({
 
             {/* Save status indicator */}
             {s3Dirty && (
-              <span className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-amber-500 dark:text-amber-400 animate-in fade-in duration-200">
+              <span className="inline-flex items-center gap-2 text-body text-amber-500 dark:text-amber-400 animate-in fade-in duration-200">
                 <span className="h-1.5 w-1.5 rounded-full bg-amber-500 dark:bg-amber-400" />
                 {t("settings.s3Sync.unsaved")}
               </span>
             )}
             {!s3Dirty && s3JustSaved && (
-              <span className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-emerald-600 dark:text-emerald-400 animate-in fade-in duration-200">
-                <Check className="h-3 w-3" />
+              <span className="inline-flex items-center gap-2 text-body text-emerald-600 dark:text-emerald-400 animate-in fade-in duration-200">
+                <Check className="h-3.5 w-3.5" />
                 {t("settings.s3Sync.saved")}
               </span>
             )}
           </div>
 
           {/* Sync buttons */}
-          <div className="flex flex-wrap items-center gap-2 border-t border-border pt-2">
+          <div className="flex flex-wrap items-center gap-2 border-t border-border pt-4">
             <ActionButton
               type="button"
               onClick={handleS3UploadClick}
@@ -1511,7 +1511,7 @@ export function WebdavSyncSection({
             />
           </div>
           {!hasS3SavedConfig && (
-            <p className="text-ui text-muted-foreground">
+            <p className="text-caption text-muted-foreground">
               {t("settings.s3Sync.saveBeforeSync")}
             </p>
           )}
@@ -1525,17 +1525,14 @@ export function WebdavSyncSection({
           if (!open) closeDialog();
         }}
       >
-        <DialogContent
-          className="max-w-[480px] gap-2 rounded-[8px] p-2"
-          zIndex="alert"
-        >
+        <DialogContent zIndex="alert">
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
-            <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
+            <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-destructive" />
               {t("settings.webdavSync.confirmUpload.title")}
             </DialogTitle>
             <DialogDescription asChild>
-              <div className="space-y-2 text-[12.35px] leading-[1.3]">
+              <div className="space-y-2 text-body">
                 <p>{t("settings.webdavSync.confirmUpload.content")}</p>
                 <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
                   <li>{t("settings.webdavSync.confirmUpload.dbItem")}</li>
@@ -1544,21 +1541,21 @@ export function WebdavSyncSection({
                 <p className="text-muted-foreground">
                   {t("settings.webdavSync.confirmUpload.targetPath")}
                   {": "}
-                  <code className="ml-1 rounded bg-muted px-2 py-0.5 text-[12.35px] leading-[1.3]">
+                  <code className="ml-1 rounded bg-muted px-2 py-0.5 text-body">
                     {currentRemotePath}
                   </code>
                 </p>
                 {remoteInfo && (
-                  <div className="space-y-2 rounded-[8px] border border-border bg-muted/50 p-2">
-                    <p className="text-[12.35px] leading-[1.3] font-medium text-foreground">
+                  <div className="space-y-2 rounded-panel border border-border bg-muted/50 p-3">
+                    <p className="text-body font-medium text-foreground">
                       {t("settings.webdavSync.confirmUpload.existingData")}
                     </p>
-                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-ui text-muted-foreground">
+                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-body text-muted-foreground">
                       <dt className="font-medium text-foreground">
                         {t("settings.webdavSync.confirmUpload.deviceName")}
                       </dt>
                       <dd>
-                        <code className="rounded bg-muted px-2 py-0.5 text-[12.35px] leading-[1.3]">
+                        <code className="rounded bg-muted px-2 py-0.5 text-body">
                           {remoteInfo.deviceName}
                         </code>
                       </dd>
@@ -1570,7 +1567,7 @@ export function WebdavSyncSection({
                         {t("settings.webdavSync.confirmUpload.path")}
                       </dt>
                       <dd>
-                        <code className="rounded bg-muted px-2 py-0.5 text-[12.35px] leading-[1.3]">
+                        <code className="rounded bg-muted px-2 py-0.5 text-body">
                           {remoteInfo.remotePath}
                         </code>
                       </dd>
@@ -1616,24 +1613,21 @@ export function WebdavSyncSection({
           if (!open) closeDialog();
         }}
       >
-        <DialogContent
-          className="max-w-[480px] gap-2 rounded-[8px] p-2"
-          zIndex="alert"
-        >
+        <DialogContent zIndex="alert">
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
-            <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
+            <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-destructive" />
               {t("settings.webdavSync.confirmDownload.title")}
             </DialogTitle>
             <DialogDescription asChild>
-              <div className="space-y-2 text-[12.35px] leading-[1.3]">
+              <div className="space-y-2 text-body">
                 {remoteInfo && (
                   <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-muted-foreground">
                     <dt className="font-medium text-foreground">
                       {t("settings.webdavSync.confirmDownload.deviceName")}
                     </dt>
                     <dd>
-                      <code className="rounded bg-muted px-2 py-0.5 text-[12.35px] leading-[1.3]">
+                      <code className="rounded bg-muted px-2 py-0.5 text-body">
                         {remoteInfo.deviceName}
                       </code>
                     </dd>
@@ -1645,7 +1639,7 @@ export function WebdavSyncSection({
                       {t("settings.webdavSync.confirmDownload.path")}
                     </dt>
                     <dd>
-                      <code className="rounded bg-muted px-2 py-0.5 text-[12.35px] leading-[1.3]">
+                      <code className="rounded bg-muted px-2 py-0.5 text-body">
                         {remoteInfo.remotePath}
                       </code>
                     </dd>
@@ -1692,17 +1686,14 @@ export function WebdavSyncSection({
           if (!open) closeS3Dialog();
         }}
       >
-        <DialogContent
-          className="max-w-[480px] gap-2 rounded-[8px] p-2"
-          zIndex="alert"
-        >
+        <DialogContent zIndex="alert">
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
-            <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
+            <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-destructive" />
               {t("settings.s3Sync.confirmUpload.title")}
             </DialogTitle>
             <DialogDescription asChild>
-              <div className="space-y-2 text-[12.35px] leading-[1.3]">
+              <div className="space-y-2 text-body">
                 <p>{t("settings.s3Sync.confirmUpload.content")}</p>
                 <ul className="list-disc pl-5 space-y-1 text-muted-foreground">
                   <li>{t("settings.s3Sync.confirmUpload.dbItem")}</li>
@@ -1711,21 +1702,21 @@ export function WebdavSyncSection({
                 <p className="text-muted-foreground">
                   {t("settings.s3Sync.confirmUpload.targetPath")}
                   {": "}
-                  <code className="ml-1 rounded bg-muted px-2 py-0.5 text-[12.35px] leading-[1.3]">
+                  <code className="ml-1 rounded bg-muted px-2 py-0.5 text-body">
                     {currentS3RemotePath}
                   </code>
                 </p>
                 {s3RemoteInfo && (
-                  <div className="space-y-2 rounded-[8px] border border-border bg-muted/50 p-2">
-                    <p className="text-[12.35px] leading-[1.3] font-medium text-foreground">
+                  <div className="space-y-2 rounded-panel border border-border bg-muted/50 p-3">
+                    <p className="text-body font-medium text-foreground">
                       {t("settings.s3Sync.confirmUpload.existingData")}
                     </p>
-                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-ui text-muted-foreground">
+                    <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-body text-muted-foreground">
                       <dt className="font-medium text-foreground">
                         {t("settings.s3Sync.confirmUpload.deviceName")}
                       </dt>
                       <dd>
-                        <code className="rounded bg-muted px-2 py-0.5 text-[12.35px] leading-[1.3]">
+                        <code className="rounded bg-muted px-2 py-0.5 text-body">
                           {s3RemoteInfo.deviceName}
                         </code>
                       </dd>
@@ -1762,24 +1753,21 @@ export function WebdavSyncSection({
           if (!open) closeS3Dialog();
         }}
       >
-        <DialogContent
-          className="max-w-[480px] gap-2 rounded-[8px] p-2"
-          zIndex="alert"
-        >
+        <DialogContent zIndex="alert">
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
-            <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
+            <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-destructive" />
               {t("settings.s3Sync.confirmDownload.title")}
             </DialogTitle>
             <DialogDescription asChild>
-              <div className="space-y-2 text-[12.35px] leading-[1.3]">
+              <div className="space-y-2 text-body">
                 {s3RemoteInfo && (
                   <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1.5 text-muted-foreground">
                     <dt className="font-medium text-foreground">
                       {t("settings.s3Sync.confirmDownload.deviceName")}
                     </dt>
                     <dd>
-                      <code className="rounded bg-muted px-2 py-0.5 text-[12.35px] leading-[1.3]">
+                      <code className="rounded bg-muted px-2 py-0.5 text-body">
                         {s3RemoteInfo.deviceName}
                       </code>
                     </dd>
@@ -1817,17 +1805,14 @@ export function WebdavSyncSection({
           if (!open) handleMutualExclusionCancel();
         }}
       >
-        <DialogContent
-          className="max-w-[480px] gap-2 rounded-[8px] p-2"
-          zIndex="alert"
-        >
+        <DialogContent zIndex="alert">
           <DialogHeader className="space-y-2 border-b-0 bg-transparent p-0">
-            <DialogTitle className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-semibold">
+            <DialogTitle className="flex items-center gap-2">
               <AlertTriangle className="h-4 w-4 text-destructive" />
               {t("settings.s3Sync.mutualExclusionTitle")}
             </DialogTitle>
             <DialogDescription asChild>
-              <div className="space-y-2 text-[12.35px] leading-[1.3]">
+              <div className="space-y-2 text-body">
                 <p>{t("settings.s3Sync.mutualExclusionMessage")}</p>
               </div>
             </DialogDescription>

@@ -88,7 +88,7 @@ function AppGlyph({ app, isActive }: { app: AppId; isActive: boolean }) {
       {BadgeIcon && (
         <span
           className={cn(
-            "absolute -bottom-0.5 -right-0.5 flex items-center justify-center rounded-[3px] border h-3 w-3",
+            "absolute -bottom-0.5 -right-0.5 flex items-center justify-center rounded-[4px] border h-3 w-3",
             isActive
               ? "bg-background border-border text-foreground"
               : "bg-muted border-background text-muted-foreground group-hover:bg-background group-hover:text-foreground",
@@ -192,7 +192,7 @@ export function AppSwitcher({
   return (
     <div
       ref={rootRef}
-      className="inline-flex bg-muted rounded-[8px] p-1 gap-1"
+      className="inline-flex bg-muted rounded-panel p-[3px] gap-0.5"
       style={{ WebkitAppRegion: "no-drag" } as any}
     >
       {visibleList.map((app) => {
@@ -206,7 +206,7 @@ export function AppSwitcher({
             title={APP_DISPLAY_NAME[app]}
             aria-label={APP_DISPLAY_NAME[app]}
             className={cn(
-              "h-7 min-w-0 shrink-0 rounded-[8px] px-2",
+              "h-[30px] min-w-0 shrink-0 rounded-[7px] px-2.5",
               isActive
                 ? "bg-background text-foreground shadow-sm"
                 : "text-muted-foreground hover:text-foreground hover:bg-background/50",
@@ -225,7 +225,7 @@ export function AppSwitcher({
               title={t("appSwitcher.more")}
               aria-label={t("appSwitcher.more")}
               className={cn(
-                "h-7 min-w-0 shrink-0 rounded-[8px] px-2",
+                "h-[30px] min-w-0 shrink-0 rounded-[7px] px-2.5",
                 moreOpen
                   ? "bg-background text-foreground shadow-sm"
                   : "text-muted-foreground hover:text-foreground hover:bg-background/50",

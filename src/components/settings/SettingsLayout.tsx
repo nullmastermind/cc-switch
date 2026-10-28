@@ -24,11 +24,11 @@ export function SettingsBlock({
   className?: string;
 }) {
   return (
-    <section id={id} className={cn("space-y-2", className)}>
+    <section id={id} className={cn("space-y-3", className)}>
       {(title || actions) && (
-        <div className="flex min-h-6 items-center gap-2">
+        <div className="flex min-h-8 flex-wrap items-center gap-2">
           {title && (
-            <h2 className="m-0 text-ui font-semibold text-foreground">
+            <h2 className="m-0 text-section font-semibold text-foreground">
               {title}
             </h2>
           )}
@@ -54,7 +54,7 @@ export function SettingsCard({
   return (
     <div
       className={cn(
-        "divide-y divide-border overflow-hidden rounded-[8px] border border-border bg-card",
+        "divide-y divide-border overflow-hidden rounded-panel border border-border bg-card",
         className,
       )}
     >
@@ -84,20 +84,20 @@ export function SettingsRow({
 }) {
   const Label = htmlFor ? "label" : "div";
   return (
-    <div className={cn("p-2", className)}>
-      <div className="flex min-h-6 items-center gap-2">
+    <div className={cn("px-4 py-3", className)}>
+      <div className="flex min-h-8 items-center gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-1">
             <Label
               htmlFor={htmlFor}
-              className="text-ui font-medium text-foreground"
+              className="text-body font-medium text-foreground"
             >
               {label}
             </Label>
             {help && <HelpTip title={help.title}>{help.body}</HelpTip>}
           </div>
           {description && (
-            <div className="mt-1 break-all text-ui text-muted-foreground">
+            <div className="mt-0.5 break-all text-caption text-muted-foreground">
               {description}
             </div>
           )}
@@ -106,7 +106,7 @@ export function SettingsRow({
           <div className="flex shrink-0 items-center gap-2">{control}</div>
         )}
       </div>
-      {children && <div className="mt-2">{children}</div>}
+      {children && <div className="mt-3">{children}</div>}
     </div>
   );
 }
@@ -143,10 +143,10 @@ export function SettingsSwitchRow({
   );
 }
 
-/** 设置页正文：最大宽度 760，紧凑内边距与分节间距。 */
+/** 设置页正文：宽屏限制阅读宽度，页面边距与分节间距走 comfortable scale。 */
 export function SettingsBody({ children }: { children: ReactNode }) {
   return (
-    <div className="mx-auto w-full max-w-[760px] space-y-2 p-2 pb-4">
+    <div className="mx-auto w-full max-w-4xl space-y-6 px-4 pb-10 pt-5 lg:px-6">
       {children}
     </div>
   );

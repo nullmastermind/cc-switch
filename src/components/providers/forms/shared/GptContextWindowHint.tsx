@@ -31,12 +31,7 @@ export function GptContextWindowHint({
     return null;
   }
   return (
-    <p
-      className={cn(
-        "text-[12.35px] leading-[1.3] text-warning-text",
-        className,
-      )}
-    >
+    <p className={cn("text-caption text-warning-text", className)}>
       {t("providerForm.gptContextWindowHint", {
         defaultValue:
           "中转站的 GPT 多来自 ChatGPT 订阅，窗口只有 272K。窗口写大了不会提前压缩，等上游拒收时这一轮会失败；确认这家支持更大窗口再这样填。",

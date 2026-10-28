@@ -56,7 +56,7 @@ export function ChecklistMenu({
           <DropdownMenuTrigger
             aria-label={label}
             className={cn(
-              "inline-flex h-6 w-6 items-center justify-center rounded-control text-fg-2 transition-colors hover:bg-subtle hover:text-fg-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-subtle data-[state=open]:text-fg-1",
+              "inline-flex h-7 w-7 items-center justify-center rounded-control text-fg-2 transition-colors hover:bg-subtle hover:text-fg-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-subtle data-[state=open]:text-fg-1",
               className,
             )}
           >
@@ -68,10 +68,10 @@ export function ChecklistMenu({
           aria-label={summary === label ? label : `${label}: ${summary}`}
           className={cn(
             quiet
-              ? "inline-flex h-6 items-center gap-1 rounded-control pe-1.5 ps-2 text-caption text-fg-2 hover:bg-subtle hover:text-fg-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-subtle"
+              ? "inline-flex h-7 items-center gap-1 rounded-control pe-2 ps-2.5 text-caption text-fg-2 hover:bg-subtle hover:text-fg-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring data-[state=open]:bg-subtle"
               : cn(
                   fieldClass,
-                  "flex h-6 items-center justify-between gap-2 whitespace-nowrap text-start text-body data-[state=open]:border-ring data-[state=open]:ring-[3px] data-[state=open]:ring-ring/20",
+                  "flex h-8 items-center justify-between gap-2 whitespace-nowrap text-start text-body data-[state=open]:border-ring data-[state=open]:ring-[3px] data-[state=open]:ring-ring/20",
                 ),
             className,
           )}

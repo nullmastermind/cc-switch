@@ -2388,7 +2388,7 @@ function ProviderFormFull({
         <form
           id="provider-form"
           onSubmit={form.handleSubmit(handleSubmit)}
-          className="space-y-2 rounded-[8px] p-2 border border-border-default"
+          className="space-y-4 rounded-panel p-4 border border-border-default"
         >
           {!initialData && (
             <ProviderPresetSelector
@@ -2406,7 +2406,7 @@ function ProviderFormFull({
             form={form}
             beforeNameSlot={
               appId === "opencode" && !isAnyOmoCategory ? (
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <Label htmlFor="opencode-key">
                     {t("opencode.providerKey")}
                     <span className="text-destructive ml-1">*</span>
@@ -2434,12 +2434,12 @@ function ProviderFormFull({
                     opencodeForm.opencodeProviderKey,
                   ) &&
                     !isProviderKeyLocked && (
-                      <p className="text-ui text-destructive">
+                      <p className="text-caption text-destructive">
                         {t("opencode.providerKeyDuplicate")}
                       </p>
                     )}
                   {isOpencodeProviderKeyInvalid && (
-                    <p className="text-ui text-destructive">
+                    <p className="text-caption text-destructive">
                       {t("opencode.providerKeyInvalid")}
                     </p>
                   )}
@@ -2449,7 +2449,7 @@ function ProviderFormFull({
                     ) && !isProviderKeyLocked
                   ) &&
                     !isOpencodeProviderKeyInvalid && (
-                      <p className="text-ui text-muted-foreground">
+                      <p className="text-caption text-muted-foreground">
                         {isProviderKeyLocked
                           ? t("opencode.providerKeyLockedHint", {
                               defaultValue:
@@ -2460,7 +2460,7 @@ function ProviderFormFull({
                     )}
                 </div>
               ) : appId === "openclaw" ? (
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <Label htmlFor="openclaw-key">
                     {t("openclaw.providerKey")}
                     <span className="text-destructive ml-1">*</span>
@@ -2491,7 +2491,7 @@ function ProviderFormFull({
                     openclawForm.openclawProviderKey,
                   ) &&
                     !isProviderKeyLocked && (
-                      <p className="text-ui text-destructive">
+                      <p className="text-caption text-destructive">
                         {t("openclaw.providerKeyDuplicate")}
                       </p>
                     )}
@@ -2499,7 +2499,7 @@ function ProviderFormFull({
                     !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                       openclawForm.openclawProviderKey,
                     ) && (
-                      <p className="text-ui text-destructive">
+                      <p className="text-caption text-destructive">
                         {t("openclaw.providerKeyInvalid")}
                       </p>
                     )}
@@ -2512,7 +2512,7 @@ function ProviderFormFull({
                       /^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                         openclawForm.openclawProviderKey,
                       )) && (
-                      <p className="text-ui text-muted-foreground">
+                      <p className="text-caption text-muted-foreground">
                         {isProviderKeyLocked
                           ? t("openclaw.providerKeyLockedHint", {
                               defaultValue:
@@ -2523,7 +2523,7 @@ function ProviderFormFull({
                     )}
                 </div>
               ) : appId === "hermes" ? (
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   <Label htmlFor="hermes-key">
                     {t("hermes.form.providerKey", {
                       defaultValue: "Provider Key",
@@ -2558,7 +2558,7 @@ function ProviderFormFull({
                     hermesForm.hermesProviderKey,
                   ) &&
                     !isProviderKeyLocked && (
-                      <p className="text-ui text-destructive">
+                      <p className="text-caption text-destructive">
                         {t("hermes.form.providerKeyDuplicate")}
                       </p>
                     )}
@@ -2566,13 +2566,13 @@ function ProviderFormFull({
                     !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                       hermesForm.hermesProviderKey,
                     ) && (
-                      <p className="text-ui text-destructive">
+                      <p className="text-caption text-destructive">
                         {t("hermes.form.providerKeyInvalid")}
                       </p>
                     )}
                   {isHermesBuiltinProviderId(hermesForm.hermesProviderKey) && (
                     <p
-                      className="text-[12.35px] leading-[1.3] text-warning-text"
+                      className="text-caption text-warning-text"
                       data-testid="hermes-key-builtin-warning"
                     >
                       {t(
@@ -2593,7 +2593,7 @@ function ProviderFormFull({
                       /^[a-z0-9]+(-[a-z0-9]+)*$/.test(
                         hermesForm.hermesProviderKey,
                       )) && (
-                      <p className="text-ui text-muted-foreground">
+                      <p className="text-caption text-muted-foreground">
                         {isProviderKeyLocked
                           ? t("hermes.form.providerKeyLockedHint", {
                               defaultValue:
@@ -2953,7 +2953,7 @@ function ProviderFormFull({
             </>
           ) : appId === "opencode" &&
             (category === "omo" || category === "omo-slim") ? (
-            <div className="space-y-2">
+            <div className="space-y-1.5">
               <Label>{t("provider.configJson")}</Label>
               <JsonEditor
                 value={omoDraft.mergedOmoJsonPreview}
@@ -2968,12 +2968,12 @@ function ProviderFormFull({
             category !== "omo" &&
             category !== "omo-slim" ? (
             <>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="settingsConfig">
                   {t("provider.configJson")}
                 </Label>
                 {isNativeOpencode && (
-                  <p className="text-ui text-muted-foreground">
+                  <p className="text-caption text-muted-foreground">
                     {t("opencode.nativeConfigHint")}
                   </p>
                 )}
@@ -3002,7 +3002,7 @@ function ProviderFormFull({
             </>
           ) : appId === "openclaw" || appId === "hermes" ? (
             <>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="settingsConfig">
                   {t("provider.configJson")}
                 </Label>

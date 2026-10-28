@@ -58,6 +58,7 @@ export function CustomIconNameDialog({
       {/* 选择器本身是 top 层的全屏对话框，这里同层、后打开的叠在上面 */}
       <DialogContent className="max-w-sm" zIndex="top">
         <form
+          className="flex flex-col gap-4"
           onSubmit={(e) => {
             e.preventDefault();
             // 选择器渲染在供应商表单里。React 事件沿组件树冒泡、会穿过 Portal，
@@ -72,13 +73,13 @@ export function CustomIconNameDialog({
               <DialogDescription>{description}</DialogDescription>
             )}
           </DialogHeader>
-          <div className="flex items-center gap-4 px-6 py-3">
+          <div className="flex items-center gap-4">
             {icon && (
               <span className="flex h-16 w-16 shrink-0 overflow-hidden rounded-[14px] ring-1 ring-inset ring-black/10 dark:ring-white/10">
                 <ProviderIcon icon={icon} name={trimmed} size={64} />
               </span>
             )}
-            <div className="flex-1 space-y-2">
+            <div className="flex-1 space-y-1.5">
               <Label htmlFor="custom-icon-name">
                 {t("iconPicker.nameLabel")}
               </Label>

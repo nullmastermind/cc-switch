@@ -31,7 +31,7 @@ export function ModelInputWithFetch({
   // Models available: Input + searchable dropdown
   if (fetchedModels.length > 0) {
     return (
-      <div className="flex gap-1">
+      <div className="flex gap-2">
         <Input
           id={id}
           type="text"
@@ -49,7 +49,7 @@ export function ModelInputWithFetch({
   // 加载中: Input + Spinner
   if (isLoading) {
     return (
-      <div className="flex gap-1">
+      <div className="flex gap-2">
         <Input
           id={id}
           type="text"
@@ -69,7 +69,7 @@ export function ModelInputWithFetch({
   // 有 onFetch: Input + 获取按钮
   if (onFetch) {
     return (
-      <div className="flex gap-1">
+      <div className="flex gap-2">
         <Input
           id={id}
           type="text"

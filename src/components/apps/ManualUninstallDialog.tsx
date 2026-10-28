@@ -105,7 +105,7 @@ export function ManualUninstallDialog({
             {t("settings.manualUninstallHint")}
           </DialogDescription>
         </DialogHeader>
-        <div className="min-h-0 space-y-3 overflow-y-auto px-6">
+        <div className="min-h-0 space-y-4 overflow-y-auto">
           <div className="flex flex-wrap items-center gap-3">
             <label
               htmlFor="manual-uninstall-environment"
@@ -162,7 +162,7 @@ export function ManualUninstallDialog({
           <p className="text-caption text-fg-2">
             {t("settings.manualUninstallEnvironmentHint")}
           </p>
-          <ul className="space-y-3">
+          <ul className="space-y-4">
             {uninstallCommandsFor(selectedMethod, environmentForTool).map(
               ({ tool, command, variant }) => (
                 <li key={command} className="space-y-1.5">
@@ -198,7 +198,7 @@ export function ManualUninstallDialog({
                       {t("settings.manualUninstallBunLauncherHint")}
                     </p>
                   )}
-                  <pre className="overflow-x-auto rounded-control border border-border bg-subtle px-3 py-2.5 font-mono text-caption">
+                  <pre className="overflow-x-auto rounded-panel border border-border bg-subtle px-3 py-2.5 font-mono text-caption">
                     <code>{command}</code>
                   </pre>
                 </li>

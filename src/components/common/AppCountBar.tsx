@@ -34,10 +34,10 @@ export const AppCountBar: React.FC<AppCountBarProps> = ({
   const hasPendingBulkToggle = pendingApp !== undefined && pendingApp !== null;
 
   return (
-    <div className="mb-2 flex min-w-0 w-full flex-shrink-0 items-center gap-2 overflow-hidden rounded-[8px] border border-border-default px-2 py-2">
+    <div className="mb-3 flex min-w-0 w-full flex-shrink-0 items-center gap-2 overflow-hidden rounded-panel border border-border-default px-3 py-2">
       <Badge
         variant="outline"
-        className="h-6 shrink-0 whitespace-nowrap border-black/10 bg-black/[0.04] px-2 text-[12.35px] font-medium leading-[1.3] text-muted-foreground dark:border-white/10 dark:bg-white/[0.04]"
+        className="h-6 shrink-0 whitespace-nowrap border-black/10 bg-black/[0.04] px-2 text-badge font-medium text-muted-foreground dark:border-white/10 dark:bg-white/[0.04]"
       >
         {totalLabel}
       </Badge>

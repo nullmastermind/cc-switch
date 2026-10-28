@@ -12,7 +12,7 @@ interface AppPageHeaderProps {
   leading?: ReactNode;
   icon?: ReactNode;
   title: ReactNode;
-  /** 保留给调用方；紧凑样式下标题统一为 12.35px semibold */
+  /** 保留给调用方；标题统一为 text-section（15 / 22）semibold */
   variant?: "app" | "page";
   /** 应用页的页面名（如「供应商」），灰字跟在应用名后面 */
   subtitle?: ReactNode;
@@ -26,7 +26,7 @@ interface AppPageHeaderProps {
 }
 
 /**
- * 内容区页头：高 48，整条可拖动窗口，左边是图标 + 标题，右边是操作。
+ * 内容区页头：高 56，整条可拖动窗口，左边是图标 + 标题，右边是操作。
  */
 export function AppPageHeader({
   leading,
@@ -46,7 +46,7 @@ export function AppPageHeader({
   return (
     <header
       className={cn(
-        "flex h-12 shrink-0 items-center gap-2 border-b border-border pe-2 ps-2",
+        "flex h-14 shrink-0 items-center gap-3 border-b border-border px-4 lg:px-6",
         className,
       )}
       {...dragRegionAttr}
@@ -56,12 +56,12 @@ export function AppPageHeader({
       <div
         {...dragRegionAttr}
         className={cn(
-          "flex min-w-0 items-center gap-2",
+          "flex min-w-0 items-center gap-2.5",
           truncateTitle ? "flex-1" : "shrink-0",
         )}
       >
         {leading && (
-          <span className="-ms-2 flex shrink-0 items-center" style={NO_DRAG}>
+          <span className="-ms-1 flex shrink-0 items-center" style={NO_DRAG}>
             {leading}
           </span>
         )}
@@ -77,16 +77,16 @@ export function AppPageHeader({
           {...dragRegionAttr}
           className={cn(
             "m-0 whitespace-nowrap",
-            "text-[12.35px] font-semibold leading-[1.3]",
+            "text-section font-semibold",
             truncateTitle && "min-w-0 truncate",
           )}
         >
           {title}
         </h1>
         {(subtitle || titleExtra) && (
-          <div className="flex min-w-0 items-center gap-1" style={NO_DRAG}>
+          <div className="flex min-w-0 items-center gap-1.5" style={NO_DRAG}>
             {subtitle && (
-              <span className="whitespace-nowrap text-[12.35px] leading-[1.3] text-fg-3">
+              <span className="whitespace-nowrap text-section font-normal text-fg-3">
                 {subtitle}
               </span>
             )}

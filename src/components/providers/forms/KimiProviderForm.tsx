@@ -429,7 +429,7 @@ export function KimiProviderForm({
       <Form {...form}>
         <form
           id="provider-form"
-          className="space-y-2"
+          className="space-y-4"
           onSubmit={(event) => event.preventDefault()}
         >
           {presetSelector}
@@ -455,7 +455,7 @@ export function KimiProviderForm({
     <Form {...form}>
       <form
         id="provider-form"
-        className="space-y-2"
+        className="space-y-4"
         onSubmit={form.handleSubmit(async (identity) => {
           if (!ready || busy) return;
           setBusy(true);
@@ -500,21 +500,18 @@ export function KimiProviderForm({
       >
         {!isEdit && presetSelector}
         {error && (
-          <p
-            role="alert"
-            className="text-[12.35px] leading-[1.3] text-destructive"
-          >
+          <p role="alert" className="text-body text-destructive">
             {error}
           </p>
         )}
         <fieldset
           disabled={busy || !jsonValid}
-          className="min-w-0 space-y-2 border-0 p-0 disabled:opacity-50"
+          className="min-w-0 space-y-4 border-0 p-0 disabled:opacity-50"
         >
           <BasicFormFields
             form={form}
             beforeNameSlot={
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="kimi-provider-key" className={REQUIRED_LABEL}>
                   {t("opencode.providerKey")}
                 </Label>
@@ -550,8 +547,8 @@ export function KimiProviderForm({
                 <p
                   className={
                     duplicate
-                      ? "text-[12.35px] leading-[1.3] text-destructive"
-                      : "text-fg-2"
+                      ? "text-caption text-destructive"
+                      : "text-caption text-fg-2"
                   }
                 >
                   {duplicate
@@ -564,12 +561,12 @@ export function KimiProviderForm({
             }
           />
           {isOfficial ? (
-            <p className="text-[12.35px] leading-[1.3] text-fg-2">
+            <p className="text-body text-fg-2">
               {t("kimi.oauth.connectionManaged")}
             </p>
           ) : (
             <>
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <FormLabel htmlFor="kimi-provider-type">
                   {t("opencode.npmPackage")}
                 </FormLabel>
@@ -618,15 +615,15 @@ export function KimiProviderForm({
               />
             </>
           )}
-          <div className="space-y-3 border-l border-border pl-3">
-            <div className="flex items-center justify-between">
+          <div className="space-y-3 border-l border-border pl-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <div className="flex items-center gap-1">
                 <FormLabel>{t("opencode.models")}</FormLabel>
                 <HelpTip title={t("opencode.models")}>
                   {t("kimi.modelSelectionHint")}
                 </HelpTip>
               </div>
-              <div className="flex gap-1">
+              <div className="flex gap-2">
                 <FetchedModelPicker
                   models={fetchedModels}
                   configuredModelIds={Object.values(config.models).map(
@@ -640,7 +637,7 @@ export function KimiProviderForm({
                 <Button
                   type="button"
                   variant="outline"
-                  className="h-6 gap-1"
+                  size="sm"
                   onClick={() => {
                     let index = Object.keys(config.models).length + 1;
                     let key = `${modelKeyPrefix}/model-${index}`;
@@ -667,18 +664,18 @@ export function KimiProviderForm({
               </div>
             </div>
             {Object.keys(config.models).length === 0 ? (
-              <p className="py-2 text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="py-2 text-body text-fg-2">
                 {t("opencode.noModels")}
               </p>
             ) : (
               <div className="space-y-2">
-                <div className="mb-1 flex items-center gap-2 px-1 text-[12.35px] leading-[1.3] text-fg-2">
-                  <span className="w-9" />
+                <div className="mb-1 flex items-center gap-2 px-1 text-caption text-fg-2">
+                  <span className="w-7 shrink-0" />
                   <span className={cn("flex-1", REQUIRED_LABEL)}>
                     {t("opencode.modelId")}
                   </span>
                   <span className="flex-1">{t("opencode.modelName")}</span>
-                  <span className="w-9" />
+                  <span className="w-7 shrink-0" />
                 </div>
                 {Object.entries(config.models).map(([key, model]) => (
                   <div key={key} className="space-y-2">
@@ -686,11 +683,11 @@ export function KimiProviderForm({
                       <Button
                         type="button"
                         variant="ghost"
-                        size="icon"
+                        size="icon-compact"
                         onClick={() => toggleModelExpand(key)}
                         aria-label={t("opencode.toggleModelDetails")}
                         aria-expanded={expandedModels.has(key)}
-                        className="h-6 w-6 shrink-0"
+                        className="shrink-0"
                       >
                         <ChevronRight
                           className={cn(
@@ -699,7 +696,7 @@ export function KimiProviderForm({
                           )}
                         />
                       </Button>
-                      <div className="flex min-w-0 flex-1 gap-1">
+                      <div className="flex min-w-0 flex-1 gap-2">
                         <Input
                           id={`kimi-model-${key}`}
                           value={model.model}
@@ -736,9 +733,9 @@ export function KimiProviderForm({
                         <Button
                           type="button"
                           variant="ghost"
-                          size="icon"
+                          size="icon-compact"
                           aria-label={t("common.delete")}
-                          className="h-6 w-6 shrink-0 text-fg-2 hover:text-destructive"
+                          className="shrink-0 text-fg-2 hover:text-destructive"
                           onClick={() => {
                             const models = { ...config.models };
                             delete models[key];
@@ -756,14 +753,14 @@ export function KimiProviderForm({
                       </HoverTip>
                     </div>
                     {expandedModels.has(key) && (
-                      <div className="ml-9 grid gap-3 border-l-2 border-muted pl-4 sm:grid-cols-2">
-                        <div className="flex min-h-6 flex-wrap items-center gap-x-8 gap-y-2 sm:col-span-2">
+                      <div className="ml-9 grid grid-cols-1 gap-4 border-l-2 border-muted pl-4 md:grid-cols-2">
+                        <div className="flex min-h-8 flex-wrap items-center gap-x-8 gap-y-2 md:col-span-2">
                           {KIMI_CAPABILITIES.map((capability) => (
                             <div
                               key={capability}
                               className="flex items-center gap-2"
                             >
-                              <div className="flex items-center gap-0.5">
+                              <div className="flex items-center gap-1">
                                 <Label
                                   htmlFor={`kimi-model-${capability}-${key}`}
                                   className="cursor-pointer"
@@ -802,7 +799,7 @@ export function KimiProviderForm({
                             </div>
                           ))}
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-1.5">
                           <Label
                             htmlFor={`kimi-context-${key}`}
                             className={REQUIRED_LABEL}
@@ -836,7 +833,7 @@ export function KimiProviderForm({
             )}
           </div>
         </fieldset>
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="kimi-settings-config">
             {t("provider.configJson")}
           </Label>

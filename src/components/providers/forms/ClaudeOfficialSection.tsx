@@ -382,10 +382,8 @@ export function ClaudeAccountSelect({
     "min-w-0 overflow-hidden py-2 pl-6 [&>span:last-child]:min-w-0 [&>span:last-child]:flex-1 [&>span:last-child]:overflow-hidden";
 
   return (
-    <div className="space-y-2.5">
-      <Label className="text-[12.35px] leading-[1.3] font-medium text-fg-1">
-        {label}
-      </Label>
+    <div className="space-y-1.5">
+      <Label className="text-body font-medium text-fg-1">{label}</Label>
       <Select
         value={value ?? DEFAULT_LOGIN}
         onValueChange={(next) => {
@@ -398,12 +396,9 @@ export function ClaudeAccountSelect({
           onChange(next === DEFAULT_LOGIN ? null : next);
         }}
       >
-        <SelectTrigger
-          className="h-10 min-w-0 rounded-[8px] bg-surface px-3 shadow-sm"
-          aria-label={label}
-        >
+        <SelectTrigger className="min-w-0" aria-label={label}>
           <span
-            className="min-w-0 flex-1 truncate text-left text-[12.35px] leading-[1.3] font-medium tracking-tight"
+            className="min-w-0 flex-1 truncate text-left text-body font-medium tracking-tight"
             title={selected?.login}
           >
             <SelectValue>
@@ -424,13 +419,13 @@ export function ClaudeAccountSelect({
                 <div className="flex min-w-0 items-center gap-2">
                   <span aria-hidden className="h-4 w-4 shrink-0" />
                   <span
-                    className="min-w-0 truncate text-[12.35px] leading-[1.3] font-medium"
+                    className="min-w-0 truncate text-body font-medium"
                     title={account.login}
                   >
                     {account.login}
                   </span>
                   {account.requires_reauth && (
-                    <span className="ml-1 inline-flex shrink-0 items-center gap-1 text-[12.35px] leading-[1.3] text-warning-text">
+                    <span className="ml-1 inline-flex shrink-0 items-center gap-1 text-caption text-warning-text">
                       <AlertTriangle className="h-3 w-3" />
                       {t("provider.form.claudeAccount.reauthBadge", {
                         defaultValue: "需要重新登录",
@@ -448,7 +443,7 @@ export function ClaudeAccountSelect({
             <SelectItem value={value} className={itemClass}>
               <div className="flex min-w-0 items-center gap-2">
                 <span aria-hidden className="h-4 w-4 shrink-0" />
-                <span className="min-w-0 truncate text-[12.35px] leading-[1.3] font-medium text-warning-text">
+                <span className="min-w-0 truncate text-body font-medium text-warning-text">
                   {missingLabel}
                 </span>
               </div>
@@ -458,7 +453,7 @@ export function ClaudeAccountSelect({
             <SelectItem value={MANAGE_ACCOUNTS} className="py-2 pl-6">
               <div className="flex items-center gap-2">
                 <Plus className="h-4 w-4 shrink-0 text-fg-2" />
-                <span className="truncate text-[12.35px] leading-[1.3] font-medium">
+                <span className="truncate text-body font-medium">
                   {t("provider.form.claudeAccount.manage", {
                     defaultValue: "添加或管理 Claude 账号",
                   })}
@@ -472,10 +467,10 @@ export function ClaudeAccountSelect({
           <SelectItem value={DEFAULT_LOGIN} className={itemClass}>
             <div className="flex min-w-0 items-center gap-2">
               <span aria-hidden className="h-4 w-4 shrink-0" />
-              <span className="shrink-0 text-[12.35px] leading-[1.3] font-medium">
+              <span className="shrink-0 text-body font-medium">
                 {followLabel}
               </span>
-              <span className="min-w-0 truncate text-[12.35px] leading-[1.3] text-fg-2">
+              <span className="min-w-0 truncate text-caption text-fg-2">
                 {t("provider.form.claudeAccount.defaultDescription", {
                   defaultValue: "账号会随 Claude Code 当前登录变化",
                 })}

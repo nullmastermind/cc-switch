@@ -83,30 +83,30 @@ export function ProfileManageDialog({
           }
         }}
       >
-        <DialogContent className="max-w-md">
-          <DialogHeader className="space-y-3 border-b-0 bg-transparent pb-0">
+        <DialogContent>
+          <DialogHeader>
             <DialogTitle>{t("profiles.manageTitle")}</DialogTitle>
             <DialogDescription>
               {t("profiles.manageDescription")}
             </DialogDescription>
           </DialogHeader>
-          <div className="max-h-[50vh] space-y-1 overflow-y-auto px-6 pb-4 pt-3">
+          <div className="-mx-2 max-h-[50vh] space-y-1 overflow-y-auto px-2">
             {profiles.length === 0 && (
-              <div className="py-4 text-center text-[12.35px] leading-[1.3] text-fg-2">
+              <div className="py-8 text-center text-body text-fg-2">
                 {t("profiles.empty")}
               </div>
             )}
             {profiles.map((profile) => (
               <div
                 key={profile.id}
-                className="flex items-center gap-1.5 rounded-[4px] px-2 py-1.5 hover:bg-subtle"
+                className="flex min-h-10 items-center gap-2 rounded-control px-3 py-1.5 hover:bg-subtle"
               >
                 {editingId === profile.id ? (
                   <>
                     <Input
                       value={editingName}
                       onChange={(e) => setEditingName(e.target.value)}
-                      className="h-7 flex-1"
+                      className="flex-1"
                       autoFocus
                       onKeyDown={(e) => {
                         if (e.key === "Enter") saveRename();
@@ -116,8 +116,7 @@ export function ProfileManageDialog({
                     <HoverTip content={t("common.confirm")}>
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
+                        size="icon-compact"
                         aria-label={t("common.confirm")}
                         onClick={saveRename}
                         disabled={
@@ -130,8 +129,7 @@ export function ProfileManageDialog({
                     <HoverTip content={t("common.cancel")}>
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
+                        size="icon-compact"
                         aria-label={t("common.cancel")}
                         onClick={cancelRename}
                       >
@@ -141,14 +139,13 @@ export function ProfileManageDialog({
                   </>
                 ) : (
                   <>
-                    <span className="flex-1 truncate text-[12.35px] leading-[1.3]">
+                    <span className="flex-1 truncate text-body">
                       {profile.name}
                     </span>
                     <HoverTip content={t("profiles.rename")}>
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
+                        size="icon-compact"
                         aria-label={t("profiles.rename")}
                         onClick={() => startRename(profile.id, profile.name)}
                       >
@@ -158,8 +155,7 @@ export function ProfileManageDialog({
                     <HoverTip content={t("profiles.delete")}>
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="h-7 w-7"
+                        size="icon-compact"
                         aria-label={t("profiles.delete")}
                         onClick={() =>
                           setConfirm({

@@ -106,17 +106,17 @@ export function RepoManagerPanel({
         closeLabel={t("common.close")}
         aria-describedby={undefined}
       >
-        <SheetHeader className="flex h-[52px] items-center space-y-0 border-b border-border pe-12 ps-6 pt-0">
+        <SheetHeader className="flex h-14 items-center space-y-0 border-b border-border pe-12 ps-5 pt-0">
           <SheetTitle>{t("skills.repo.title")}</SheetTitle>
         </SheetHeader>
-        <SheetBody className="flex flex-col gap-6 px-6 pb-6 pt-5">
+        <SheetBody className="flex flex-col gap-6 px-5 pb-6 pt-5">
           <section
             aria-labelledby="sk-repo-add-title"
-            className="flex flex-col gap-3"
+            className="flex flex-col gap-4"
           >
             <h3
               id="sk-repo-add-title"
-              className="m-0 text-[12.35px] leading-[1.3] font-semibold text-fg-1"
+              className="m-0 text-strong font-semibold text-fg-1"
             >
               {t("skills.addRepo")}
             </h3>
@@ -169,20 +169,20 @@ export function RepoManagerPanel({
 
           <section
             aria-labelledby="sk-repo-list-title"
-            className="flex flex-col gap-2"
+            className="flex flex-col gap-3"
           >
             <h3
               id="sk-repo-list-title"
-              className="m-0 text-[12.35px] leading-[1.3] font-semibold text-fg-1"
+              className="m-0 text-strong font-semibold text-fg-1"
             >
               {t("skills.repo.list")}
             </h3>
             {repos.length === 0 ? (
-              <p className="m-0 rounded-[8px] border border-border px-4 py-6 text-center text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="m-0 rounded-panel border border-border px-4 py-6 text-center text-body text-fg-2">
                 {t("skills.repo.empty")}
               </p>
             ) : (
-              <ul className="m-0 list-none rounded-[8px] border border-border p-0">
+              <ul className="m-0 list-none rounded-panel border border-border p-0">
                 {repos.map((repo, index) => {
                   const id = `${repo.owner}/${repo.name}`;
                   const checkboxId = `sk-repo-manage-${index}`;
@@ -190,7 +190,7 @@ export function RepoManagerPanel({
                     <li
                       key={id}
                       className={cn(
-                        "flex min-h-12 items-center gap-2 py-1.5 pe-2 ps-3",
+                        "flex min-h-14 items-center gap-3 py-3 pe-3 ps-4",
                         index > 0 && "border-t border-border",
                       )}
                     >
@@ -208,11 +208,11 @@ export function RepoManagerPanel({
                           }
                         />
                       )}
-                      <div className="flex min-w-0 flex-1 flex-col">
-                        <span className="truncate font-mono text-[12.35px] leading-[1.3] text-fg-1">
+                      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                        <span className="truncate font-mono text-body text-fg-1">
                           {id}
                         </span>
-                        <span className="text-[12.35px] leading-[1.3] text-fg-2">
+                        <span className="text-caption text-fg-2">
                           {repo.branch || "main"}
                           {" · "}
                           {repo.enabled

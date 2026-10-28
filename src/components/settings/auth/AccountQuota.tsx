@@ -124,11 +124,11 @@ export function AccountQuotaColumn({
           )}
         {state.kind === "failed" && (
           <>
-            <span className="h-[18px] text-ui font-medium text-danger-text">
+            <span className="h-[18px] text-caption font-medium text-danger-text">
               {t("quota.failed", { defaultValue: "额度查询失败" })}
             </span>
             <span
-              className="truncate text-ui text-muted-foreground"
+              className="truncate text-caption text-muted-foreground"
               title={state.reason}
             >
               {state.reason}
@@ -137,17 +137,17 @@ export function AccountQuotaColumn({
         )}
         {state.kind === "note" && (
           // 写在额度行数值（「剩余 91%」）那一格：右边让出倒计时格（52）和间距（8），和别的号的数值对齐
-          <span className="me-[60px] self-end text-[12.35px] leading-[1.3] text-fg-3">
+          <span className="me-[60px] self-end text-caption text-fg-3">
             {state.text}
           </span>
         )}
         {state.kind === "loading" && (
-          <span className="text-ui text-muted-foreground">
+          <span className="text-caption text-muted-foreground">
             {t("authCenter.quota.loading", { defaultValue: "正在查询额度…" })}
           </span>
         )}
       </div>
-      <div className="flex w-[84px] shrink-0 items-center justify-end gap-0.5 whitespace-nowrap text-ui text-muted-foreground">
+      <div className="flex w-[84px] shrink-0 items-center justify-end gap-0.5 whitespace-nowrap text-caption text-muted-foreground">
         <span id={agoId} className="truncate">
           {agoText}
         </span>
@@ -165,7 +165,7 @@ export function AccountQuotaColumn({
             onClick={() => {
               if (!loading) onRefresh();
             }}
-            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] text-muted-foreground transition-colors hover:bg-subtle hover:text-foreground aria-disabled:opacity-45 aria-disabled:hover:bg-transparent"
+            className="flex h-6 w-6 shrink-0 items-center justify-center rounded-control text-muted-foreground transition-colors hover:bg-subtle hover:text-foreground aria-disabled:opacity-45 aria-disabled:hover:bg-transparent"
           >
             <RefreshCw
               className={cn(
@@ -181,7 +181,7 @@ export function AccountQuotaColumn({
   );
 }
 
-const ROW_CLASS = "flex h-[18px] items-center gap-2 text-ui";
+const ROW_CLASS = "flex h-[18px] items-center gap-2 text-caption";
 
 /** 一行额度：档名 + 额度条（或一句说明）+ 剩余 */
 function QuotaRowCells({

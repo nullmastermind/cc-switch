@@ -75,7 +75,7 @@ export function BasicFormFields({
           <button
             type="button"
             aria-label={t("providerIcon.change", { defaultValue: "更换图标" })}
-            className="group shrink-0 rounded-[4px] text-[12.35px] leading-[1.3]"
+            className="group shrink-0 rounded-control text-body"
           >
             <ProviderIconBox
               size={24}
@@ -94,8 +94,8 @@ export function BasicFormFields({
         className="p-0 sm:rounded-none"
       >
         <div className="flex h-full flex-col">
-          <div className="flex-shrink-0 py-4 border-b border-border bg-subtle">
-            <div className="px-6 flex items-center gap-4">
+          <div className="flex h-14 flex-shrink-0 items-center border-b border-border bg-subtle">
+            <div className="flex w-full items-center gap-3 px-4 lg:px-6">
               <DialogClose asChild>
                 <Button
                   type="button"
@@ -106,7 +106,7 @@ export function BasicFormFields({
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
               </DialogClose>
-              <p className="text-[12.35px] leading-[1.3] font-semibold">
+              <p className="text-section font-semibold">
                 {t("providerIcon.selectIcon", {
                   defaultValue: "选择图标",
                 })}
@@ -114,7 +114,7 @@ export function BasicFormFields({
             </div>
           </div>
           <div className="flex-1 overflow-y-auto">
-            <div className="space-y-2 px-6 py-6 w-full">
+            <div className="w-full space-y-4 px-4 py-5 lg:px-6">
               <IconPicker
                 value={currentIcon}
                 onValueChange={handleIconSelect}
@@ -134,7 +134,7 @@ export function BasicFormFields({
       {beforeNameSlot}
 
       {/* 基础信息 - 网格布局 */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         <FormField
           control={form.control}
           name="name"

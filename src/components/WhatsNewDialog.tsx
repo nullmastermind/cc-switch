@@ -63,7 +63,7 @@ export function WhatsNewDialog({
       }}
     >
       <DialogContent
-        className="max-w-[480px]"
+        className="max-w-lg"
         zIndex="top"
         {...(since ? {} : { "aria-describedby": undefined })}
       >
@@ -80,19 +80,19 @@ export function WhatsNewDialog({
             </DialogDescription>
           )}
         </DialogHeader>
-        <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto">
           {visible.map((entry) => (
             <section key={entry.version}>
-              <h3 className="text-[12.35px] font-semibold leading-[1.3] tabular-nums text-fg-1">
+              <h3 className="text-strong font-semibold tabular-nums text-fg-1">
                 v{entry.version}
               </h3>
-              <ul className="mt-1 space-y-1">
+              <ul className="mt-2 space-y-1.5">
                 {entry.items.map((item, index) => (
                   <li
                     key={index}
-                    className="flex items-start gap-2 text-[12.35px] leading-[1.3] text-fg-1"
+                    className="flex items-start gap-2 text-body text-fg-1"
                   >
-                    <span className="shrink-0 rounded-[3px] bg-subtle px-1 text-[12.35px] leading-[1.3] text-fg-2">
+                    <span className="mt-0.5 shrink-0 rounded-[4px] bg-subtle px-1.5 text-badge text-fg-2">
                       {t(`whatsNew.types.${item.type}`)}
                     </span>
                     <span className="min-w-0">{item[language]}</span>
@@ -104,7 +104,7 @@ export function WhatsNewDialog({
           {hiddenCount > 0 && (
             <button
               type="button"
-              className="inline-flex items-center gap-1 text-[12.35px] leading-[1.3] text-fg-2 hover:text-fg-1"
+              className="inline-flex items-center gap-1 text-body text-fg-2 hover:text-fg-1"
               onClick={() => setShowAll(true)}
             >
               <ChevronRight className="h-4 w-4" />

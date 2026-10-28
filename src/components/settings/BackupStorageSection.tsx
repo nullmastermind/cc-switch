@@ -76,9 +76,9 @@ export function BackupStorageSection() {
       <CollapsibleTrigger asChild>
         <button
           type="button"
-          className="flex w-full items-center justify-between gap-2 rounded-[4px] py-1 text-left"
+          className="flex min-h-8 w-full items-center justify-between gap-2 rounded-control text-left"
         >
-          <span className="flex items-center gap-1 text-ui font-medium">
+          <span className="flex items-center gap-1.5 text-strong font-semibold">
             <ChevronRight
               className={`h-4 w-4 text-muted-foreground transition-transform ${
                 open ? "rotate-90" : ""
@@ -87,7 +87,7 @@ export function BackupStorageSection() {
             {t("settings.backupStorage.title")}
           </span>
           {locations.length > 0 && (
-            <span className="text-ui text-muted-foreground">
+            <span className="text-caption text-muted-foreground">
               {t("settings.backupStorage.total", {
                 size: formatBytes(totalBytes),
               })}
@@ -96,11 +96,11 @@ export function BackupStorageSection() {
         </button>
       </CollapsibleTrigger>
 
-      <CollapsibleContent className="pt-2">
+      <CollapsibleContent className="pt-3">
         {isLoading ? (
-          <div className="text-ui text-muted-foreground py-2">Loading...</div>
+          <div className="py-3 text-body text-muted-foreground">Loading...</div>
         ) : isError ? (
-          <div className="text-ui text-muted-foreground py-2">
+          <div className="py-3 text-body text-muted-foreground">
             {t("settings.backupStorage.loadFailed")}
           </div>
         ) : (
@@ -108,26 +108,26 @@ export function BackupStorageSection() {
             {locations.map((location) => (
               <div
                 key={location.id}
-                className="flex items-center justify-between gap-2 px-2 py-2 rounded-[8px] bg-subtle text-ui"
+                className="flex items-center justify-between gap-3 rounded-panel bg-subtle px-4 py-3 text-body"
               >
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 text-ui font-medium">
+                  <div className="flex items-center gap-2 text-strong font-medium">
                     <span className="truncate">
                       {itemText(location.id, "name")}
                     </span>
                     {location.id.startsWith("legacy") && (
-                      <span className="shrink-0 rounded px-1 py-px text-ui font-normal text-muted-foreground border border-border">
+                      <span className="shrink-0 rounded-[4px] border border-border px-1.5 py-px text-badge font-normal text-muted-foreground">
                         {t("settings.backupStorage.legacy")}
                       </span>
                     )}
                   </div>
                   <div
-                    className="font-mono text-ui text-muted-foreground truncate"
+                    className="truncate font-mono text-caption text-muted-foreground"
                     title={location.path}
                   >
                     {location.path}
                   </div>
-                  <div className="text-ui text-muted-foreground">
+                  <div className="text-caption text-muted-foreground">
                     {formatBytes(location.sizeBytes)} &middot;{" "}
                     {t("settings.backupStorage.itemCount", {
                       count: location.itemCount,
@@ -137,11 +137,11 @@ export function BackupStorageSection() {
                     )}
                   </div>
                 </div>
-                <div className="flex items-center gap-1 shrink-0">
+                <div className="flex shrink-0 items-center gap-1">
                   <HoverTip content={revealLabel}>
                     <Button
                       variant="ghost"
-                      size="icon"
+                      size="icon-compact"
                       onClick={() => void handleReveal(location.id)}
                       aria-label={revealLabel}
                     >
@@ -152,7 +152,7 @@ export function BackupStorageSection() {
                     <HoverTip content={deleteLabel}>
                       <Button
                         variant="ghost"
-                        size="icon"
+                        size="icon-compact"
                         className="text-destructive hover:text-destructive"
                         onClick={() => setPending(location)}
                         disabled={isDeleting}
@@ -173,7 +173,7 @@ export function BackupStorageSection() {
         open={!!pending}
         onOpenChange={(open) => !open && !isDeleting && setPending(null)}
       >
-        <DialogContent className="max-w-md" zIndex="alert">
+        <DialogContent zIndex="alert">
           <DialogHeader>
             <DialogTitle>
               {pending &&

@@ -355,11 +355,11 @@ requires_openai_auth = true`;
       onClose={onClose}
       footer={footer}
     >
-      <div className="space-y-2">
+      <div className="space-y-6">
         {/* 预设选择（仅新建模式） */}
         {!isEditMode && (
           <div className="space-y-3">
-            <Label>
+            <Label className="text-strong font-semibold">
               {t("universalProvider.selectPreset", {
                 defaultValue: "选择预设类型",
               })}
@@ -386,7 +386,7 @@ requires_openai_auth = true`;
               ))}
             </div>
             {selectedPreset?.description && (
-              <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+              <p className="text-caption text-muted-foreground">
                 {selectedPreset.description}
               </p>
             )}
@@ -394,8 +394,8 @@ requires_openai_auth = true`;
         )}
 
         {/* 基本信息 */}
-        <div className="space-y-2">
-          <div className="space-y-2">
+        <div className="space-y-4">
+          <div className="space-y-1.5">
             <Label htmlFor="name">
               {t("universalProvider.name", { defaultValue: "名称" })}
             </Label>
@@ -409,7 +409,7 @@ requires_openai_auth = true`;
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="baseUrl">
               {t("universalProvider.baseUrl", { defaultValue: "API 地址" })}
             </Label>
@@ -421,7 +421,7 @@ requires_openai_auth = true`;
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="apiKey">
               {t("universalProvider.apiKey", { defaultValue: "API Key" })}
             </Label>
@@ -450,7 +450,7 @@ requires_openai_auth = true`;
             </div>
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="websiteUrl">
               {t("universalProvider.websiteUrl", { defaultValue: "官网地址" })}
             </Label>
@@ -464,7 +464,7 @@ requires_openai_auth = true`;
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="notes">
               {t("universalProvider.notes", { defaultValue: "备注" })}
             </Label>
@@ -481,40 +481,34 @@ requires_openai_auth = true`;
 
         {/* 应用启用 */}
         <div className="space-y-3">
-          <Label>
+          <Label className="text-strong font-semibold">
             {t("universalProvider.enabledApps", { defaultValue: "启用的应用" })}
           </Label>
-          <div className="flex flex-col gap-3">
-            <div className="flex items-center justify-between rounded-[8px] border p-2">
+          <div className="flex flex-col gap-2">
+            <div className="flex items-center justify-between rounded-panel border px-4 py-3">
               <div className="flex items-center gap-2">
                 <ProviderIcon icon="claude" name="Claude" size={20} />
-                <span className="text-[12.35px] leading-[1.3] font-medium">
-                  Claude Code
-                </span>
+                <span className="text-body font-medium">Claude Code</span>
               </div>
               <Switch
                 checked={claudeEnabled}
                 onCheckedChange={setClaudeEnabled}
               />
             </div>
-            <div className="flex items-center justify-between rounded-[8px] border p-2">
+            <div className="flex items-center justify-between rounded-panel border px-4 py-3">
               <div className="flex items-center gap-2">
                 <ProviderIcon icon="openai" name="Codex" size={20} />
-                <span className="text-[12.35px] leading-[1.3] font-medium">
-                  OpenAI Codex
-                </span>
+                <span className="text-body font-medium">OpenAI Codex</span>
               </div>
               <Switch
                 checked={codexEnabled}
                 onCheckedChange={setCodexEnabled}
               />
             </div>
-            <div className="flex items-center justify-between rounded-[8px] border p-2">
+            <div className="flex items-center justify-between rounded-panel border px-4 py-3">
               <div className="flex items-center gap-2">
                 <ProviderIcon icon="gemini" name="Gemini" size={20} />
-                <span className="text-[12.35px] leading-[1.3] font-medium">
-                  Gemini CLI
-                </span>
+                <span className="text-body font-medium">Gemini CLI</span>
               </div>
               <Switch
                 checked={geminiEnabled}
@@ -525,21 +519,21 @@ requires_openai_auth = true`;
         </div>
 
         {/* 模型配置 */}
-        <div className="space-y-2">
-          <Label>
+        <div className="space-y-3">
+          <Label className="text-strong font-semibold">
             {t("universalProvider.modelConfig", { defaultValue: "模型配置" })}
           </Label>
 
           {/* Claude 模型 */}
           {claudeEnabled && (
-            <div className="space-y-2 rounded-[8px] border p-2">
-              <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-medium">
+            <div className="space-y-4 rounded-panel border p-4">
+              <div className="flex items-center gap-2 text-strong font-medium">
                 <ProviderIcon icon="claude" name="Claude" size={16} />
                 Claude
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="space-y-1">
-                  <Label className="text-[12.35px] leading-[1.3]">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label>
                     {t("universalProvider.model", { defaultValue: "主模型" })}
                   </Label>
                   <Input
@@ -550,8 +544,8 @@ requires_openai_auth = true`;
                     placeholder="claude-sonnet-4-20250514"
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label className="text-[12.35px] leading-[1.3]">Haiku</Label>
+                <div className="space-y-1.5">
+                  <Label>Haiku</Label>
                   <Input
                     value={models.claude?.haikuModel || ""}
                     onChange={(e) =>
@@ -560,8 +554,8 @@ requires_openai_auth = true`;
                     placeholder="claude-haiku-4-20250514"
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label className="text-[12.35px] leading-[1.3]">Sonnet</Label>
+                <div className="space-y-1.5">
+                  <Label>Sonnet</Label>
                   <Input
                     value={models.claude?.sonnetModel || ""}
                     onChange={(e) =>
@@ -570,8 +564,8 @@ requires_openai_auth = true`;
                     placeholder="claude-sonnet-4-20250514"
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label className="text-[12.35px] leading-[1.3]">Opus</Label>
+                <div className="space-y-1.5">
+                  <Label>Opus</Label>
                   <Input
                     value={models.claude?.opusModel || ""}
                     onChange={(e) =>
@@ -586,14 +580,14 @@ requires_openai_auth = true`;
 
           {/* Codex 模型 */}
           {codexEnabled && (
-            <div className="space-y-2 rounded-[8px] border p-2">
-              <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-medium">
+            <div className="space-y-4 rounded-panel border p-4">
+              <div className="flex items-center gap-2 text-strong font-medium">
                 <ProviderIcon icon="openai" name="Codex" size={16} />
                 Codex
               </div>
-              <div className="grid gap-3 sm:grid-cols-2">
-                <div className="space-y-1">
-                  <Label className="text-[12.35px] leading-[1.3]">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                <div className="space-y-1.5">
+                  <Label>
                     {t("universalProvider.model", { defaultValue: "模型" })}
                   </Label>
                   <Input
@@ -604,10 +598,8 @@ requires_openai_auth = true`;
                     placeholder="gpt-5.6-sol"
                   />
                 </div>
-                <div className="space-y-1">
-                  <Label className="text-[12.35px] leading-[1.3]">
-                    Reasoning Effort
-                  </Label>
+                <div className="space-y-1.5">
+                  <Label>Reasoning Effort</Label>
                   <Input
                     value={models.codex?.reasoningEffort || ""}
                     onChange={(e) =>
@@ -622,13 +614,13 @@ requires_openai_auth = true`;
 
           {/* Gemini 模型 */}
           {geminiEnabled && (
-            <div className="space-y-2 rounded-[8px] border p-2">
-              <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-medium">
+            <div className="space-y-4 rounded-panel border p-4">
+              <div className="flex items-center gap-2 text-strong font-medium">
                 <ProviderIcon icon="gemini" name="Gemini" size={16} />
                 Gemini
               </div>
-              <div className="space-y-1">
-                <Label className="text-[12.35px] leading-[1.3]">
+              <div className="space-y-1.5">
+                <Label>
                   {t("universalProvider.model", { defaultValue: "模型" })}
                 </Label>
                 <Input
@@ -645,13 +637,13 @@ requires_openai_auth = true`;
 
         {/* 配置 JSON 预览 */}
         {isEditMode && (claudeEnabled || codexEnabled || geminiEnabled) && (
-          <div className="space-y-2">
-            <Label>
+          <div className="space-y-3">
+            <Label className="text-strong font-semibold">
               {t("universalProvider.configJsonPreview", {
                 defaultValue: "配置 JSON 预览",
               })}
             </Label>
-            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+            <p className="text-caption text-muted-foreground">
               {t("universalProvider.configJsonPreviewHint", {
                 defaultValue:
                   "以下是将要同步到各应用的配置内容（仅覆盖显示的字段，保留其他自定义配置）",
@@ -661,7 +653,7 @@ requires_openai_auth = true`;
             {/* Claude JSON */}
             {claudeConfigJson && (
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-medium">
+                <div className="flex items-center gap-2 text-body font-medium">
                   <ProviderIcon icon="claude" name="Claude" size={16} />
                   Claude
                 </div>
@@ -677,7 +669,7 @@ requires_openai_auth = true`;
             {/* Codex JSON */}
             {codexConfigJson && (
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-medium">
+                <div className="flex items-center gap-2 text-body font-medium">
                   <ProviderIcon icon="openai" name="Codex" size={16} />
                   Codex
                 </div>
@@ -693,7 +685,7 @@ requires_openai_auth = true`;
             {/* Gemini JSON */}
             {geminiConfigJson && (
               <div className="space-y-2">
-                <div className="flex items-center gap-2 text-[12.35px] leading-[1.3] font-medium">
+                <div className="flex items-center gap-2 text-body font-medium">
                   <ProviderIcon icon="gemini" name="Gemini" size={16} />
                   Gemini
                 </div>

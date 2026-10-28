@@ -42,8 +42,8 @@ export function CustomUserAgentField({
   });
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center gap-0.5">
+    <div className="space-y-1.5">
+      <div className="flex items-center gap-1">
         <FormLabel htmlFor={id}>{label}</FormLabel>
         <HelpTip title={label}>{help}</HelpTip>
       </div>
@@ -59,7 +59,7 @@ export function CustomUserAgentField({
         />
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button type="button" variant="outline" className="shrink-0 gap-1">
+            <Button type="button" variant="outline" className="shrink-0">
               {t("providerForm.customUserAgentPresets", {
                 defaultValue: "预设",
               })}
@@ -74,7 +74,7 @@ export function CustomUserAgentField({
               <DropdownMenuItem
                 key={preset}
                 onSelect={() => onChange(preset)}
-                className="font-mono text-[12.35px] leading-[1.3]"
+                className="font-mono text-body"
               >
                 {preset}
               </DropdownMenuItem>
@@ -83,7 +83,7 @@ export function CustomUserAgentField({
         </DropdownMenu>
       </div>
       {!valid && (
-        <p className="text-[12.35px] leading-[1.3] text-destructive">
+        <p className="text-caption text-destructive">
           {t("providerForm.customUserAgentInvalid", {
             defaultValue:
               "User-Agent 不能包含控制字符（如换行符），否则将被忽略。",

@@ -114,7 +114,7 @@ export function PricingEditModal({
       }
     >
       {isNew && (
-        <div className="mb-2 flex items-center gap-2 rounded-[8px] border border-border bg-subtle px-2 py-2">
+        <div className="flex items-center gap-3 rounded-panel border border-border bg-subtle px-4 py-3">
           <Button
             type="button"
             variant="neutral"
@@ -134,9 +134,9 @@ export function PricingEditModal({
         </div>
       )}
 
-      <form id="pricing-form" onSubmit={handleSubmit} className="space-y-2">
+      <form id="pricing-form" onSubmit={handleSubmit} className="space-y-4">
         {isNew && (
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             <Label htmlFor="modelId">{t("usage.modelId", "模型 ID")}</Label>
             <Input
               id="modelId"
@@ -152,7 +152,7 @@ export function PricingEditModal({
           </div>
         )}
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="displayName">
             {t("usage.displayName", "显示名称")}
           </Label>
@@ -169,78 +169,80 @@ export function PricingEditModal({
           />
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="inputCost">
-            {t("usage.inputCostPerMillion", "输入成本 (每百万 tokens, USD)")}
-          </Label>
-          <Input
-            id="inputCost"
-            type="number"
-            step={PRICE_INPUT_STEP}
-            min="0"
-            value={formData.inputCost}
-            onChange={(e) =>
-              setFormData({ ...formData, inputCost: e.target.value })
-            }
-            required
-          />
-        </div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <div className="space-y-1.5">
+            <Label htmlFor="inputCost">
+              {t("usage.inputCostPerMillion", "输入成本 (每百万 tokens, USD)")}
+            </Label>
+            <Input
+              id="inputCost"
+              type="number"
+              step={PRICE_INPUT_STEP}
+              min="0"
+              value={formData.inputCost}
+              onChange={(e) =>
+                setFormData({ ...formData, inputCost: e.target.value })
+              }
+              required
+            />
+          </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="outputCost">
-            {t("usage.outputCostPerMillion", "输出成本 (每百万 tokens, USD)")}
-          </Label>
-          <Input
-            id="outputCost"
-            type="number"
-            step={PRICE_INPUT_STEP}
-            min="0"
-            value={formData.outputCost}
-            onChange={(e) =>
-              setFormData({ ...formData, outputCost: e.target.value })
-            }
-            required
-          />
-        </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="outputCost">
+              {t("usage.outputCostPerMillion", "输出成本 (每百万 tokens, USD)")}
+            </Label>
+            <Input
+              id="outputCost"
+              type="number"
+              step={PRICE_INPUT_STEP}
+              min="0"
+              value={formData.outputCost}
+              onChange={(e) =>
+                setFormData({ ...formData, outputCost: e.target.value })
+              }
+              required
+            />
+          </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="cacheReadCost">
-            {t(
-              "usage.cacheReadCostPerMillion",
-              "缓存读取成本 (每百万 tokens, USD)",
-            )}
-          </Label>
-          <Input
-            id="cacheReadCost"
-            type="number"
-            step={PRICE_INPUT_STEP}
-            min="0"
-            value={formData.cacheReadCost}
-            onChange={(e) =>
-              setFormData({ ...formData, cacheReadCost: e.target.value })
-            }
-            required
-          />
-        </div>
+          <div className="space-y-1.5">
+            <Label htmlFor="cacheReadCost">
+              {t(
+                "usage.cacheReadCostPerMillion",
+                "缓存读取成本 (每百万 tokens, USD)",
+              )}
+            </Label>
+            <Input
+              id="cacheReadCost"
+              type="number"
+              step={PRICE_INPUT_STEP}
+              min="0"
+              value={formData.cacheReadCost}
+              onChange={(e) =>
+                setFormData({ ...formData, cacheReadCost: e.target.value })
+              }
+              required
+            />
+          </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="cacheCreationCost">
-            {t(
-              "usage.cacheCreationCostPerMillion",
-              "缓存写入成本 (每百万 tokens, USD)",
-            )}
-          </Label>
-          <Input
-            id="cacheCreationCost"
-            type="number"
-            step={PRICE_INPUT_STEP}
-            min="0"
-            value={formData.cacheCreationCost}
-            onChange={(e) =>
-              setFormData({ ...formData, cacheCreationCost: e.target.value })
-            }
-            required
-          />
+          <div className="space-y-1.5">
+            <Label htmlFor="cacheCreationCost">
+              {t(
+                "usage.cacheCreationCostPerMillion",
+                "缓存写入成本 (每百万 tokens, USD)",
+              )}
+            </Label>
+            <Input
+              id="cacheCreationCost"
+              type="number"
+              step={PRICE_INPUT_STEP}
+              min="0"
+              value={formData.cacheCreationCost}
+              onChange={(e) =>
+                setFormData({ ...formData, cacheCreationCost: e.target.value })
+              }
+              required
+            />
+          </div>
         </div>
       </form>
 

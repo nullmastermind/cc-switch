@@ -187,7 +187,7 @@ export function AgyAccountSelect({ value, onChange }: AgyAccountSelectProps) {
   const missing = value !== null && !accounts.some((a) => a.id === value);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <Label htmlFor="agy-account">
         {t("provider.form.agy.account", { defaultValue: "账号" })}
       </Label>

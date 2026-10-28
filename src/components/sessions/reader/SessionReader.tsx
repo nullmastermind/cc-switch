@@ -558,7 +558,7 @@ export function SessionReader({
       case "question":
         // 人的输入靠右，气泡最宽 85%，左边留出 Agent 侧的空间
         return turn.question ? (
-          <div className="flex justify-end pb-3 ps-16">
+          <div className="flex justify-end pb-4 ps-16">
             <div className="min-w-0 max-w-[72%]">
               <SessionQuestion
                 question={turn.question}
@@ -602,7 +602,7 @@ export function SessionReader({
       }
       case "final":
         return turn.final ? (
-          <div className="pb-1 pt-2">
+          <div className="pb-2 pt-3">
             <SessionFinalReply
               final={turn.final}
               forceExpanded={row.forceExpanded}
@@ -617,7 +617,7 @@ export function SessionReader({
         ) : null;
       case "turn_divider":
         return (
-          <div aria-hidden className="py-4">
+          <div aria-hidden className="py-6">
             <div className="h-px bg-border" />
           </div>
         );
@@ -627,14 +627,14 @@ export function SessionReader({
   let body: ReactNode;
   if (failed) {
     body = (
-      <div className="flex flex-1 flex-col items-center justify-center gap-2 px-6 pb-10 text-center">
-        <p className="m-0 text-[12.35px] leading-[1.3] font-semibold text-fg-1">
+      <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-4 py-12 text-center lg:px-6">
+        <p className="m-0 text-strong font-semibold text-fg-1">
           {t("sessionManager.readFailed", { defaultValue: "无法读取这个会话" })}
         </p>
-        <code className="max-w-[560px] whitespace-pre-wrap rounded-[8px] bg-subtle px-2 py-1.5 text-left font-mono text-[12.35px] leading-[1.3] text-fg-2 [overflow-wrap:anywhere]">
+        <code className="max-w-[560px] whitespace-pre-wrap rounded-panel bg-subtle px-3 py-2 text-left font-mono text-body text-fg-2 [overflow-wrap:anywhere]">
           {extractErrorMessage(transcript.error) || String(transcript.error)}
         </code>
-        <div className="mt-2 flex gap-2">
+        <div className="mt-3 flex flex-wrap justify-center gap-2">
           <Button variant="neutral" size="regular" onClick={onReload}>
             {t("common.retry", { defaultValue: "重试" })}
           </Button>
@@ -663,7 +663,7 @@ export function SessionReader({
     body = (
       <div
         role="status"
-        className="flex flex-1 items-center justify-center text-[12.35px] leading-[1.3] text-fg-2"
+        className="flex flex-1 items-center justify-center text-body text-fg-2"
       >
         {t("sessionManager.loadingMessages", {
           defaultValue: "加载会话内容中...",
@@ -672,7 +672,7 @@ export function SessionReader({
     );
   } else if (rows.length === 0) {
     body = (
-      <div className="flex flex-1 items-center justify-center px-6 text-[12.35px] leading-[1.3] text-fg-2">
+      <div className="flex flex-1 items-center justify-center px-4 text-body text-fg-2 lg:px-6">
         {filter === "changes" && messages.length > 0
           ? rt("noChanges")
           : t("sessionManager.emptySession", {
@@ -691,7 +691,7 @@ export function SessionReader({
           const bottom = el.scrollTop + el.clientHeight >= el.scrollHeight - 24;
           setAtBottom((current) => (current === bottom ? current : bottom));
         }}
-        className="min-h-0 flex-1 overflow-y-auto scroll-stable overscroll-contain px-6"
+        className="min-h-0 flex-1 overflow-y-auto scroll-stable overscroll-contain px-4 lg:px-6"
       >
         <div
           className="relative w-full"
@@ -712,7 +712,7 @@ export function SessionReader({
               >
                 <div
                   className={cn(
-                    "mx-auto w-full max-w-[820px] rounded-[8px] transition-shadow motion-reduce:transition-none",
+                    "mx-auto w-full max-w-[820px] rounded-panel transition-shadow motion-reduce:transition-none",
                     active && "ring-2 ring-ring ring-offset-2 ring-offset-app",
                   )}
                 >
@@ -800,7 +800,7 @@ export function SessionReader({
                   defaultValue: "跳到最新消息",
                 })}
                 onClick={scrollToLatest}
-                className="absolute bottom-4 end-6 gap-1.5 pe-3 ps-2 shadow-sm"
+                className="absolute bottom-4 end-4 gap-1.5 shadow-sm lg:end-6"
               >
                 <ArrowDown className="h-3.5 w-3.5" strokeWidth={2} />
                 {t("sessionManager.latest", { defaultValue: "最新" })}

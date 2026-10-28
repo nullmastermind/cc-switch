@@ -44,10 +44,10 @@ const CodexConfigEditor: React.FC<CodexConfigEditorProps> = ({
   const { t } = useTranslation();
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-4">
       {isProxyTakeover && (
-        <div className="p-2 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-[8px]">
-          <p className="text-[12.35px] leading-[1.3] text-amber-600 dark:text-amber-400">
+        <div className="px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700 rounded-panel">
+          <p className="text-body text-amber-600 dark:text-amber-400">
             {t("codexConfig.proxyTakeoverStorageNotice")}
           </p>
         </div>

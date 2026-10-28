@@ -40,8 +40,8 @@ export function ProviderIconBox({
       aria-hidden="true"
       style={{ width: size, height: size }}
       className={cn(
-        "relative flex shrink-0 items-center justify-center overflow-hidden text-[12.35px] leading-[1.3]",
-        size <= 24 ? "rounded-[4px]" : "rounded-[8px]",
+        "relative flex shrink-0 items-center justify-center overflow-hidden text-body",
+        size <= 24 ? "rounded-control" : "rounded-panel",
         tile
           ? // 描边画在图片上层：白底图标放在白色卡片上也有轮廓
             "after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:ring-1 after:ring-inset after:ring-black/10 dark:after:ring-white/10"

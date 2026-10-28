@@ -34,7 +34,7 @@ export function FieldError({ id, children }: { id: string; children: string }) {
   return (
     <span
       id={id}
-      className="flex items-start gap-1 text-[12.35px] leading-[1.3] text-danger-text"
+      className="flex items-start gap-1 text-caption text-danger-text"
     >
       <CircleAlert
         aria-hidden="true"
@@ -173,11 +173,11 @@ const PromptFormPanel: React.FC<PromptFormPanelProps> = ({
           {t("prompts.formDescription", { file: fileName })}
         </SheetDescription>
 
-        <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto scroll-stable overscroll-contain px-6 pb-6 pt-5">
+        <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto scroll-stable overscroll-contain px-4 pb-6 pt-5 lg:px-6">
           <div className="flex shrink-0 flex-col gap-1.5">
             <label
               htmlFor={`${baseId}-name`}
-              className="text-[12.35px] leading-[1.3] font-medium text-fg-1"
+              className="text-body font-medium text-fg-1"
             >
               {t("prompts.name")}
               <span aria-hidden="true" className="ms-0.5 text-danger-text">
@@ -211,7 +211,7 @@ const PromptFormPanel: React.FC<PromptFormPanelProps> = ({
           <div className="flex shrink-0 flex-col gap-1.5">
             <label
               htmlFor={`${baseId}-desc`}
-              className="text-[12.35px] leading-[1.3] font-medium text-fg-1"
+              className="text-body font-medium text-fg-1"
             >
               {t("prompts.description")}
             </label>
@@ -230,7 +230,7 @@ const PromptFormPanel: React.FC<PromptFormPanelProps> = ({
           <div className="flex min-h-[220px] flex-1 flex-col gap-1.5">
             <label
               htmlFor={`${baseId}-body`}
-              className="text-[12.35px] leading-[1.3] font-medium text-fg-1"
+              className="text-body font-medium text-fg-1"
             >
               {t("prompts.content")}
             </label>
@@ -255,7 +255,7 @@ const PromptFormPanel: React.FC<PromptFormPanelProps> = ({
               }
               className={cn(
                 promptFieldClass,
-                "min-h-[180px] flex-1 resize-none px-3 py-2 font-mono text-[12.35px] leading-[1.3] leading-[18px]",
+                "min-h-[180px] flex-1 resize-none px-3 py-2 font-mono text-body leading-[18px]",
               )}
             />
             <div className="flex items-start gap-3">
@@ -265,7 +265,7 @@ const PromptFormPanel: React.FC<PromptFormPanelProps> = ({
               <span
                 id={countId}
                 className={cn(
-                  "ms-auto shrink-0 whitespace-nowrap text-[12.35px] leading-[1.3] tabular-nums",
+                  "ms-auto shrink-0 whitespace-nowrap text-caption tabular-nums",
                   overLimit ? "text-danger-text" : "text-fg-2",
                 )}
               >
@@ -275,7 +275,7 @@ const PromptFormPanel: React.FC<PromptFormPanelProps> = ({
           </div>
         </div>
 
-        <div className="flex h-14 shrink-0 items-center gap-2 border-t border-border px-6">
+        <div className="flex h-14 shrink-0 items-center gap-2 border-t border-border px-4 lg:px-6">
           <div className="flex-1" />
           <Button
             type="button"

@@ -46,9 +46,9 @@ export function LogConfigPanel() {
   if (isLoading) return null;
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1">
+    <div className="space-y-4">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-1.5">
           <Label htmlFor="diagnostic-log-enabled">
             {t("settings.advanced.logConfig.enabled")}
           </Label>
@@ -63,8 +63,8 @@ export function LogConfigPanel() {
         />
       </div>
 
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-1">
+      <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-1.5">
           <Label htmlFor="diagnostic-log-level">
             {t("settings.advanced.logConfig.level")}
           </Label>

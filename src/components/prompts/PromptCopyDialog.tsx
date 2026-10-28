@@ -79,13 +79,13 @@ export function PromptCopyDialog({
     >
       <DialogContent
         zIndex="nested"
-        className="flex w-[480px] max-w-[calc(100vw-32px)] flex-col gap-2 rounded-[8px] border border-border bg-surface p-2 text-fg-1 shadow-sm sm:rounded-[8px]"
+        className="max-w-lg border-border bg-surface text-fg-1 shadow-sm"
       >
-        <div className="flex flex-col gap-1">
-          <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold [overflow-wrap:anywhere]">
+        <div className="flex flex-col gap-1.5">
+          <DialogTitle className="[overflow-wrap:anywhere]">
             {t("prompts.copyDialog.title", { name: prompt.name })}
           </DialogTitle>
-          <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+          <DialogDescription className="text-body text-fg-2">
             {t("prompts.copyDialog.lead")}
           </DialogDescription>
         </div>
@@ -94,7 +94,7 @@ export function PromptCopyDialog({
           className="m-0 min-w-0 border-0 p-0"
         >
           <legend className="sr-only">{t("prompts.copyDialog.legend")}</legend>
-          <ul className="m-0 list-none rounded-[8px] border border-border p-0">
+          <ul className="m-0 list-none rounded-panel border border-border p-0">
             {targets.map((app, index) => {
               const inputId = `${baseId}-${app}`;
               const noteId = `${inputId}-note`;
@@ -107,13 +107,13 @@ export function PromptCopyDialog({
                 <li
                   key={app}
                   className={cn(
-                    "flex h-8 items-center px-2",
+                    "flex min-h-11 items-center px-4",
                     index > 0 && "border-t border-border",
                   )}
                 >
                   <label
                     htmlFor={inputId}
-                    className="flex h-8 min-w-0 flex-1 cursor-pointer items-center gap-2"
+                    className="flex min-h-11 min-w-0 flex-1 cursor-pointer items-center gap-2"
                   >
                     <input
                       id={inputId}
@@ -131,14 +131,12 @@ export function PromptCopyDialog({
                       className="ui-checkbox"
                     />
                     <AppGlyph app={app} size={16} badgeClassName="bg-surface" />
-                    <span className="text-[12.35px] leading-[1.3]">
-                      {APP_DISPLAY_NAME[app]}
-                    </span>
+                    <span className="text-body">{APP_DISPLAY_NAME[app]}</span>
                     <span className="flex-1" />
                     {note ? (
                       <span
                         id={noteId}
-                        className="whitespace-nowrap text-[12.35px] leading-[1.3] text-fg-2"
+                        className="whitespace-nowrap text-caption text-fg-2"
                       >
                         {note}
                       </span>

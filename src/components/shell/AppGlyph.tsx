@@ -79,7 +79,7 @@ export function AppGlyph({
       {BadgeIcon && (
         <span
           className={cn(
-            "absolute -bottom-1 -right-1 flex h-[11px] w-[11px] items-center justify-center rounded-[3px] bg-sidebar text-fg-2",
+            "absolute -bottom-1 -right-1 flex h-[11px] w-[11px] items-center justify-center rounded-[4px] bg-sidebar text-fg-2",
             badgeClassName,
           )}
         >

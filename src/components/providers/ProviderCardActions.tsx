@@ -115,12 +115,12 @@ export function ProviderCardActions({
   const { status, buttons, move, menuItems = [] } = presentation;
 
   return (
-    <div className="flex shrink-0 items-center gap-1">
+    <div className="flex shrink-0 items-center gap-0.5">
       {/* 主操作位定宽：图标按钮和「● 使用中」这类状态文字宽度不同，不定宽的话
           切换后左边的用量会被推开、跟其他卡片对不齐。按最长的常见状态留宽，靠右对齐 */}
-      <div className="flex min-w-20 items-center justify-end gap-1">
+      <div className="flex min-w-20 items-center justify-end gap-0.5">
         {status && (
-          <span className="inline-flex items-center gap-1 whitespace-nowrap px-1 text-ui font-medium text-fg-1">
+          <span className="inline-flex items-center gap-1 whitespace-nowrap px-1 text-body font-medium text-fg-1">
             <span
               aria-hidden="true"
               className={cn("h-1.5 w-1.5 rounded-full", DOT[status.dot])}
@@ -271,7 +271,7 @@ export function ProviderCardActions({
           >
             {t("common.delete")}
             {presentation.deleteDisabledReason && (
-              <span className="text-ui text-fg-3">
+              <span className="text-caption text-fg-3">
                 {presentation.deleteDisabledReason}
               </span>
             )}
@@ -325,7 +325,7 @@ function ModeMenuItem({ item }: { item: CardMenuItem }) {
               >
                 <span className="max-w-72 truncate">{option.label}</span>
                 {option.detail && (
-                  <span className="max-w-72 truncate font-mono text-[12.35px] leading-[1.3] text-fg-3">
+                  <span className="max-w-72 truncate font-mono text-caption text-fg-3">
                     {option.detail}
                   </span>
                 )}
@@ -344,7 +344,7 @@ function ModeMenuItem({ item }: { item: CardMenuItem }) {
     >
       {item.label}
       {item.disabledReason && (
-        <span className="max-w-64 text-[12.35px] leading-[1.3] text-fg-3">
+        <span className="max-w-64 text-caption text-fg-3">
           {item.disabledReason}
         </span>
       )}

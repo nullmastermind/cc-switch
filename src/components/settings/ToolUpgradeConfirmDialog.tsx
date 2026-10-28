@@ -49,7 +49,7 @@ export function ToolUpgradeConfirmDialog({
       }}
     >
       <DialogContent
-        className="w-full max-w-[480px] gap-2 rounded-[8px] p-2 text-ui sm:rounded-[8px]"
+        className="text-body"
         zIndex="alert"
         onOpenAutoFocus={(event) => {
           event.preventDefault();
@@ -60,12 +60,12 @@ export function ToolUpgradeConfirmDialog({
           <DialogTitle
             ref={titleRef}
             tabIndex={-1}
-            className="flex items-center gap-2 text-ui font-semibold"
+            className="flex items-center gap-2"
           >
-            <AlertTriangle className="h-5 w-5 text-yellow-500" />
+            <AlertTriangle className="h-4 w-4 text-yellow-500" />
             {t("settings.toolUpgradeConfirmTitle")}
           </DialogTitle>
-          <DialogDescription className="text-ui leading-[1.3]">
+          <DialogDescription>
             {t("settings.toolUpgradeConfirmHint")}
           </DialogDescription>
         </DialogHeader>
@@ -74,17 +74,17 @@ export function ToolUpgradeConfirmDialog({
           {plans.map((plan) => (
             <div
               key={plan.tool}
-              className="space-y-1.5 rounded-[8px] border border-yellow-500/20 bg-yellow-500/5 p-2"
+              className="space-y-2 rounded-panel border border-yellow-500/20 bg-yellow-500/5 p-3"
             >
-              <div className="text-ui font-medium">
+              <div className="text-strong font-medium">
                 {displayName(plan.tool)}
               </div>
               {!plan.anchored && (
-                <div className="text-ui leading-[1.3] text-yellow-600 dark:text-yellow-400">
+                <div className="text-caption text-yellow-600 dark:text-yellow-400">
                   {t("settings.toolUpgradeUnanchoredHint")}
                 </div>
               )}
-              <ul className="space-y-1">
+              <ul className="space-y-1.5">
                 {plan.installs.map((inst) => (
                   <li key={inst.path}>
                     <ToolInstallRow inst={inst} />
@@ -92,11 +92,11 @@ export function ToolUpgradeConfirmDialog({
                 ))}
               </ul>
               <div className="space-y-0.5">
-                <div className="text-ui text-muted-foreground">
+                <div className="text-caption text-muted-foreground">
                   {t("settings.toolUpgradeWillRun")}
                 </div>
                 <code
-                  className="block truncate rounded-[8px] bg-background/80 px-1.5 py-0.5 font-mono text-ui text-foreground"
+                  className="block truncate rounded-control bg-background/80 px-2 py-1 font-mono text-body text-foreground"
                   title={plan.command}
                 >
                   {plan.command}

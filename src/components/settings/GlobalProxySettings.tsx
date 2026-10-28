@@ -142,16 +142,16 @@ export function GlobalProxySettings() {
   // 只在首次加载且无数据时显示加载状态
   if (isLoading && savedUrl === undefined) {
     return (
-      <div className="flex items-center justify-center p-2">
+      <div className="flex items-center justify-center py-4">
         <Loader2 className="h-4 w-4 animate-spin text-muted-foreground" />
       </div>
     );
   }
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       {/* 描述 */}
-      <p className="text-ui text-muted-foreground">
+      <p className="text-body text-muted-foreground">
         {t("settings.globalProxy.hint")}
       </p>
 
@@ -238,13 +238,13 @@ export function GlobalProxySettings() {
               setDirty(true);
             }}
             onKeyDown={handleKeyDown}
-            className="font-mono pr-8"
+            className="font-mono pr-9"
           />
           <Button
             type="button"
             variant="ghost"
-            size="icon"
-            className="absolute right-0 top-0 h-6 w-6 hover:bg-transparent"
+            size="icon-compact"
+            className="absolute right-0.5 top-0.5 hover:bg-transparent"
             onClick={() => setShowPassword(!showPassword)}
             tabIndex={-1}
           >

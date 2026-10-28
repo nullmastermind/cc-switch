@@ -521,7 +521,7 @@ export const SessionPlainText = memo(function SessionPlainText({
   return (
     <div
       className={cn(
-        "min-w-0 break-words text-[12.35px] leading-[1.3] text-fg-1 [overflow-wrap:anywhere]",
+        "min-w-0 break-words text-body text-fg-1 [overflow-wrap:anywhere]",
         className,
       )}
     >
@@ -707,7 +707,7 @@ const RemoteImage = ({ src, alt, searchQuery }: RemoteImageProps) => {
         decoding="async"
         referrerPolicy="no-referrer"
         onError={() => setFailedSrc(src)}
-        className="my-2 block max-h-80 max-w-full rounded-[8px] border border-border object-contain"
+        className="my-2 block max-h-80 max-w-full rounded-panel border border-border object-contain"
       />
     );
   }
@@ -721,12 +721,12 @@ const RemoteImage = ({ src, alt, searchQuery }: RemoteImageProps) => {
       title={src}
       aria-label={`${loadLabel}: ${label}`}
       onClick={() => setLoadedSrc(src)}
-      className="my-2 flex max-w-full flex-col items-start rounded-[8px] border border-dashed border-border-strong bg-subtle px-3 py-2 text-left text-[12.35px] leading-[1.3] text-fg-2 transition-colors hover:text-fg-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+      className="my-2 flex max-w-full flex-col items-start rounded-panel border border-dashed border-border-strong bg-subtle px-4 py-3 text-left text-body text-fg-2 transition-colors hover:text-fg-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
     >
       <span className="max-w-full truncate font-medium">
         {renderText(label, searchQuery)}
       </span>
-      <span className="text-fg-3">{loadLabel}</span>
+      <span className="text-caption text-fg-3">{loadLabel}</span>
     </button>
   );
 };
@@ -891,8 +891,8 @@ const renderTable = (
   const rows = childNodes(node).filter((child) => child.name === "TableRow");
 
   return (
-    <div className="my-2 max-w-full overflow-x-auto">
-      <table className="w-full border-collapse text-left text-[12.35px] leading-[1.3]">
+    <div className="my-3 max-w-full overflow-x-auto">
+      <table className="w-full border-collapse text-left text-body">
         {header && <thead>{renderNode(header, source, ctx)}</thead>}
         {rows.length > 0 && (
           <tbody>
@@ -920,11 +920,11 @@ const renderTableRow = (
   </tr>
 );
 
-// 标题层级映射到阅读页字号：h1 → title、h2 → section、h3 及以下 → body
+// 标题层级映射到阅读页字号：h1 → section、h2 → strong、h3 及以下 → body
 const HEADING_CLASS: Record<number, string> = {
-  1: "mt-4 text-[12.35px] leading-[1.3] font-semibold",
-  2: "mt-3 text-[12.35px] leading-[1.3] font-semibold",
-  3: "mt-3 text-[12.35px] leading-[1.3] font-semibold",
+  1: "mt-5 text-section font-semibold",
+  2: "mt-4 text-strong font-semibold",
+  3: "mt-4 text-body font-semibold",
 };
 
 const renderNode = (
@@ -938,9 +938,8 @@ const renderNode = (
   if (/^(ATX|Setext)Heading[1-6]$/.test(node.name)) {
     const level = Number(node.name.at(-1));
     const className = cn(
-      "mb-1.5 tracking-normal text-fg-1 first:mt-0",
-      HEADING_CLASS[level] ??
-        "mt-2 text-[12.35px] leading-[1.3] font-semibold text-fg-2",
+      "mb-2 tracking-normal text-fg-1 first:mt-0",
+      HEADING_CLASS[level] ?? "mt-3 text-body font-semibold text-fg-2",
     );
     if (level === 1) return <h1 className={className}>{children()}</h1>;
     if (level === 2) return <h2 className={className}>{children()}</h2>;
@@ -954,7 +953,7 @@ const renderNode = (
     case "Document":
       return <>{children()}</>;
     case "Paragraph":
-      return <p className="my-1.5 first:mt-0 last:mb-0">{children()}</p>;
+      return <p className="my-2 first:mt-0 last:mb-0">{children()}</p>;
     case "StrongEmphasis":
       return <strong className="font-semibold">{children()}</strong>;
     case "Emphasis":
@@ -972,7 +971,7 @@ const renderNode = (
       return renderCode(node, source, ctx);
     case "BulletList":
       return (
-        <ul className="my-1.5 list-disc space-y-1 pl-5 marker:text-fg-3">
+        <ul className="my-2 list-disc space-y-1 pl-5 marker:text-fg-3">
           {children()}
         </ul>
       );
@@ -983,7 +982,7 @@ const renderNode = (
         : 1;
       return (
         <ol
-          className="my-1.5 list-decimal space-y-1 pl-5 marker:text-fg-3"
+          className="my-2 list-decimal space-y-1 pl-5 marker:text-fg-3"
           start={Number.isNaN(start) ? 1 : start}
         >
           {children()}
@@ -1012,12 +1011,12 @@ const renderNode = (
     }
     case "Blockquote":
       return (
-        <blockquote className="my-2 border-l-2 border-border-strong pl-3 text-fg-2">
+        <blockquote className="my-3 border-l-2 border-border-strong pl-3 text-fg-2">
           {children()}
         </blockquote>
       );
     case "HorizontalRule":
-      return <hr className="my-3 border-border" />;
+      return <hr className="my-4 border-border" />;
     case "Table":
       return renderTable(node, source, ctx);
     case "TableHeader":
@@ -1029,7 +1028,7 @@ const renderNode = (
       return (
         <Cell
           className={cn(
-            "border border-border px-2 py-1.5 align-top",
+            "border border-border px-3 py-2 align-top",
             isHeader && "bg-subtle font-semibold",
           )}
         >
@@ -1070,8 +1069,8 @@ const renderNode = (
 };
 
 const VARIANT_CLASS = {
-  body: "text-[12.35px] leading-[1.3] text-fg-1",
-  note: "text-[12.35px] leading-[1.3] text-fg-2",
+  body: "text-body text-fg-1",
+  note: "text-body text-fg-2",
 } as const;
 
 /** 完整 Markdown 渲染（超过 MARKDOWN_PARSE_LIMIT 时退化为 SessionPlainText） */

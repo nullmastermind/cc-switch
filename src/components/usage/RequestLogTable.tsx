@@ -167,7 +167,7 @@ function StatusBadge({
   return (
     <span
       className={cn(
-        "rounded-[4px] bg-danger-soft px-1 text-[12.35px] leading-[1.3] text-danger-text",
+        "rounded-control bg-danger-soft px-1.5 py-px text-badge text-danger-text",
         className,
       )}
       title={title || undefined}
@@ -423,7 +423,7 @@ export function RequestLogTable({
         <td className={cn(usageTable.td, "w-px")}>
           <button
             type="button"
-            className="rounded-[4px] text-start tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            className="rounded-control text-start tabular-nums focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             title={fullTime}
             aria-label={t("usage.openRequestDetail", {
               time: fullTime,
@@ -563,7 +563,7 @@ export function RequestLogTable({
             <>
               {estimatedTps != null && "≈"}
               {tps}
-              <span className="ms-0.5 text-ui font-normal text-muted-foreground">
+              <span className="ms-0.5 text-caption font-normal text-muted-foreground">
                 tok/s
               </span>
             </>

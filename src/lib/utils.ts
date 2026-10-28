@@ -7,6 +7,7 @@ const twMerge = extendTailwindMerge({
   extend: {
     theme: {
       text: [
+        "ui",
         "badge",
         "caption",
         "body",

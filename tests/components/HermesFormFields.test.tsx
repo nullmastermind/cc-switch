@@ -162,7 +162,7 @@ describe("HermesFormFields", () => {
 
     expect(screen.getByText("模型列表").closest("div.border-l")).toHaveClass(
       "border-border",
-      "pl-3",
+      "pl-4",
     );
     expect(screen.queryByText("默认模型")).not.toBeInTheDocument();
     expect(screen.queryByText("备选模型")).not.toBeInTheDocument();
@@ -185,13 +185,12 @@ describe("HermesFormFields", () => {
     expect(contextLength).toHaveAttribute("type", "text");
     expect(contextLength).toHaveAttribute("inputmode", "numeric");
     expect(screen.getByText("上下文长度")).toHaveClass(
-      "text-[12.35px]",
-      "leading-[1.3]",
+      "text-body",
       "font-normal",
       "text-muted-foreground",
     );
     expect(contextLength.closest("div.border-l")).toHaveClass(
-      "sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2.25rem]",
+      "md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2rem]",
     );
     expect(screen.getByText(/第一个模型/)).toBeInTheDocument();
   });
@@ -202,9 +201,7 @@ describe("HermesFormFields", () => {
     });
     const onModelsChange = vi.mocked(props.onModelsChange);
 
-    fireEvent.click(
-      screen.getByRole("button", { name: "展开或收起模型详情" }),
-    );
+    fireEvent.click(screen.getByRole("button", { name: "展开或收起模型详情" }));
     const vision = screen.getByRole("switch", { name: "支持图片输入" });
     expect(vision).toHaveAttribute("aria-checked", "true");
 
@@ -257,11 +254,10 @@ describe("HermesFormFields", () => {
     const input = screen.getByLabelText("请求间隔（秒）");
     expect(input).toHaveValue(0.5);
     expect(screen.getByText("请求间隔（秒）")).toHaveClass(
-      "text-[12.35px]",
-      "leading-[1.3]",
+      "text-body",
       "font-medium",
     );
-    expect(input.closest("div.border-l")).toHaveClass("border-border", "pl-3");
+    expect(input.closest("div.border-l")).toHaveClass("border-border", "pl-4");
     expect(
       screen.queryByRole("button", { name: "供应商高级选项" }),
     ).not.toBeInTheDocument();

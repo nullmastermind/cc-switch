@@ -28,7 +28,7 @@ describe("ProviderCard layout", () => {
     expect(source).not.toContain("max-w-[280px]");
     expect(source).toContain('<div className="min-w-0 flex-1 space-y-0.5">');
     expect(source).toContain(
-      "h-auto max-w-full min-w-0 overflow-hidden px-0 py-0 text-left leading-[1.3] whitespace-normal",
+      "h-auto max-w-full min-w-0 overflow-hidden px-0 py-0 text-left text-caption font-normal whitespace-normal",
     );
   });
 

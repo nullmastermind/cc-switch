@@ -59,28 +59,28 @@ const PromptListItem: React.FC<PromptListItemProps> = ({
         onEdit(id);
       }}
       className={cn(
-        "flex h-[60px] cursor-pointer items-center gap-3 pe-2 ps-4 transition-colors duration-150 hover:bg-subtle",
+        "flex min-h-16 cursor-pointer items-center gap-3 px-4 py-3 transition-colors duration-150 hover:bg-subtle",
         !first && "border-t border-border",
         active && "bg-subtle",
       )}
     >
-      <div className="flex min-w-0 flex-1 flex-col">
-        <div className="flex min-w-0 items-center gap-1.5">
+      <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+        <div className="flex min-w-0 items-center gap-2">
           <span
             title={prompt.name}
-            className="min-w-0 truncate text-[12.35px] leading-[1.3] font-medium text-fg-1"
+            className="min-w-0 truncate text-strong font-medium text-fg-1"
           >
             {prompt.name}
           </span>
           {active ? (
-            <span className="inline-flex h-[18px] shrink-0 items-center whitespace-nowrap rounded-full bg-success-soft px-[7px] text-[12.35px] leading-[1.3] text-success-text">
+            <span className="inline-flex h-5 shrink-0 items-center whitespace-nowrap rounded-full bg-success-soft px-2 text-badge font-medium text-success-text">
               {t("prompts.enabled")}
             </span>
           ) : null}
         </div>
         <span
           title={detail}
-          className="min-w-0 truncate text-[12.35px] leading-[1.3] text-fg-2"
+          className="min-w-0 truncate text-caption text-fg-2"
         >
           {detail}
         </span>
@@ -110,7 +110,7 @@ const PromptListItem: React.FC<PromptListItemProps> = ({
             aria-label={t("prompts.editAria", { name: prompt.name })}
             onClick={() => onEdit(id)}
           >
-            <Pencil className="h-[15px] w-[15px]" strokeWidth={1.5} />
+            <Pencil className="h-4 w-4" strokeWidth={1.5} />
           </Button>
         </HoverTip>
         <DropdownMenu modal={false}>
@@ -123,10 +123,7 @@ const PromptListItem: React.FC<PromptListItemProps> = ({
                 disabled={disabled}
                 aria-label={t("prompts.rowMoreActions", { name: prompt.name })}
               >
-                <MoreHorizontal
-                  className="h-[15px] w-[15px]"
-                  strokeWidth={1.5}
-                />
+                <MoreHorizontal className="h-4 w-4" strokeWidth={1.5} />
               </Button>
             </DropdownMenuTrigger>
           </HoverTip>
@@ -166,7 +163,7 @@ const PromptListItem: React.FC<PromptListItemProps> = ({
             >
               <span>{t("common.delete")}</span>
               {deleteBlockedReason ? (
-                <span className="text-[12.35px] leading-[1.3] text-fg-2">
+                <span className="text-caption text-fg-2">
                   {deleteBlockedReason}
                 </span>
               ) : null}

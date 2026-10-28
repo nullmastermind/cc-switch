@@ -25,10 +25,10 @@ export function ManagementListSearch({
   inputRef,
 }: ManagementListSearchProps) {
   return (
-    <div role="search" className={cn("relative flex-shrink-0 mb-2", className)}>
+    <div role="search" className={cn("relative mb-3 flex-shrink-0", className)}>
       <Search
         aria-hidden="true"
-        className="pointer-events-none absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
+        className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
       />
       <Input
         ref={inputRef}
@@ -42,17 +42,17 @@ export function ManagementListSearch({
         }}
         placeholder={placeholder}
         aria-label={ariaLabel}
-        className="pl-8 pr-8"
+        className="pl-8 pr-9"
       />
       {value && (
         <Button
           type="button"
           variant="ghost"
-          size="icon"
+          size="icon-compact"
           onClick={() => onValueChange("")}
           aria-label={clearLabel}
           title={clearLabel}
-          className="absolute right-2 top-1/2 -translate-y-1/2"
+          className="absolute right-0.5 top-1/2 -translate-y-1/2"
         >
           <X aria-hidden="true" className="h-4 w-4" />
         </Button>

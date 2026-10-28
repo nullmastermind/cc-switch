@@ -121,16 +121,16 @@ export function GeminiFormFields({
     <>
       {/* Google OAuth 提示 */}
       {isGoogleOfficial && (
-        <div className="rounded-[8px] border border-border-strong bg-subtle p-4">
+        <div className="rounded-panel border border-border-strong bg-subtle px-4 py-3">
           <div className="flex gap-3">
-            <Info className="h-5 w-5 flex-shrink-0 text-fg-1" />
+            <Info className="mt-0.5 h-4 w-4 flex-shrink-0 text-fg-1" />
             <div className="space-y-1">
-              <p className="text-[12.35px] leading-[1.3] font-medium text-fg-1">
+              <p className="text-body font-medium text-fg-1">
                 {t("provider.form.gemini.oauthTitle", {
                   defaultValue: "OAuth 认证模式",
                 })}
               </p>
-              <p className="text-[12.35px] leading-[1.3] text-fg-1">
+              <p className="text-body text-fg-1">
                 {t("provider.form.gemini.oauthHint", {
                   defaultValue:
                     "Google 官方使用 OAuth 个人认证，无需填写 API Key。首次使用时会自动打开浏览器进行登录。",
@@ -174,9 +174,9 @@ export function GeminiFormFields({
 
       {/* Model 输入框 */}
       {shouldShowModelField && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-0.5">
+        <div className="space-y-1.5">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <div className="flex items-center gap-1">
               <FormLabel htmlFor="gemini-model">
                 {t("provider.form.gemini.model", { defaultValue: "模型" })}
               </FormLabel>
@@ -193,6 +193,7 @@ export function GeminiFormFields({
             <Button
               type="button"
               variant="outline"
+              size="sm"
               onClick={handleFetchModels}
               disabled={isFetchingModels}
             >

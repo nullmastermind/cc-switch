@@ -226,7 +226,7 @@ export function OpenClawFormFields({
   return (
     <>
       {/* API Protocol Selector */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <FormLabel htmlFor="openclaw-api">
           {t("openclaw.apiProtocol", {
             defaultValue: "API 协议",
@@ -248,7 +248,7 @@ export function OpenClawFormFields({
             ))}
           </SelectContent>
         </Select>
-        <p className="text-ui text-muted-foreground">
+        <p className="text-caption text-muted-foreground">
           {t("openclaw.apiProtocolHint", {
             defaultValue:
               "选择与供应商 API 兼容的协议类型。大多数供应商使用 OpenAI Completions 格式。",
@@ -257,7 +257,7 @@ export function OpenClawFormFields({
       </div>
 
       {/* Base URL */}
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <FormLabel htmlFor="openclaw-baseurl">
           {t("openclaw.baseUrl", { defaultValue: "API 端点" })}
         </FormLabel>
@@ -282,12 +282,12 @@ export function OpenClawFormFields({
       />
 
       {/* User-Agent */}
-      <div className="flex items-center justify-between border-l border-border pl-3">
+      <div className="flex items-center justify-between gap-4 border-l border-border pl-4">
         <div className="space-y-0.5">
           <FormLabel>
             {t("openclaw.userAgent", { defaultValue: "发送 User-Agent" })}
           </FormLabel>
-          <p className="text-ui text-muted-foreground">
+          <p className="text-caption text-muted-foreground">
             {t("openclaw.userAgentHint", {
               defaultValue: "部分供应商需要浏览器 User-Agent 才能正常访问。",
             })}
@@ -297,15 +297,16 @@ export function OpenClawFormFields({
       </div>
 
       {/* Models Editor */}
-      <div className="space-y-3 border-l border-border pl-3">
-        <div className="flex items-center justify-between gap-3">
+      <div className="space-y-3 border-l border-border pl-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <FormLabel>
             {t("openclaw.models", { defaultValue: "模型配置" })}
           </FormLabel>
-          <div className="flex gap-1">
+          <div className="flex gap-2">
             <Button
               type="button"
               variant="outline"
+              size="sm"
               onClick={handleFetchModels}
               disabled={isFetchingModels}
             >
@@ -316,7 +317,12 @@ export function OpenClawFormFields({
               )}
               {t("providerForm.fetchModels")}
             </Button>
-            <Button type="button" variant="outline" onClick={handleAddModel}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleAddModel}
+            >
               <Plus className="h-3.5 w-3.5" />
               {t("openclaw.addModel", { defaultValue: "添加模型" })}
             </Button>
@@ -324,25 +330,22 @@ export function OpenClawFormFields({
         </div>
 
         {models.length === 0 ? (
-          <p
-            role="status"
-            className="py-2 text-[12.35px] leading-[1.3] text-fg-2"
-          >
+          <p role="status" className="text-body text-fg-2">
             {t("openclaw.noModels", {
               defaultValue: "暂无模型配置",
             })}
           </p>
         ) : (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-ui text-muted-foreground">
-              <span className="w-6" />
+            <div className="flex items-center gap-2 text-caption text-muted-foreground">
+              <span className="w-8 shrink-0" />
               <span className="flex-1">
                 {t("openclaw.modelId", { defaultValue: "模型 ID" })}
               </span>
               <span className="flex-1">
                 {t("openclaw.modelName", { defaultValue: "显示名称" })}
               </span>
-              <span className="w-6" />
+              <span className="w-8 shrink-0" />
             </div>
             {models.map((model, index) => {
               const modelKey = modelKeys[index];
@@ -367,7 +370,7 @@ export function OpenClawFormFields({
                         }`}
                       />
                     </Button>
-                    <div className="flex min-w-0 flex-1 gap-1">
+                    <div className="flex min-w-0 flex-1 gap-2">
                       <ImeSafeInput
                         value={model.id}
                         onValueChange={(value) =>
@@ -422,8 +425,8 @@ export function OpenClawFormFields({
                   </div>
 
                   {isExpanded && (
-                    <div className="ml-8 grid gap-3 border-l-2 border-muted pl-4 sm:grid-cols-2 animate-in fade-in-0 slide-in-from-top-1 duration-200 motion-reduce:animate-none">
-                      <div className="flex min-h-6 flex-wrap items-center gap-x-8 gap-y-2 sm:col-span-2">
+                    <div className="ml-10 grid grid-cols-1 gap-4 border-l-2 border-muted pl-4 md:grid-cols-2 animate-in fade-in-0 slide-in-from-top-1 duration-200 motion-reduce:animate-none">
+                      <div className="flex min-h-8 flex-wrap items-center gap-x-8 gap-y-2 md:col-span-2">
                         <div className="flex items-center gap-2">
                           <FormLabel
                             htmlFor={`openclaw-model-reasoning-${modelKey}`}
@@ -464,16 +467,16 @@ export function OpenClawFormFields({
                                   handleModelChange(index, "input", next);
                                 }}
                               />
-                              <span className="text-ui">{type}</span>
+                              <span className="text-body">{type}</span>
                             </label>
                           ))}
                         </div>
                       </div>
 
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <FormLabel
                           htmlFor={`openclaw-model-context-${modelKey}`}
-                          className="text-ui text-muted-foreground"
+                          className="text-body text-muted-foreground"
                         >
                           {t("openclaw.contextWindow", {
                             defaultValue: "上下文长度",
@@ -501,10 +504,10 @@ export function OpenClawFormFields({
                           contextWindow={model.contextWindow}
                         />
                       </div>
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <FormLabel
                           htmlFor={`openclaw-model-max-tokens-${modelKey}`}
-                          className="text-ui text-muted-foreground"
+                          className="text-body text-muted-foreground"
                         >
                           {t("openclaw.maxTokens", {
                             defaultValue: "最大输出 Token 数",
@@ -529,17 +532,17 @@ export function OpenClawFormFields({
                         />
                       </div>
 
-                      <div className="space-y-2 sm:col-span-2">
-                        <span className="text-ui font-medium text-muted-foreground">
+                      <div className="space-y-2 md:col-span-2">
+                        <span className="text-caption font-medium text-muted-foreground">
                           {t("openclaw.modelCost", {
                             defaultValue: "成本（$/百万 Token）",
                           })}
                         </span>
-                        <div className="grid gap-2 sm:grid-cols-2">
-                          <div className="space-y-1">
+                        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                          <div className="space-y-1.5">
                             <FormLabel
                               htmlFor={`openclaw-model-input-cost-${modelKey}`}
-                              className="text-ui text-muted-foreground"
+                              className="text-body text-muted-foreground"
                             >
                               {t("openclaw.inputCost", {
                                 defaultValue: "输入",
@@ -561,10 +564,10 @@ export function OpenClawFormFields({
                               placeholder="3"
                             />
                           </div>
-                          <div className="space-y-1">
+                          <div className="space-y-1.5">
                             <FormLabel
                               htmlFor={`openclaw-model-output-cost-${modelKey}`}
-                              className="text-ui text-muted-foreground"
+                              className="text-body text-muted-foreground"
                             >
                               {t("openclaw.outputCost", {
                                 defaultValue: "输出",
@@ -586,10 +589,10 @@ export function OpenClawFormFields({
                               placeholder="15"
                             />
                           </div>
-                          <div className="space-y-1">
+                          <div className="space-y-1.5">
                             <FormLabel
                               htmlFor={`openclaw-model-cache-read-${modelKey}`}
-                              className="text-ui text-muted-foreground"
+                              className="text-body text-muted-foreground"
                             >
                               {t("openclaw.cacheReadCost", {
                                 defaultValue: "缓存读取",
@@ -611,10 +614,10 @@ export function OpenClawFormFields({
                               placeholder="0.3"
                             />
                           </div>
-                          <div className="space-y-1">
+                          <div className="space-y-1.5">
                             <FormLabel
                               htmlFor={`openclaw-model-cache-write-${modelKey}`}
-                              className="text-ui text-muted-foreground"
+                              className="text-body text-muted-foreground"
                             >
                               {t("openclaw.cacheWriteCost", {
                                 defaultValue: "缓存写入",

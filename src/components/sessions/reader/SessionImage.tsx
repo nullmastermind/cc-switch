@@ -81,7 +81,7 @@ export const SessionImage = memo(function SessionImage({
         role="img"
         aria-label={`${alt} · ${rt("image.failed")}`}
         className={cn(
-          "inline-flex h-24 w-32 flex-col items-center justify-center gap-1 rounded-[8px] border border-border bg-subtle text-[12.35px] leading-[1.3] text-fg-3",
+          "inline-flex h-24 w-32 flex-col items-center justify-center gap-1.5 rounded-panel border border-border bg-subtle text-caption text-fg-3",
           className,
         )}
       >
@@ -99,7 +99,7 @@ export const SessionImage = memo(function SessionImage({
         aria-label={alt}
         aria-busy
         className={cn(
-          "inline-block rounded-[8px] border border-border bg-subtle motion-safe:animate-pulse",
+          "inline-block rounded-panel border border-border bg-subtle motion-safe:animate-pulse",
           variant === "thumb" ? "h-24 w-32" : "h-40 w-full max-w-[420px]",
           className,
         )}
@@ -114,7 +114,7 @@ export const SessionImage = memo(function SessionImage({
         aria-label={`${rt("image.open")}：${alt}`}
         onClick={() => setOpen(true)}
         className={cn(
-          "inline-flex shrink-0 overflow-hidden rounded-[8px] border border-border bg-subtle transition-[border-color] hover:border-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "inline-flex shrink-0 overflow-hidden rounded-panel border border-border bg-subtle transition-[border-color] hover:border-border-strong focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           className,
         )}
       >

@@ -160,7 +160,7 @@ function ModelCombobox({
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="h-6 flex-1 min-w-0 justify-between"
+          className="flex-1 min-w-0 justify-between"
         >
           <span className={cn("truncate", !value && "text-fg-2")}>
             {selectedLabel || placeholderText}
@@ -698,7 +698,7 @@ export function OmoFormFields({
     setter: (value: Record<string, Record<string, unknown>>) => void;
     showHint?: boolean;
   }) => (
-    <div className="pb-2 pl-2 pr-2">
+    <div className="pb-3">
       <Textarea
         value={draftValue}
         onChange={(e) => setAdvancedDraft(scope, draftKey, e.target.value)}
@@ -715,7 +715,7 @@ export function OmoFormFields({
         className="font-mono"
       />
       {showHint && (
-        <p className="text-[12.35px] leading-[1.3] text-fg-2 mt-1">
+        <p className="text-caption text-fg-2 mt-1.5">
           {t("omo.advancedJsonHint", {
             defaultValue:
               "temperature, top_p, budgetTokens, prompt_append, permission, etc. Leave empty for defaults",
@@ -911,18 +911,18 @@ export function OmoFormFields({
 
     return (
       <div key={key} className="border-b border-border/30 last:border-b-0">
-        <div className="flex items-center gap-2 py-1.5">
+        <div className="flex items-center gap-2 py-2">
           <div className="w-32 shrink-0">
-            <div className="flex items-center gap-1 text-[12.35px] leading-[1.3] font-medium">
+            <div className="flex items-center gap-1 text-body font-medium">
               {def.display}
               <span className="relative inline-flex group/tip">
                 <HelpCircle className="h-3.5 w-3.5 text-fg-3 hover:text-fg-2 cursor-help shrink-0" />
-                <span className="invisible opacity-0 group-hover/tip:visible group-hover/tip:opacity-100 transition-opacity duration-150 absolute left-0 top-full mt-1 z-50 w-[260px] rounded-[4px] bg-popover text-popover-foreground border border-border shadow-md px-3 py-2 text-[12.35px] leading-[1.3] font-normal pointer-events-none">
+                <span className="invisible opacity-0 group-hover/tip:visible group-hover/tip:opacity-100 transition-opacity duration-150 absolute left-0 top-full mt-1 z-50 w-[260px] rounded-control bg-popover text-popover-foreground border border-border shadow-md px-3 py-2 text-caption font-normal pointer-events-none">
                   {t(def.tooltipKey)}
                 </span>
               </span>
             </div>
-            <div className="text-[12.35px] leading-[1.3] text-fg-2 truncate">
+            <div className="text-caption text-fg-2 truncate">
               {t(def.descKey)}
             </div>
           </div>
@@ -941,13 +941,13 @@ export function OmoFormFields({
               aria-label={t("omo.advancedLabel", { defaultValue: "Advanced" })}
               type="button"
               variant={isExpanded ? "secondary" : "ghost"}
-              size="icon"
-              className={cn("h-7 w-7 shrink-0", advStr && "text-primary")}
+              size="icon-compact"
+              className={cn("shrink-0", advStr && "text-primary")}
               onClick={() =>
                 toggleAdvancedEditor(scope, key, advStr, isExpanded)
               }
             >
-              <Settings className="h-3.5 w-3.5" />
+              <Settings className="h-4 w-4" />
             </Button>
           </HoverTip>
         </div>
@@ -1012,12 +1012,12 @@ export function OmoFormFields({
         key={`${rowPrefix}-${index}`}
         className="border-b border-border/30 last:border-b-0"
       >
-        <div className="flex items-center gap-2 py-1.5">
+        <div className="flex items-center gap-2 py-2">
           <DeferredKeyInput
             value={item.key}
             onCommit={(value) => updateCustom({ key: value })}
             placeholder={keyPlaceholder}
-            className="w-32 shrink-0 h-8 text-[12.35px] leading-[1.3] text-primary"
+            className="w-32 shrink-0 text-primary"
           />
           {renderModelSelect(item.model, (value) =>
             updateCustom({ model: value }),
@@ -1033,13 +1033,13 @@ export function OmoFormFields({
               aria-label={t("omo.advancedLabel", { defaultValue: "Advanced" })}
               type="button"
               variant={isExpanded ? "secondary" : "ghost"}
-              size="icon"
-              className={cn("h-7 w-7 shrink-0", advStr && "text-primary")}
+              size="icon-compact"
+              className={cn("shrink-0", advStr && "text-primary")}
               onClick={() =>
                 toggleAdvancedEditor(scope, key, advStr, isExpanded)
               }
             >
-              <Settings className="h-3.5 w-3.5" />
+              <Settings className="h-4 w-4" />
             </Button>
           </HoverTip>
           <HoverTip content={t("common.delete")}>
@@ -1047,8 +1047,8 @@ export function OmoFormFields({
               aria-label={t("common.delete")}
               type="button"
               variant="ghost"
-              size="icon"
-              className="h-7 w-7 shrink-0 text-destructive"
+              size="icon-compact"
+              className="shrink-0 text-destructive"
               onClick={() => {
                 const next = customs.filter((_, idx) => idx !== index);
                 setCustoms(next);
@@ -1056,7 +1056,7 @@ export function OmoFormFields({
                 removeAdvancedDraft(scope, key);
               }}
             >
-              <Trash2 className="h-3.5 w-3.5" />
+              <Trash2 className="h-4 w-4" />
             </Button>
           </HoverTip>
         </div>
@@ -1090,7 +1090,7 @@ export function OmoFormFields({
     <Button
       type="button"
       variant="ghost"
-      className="h-auto w-full justify-between py-2 px-3"
+      className="h-auto w-full justify-between px-4 py-3"
       onClick={onToggle}
     >
       <div className="flex items-center gap-2">
@@ -1099,11 +1099,11 @@ export function OmoFormFields({
         ) : (
           <ChevronRight className="h-4 w-4 text-fg-2" />
         )}
-        <Label className="text-[12.35px] leading-[1.3] font-semibold cursor-pointer">
+        <Label className="text-strong font-semibold cursor-pointer">
           {title}
         </Label>
         {typeof badge === "string" ? (
-          <Badge variant="outline" className="text-[12.35px] leading-[1.3] h-5">
+          <Badge variant="outline" className="text-badge h-5">
             {badge}
           </Badge>
         ) : (
@@ -1131,7 +1131,7 @@ export function OmoFormFields({
     maxHeightClass?: string;
     children: React.ReactNode;
   }) => (
-    <div className="rounded-[8px] border border-border/60">
+    <div className="rounded-panel border border-border/60">
       <SectionHeader
         title={title}
         isOpen={isOpen}
@@ -1145,28 +1145,22 @@ export function OmoFormFields({
           isOpen ? `${maxHeightClass} opacity-100` : "max-h-0 opacity-0",
         )}
       >
-        <div className="px-3 pb-3">{children}</div>
+        <div className="px-4 pb-4">{children}</div>
       </div>
     </div>
   );
 
   const renderCustomAddButton = (onClick: () => void) => (
-    <Button
-      type="button"
-      variant="ghost"
-      size="sm"
-      className="h-6 text-[12.35px] leading-[1.3]"
-      onClick={onClick}
-    >
-      <Plus className="h-3.5 w-3.5 mr-1" />
+    <Button type="button" variant="ghost" size="sm" onClick={onClick}>
+      <Plus className="h-3.5 w-3.5" />
       {t("omo.custom", { defaultValue: "Custom" })}
     </Button>
   );
 
   const renderCustomDivider = (label: string) => (
-    <div className="flex items-center gap-2 py-2">
+    <div className="flex items-center gap-2 py-3">
       <div className="flex-1 border-t border-border/40" />
-      <span className="text-[12.35px] leading-[1.3] text-fg-2">{label}</span>
+      <span className="text-caption text-fg-2">{label}</span>
       <div className="flex-1 border-t border-border/40" />
     </div>
   );
@@ -1188,24 +1182,23 @@ export function OmoFormFields({
   };
 
   return (
-    <div className="space-y-2">
-      <div className="flex items-center justify-between">
-        <Label className="text-[12.35px] leading-[1.3] font-semibold">
+    <div className="space-y-3">
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <Label className="text-strong font-semibold">
           {t("omo.modelConfiguration", { defaultValue: "Model Configuration" })}
         </Label>
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-2">
           <Button
             type="button"
             variant="outline"
             size="sm"
-            className="h-7 text-[12.35px] leading-[1.3]"
             disabled={readLocalFile.isPending}
             onClick={handleImportFromLocal}
           >
             {readLocalFile.isPending ? (
-              <Loader2 className="h-3.5 w-3.5 mr-1 animate-spin" />
+              <Loader2 className="h-3.5 w-3.5 animate-spin" />
             ) : (
-              <FolderInput className="h-3.5 w-3.5 mr-1" />
+              <FolderInput className="h-3.5 w-3.5" />
             )}
             {t("omo.importLocal", { defaultValue: "Import Local" })}
           </Button>
@@ -1213,16 +1206,15 @@ export function OmoFormFields({
             type="button"
             variant="outline"
             size="sm"
-            className="h-7 text-[12.35px] leading-[1.3]"
             onClick={handleFillAllRecommended}
           >
-            <Wand2 className="h-3.5 w-3.5 mr-1" />
+            <Wand2 className="h-3.5 w-3.5" />
             {t("omo.fillRecommended", { defaultValue: "Fill Recommended" })}
           </Button>
         </div>
       </div>
 
-      <div className="text-[12.35px] leading-[1.3] text-fg-2">
+      <div className="text-caption text-fg-2">
         {t("omo.configSummary", {
           agents: configuredAgentCount,
           categories: configuredCategoryCount,
@@ -1240,7 +1232,7 @@ export function OmoFormFields({
           <span className="ml-1 text-primary/70">
             · {t("omo.source", { defaultValue: "from:" })}
             {""}
-            <span className="font-mono text-[12.35px] leading-[1.3]">
+            <span className="font-mono">
               {localFilePath.replace(/^.*\//, "")}
             </span>
           </span>
@@ -1314,7 +1306,7 @@ export function OmoFormFields({
           !otherFieldsOpen && otherFieldsStr.trim() ? (
             <Badge
               variant="secondary"
-              className="text-[12.35px] leading-[1.3] h-5 font-mono max-w-[200px] truncate"
+              className="text-badge h-5 font-mono max-w-[200px] truncate"
             >
               {otherFieldsStr.trim().slice(0, 40)}
               {otherFieldsStr.trim().length > 40 ? "..." : ""}
@@ -1330,7 +1322,7 @@ export function OmoFormFields({
               className="font-mono"
             />
             {isSlim && (
-              <p className="mt-1 text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="mt-1.5 text-caption text-fg-2">
                 {t("omo.slimOtherFieldsHint", {
                   defaultValue:
                     "Use this area for top-level OMO Slim config such as council, fallback, multiplexer, disabled_mcps, and todoContinuation.",

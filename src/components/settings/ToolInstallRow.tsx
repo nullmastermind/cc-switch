@@ -16,12 +16,12 @@ export function ToolInstallRow({
 }) {
   const { t } = useTranslation();
   return (
-    <div className="flex items-center gap-1 text-ui">
-      <span className="inline-flex h-4 min-w-[32px] shrink-0 items-center rounded-[3px] bg-background/80 px-1 font-mono text-muted-foreground">
+    <div className="flex items-center gap-2 text-body">
+      <span className="inline-flex h-5 shrink-0 items-center rounded-[4px] bg-background/80 px-1.5 font-mono text-badge text-muted-foreground">
         {inst.source}
       </span>
       <span
-        className="min-w-0 flex-1 truncate font-mono text-ui text-muted-foreground"
+        className="min-w-0 flex-1 truncate font-mono text-body text-muted-foreground"
         title={inst.path}
       >
         {inst.path}
@@ -29,14 +29,14 @@ export function ToolInstallRow({
       <span
         className={
           inst.runnable
-            ? "shrink-0 font-mono text-ui text-foreground"
-            : "shrink-0 text-ui text-yellow-600 dark:text-yellow-400"
+            ? "shrink-0 font-mono text-body text-foreground"
+            : "shrink-0 text-body text-yellow-600 dark:text-yellow-400"
         }
       >
         {inst.runnable ? inst.version : t("settings.toolConflictNotRunnable")}
       </span>
       {inst.is_path_default && (
-        <span className="inline-flex h-4 min-w-[32px] shrink-0 items-center rounded-[3px] border border-primary/30 bg-primary/10 px-1 text-ui text-primary">
+        <span className="inline-flex h-5 shrink-0 items-center rounded-[4px] border border-primary/30 bg-primary/10 px-1.5 text-badge text-primary">
           {t("settings.toolConflictDefault")}
         </span>
       )}

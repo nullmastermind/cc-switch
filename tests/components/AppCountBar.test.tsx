@@ -153,7 +153,7 @@ describe("AppCountBar", () => {
       />,
     );
 
-    const bar = screen.getByText("2 items").closest(".rounded-\\[8px\\]");
+    const bar = screen.getByText("2 items").closest(".rounded-panel");
     expect(bar).toHaveClass("items-center");
     expect(bar).not.toHaveClass("flex-col");
   });
@@ -189,7 +189,7 @@ describe("AppCountBar", () => {
       />,
     );
 
-    const bar = screen.getByText("2 items").closest(".rounded-\\[8px\\]");
+    const bar = screen.getByText("2 items").closest(".rounded-panel");
     expect(bar).toContainElement(
       screen.getByRole("button", { name: "skills.updateAll" }),
     );

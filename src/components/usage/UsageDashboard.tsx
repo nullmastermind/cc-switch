@@ -134,9 +134,8 @@ function useMinuteTicker() {
 const LOG_PAGE_SIZE_OPTIONS = LOG_PAGE_SIZES.map(Number);
 
 const menuContentClass =
-  "min-w-[200px] max-w-[320px] rounded-[8px] border-border bg-surface p-1 shadow-v7-md";
-const menuItemClass =
-  "h-6 gap-2 rounded-[4px] px-2 text-[12.35px] leading-[1.3]";
+  "min-w-[200px] max-w-[320px] rounded-panel border-border bg-surface p-1 shadow-v7-md";
+const menuItemClass = "gap-2 rounded-control px-2 text-body";
 
 function MenuCheck({ checked }: { checked: boolean }) {
   return (
@@ -150,7 +149,7 @@ function MenuCheck({ checked }: { checked: boolean }) {
 
 function MenuMeta({ children }: { children: React.ReactNode }) {
   return (
-    <span className="ms-auto ps-2 text-[12.35px] leading-[1.3] tabular-nums text-fg-3">
+    <span className="ms-auto ps-3 text-caption tabular-nums text-fg-3">
       {children}
     </span>
   );
@@ -215,7 +214,7 @@ function ScopeModelItems({
           onSelect={() => onPick(option.name)}
         >
           <MenuCheck checked={active && selectedModel === option.name} />
-          <span className="min-w-0 truncate font-mono text-[12.35px] leading-[1.3]">
+          <span className="min-w-0 truncate font-mono text-body">
             {option.name}
           </span>
           <MenuMeta>{fmtInt(option.count, locale)}</MenuMeta>
@@ -517,7 +516,7 @@ export function UsageDashboard({
         });
 
   const headerActions = (
-    <div className="flex h-8 shrink-0 items-stretch overflow-hidden rounded-[4px] border border-border-strong bg-surface">
+    <div className="flex h-8 shrink-0 items-stretch overflow-hidden rounded-control border border-border-strong bg-surface">
       <HoverTip
         content={
           sessionAutoSyncEnabled
@@ -527,7 +526,7 @@ export function UsageDashboard({
       >
         <button
           type="button"
-          className="inline-flex items-center gap-2 whitespace-nowrap pe-2 ps-2 text-[12.35px] leading-[1.3] font-medium tabular-nums text-fg-1 transition-colors hover:bg-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring disabled:text-fg-2"
+          className="inline-flex items-center gap-2 whitespace-nowrap px-3 text-body font-medium tabular-nums text-fg-1 transition-colors hover:bg-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring disabled:text-fg-2"
           disabled={syncingSession}
           onClick={() => void runManualSessionSync()}
         >
@@ -575,7 +574,7 @@ export function UsageDashboard({
   );
   const chipClass = (pressed: boolean) =>
     cn(
-      "relative inline-flex h-[26px] shrink-0 items-center gap-2 whitespace-nowrap rounded-[5px] px-2 text-[12.35px] leading-[1.3] transition-colors duration-150",
+      "relative inline-flex h-[26px] shrink-0 items-center gap-2 whitespace-nowrap rounded-[5px] px-2 text-body transition-colors duration-150",
       pressed
         ? "font-semibold text-fg-1"
         : "font-medium text-fg-2 hover:text-fg-1",
@@ -583,7 +582,7 @@ export function UsageDashboard({
 
   // 范围栏：决定下面所有数据的四个条件放一组、左对齐；时间排第一，图表和指标都跟着它
   const filterRow = (
-    <div className="flex min-h-12 shrink-0 flex-wrap items-center gap-2 px-6 py-2">
+    <div className="flex min-h-14 shrink-0 flex-wrap items-center gap-2 px-4 py-3 lg:px-6">
       <UsageDateRangePicker
         selection={range}
         triggerLabel={rangeLabel}
@@ -594,7 +593,7 @@ export function UsageDashboard({
         ref={appFilterIndicator.ref}
         role="group"
         aria-label={t("usage.appFilter.label")}
-        className="relative flex h-8 shrink-0 items-center gap-1 rounded-[8px] border border-border-strong bg-surface p-[2px]"
+        className="relative flex h-8 shrink-0 items-center gap-1 rounded-panel border border-border-strong bg-surface p-[2px]"
       >
         <SegmentThumb
           rect={appFilterIndicator.rect}
@@ -641,7 +640,7 @@ export function UsageDashboard({
             type="button"
             variant="neutral"
             size="regular"
-            className="min-w-0 max-w-[260px] shrink gap-2 pe-2 ps-2"
+            className="min-w-0 max-w-[260px] shrink gap-2"
             title={scopeTitle}
           >
             <ListTree
@@ -762,7 +761,7 @@ export function UsageDashboard({
               variant="quiet"
               size="compact"
               className={cn(
-                "gap-2 pe-1.5 ps-2 text-[12.35px] leading-[1.3]",
+                "gap-2 text-body",
                 statusCode == null
                   ? "text-fg-2"
                   : "bg-subtle font-medium text-fg-1",
@@ -814,18 +813,18 @@ export function UsageDashboard({
   const detailPanel = (
     <section
       aria-label={t("usage.tabs.label")}
-      className="flex shrink-0 flex-col overflow-hidden rounded-[8px] border border-border bg-surface"
+      className="flex shrink-0 flex-col overflow-hidden rounded-panel border border-border bg-surface"
     >
       <PageTabs<UsageTab>
         aria-label={t("usage.tabs.label")}
-        className="h-11 pe-2 ps-2"
+        className="px-4"
         items={TABS.map((id) => ({
           value: id,
           label: (
             <span className="inline-flex items-center gap-2">
               {tabLabel[id]}
               {tabCount[id] != null && (
-                <span className="rounded-[4px] bg-subtle px-1.5 text-[12.35px] leading-[1.3] font-medium tabular-nums text-fg-3">
+                <span className="rounded-full bg-subtle px-1.5 text-badge tabular-nums text-fg-3">
                   {fmtInt(tabCount[id], locale)}
                 </span>
               )}
@@ -884,7 +883,7 @@ export function UsageDashboard({
 
   // 概览面板：指标条和图表是同一块面，点指标换图表画的指标
   const overviewPanel = (
-    <section className="shrink-0 overflow-hidden rounded-[8px] border border-border bg-surface">
+    <section className="shrink-0 overflow-hidden rounded-panel border border-border bg-surface">
       <UsageHero
         range={range}
         appType={scopedAppType}
@@ -918,21 +917,19 @@ export function UsageDashboard({
   );
 
   const body = isEmpty ? (
-    <div className="flex min-h-0 flex-1 flex-col items-center overflow-y-auto scroll-stable px-6 pb-6">
-      <div className="mt-16 flex max-w-[440px] flex-col items-center gap-2 text-center">
+    <div className="flex min-h-0 flex-1 flex-col items-center overflow-y-auto scroll-stable px-4 pb-10 lg:px-6">
+      <div className="mt-4 flex max-w-[440px] flex-col items-center gap-3 py-12 text-center">
         <span
           aria-hidden="true"
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-subtle text-fg-2"
+          className="flex h-10 w-10 items-center justify-center rounded-full bg-subtle text-fg-2"
         >
           <ChartColumn className="h-5 w-5" strokeWidth={1.5} />
         </span>
-        <div className="flex flex-col gap-1">
-          <p className="m-0 text-[12.35px] leading-[1.3] font-semibold text-fg-1">
+        <div className="flex flex-col gap-1.5">
+          <p className="m-0 text-strong font-semibold text-fg-1">
             {t("usage.empty.title")}
           </p>
-          <p className="m-0 text-[12.35px] leading-[1.3] text-fg-2">
-            {t("usage.empty.body")}
-          </p>
+          <p className="m-0 text-body text-fg-2">{t("usage.empty.body")}</p>
         </div>
         <Button
           type="button"
@@ -957,7 +954,7 @@ export function UsageDashboard({
   ) : (
     <div
       id="main-content"
-      className="flex min-h-0 flex-1 flex-col gap-8 overflow-y-auto scroll-stable px-6 pb-6 pt-1"
+      className="flex min-h-0 flex-1 flex-col gap-6 overflow-y-auto scroll-stable px-4 pb-10 pt-1 lg:px-6"
     >
       {overviewPanel}
       {detailPanel}

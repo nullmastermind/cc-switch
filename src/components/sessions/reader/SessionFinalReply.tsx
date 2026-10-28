@@ -96,7 +96,7 @@ export const SessionFinalReply = memo(function SessionFinalReply({
   const cost = style.showStepCost ? final.cost : undefined;
 
   return (
-    <div className="group/final relative min-w-0 px-1.5 py-1">
+    <div className="group/final relative min-w-0 px-2 py-1">
       {/* Agent 名、时间、模型已在头像旁那一行显示；这里只留悬停出现的复制 */}
       <div className="absolute end-0 top-0">
         <HoverTip
@@ -121,7 +121,7 @@ export const SessionFinalReply = memo(function SessionFinalReply({
           </button>
         </HoverTip>
       </div>
-      <div className="pe-7">
+      <div className="pe-8">
         {text && (
           <SessionMarkdown
             content={shown}
@@ -143,7 +143,7 @@ export const SessionFinalReply = memo(function SessionFinalReply({
           className="mt-2"
         />
         {cost && (cost.tokens !== undefined || cost.costUsd !== undefined) && (
-          <div className="mt-1.5 text-[12.35px] leading-[1.3] tabular-nums text-fg-3">
+          <div className="mt-2 text-caption tabular-nums text-fg-3">
             {cost.tokens !== undefined &&
               rt("summaryTokens", { tokens: formatTokens(cost.tokens) })}
             {cost.tokens !== undefined && cost.costUsd !== undefined && " · "}
@@ -151,8 +151,10 @@ export const SessionFinalReply = memo(function SessionFinalReply({
           </div>
         )}
         {hiddenMatches.length > 0 && searchQuery && (
-          <div className="mt-2 rounded-[8px] border border-border px-3 py-2 text-[12.35px] leading-[1.3] text-fg-2">
-            <div className="mb-1 font-medium text-fg-3">{rt("rawMatch")}</div>
+          <div className="mt-3 rounded-panel border border-border px-4 py-3 text-body text-fg-2">
+            <div className="mb-1.5 text-caption font-medium text-fg-3">
+              {rt("rawMatch")}
+            </div>
             {hiddenMatches.map((snippet, index) => (
               <p
                 key={index}

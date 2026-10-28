@@ -268,7 +268,7 @@ export function UsageDateRangePicker({
     return (
       <div
         className={cn(
-          "rounded-[8px] border px-2 py-2 transition-all",
+          "rounded-panel border px-3 py-2.5 transition-all",
           isEndLive
             ? "border-border bg-subtle cursor-not-allowed opacity-50"
             : isActive
@@ -279,14 +279,14 @@ export function UsageDateRangePicker({
           if (!isEndLive) setActiveField(field);
         }}
       >
-        <div className="mb-2 text-ui font-medium uppercase tracking-wider text-muted-foreground">
+        <div className="mb-1.5 text-caption font-medium uppercase tracking-wider text-muted-foreground">
           {label}
         </div>
         <div className="flex items-center gap-2">
           <Input
             type="date"
             className={cn(
-              "h-7 flex-1 border-0 bg-transparent p-0 text-[12.35px] leading-[1.3] shadow-none focus:ring-0 focus-visible:ring-0",
+              "h-7 flex-1 border-0 bg-transparent p-0 text-body shadow-none focus:ring-0 focus-visible:ring-0",
               isEndLive && "pointer-events-none",
             )}
             value={fmtDate(ts)}
@@ -307,7 +307,7 @@ export function UsageDateRangePicker({
             type="time"
             step={60}
             className={cn(
-              "h-7 w-[90px] flex-none border-0 bg-transparent p-0 text-[12.35px] leading-[1.3] shadow-none focus:ring-0 focus-visible:ring-0",
+              "h-7 w-[90px] flex-none border-0 bg-transparent p-0 text-body shadow-none focus:ring-0 focus-visible:ring-0",
               isEndLive && "pointer-events-none",
             )}
             value={fmtTime(ts)}
@@ -333,7 +333,7 @@ export function UsageDateRangePicker({
           type="button"
           variant="neutral"
           size="regular"
-          className="max-w-[220px] shrink-0 gap-1 pe-2 ps-2"
+          className="max-w-[220px] shrink-0 gap-2"
           title={`${t("usage.timeRange")}: ${triggerLabel}`}
         >
           <CalendarDays
@@ -345,11 +345,11 @@ export function UsageDateRangePicker({
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="usage-range-popover w-[620px] max-w-[calc(100vw-2rem)] rounded-[8px] border-border bg-card p-2 shadow-md"
+        className="usage-range-popover w-[620px] max-w-[calc(100vw-2rem)] rounded-panel border-border bg-card p-4 shadow-md"
         align="start"
       >
         {/* Preset shortcuts */}
-        <div className="flex flex-wrap gap-2 pb-2 border-b border-border">
+        <div className="flex flex-wrap gap-2 border-b border-border pb-3">
           {PRESETS.map((preset) => (
             <Button
               key={preset}
@@ -358,7 +358,6 @@ export function UsageDateRangePicker({
               variant="neutral"
               aria-pressed={selection.preset === preset}
               className={cn(
-                "px-2",
                 selection.preset === preset &&
                   "border-fg-1 bg-selected font-semibold",
               )}
@@ -372,10 +371,10 @@ export function UsageDateRangePicker({
           ))}
         </div>
 
-        <div className="usage-range-layout mt-2 flex flex-col gap-2">
+        <div className="usage-range-layout mt-4 flex flex-col gap-4">
           {/* Left: date fields */}
-          <div className="usage-range-fields space-y-2">
-            <p className="text-ui text-muted-foreground">
+          <div className="usage-range-fields space-y-3">
+            <p className="text-caption text-muted-foreground">
               {t("usage.customRangeHint", "支持日期与时间，最长 30 天")}
             </p>
             {renderField("start")}
@@ -393,12 +392,12 @@ export function UsageDateRangePicker({
                   }
                 }}
               />
-              <span className="text-ui text-muted-foreground">
+              <span className="text-body text-muted-foreground">
                 {t("usage.liveEndTime", "结束时间跟随当前时刻")}
               </span>
             </label>
 
-            {error && <p className="text-ui text-danger-text">{error}</p>}
+            {error && <p className="text-caption text-danger-text">{error}</p>}
 
             <div className="flex gap-2 pt-1">
               <Button
@@ -423,7 +422,7 @@ export function UsageDateRangePicker({
           </div>
 
           {/* Right: calendar */}
-          <div className="usage-range-calendar rounded-[8px] border border-border bg-subtle p-2">
+          <div className="usage-range-calendar rounded-panel border border-border bg-subtle p-3">
             {/* Month navigation */}
             <div className="flex items-center justify-between mb-2">
               <HoverTip content={prevMonthLabel}>
@@ -451,7 +450,7 @@ export function UsageDateRangePicker({
               >
                 <button
                   type="button"
-                  className="text-ui font-medium text-foreground transition-colors hover:text-muted-foreground"
+                  className="text-body font-medium text-foreground transition-colors hover:text-muted-foreground"
                   onClick={goToToday}
                 >
                   {displayMonth.toLocaleDateString(locale, {
@@ -482,9 +481,9 @@ export function UsageDateRangePicker({
             </div>
 
             {/* Weekday headers */}
-            <div className="grid grid-cols-7 text-center text-ui text-muted-foreground mb-0.5">
+            <div className="mb-1 grid grid-cols-7 text-center text-caption text-muted-foreground">
               {weekdayLabels.map((label, i) => (
-                <div key={i} className="py-0.5">
+                <div key={i} className="py-1">
                   {label}
                 </div>
               ))}
@@ -512,7 +511,7 @@ export function UsageDateRangePicker({
                     aria-current={isToday ? "date" : undefined}
                     aria-pressed={isEndpoint}
                     className={cn(
-                      "relative h-7 rounded text-[12.35px] leading-[1.3] transition-colors",
+                      "relative h-8 rounded-control text-body transition-colors",
                       !isCurrentMonth && "text-muted-foreground",
                       isCurrentMonth && !inRange && "hover:bg-subtle",
                       inRange && !isEndpoint && "bg-selected text-foreground",

@@ -53,18 +53,18 @@ export function FirstRunNoticeDialog() {
         if (!open) void handleAcknowledge();
       }}
     >
-      <DialogContent className="max-w-md" zIndex="top">
+      <DialogContent className="max-w-lg" zIndex="top">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="h-5 w-5 text-fg-1" />
             {t("firstRunNotice.title")}
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-3 px-6 py-5">
-          <DialogDescription className="whitespace-pre-line leading-relaxed">
+        <div className="space-y-3">
+          <DialogDescription className="whitespace-pre-line">
             {t("firstRunNotice.bodyDefault")}
           </DialogDescription>
-          <DialogDescription className="whitespace-pre-line leading-relaxed">
+          <DialogDescription className="whitespace-pre-line">
             {t("firstRunNotice.bodyOfficial")}
           </DialogDescription>
         </div>

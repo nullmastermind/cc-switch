@@ -94,7 +94,7 @@ export function PerformanceCells({
           <>
             {estimatedSpeed != null && "≈"}
             {speed}
-            <span className="ms-0.5 text-ui font-normal text-muted-foreground">
+            <span className="ms-0.5 text-caption font-normal text-muted-foreground">
               tok/s
             </span>
           </>

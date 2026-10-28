@@ -523,7 +523,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
           const shown = Boolean(revealed[revealKey]);
           const rowName = row.key.trim() || String(index + 1);
           return (
-            <div key={index} className="flex items-center gap-1">
+            <div key={index} className="flex items-center gap-2">
               <input
                 type="text"
                 className={cn(MONO_FIELD_CLASS, "w-[188px] shrink-0")}
@@ -607,7 +607,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                     setRevealed({});
                   }}
                 >
-                  <X className="h-3.5 w-3.5" strokeWidth={1.5} />
+                  <X className="h-4 w-4" strokeWidth={1.5} />
                 </Button>
               </HoverTip>
             </div>
@@ -642,7 +642,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
         closeLabel={t("common.back")}
         aria-describedby={undefined}
       >
-        <SheetBody className="flex flex-col gap-5 px-6 pb-6 pt-5">
+        <SheetBody className="flex flex-col gap-6 px-4 pb-10 pt-5 lg:px-6">
           {!isEdit && (
             <>
               <div className="flex flex-col gap-2">
@@ -663,7 +663,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                         type="button"
                         aria-pressed={template === preset.id}
                         onClick={() => pickTemplate(preset.id)}
-                        className="h-7 whitespace-nowrap rounded-full border border-border-strong bg-surface px-3 text-[12.35px] leading-[1.3] transition-colors hover:bg-subtle aria-pressed:bg-selected aria-pressed:font-medium"
+                        className="h-7 whitespace-nowrap rounded-full border border-border-strong bg-surface px-3 text-body transition-colors hover:bg-subtle aria-pressed:bg-selected aria-pressed:font-medium"
                       >
                         {t(`mcpPage.templateLabels.${preset.id}`, {
                           defaultValue: preset.id,
@@ -688,13 +688,13 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                   rows={3}
                   className={cn(
                     MONO_FIELD_CLASS,
-                    "h-16 resize-none py-2 leading-[18px] placeholder:font-sans placeholder:text-[12.35px] leading-[1.3]",
+                    "h-16 resize-none py-2 leading-[18px] placeholder:font-sans placeholder:text-body",
                   )}
                 />
                 {paste?.ok === true && (
                   <span
                     id="mcp-paste-hint"
-                    className="flex items-start gap-1 text-[12.35px] leading-[1.3] text-success-text"
+                    className="flex items-start gap-1 text-caption text-success-text"
                   >
                     <Check
                       aria-hidden="true"
@@ -733,7 +733,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
               <div className="flex items-center gap-3">
                 <h3
                   id="mcp-batch-title"
-                  className="m-0 flex-1 text-[12.35px] leading-[1.3] font-semibold text-fg-1"
+                  className="m-0 flex-1 text-section font-semibold text-fg-1"
                 >
                   {t("mcpPage.drawer.batchTitle", {
                     count: batch.items.length,
@@ -747,12 +747,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                     setPaste(null);
                     setBatchError(false);
                   }}
-                  className="text-[12.35px] leading-[1.3] font-medium text-fg-2 underline underline-offset-[3px] hover:text-fg-1"
+                  className="text-body font-medium text-fg-2 underline underline-offset-[3px] hover:text-fg-1"
                 >
                   {t("mcpPage.drawer.batchClear")}
                 </button>
               </div>
-              <ul className="m-0 list-none rounded-[8px] border border-border p-0">
+              <ul className="m-0 list-none rounded-panel border border-border p-0">
                 {batch.items.map((item, index) => {
                   const inputId = `mcp-batch-${index}`;
                   const statusId = `${inputId}-status`;
@@ -771,7 +771,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                     <li
                       key={`${item.name}-${index}`}
                       className={cn(
-                        "flex min-h-12 items-center gap-2 py-1.5 pe-2 ps-3",
+                        "flex min-h-14 items-center gap-3 px-4 py-3",
                         index > 0 && "border-t border-border",
                       )}
                     >
@@ -788,7 +788,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       />
                       <label
                         htmlFor={inputId}
-                        className="min-w-0 truncate text-[12.35px] leading-[1.3] font-medium"
+                        className="min-w-0 truncate text-body font-medium"
                       >
                         {item.name}
                       </label>
@@ -798,7 +798,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       <span className="flex-1" />
                       <span
                         id={statusId}
-                        className="shrink-0 whitespace-nowrap text-[12.35px] leading-[1.3] text-fg-2"
+                        className="shrink-0 whitespace-nowrap text-caption text-fg-2"
                       >
                         {item.exists
                           ? t("mcpPage.drawer.batchExists")
@@ -884,13 +884,13 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 <div data-unsaved-ignore className="flex items-center gap-3">
                   <h3
                     id="mcp-conn-title"
-                    className="m-0 flex-1 text-[12.35px] leading-[1.3] font-semibold text-fg-1"
+                    className="m-0 flex-1 text-section font-semibold text-fg-1"
                   >
                     {t("mcpPage.drawer.connection")}
                   </h3>
                   <SegmentedControl
                     aria-label={t("mcpPage.drawer.editMode")}
-                    className="h-7"
+                    size="sm"
                     value={tab}
                     onValueChange={switchTab}
                     items={[
@@ -917,7 +917,8 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                       </span>
                       <SegmentedControl<McpTransport>
                         aria-label={t("mcpPage.drawer.transport")}
-                        className="h-7 self-start"
+                        size="sm"
+                        className="self-start"
                         value={conn.transport}
                         onValueChange={(value) =>
                           patchConn({ transport: value })
@@ -956,7 +957,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                             type="text"
                             className={cn(
                               MONO_FIELD_CLASS,
-                              "placeholder:font-sans placeholder:text-[12.35px] leading-[1.3]",
+                              "placeholder:font-sans placeholder:text-body",
                             )}
                             value={conn.command}
                             placeholder={t("mcpPage.drawer.commandPlaceholder")}
@@ -989,7 +990,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                           {conn.args.map((arg, index) => (
                             <div
                               key={index}
-                              className="flex items-center gap-1"
+                              className="flex items-center gap-2"
                             >
                               <input
                                 type="text"
@@ -1024,10 +1025,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                                     })
                                   }
                                 >
-                                  <X
-                                    className="h-3.5 w-3.5"
-                                    strokeWidth={1.5}
-                                  />
+                                  <X className="h-4 w-4" strokeWidth={1.5} />
                                 </Button>
                               </HoverTip>
                             </div>
@@ -1046,7 +1044,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                         <div className="flex flex-col gap-1.5">
                           <label htmlFor="mcp-cwd" className={LABEL_CLASS}>
                             {t("mcpPage.drawer.cwd")}
-                            <span className="ms-1.5 text-[12.35px] leading-[1.3] font-normal text-fg-2">
+                            <span className="ms-1.5 text-caption font-normal text-fg-2">
                               {t("mcpPage.drawer.optional")}
                             </span>
                           </label>
@@ -1055,7 +1053,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                             type="text"
                             className={cn(
                               MONO_FIELD_CLASS,
-                              "placeholder:font-sans placeholder:text-[12.35px] leading-[1.3]",
+                              "placeholder:font-sans placeholder:text-body",
                             )}
                             value={conn.cwd}
                             placeholder={t("mcpPage.drawer.cwdPlaceholder")}
@@ -1114,7 +1112,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                         {extraKeys.map((key) => (
                           <code
                             key={key}
-                            className="h-[22px] whitespace-nowrap rounded-[4px] bg-subtle px-2 font-mono text-[12.35px] leading-[1.3] leading-[22px]"
+                            className="h-[22px] whitespace-nowrap rounded-control bg-subtle px-2 font-mono text-body leading-[22px]"
                           >
                             {key}
                           </code>
@@ -1122,7 +1120,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                         <button
                           type="button"
                           onClick={() => switchTab("json")}
-                          className="text-[12.35px] leading-[1.3] font-medium text-fg-1 underline underline-offset-[3px] hover:text-fg-2"
+                          className="text-body font-medium text-fg-1 underline underline-offset-[3px] hover:text-fg-2"
                         >
                           {t("mcpPage.drawer.editInJson")}
                         </button>
@@ -1146,12 +1144,12 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                           data-unsaved-ignore
                           aria-pressed={revealJson}
                           onClick={toggleRevealJson}
-                          className="inline-flex h-7 items-center gap-1 rounded-[4px] pe-2 ps-1.5 text-[12.35px] leading-[1.3] font-medium text-fg-2 transition-colors hover:bg-subtle hover:text-fg-1"
+                          className="inline-flex h-7 items-center gap-1 rounded-control pe-2 ps-1.5 text-body font-medium text-fg-2 transition-colors hover:bg-subtle hover:text-fg-1"
                         >
                           {revealJson ? (
-                            <EyeOff className="h-3.5 w-3.5" strokeWidth={2} />
+                            <EyeOff className="h-4 w-4" strokeWidth={2} />
                           ) : (
-                            <Eye className="h-3.5 w-3.5" strokeWidth={2} />
+                            <Eye className="h-4 w-4" strokeWidth={2} />
                           )}
                           {t("mcpPage.drawer.showValues")}
                         </button>
@@ -1203,11 +1201,11 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 {t("mcpPage.drawer.writeToHelp")}
               </HelpTip>
             </div>
-            <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+            <div className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
               {visibleAppIds.map((app) => (
                 <label
                   key={app}
-                  className="flex h-6 cursor-pointer items-center gap-2 text-[12.35px] leading-[1.3]"
+                  className="flex h-7 cursor-pointer items-center gap-2 text-body"
                 >
                   <input
                     type="checkbox"
@@ -1262,7 +1260,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
                 {t("mcpPage.drawer.meta")}
               </DisclosureButton>
               {metaOpen && (
-                <div id="mcp-meta" className="flex flex-col gap-3">
+                <div id="mcp-meta" className="flex flex-col gap-4">
                   <div className="flex flex-col gap-1.5">
                     <div className="flex items-center gap-0.5">
                       <label htmlFor="mcp-meta-name" className={LABEL_CLASS}>
@@ -1370,7 +1368,7 @@ const McpFormModal: React.FC<McpFormModalProps> = ({
           )}
         </SheetBody>
 
-        <SheetFooter className="h-14 px-6 py-0">
+        <SheetFooter className="h-14 px-4 py-0 lg:px-6">
           <Button
             type="button"
             variant="neutral"
@@ -1406,7 +1404,7 @@ function AddRowButton({
     <button
       type="button"
       onClick={onClick}
-      className="-ms-1.5 inline-flex h-7 items-center gap-1 self-start whitespace-nowrap rounded-[4px] pe-2 ps-1.5 text-[12.35px] leading-[1.3] font-medium text-fg-2 transition-colors hover:bg-subtle hover:text-fg-1"
+      className="-ms-1.5 inline-flex h-7 items-center gap-1 self-start whitespace-nowrap rounded-control pe-2 ps-1.5 text-body font-medium text-fg-2 transition-colors hover:bg-subtle hover:text-fg-1"
     >
       <Plus aria-hidden="true" className="h-3.5 w-3.5" strokeWidth={2} />
       {children}

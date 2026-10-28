@@ -157,7 +157,7 @@ export function ProfileSwitcher({ activeApp }: ProfileSwitcherProps) {
                       />
                       <span className="truncate">{profile.name}</span>
                       {!hasScopeSnapshot(profile, scope) && (
-                        <span className="ml-auto shrink-0 pl-2 text-[12.35px] leading-[1.3] text-fg-2">
+                        <span className="ml-auto shrink-0 pl-2 text-caption text-fg-2">
                           {t("profiles.noSnapshotForScope")}
                         </span>
                       )}
@@ -216,14 +216,14 @@ export function ProfileSwitcher({ activeApp }: ProfileSwitcherProps) {
           if (!open) closeCreateDialog();
         }}
       >
-        <DialogContent className="max-w-sm" zIndex="alert">
-          <DialogHeader className="space-y-3 border-b-0 bg-transparent pb-0">
+        <DialogContent zIndex="alert">
+          <DialogHeader>
             <DialogTitle>{t("profiles.createFromCurrent")}</DialogTitle>
             <DialogDescription>
               {t(`profiles.createDescription.${scope}`)}
             </DialogDescription>
           </DialogHeader>
-          <div className="px-6 pt-3">
+          <div>
             <Input
               value={newName}
               onChange={(e) => setNewName(e.target.value)}
@@ -234,7 +234,7 @@ export function ProfileSwitcher({ activeApp }: ProfileSwitcherProps) {
               }}
             />
           </div>
-          <DialogFooter className="flex gap-2 border-t-0 bg-transparent pt-2 sm:justify-end">
+          <DialogFooter>
             <Button variant="outline" onClick={closeCreateDialog}>
               {t("common.cancel")}
             </Button>

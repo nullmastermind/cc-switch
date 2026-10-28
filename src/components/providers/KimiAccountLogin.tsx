@@ -76,7 +76,7 @@ export function KimiAccountLogin({ helpSide }: KimiAccountLoginProps) {
   });
 
   const chooser = choosing && (
-    <div className="mx-2 mb-2 flex flex-col gap-2 rounded-[8px] border border-border p-2">
+    <div className="mx-4 mb-3 flex flex-col gap-3 rounded-panel border border-border p-3">
       <div className="flex flex-wrap items-center gap-3">
         <span className="text-caption font-medium text-fg-2">
           {t("kimi.oauth.region")}

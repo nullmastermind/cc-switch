@@ -15,11 +15,11 @@ import {
 import { fieldClass } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-/** v7 对话框外壳：宽 480（或传入）、padding 24、圆角 14。 */
+/** v7 对话框外壳：宽 512（或传入）；padding / gap / 圆角用 DialogContent 默认（p-5 gap-4 rounded-dialog）。 */
 export function V7Dialog({
   open,
   onOpenChange,
-  width = 480,
+  width = 512,
   className,
   children,
   describedBy,
@@ -40,7 +40,7 @@ export function V7Dialog({
           aria-describedby={describedBy}
           style={{ maxWidth: width }}
           className={cn(
-            "max-h-[calc(100vh-48px)] gap-2 rounded-[8px] border-border bg-surface p-2 text-fg-1 shadow-sm sm:rounded-[8px]",
+            "max-h-[calc(100vh-48px)] border-border bg-surface text-fg-1 shadow-sm",
             className,
           )}
         >
@@ -83,10 +83,8 @@ export function V7ConfirmDialog({
       }}
     >
       <div className="flex flex-col gap-1.5">
-        <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold [overflow-wrap:anywhere]">
-          {title}
-        </DialogTitle>
-        <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+        <DialogTitle className="[overflow-wrap:anywhere]">{title}</DialogTitle>
+        <DialogDescription className="text-body text-fg-2">
           {body}
         </DialogDescription>
       </div>
@@ -119,19 +117,16 @@ export function V7ConfirmDialog({
 /** 和 Input 同一套外观（ui/input.tsx 的 fieldClass），只读时换浅底 */
 export const FIELD_CLASS = cn(
   fieldClass,
-  "min-w-0 read-only:bg-subtle read-only:text-fg-2 dark:[color-scheme:dark]",
+  "h-8 min-w-0 read-only:bg-subtle read-only:text-fg-2 dark:[color-scheme:dark]",
 );
 
-export const MONO_FIELD_CLASS = cn(
-  FIELD_CLASS,
-  "font-mono text-[12.35px] leading-[1.3]",
-);
+export const MONO_FIELD_CLASS = cn(FIELD_CLASS, "font-mono text-body");
 
 /** 原生勾选框 / 单选框的统一外观（index.css 的 ui-checkbox / ui-radio） */
 export const CHECKBOX_CLASS = "ui-checkbox";
 export const RADIO_CLASS = "ui-radio";
 
-export const LABEL_CLASS = "text-[12.35px] leading-[1.3] font-medium text-fg-1";
+export const LABEL_CLASS = "text-body font-medium text-fg-1";
 
 export function FieldError({
   id,
@@ -143,7 +138,7 @@ export function FieldError({
   return (
     <span
       id={id}
-      className="flex items-start gap-1 text-[12.35px] leading-[1.3] text-danger-text"
+      className="flex items-start gap-1 text-caption text-danger-text"
     >
       <CircleAlert
         aria-hidden="true"
@@ -187,20 +182,18 @@ export function DisclosureButton({
       aria-expanded={open}
       aria-controls={controls}
       onClick={onToggle}
-      className="-ms-1 inline-flex h-6 items-center gap-1 self-start whitespace-nowrap rounded-[4px] pe-2 ps-1 text-[12.35px] leading-[1.3] font-medium text-fg-1 transition-colors hover:bg-subtle"
+      className="-ms-1 inline-flex h-7 items-center gap-1 self-start whitespace-nowrap rounded-control pe-2 ps-1 text-body font-medium text-fg-1 transition-colors hover:bg-subtle"
     >
       <Icon aria-hidden="true" className="h-4 w-4" strokeWidth={2} />
       {children}
       {hint && (
-        <span className="text-[12.35px] leading-[1.3] font-normal text-fg-2">
-          {hint}
-        </span>
+        <span className="text-caption font-normal text-fg-2">{hint}</span>
       )}
     </button>
   );
 }
 
-/** 小号分段（高 24，用在批量粘贴的「跳过 / 覆盖」） */
+/** 小号分段（高 28，用在批量粘贴的「跳过 / 覆盖」） */
 export function MiniSegmented<T extends string>({
   items,
   value,
@@ -221,12 +214,12 @@ export function MiniSegmented<T extends string>({
       role="group"
       aria-label={label}
       ref={indicator.ref}
-      className="relative flex h-6 shrink-0 gap-0 rounded-[4px] bg-subtle p-0.5"
+      className="relative flex h-7 shrink-0 gap-0 rounded-control bg-subtle p-[3px]"
     >
       <SegmentThumb
         rect={indicator.rect}
         animate={indicator.animate}
-        className="rounded-[3px]"
+        className="rounded-[4px]"
       />
       {items.map((item) => {
         const pressed = item.value === value;
@@ -237,7 +230,7 @@ export function MiniSegmented<T extends string>({
             aria-pressed={pressed}
             onClick={() => onValueChange(item.value)}
             className={cn(
-              "relative h-5 rounded-[3px] px-2 text-[12.35px] leading-[1.3] font-medium text-fg-2 transition-colors",
+              "relative h-[22px] rounded-[4px] px-2.5 text-caption font-medium text-fg-2 transition-colors",
               pressed && "font-semibold text-fg-1",
             )}
           >

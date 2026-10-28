@@ -43,7 +43,7 @@ function renderInline(text: string): ReactNode[] {
       nodes.push(
         <code
           key={key++}
-          className="rounded-[3px] bg-muted px-1 py-px font-mono text-[12.35px] leading-[1.3]"
+          className="rounded-[4px] bg-muted px-1 py-px font-mono text-body"
         >
           {token.slice(1, -1)}
         </code>,
@@ -89,7 +89,7 @@ function parseBlocks(
       continue;
     }
     if (line.trim() === "---" || line.trim() === "***") {
-      blocks.push(<hr key={key++} className="my-2 border-border-default" />);
+      blocks.push(<hr key={key++} className="my-4 border-border-default" />);
       i += 1;
       continue;
     }
@@ -98,10 +98,10 @@ function parseBlocks(
       const level = heading[1].length;
       const className =
         level === 1
-          ? "mt-3 mb-1 text-[13.5px] font-semibold leading-[1.3]"
+          ? "mt-5 mb-2 text-section font-semibold"
           : level === 2
-            ? "mt-2 mb-1 text-[13px] font-semibold leading-[1.3]"
-            : "mt-2 mb-0.5 text-[12.35px] font-semibold leading-[1.3]";
+            ? "mt-4 mb-1.5 text-strong font-semibold"
+            : "mt-3 mb-1 text-body font-semibold";
       const content = renderInline(heading[2]);
       blocks.push(
         level === 1 ? (
@@ -136,7 +136,7 @@ function parseBlocks(
       blocks.push(
         <pre
           key={key++}
-          className="mb-2 overflow-x-auto rounded-[4px] bg-muted px-2 py-1.5 font-mono text-[11.5px] leading-[1.4]"
+          className="mb-3 overflow-x-auto rounded-panel bg-muted px-3 py-2 font-mono text-[11.5px] leading-[1.4]"
         >
           {code.join("\n")}
         </pre>,
@@ -159,8 +159,8 @@ function parseBlocks(
           key={key++}
           className={
             ordered
-              ? "mb-2 list-decimal space-y-0.5 pl-4 text-[12.35px] leading-[1.3]"
-              : "mb-2 list-disc space-y-0.5 pl-4 text-[12.35px] leading-[1.3]"
+              ? "mb-3 list-decimal space-y-1 pl-5 text-body"
+              : "mb-3 list-disc space-y-1 pl-5 text-body"
           }
         >
           {items.map((item, index) => (
@@ -183,7 +183,7 @@ function parseBlocks(
       blocks.push(
         <blockquote
           key={key++}
-          className="mb-2 border-l-2 border-border-default pl-2 text-[12.35px] leading-[1.3] text-muted-foreground"
+          className="mb-3 border-l-2 border-border-default pl-3 text-body text-muted-foreground"
         >
           {nested.nodes}
         </blockquote>,
@@ -204,10 +204,7 @@ function parseBlocks(
       i += 1;
     }
     blocks.push(
-      <p
-        key={key++}
-        className="mb-1.5 text-[12.35px] leading-[1.3] text-foreground"
-      >
+      <p key={key++} className="mb-3 text-body text-foreground">
         {renderInline(para.join(" "))}
       </p>,
     );

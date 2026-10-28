@@ -59,7 +59,7 @@ import type { ReaderFilter } from "./turns";
 import { useMoneyFormat } from "@/hooks/useMoneyFormat";
 
 export const readerIconButton =
-  "inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-[4px] text-fg-2 transition-colors hover:bg-subtle hover:text-fg-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40";
+  "inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-control text-fg-2 transition-colors hover:bg-subtle hover:text-fg-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-40";
 
 // ─── 页头：返回、标题、上一个 / 下一个、恢复、⋯ ───────────────────────────
 
@@ -142,7 +142,7 @@ export const SessionReaderHeader = memo(function SessionReaderHeader({
           variant="solid"
           size="regular"
           onClick={onLaunch}
-          className="rounded-e-none pe-3 ps-3"
+          className="rounded-e-none"
         >
           <Play className="h-3.5 w-3.5" strokeWidth={2} />
           {launchLabel}
@@ -162,7 +162,7 @@ export const SessionReaderHeader = memo(function SessionReaderHeader({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"
-            className="w-[300px] max-w-[calc(100vw-32px)] rounded-[8px] p-1 shadow-sm"
+            className="w-[300px] max-w-[calc(100vw-32px)] rounded-panel p-1 shadow-sm"
           >
             <DropdownMenuItem
               className={sessionMenuItemClass}
@@ -184,7 +184,7 @@ export const SessionReaderHeader = memo(function SessionReaderHeader({
               </span>
               <span
                 aria-hidden="true"
-                className="min-w-0 flex-1 truncate text-right font-mono text-[12.35px] leading-[1.3] text-fg-3"
+                className="min-w-0 flex-1 truncate text-right font-mono text-body text-fg-3"
               >
                 {command}
               </span>
@@ -221,7 +221,7 @@ export const SessionReaderHeader = memo(function SessionReaderHeader({
               })}
             </DropdownMenuItem>
             {isCodex && (
-              <p className="-mx-1 -mb-1 mt-1 border-t border-border px-3 pb-2 pt-2 text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="-mx-1 -mb-1 mt-1 border-t border-border px-3 pb-2.5 pt-2.5 text-caption text-fg-2">
                 {t("sessionManager.codexResumeNote", {
                   defaultValue:
                     "切换过供应商后，旧会话可能无法继续：Codex 按供应商分开保存历史。",
@@ -242,7 +242,7 @@ export const SessionReaderHeader = memo(function SessionReaderHeader({
         aria-describedby={command ? undefined : "session-resume-note"}
         onClick={command ? copyResume : undefined}
         className={cn(
-          "shrink-0 pe-3 ps-3",
+          "shrink-0",
           !command && "cursor-not-allowed opacity-45 hover:bg-action",
         )}
       >
@@ -279,7 +279,7 @@ export const SessionReaderHeader = memo(function SessionReaderHeader({
       </HoverTip>
       <DropdownMenuContent
         align="end"
-        className="w-[230px] rounded-[8px] p-1 shadow-sm"
+        className="w-[230px] rounded-panel p-1 shadow-sm"
       >
         <DropdownMenuItem
           className={sessionMenuItemClass}
@@ -352,7 +352,7 @@ export const SessionReaderHeader = memo(function SessionReaderHeader({
         </DropdownMenuItem>
         {!deletable &&
           ["mcode", "kimi", "dsh"].includes(session.providerId) && (
-            <p className="px-2 pb-1.5 text-[12.35px] leading-[1.3] text-fg-2">
+            <p className="px-2 pb-1.5 text-caption text-fg-2">
               {t(
                 session.providerId === "dsh"
                   ? "dsh.deleteSessionHint"
@@ -587,10 +587,10 @@ export const SessionReaderToolbar = memo(function SessionReaderToolbar({
   const toolCount = turnIndex.reduce((sum, item) => sum + item.stepCount, 0);
 
   return (
-    <div className="flex shrink-0 flex-col border-b border-border py-1.5 pe-4 ps-6">
-      <div className="flex min-h-8 flex-wrap items-center gap-x-2 gap-y-1">
+    <div className="flex shrink-0 flex-col border-b border-border px-4 py-2 lg:px-6">
+      <div className="flex min-h-9 flex-wrap items-center gap-x-3 gap-y-2">
         {/* 各段整体换行，不再整行截断：路径标签留最小宽度，避免被挤到只剩图标、压住日期 */}
-        <div className="flex min-w-0 flex-1 basis-72 flex-wrap items-center gap-x-1.5 gap-y-0.5 text-[12.35px] leading-[1.3] tabular-nums text-fg-2">
+        <div className="flex min-w-0 flex-1 basis-72 flex-wrap items-center gap-x-1.5 gap-y-1 text-caption tabular-nums text-fg-2">
           {session.projectDir ? (
             <PathChip
               path={session.projectDir}
@@ -659,7 +659,7 @@ export const SessionReaderToolbar = memo(function SessionReaderToolbar({
         </div>
 
         {!failed && (
-          <div className="flex shrink-0 items-center gap-0.5">
+          <div className="flex shrink-0 items-center gap-1">
             <HoverTip content={rt("outlineToggle")}>
               <button
                 type="button"
@@ -702,7 +702,7 @@ export const SessionReaderToolbar = memo(function SessionReaderToolbar({
               </HoverTip>
               <DropdownMenuContent
                 align="end"
-                className="w-[220px] rounded-[8px] p-1 shadow-sm"
+                className="w-[220px] rounded-panel p-1 shadow-sm"
               >
                 <DropdownMenuCheckboxItem
                   // 左边留出勾选标记的位置，避免和文字重叠
@@ -765,7 +765,7 @@ export const SessionReaderToolbar = memo(function SessionReaderToolbar({
             aria-label={t("sessionManager.findInSession", {
               defaultValue: "在会话中查找",
             })}
-            className="flex shrink-0 items-center gap-0.5"
+            className="flex shrink-0 items-center gap-1"
             onKeyDown={(event) => {
               if (event.key === "Escape") {
                 event.stopPropagation();
@@ -795,15 +795,12 @@ export const SessionReaderToolbar = memo(function SessionReaderToolbar({
                 })}
                 autoComplete="off"
                 spellCheck={false}
-                className={cn(
-                  fieldClass,
-                  "h-7 pe-2 ps-7 text-[12.35px] leading-[1.3]",
-                )}
+                className={cn(fieldClass, "h-7 pe-2 ps-7 text-body")}
               />
             </div>
             <span
               role="status"
-              className="min-w-12 text-center text-[12.35px] leading-[1.3] tabular-nums text-fg-2"
+              className="min-w-12 text-center text-caption tabular-nums text-fg-2"
             >
               {find.query.trim() ? `${find.current} / ${find.total}` : ""}
             </span>
@@ -816,7 +813,7 @@ export const SessionReaderToolbar = memo(function SessionReaderToolbar({
               onClick={() => onStepFind(-1)}
               className={readerIconButton}
             >
-              <ArrowUp className="h-[15px] w-[15px]" strokeWidth={1.5} />
+              <ArrowUp className="h-4 w-4" strokeWidth={1.5} />
             </button>
             <button
               type="button"
@@ -827,7 +824,7 @@ export const SessionReaderToolbar = memo(function SessionReaderToolbar({
               onClick={() => onStepFind(1)}
               className={readerIconButton}
             >
-              <ArrowDown className="h-[15px] w-[15px]" strokeWidth={1.5} />
+              <ArrowDown className="h-4 w-4" strokeWidth={1.5} />
             </button>
             <button
               type="button"
@@ -844,10 +841,7 @@ export const SessionReaderToolbar = memo(function SessionReaderToolbar({
       </div>
 
       {noResumeReason && (
-        <p
-          id="session-resume-note"
-          className="m-0 mb-1 text-[12.35px] leading-[1.3] text-fg-2"
-        >
+        <p id="session-resume-note" className="m-0 mb-1 text-caption text-fg-2">
           {noResumeReason}
         </p>
       )}

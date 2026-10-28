@@ -39,27 +39,27 @@ export function ProviderEmptyState({
     appId === "grokbuild";
 
   return (
-    <div className="flex flex-col items-center justify-center px-6 py-16 text-center">
-      <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-[8px] border border-border bg-subtle text-fg-2">
-        <Server className="h-6 w-6" strokeWidth={1.5} aria-hidden="true" />
+    <div className="flex flex-col items-center justify-center gap-1.5 px-6 py-12 text-center">
+      <div className="mb-1.5 flex h-10 w-10 items-center justify-center rounded-panel border border-border bg-subtle text-fg-2">
+        <Server className="h-5 w-5" strokeWidth={1.5} aria-hidden="true" />
       </div>
-      <h2 className="text-[12.35px] leading-[1.3] font-semibold text-fg-1">
+      <h2 className="text-strong font-medium text-fg-1">
         {emptyCopyNs
           ? t(`${emptyCopyNs}.empty.title`)
           : t("provider.noProviders")}
       </h2>
       {emptyCopyNs && (
-        <p className="mt-1 max-w-lg text-[12.35px] leading-[1.3] text-fg-2">
+        <p className="max-w-lg text-body text-fg-2">
           {t(`${emptyCopyNs}.empty.description`)}
         </p>
       )}
       {showKeyFieldsHint && (
-        <p className="mt-1 max-w-lg text-[12.35px] leading-[1.3] text-fg-2">
+        <p className="max-w-lg text-body text-fg-2">
           {t("provider.noProvidersDescriptionKeyFields")}
         </p>
       )}
       {(onImport || onCreate) && (
-        <div className="mt-2 flex flex-wrap items-center justify-center gap-2">
+        <div className="mt-3 flex flex-wrap items-center justify-center gap-2">
           {onImport && (
             <Button variant="neutral" onClick={onImport}>
               <Download className="h-4 w-4" />

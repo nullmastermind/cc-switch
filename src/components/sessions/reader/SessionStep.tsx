@@ -197,7 +197,7 @@ export const SessionStep = memo(function SessionStep({
       );
     case "image":
       return (
-        <div className="flex min-w-0 gap-2 px-1.5 py-1.5">
+        <div className="flex min-w-0 gap-2 px-2 py-1.5">
           <GlyphCell glyph="▣" className="h-6 text-fg-3" />
           <SessionImage
             image={step.image}

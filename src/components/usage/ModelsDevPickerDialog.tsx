@@ -180,7 +180,7 @@ export function ModelsDevPickerDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="flex flex-1 min-h-0 flex-col gap-2 px-2 py-2">
+        <div className="flex min-h-0 flex-1 flex-col gap-3">
           {isLoading ? (
             <div className="flex flex-1 items-center justify-center">
               <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
@@ -203,7 +203,7 @@ export function ModelsDevPickerDialog({
             />
           ) : (
             <>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-wrap items-center gap-2">
                 <Select
                   value={providerFilter}
                   onValueChange={setProviderFilter}
@@ -222,8 +222,8 @@ export function ModelsDevPickerDialog({
                     ))}
                   </SelectContent>
                 </Select>
-                <div className="relative flex-1">
-                  <Search className="absolute left-2 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <div className="relative min-w-[200px] flex-1">
+                  <Search className="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
                   <Input
                     value={search}
                     onChange={(e) => setSearch(e.target.value)}
@@ -231,14 +231,14 @@ export function ModelsDevPickerDialog({
                       "usage.modelsDevSearchPlaceholder",
                       "搜索模型或供应商（全量搜索）...",
                     )}
-                    className="pl-2"
+                    className="pl-8"
                   />
                 </div>
               </div>
 
-              <div className="flex-1 min-h-0 overflow-y-auto rounded-[8px] border border-border">
+              <div className="flex-1 min-h-0 overflow-y-auto rounded-panel border border-border">
                 {filtered.length === 0 ? (
-                  <div className="flex h-full items-center justify-center py-2 text-ui text-muted-foreground">
+                  <div className="flex h-full items-center justify-center py-12 text-body text-muted-foreground">
                     {t("usage.modelsDevNoResults", "没有匹配的模型")}
                   </div>
                 ) : (
@@ -249,7 +249,7 @@ export function ModelsDevPickerDialog({
                         role="button"
                         aria-pressed={selected?.key === entry.key}
                         onClick={() => toggleEntry(entry)}
-                        className={`flex cursor-pointer items-center gap-2 px-2 py-2 ${
+                        className={`flex cursor-pointer items-center gap-3 px-4 py-3 ${
                           selected?.key === entry.key
                             ? "bg-selected"
                             : "hover:bg-subtle"
@@ -264,32 +264,32 @@ export function ModelsDevPickerDialog({
                         />
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
-                            <span className="truncate text-ui font-medium">
+                            <span className="truncate text-body font-medium">
                               {entry.modelName}
                             </span>
-                            <span className="shrink-0 text-ui text-muted-foreground">
+                            <span className="shrink-0 text-caption text-muted-foreground">
                               {entry.providerName}
                             </span>
                             {entry.releaseDate && (
-                              <span className="shrink-0 text-ui text-muted-foreground">
+                              <span className="shrink-0 text-caption text-muted-foreground">
                                 {entry.releaseDate}
                               </span>
                             )}
                           </div>
                           <div
-                            className="truncate font-mono text-ui text-muted-foreground"
+                            className="truncate font-mono text-caption text-muted-foreground"
                             title={entry.modelId}
                           >
                             {entry.normalizedId}
                           </div>
                         </div>
-                        <div className="flex shrink-0 gap-2 text-right">
+                        <div className="flex shrink-0 gap-3 text-right">
                           {priceColumns(entry).map((column) => (
                             <div key={column.label} className="w-16">
-                              <div className="text-ui text-muted-foreground">
+                              <div className="text-caption text-muted-foreground">
                                 {column.label}
                               </div>
-                              <div className="font-mono text-ui">
+                              <div className="font-mono text-body">
                                 ${formatPrice(column.value)}
                               </div>
                             </div>
@@ -298,7 +298,7 @@ export function ModelsDevPickerDialog({
                       </div>
                     ))}
                     {filtered.length > visible.length && (
-                      <div className="px-2 py-2 text-center text-ui text-muted-foreground">
+                      <div className="px-4 py-3 text-center text-caption text-muted-foreground">
                         {isFiltering
                           ? t("usage.modelsDevTruncated", {
                               shown: visible.length,

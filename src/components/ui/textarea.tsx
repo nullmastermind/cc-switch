@@ -10,7 +10,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       <textarea
         className={cn(
           fieldClass,
-          "flex min-h-[120px] resize-y py-1",
+          "flex min-h-[120px] resize-y py-2",
           className,
         )}
         autoComplete="off"

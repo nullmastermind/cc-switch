@@ -91,17 +91,17 @@ export function ModeTabs({
   );
 
   return (
-    <div className="flex min-h-8 shrink-0 items-center gap-2 px-2 pt-2">
+    <div className="flex min-h-9 shrink-0 items-center gap-2 px-4 pt-5 lg:px-6">
       <div
         ref={indicator.ref}
         role="group"
         aria-label={t("mode.tabsLabel")}
-        className="relative inline-flex h-6 shrink-0 items-center gap-0 rounded-[4px] bg-subtle p-0.5"
+        className="relative inline-flex h-9 shrink-0 items-stretch gap-0 rounded-panel bg-subtle p-[3px]"
       >
         <SegmentThumb
           rect={indicator.rect}
           animate={indicator.animate}
-          className="rounded-[3px]"
+          className="rounded-[7px]"
         />
         {modes.map((mode) => {
           const Icon = MODE_ICON[mode];
@@ -114,7 +114,7 @@ export function ModeTabs({
               aria-pressed={selected}
               onClick={() => onView(mode)}
               className={cn(
-                "relative inline-flex h-5 min-w-[60px] items-center justify-center gap-1 rounded-[3px] px-2 text-[12.35px] leading-[1.3] transition-colors duration-150",
+                "relative inline-flex min-w-[60px] items-center justify-center gap-1.5 rounded-[7px] px-3.5 text-body transition-colors duration-150",
                 isActive
                   ? MODE_TONE[mode].text
                   : selected
@@ -123,7 +123,7 @@ export function ModeTabs({
                 selected || isActive ? "font-semibold" : "font-medium",
               )}
             >
-              <Icon className="h-3 w-3" strokeWidth={2} aria-hidden="true" />
+              <Icon className="h-4 w-4" strokeWidth={2} aria-hidden="true" />
               {t(`mode.names.${mode}`)}
               {isActive && (
                 <span
@@ -159,7 +159,7 @@ export function ModeTabs({
 
       {failover && (
         <HoverTip content={t("mode.failover")}>
-          <label className="flex shrink-0 cursor-pointer items-center gap-1">
+          <label className="flex shrink-0 cursor-pointer items-center gap-2">
             <Shuffle
               className="h-4 w-4 text-fg-2"
               strokeWidth={1.5}
@@ -191,8 +191,8 @@ export function ModeTabs({
         <HoverTip content={t("mode.stackSettings.title")}>
           <Button
             variant="quiet"
-            size="compact"
-            className="h-8 w-8 shrink-0 px-0"
+            size="icon"
+            className="shrink-0"
             aria-label={t("mode.stackSettings.title")}
             onClick={onOpenStackSettings}
           >
@@ -227,7 +227,7 @@ function EndpointCopy({ url }: { url: string }) {
   return (
     <div className="flex min-w-0 shrink items-center gap-1">
       <span
-        className="min-w-0 truncate font-mono text-[12.35px] leading-[1.3] text-fg-2"
+        className="min-w-0 truncate font-mono text-body text-fg-2"
         title={url}
       >
         {url}

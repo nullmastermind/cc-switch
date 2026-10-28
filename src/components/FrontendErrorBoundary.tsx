@@ -35,17 +35,17 @@ export class FrontendErrorBoundary extends React.Component<
       <main className="flex min-h-screen items-center justify-center bg-surface p-6 text-fg-1">
         <section
           role="alert"
-          className="w-full max-w-md space-y-5 rounded-[8px] border border-border bg-surface p-6 shadow-sm"
+          className="w-full max-w-md space-y-4 rounded-dialog border border-border bg-surface p-5 shadow-sm"
         >
           <div className="flex items-start gap-3">
             <TriangleAlert className="mt-0.5 size-5 shrink-0 text-destructive" />
             <div className="space-y-1.5">
-              <h1 className="text-[12.35px] leading-[1.3] font-semibold">
+              <h1 className="text-title font-semibold">
                 {i18n.t("errors.frontendCrashTitle", {
                   defaultValue: "界面遇到了问题",
                 })}
               </h1>
-              <p className="text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="text-body text-fg-2">
                 {i18n.t("errors.frontendCrashMessage", {
                   defaultValue:
                     "已尝试将错误信息写入应用诊断日志。请重新加载界面；如果问题持续，请在提交 Issue 时附上日志。",
@@ -54,7 +54,7 @@ export class FrontendErrorBoundary extends React.Component<
             </div>
           </div>
           <Button className="w-full" onClick={() => window.location.reload()}>
-            <RefreshCw className="mr-2 size-4" />
+            <RefreshCw className="size-4" />
             {i18n.t("errors.reloadInterface", {
               defaultValue: "重新加载界面",
             })}

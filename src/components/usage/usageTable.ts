@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 
 /**
  * 用量统计里几张表（请求日志、供应商、模型、定价）共用的样式：
- * 列头 muted、紧凑行高、分隔线 border；表格区自己横向滚动，页面不溢出。
+ * 列头 muted、和 ui/table 同一套行高（表头 36、行 40）、分隔线 border；表格区自己横向滚动，页面不溢出。
  * 表格放在带边框的面板里，首尾列和面板页签、指标条的内边距对齐。
  * 层次：页签栏 → 表头（浅底）→ 表体 → 翻页栏（浅底），表头和翻页栏夹住表体。
  * 最后一行不画底线，翻页栏自己带顶线；没有翻页栏时由面板边框收口，不会出现双线。
@@ -12,25 +12,24 @@ import { useEffect, useLayoutEffect, useState } from "react";
 export const usageTable = {
   /** 外层：窄窗口时表格在这里横向滚动 */
   scroller: "w-full overflow-x-auto",
-  table:
-    "w-full border-separate border-spacing-0 text-[12.35px] leading-[1.3] tabular-nums",
+  table: "w-full border-separate border-spacing-0 text-body tabular-nums",
   headRow:
-    "h-6 bg-subtle text-[12.35px] leading-[1.3] text-muted-foreground [&>th]:border-b [&>th]:border-border",
-  th: "whitespace-nowrap px-2 text-start font-medium first:ps-2 last:pe-2",
+    "h-9 bg-subtle text-caption text-muted-foreground [&>th]:border-b [&>th]:border-border",
+  th: "whitespace-nowrap px-3 text-start font-medium first:ps-4 last:pe-4",
   // 不可点的行不加 group：固定列的悬停变色（group-hover）只跟着可点的行走
-  row: "h-8 [&:not(:last-child)>td]:border-b [&>td]:border-border",
+  row: "h-10 [&:not(:last-child)>td]:border-b [&>td]:border-border",
   rowInteractive:
-    "group h-8 cursor-pointer transition-colors hover:bg-muted/50 [&:not(:last-child)>td]:border-b [&>td]:border-border",
-  td: "whitespace-nowrap px-2 first:ps-2 last:pe-2",
+    "group h-10 cursor-pointer transition-colors hover:bg-muted/50 [&:not(:last-child)>td]:border-b [&>td]:border-border",
+  td: "whitespace-nowrap px-3 py-2.5 first:ps-4 last:pe-4",
   /** 列组之间多留的间距（请求日志按身份 / 成本 / Tokens / 性能分组） */
   groupGap: "ps-6",
   /** 请求日志列多，收紧一档（叠在 th / td / groupGap 之后，首尾不变） */
-  denseCell: "px-2 first:ps-2 last:pe-2",
+  denseCell: "px-2.5 first:ps-4 last:pe-4",
   denseGroupGap: "ps-4",
-  mono: "font-mono text-[12.35px] leading-[1.3]",
+  mono: "font-mono text-body",
   muted: "text-muted-foreground",
-  empty: "py-2 text-center text-[12.35px] leading-[1.3] text-muted-foreground",
-  skeleton: "h-[240px] animate-pulse rounded-[8px] bg-muted/30",
+  empty: "py-12 text-center text-body text-muted-foreground",
+  skeleton: "h-[240px] animate-pulse rounded-panel bg-muted/30",
 } as const;
 
 /**

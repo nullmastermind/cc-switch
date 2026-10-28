@@ -220,7 +220,7 @@ export function HermesFormFields({
 
   return (
     <>
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <FormLabel htmlFor="hermes-api-mode">
           {t("hermes.form.apiMode", { defaultValue: "API 模式" })}
         </FormLabel>
@@ -241,7 +241,7 @@ export function HermesFormFields({
         </Select>
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <FormLabel htmlFor="hermes-baseurl">
           {t("hermes.form.baseUrl", { defaultValue: "API 端点" })}
         </FormLabel>
@@ -259,7 +259,7 @@ export function HermesFormFields({
           }
         />
         {showBaseUrlError && (
-          <p className="text-ui text-destructive">{baseUrlErrorMessage}</p>
+          <p className="text-caption text-destructive">{baseUrlErrorMessage}</p>
         )}
       </div>
 
@@ -274,15 +274,16 @@ export function HermesFormFields({
         isPartner={isPartner}
       />
 
-      <div className="space-y-3 border-l border-border pl-3">
-        <div className="flex items-center justify-between">
-          <h3 className="text-[12.35px] leading-[1.3] font-normal">
+      <div className="space-y-3 border-l border-border pl-4">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <h3 className="text-body font-medium">
             {t("hermes.form.models", { defaultValue: "模型列表" })}
           </h3>
-          <div className="flex gap-1">
+          <div className="flex gap-2">
             <Button
               type="button"
               variant="outline"
+              size="sm"
               onClick={handleFetchModels}
               disabled={isFetchingModels}
             >
@@ -293,7 +294,12 @@ export function HermesFormFields({
               )}
               {t("providerForm.fetchModels")}
             </Button>
-            <Button type="button" variant="outline" onClick={handleAddModel}>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={handleAddModel}
+            >
               <Plus className="h-3.5 w-3.5" />
               {t("hermes.form.addModel", { defaultValue: "添加模型" })}
             </Button>
@@ -301,22 +307,22 @@ export function HermesFormFields({
         </div>
 
         {models.length === 0 ? (
-          <p className="text-[12.35px] leading-[1.3] text-fg-2 py-2">
+          <p className="text-body text-fg-2">
             {t("hermes.form.noModels", {
               defaultValue: "暂无模型配置。切换到此供应商时将无默认模型。",
             })}
           </p>
         ) : (
           <div className="space-y-2">
-            <div className="flex items-center gap-2 text-ui text-muted-foreground">
-              <span className="w-6" />
+            <div className="flex items-center gap-2 text-caption text-muted-foreground">
+              <span className="w-8 shrink-0" />
               <span className="flex-1">
                 {t("hermes.form.modelId", { defaultValue: "模型 ID" })}
               </span>
               <span className="flex-1">
                 {t("hermes.form.modelName", { defaultValue: "显示名称" })}
               </span>
-              <span className="w-6" />
+              <span className="w-8 shrink-0" />
             </div>
             {models.map((model, index) => {
               const modelKey = modelKeys[index];
@@ -343,7 +349,7 @@ export function HermesFormFields({
                         }`}
                       />
                     </Button>
-                    <div className="flex min-w-0 flex-1 items-center gap-1">
+                    <div className="flex min-w-0 flex-1 items-center gap-2">
                       <ImeSafeInput
                         id={`hermes-model-id-${modelKey}`}
                         value={model.id}
@@ -402,12 +408,12 @@ export function HermesFormFields({
                   {isExpanded && (
                     <div
                       id={detailsId}
-                      className="ml-8 grid gap-3 border-l border-border-default pl-4 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2.25rem]"
+                      className="ml-10 grid grid-cols-1 gap-4 border-l border-border-default pl-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_2rem]"
                     >
-                      <div className="space-y-1">
+                      <div className="space-y-1.5">
                         <Label
                           htmlFor={`hermes-model-context-${modelKey}`}
-                          className="text-ui font-normal text-muted-foreground"
+                          className="text-body font-normal text-muted-foreground"
                         >
                           {t("hermes.form.contextLength", {
                             defaultValue: "上下文长度",
@@ -434,10 +440,10 @@ export function HermesFormFields({
                           contextWindow={model.context_length}
                         />
                       </div>
-                      <div className="flex h-6 items-center gap-2 self-end">
+                      <div className="flex h-8 items-center gap-2 self-end">
                         <Label
                           htmlFor={`hermes-model-vision-${modelKey}`}
-                          className="cursor-pointer text-[12.35px] leading-[1.3] font-normal text-fg-2"
+                          className="cursor-pointer text-body font-normal text-fg-2"
                         >
                           {t("hermes.form.supportsVision", {
                             defaultValue: "支持图片输入",
@@ -464,7 +470,7 @@ export function HermesFormFields({
           </div>
         )}
 
-        <p className="text-ui text-muted-foreground">
+        <p className="text-caption text-muted-foreground">
           {t("hermes.form.modelsHint", {
             defaultValue:
               "启用为当前供应商时，第一个模型会设为 Hermes 默认模型。",
@@ -472,7 +478,7 @@ export function HermesFormFields({
         </p>
       </div>
 
-      <div className="space-y-2 border-l border-border pl-3">
+      <div className="space-y-1.5 border-l border-border pl-4">
         <Label htmlFor="hermes-rate-limit-delay">
           {t("hermes.form.rateLimitDelay", {
             defaultValue: "请求间隔（秒）",
@@ -497,7 +503,7 @@ export function HermesFormFields({
           }}
           placeholder="0.5"
         />
-        <p className="text-ui text-muted-foreground">
+        <p className="text-caption text-muted-foreground">
           {t("hermes.form.rateLimitDelayHint", {
             defaultValue: "连续请求间的最小间隔秒数（可选）。留空表示无限制。",
           })}

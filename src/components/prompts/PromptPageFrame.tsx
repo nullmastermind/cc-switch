@@ -31,9 +31,9 @@ import { cn } from "@/lib/utils";
 import { renderSegs } from "./promptUtils";
 
 export const promptMenuContentClass =
-  "min-w-[200px] rounded-[8px] border border-border bg-surface p-1 text-fg-1 shadow-sm";
+  "min-w-[200px] rounded-panel border border-border bg-surface p-1 text-fg-1 shadow-sm";
 export const promptMenuItemClass =
-  "min-h-6 rounded-[4px] px-2 py-1 text-[12.35px] leading-[1.3] text-fg-1 focus:bg-subtle focus:text-fg-1 data-[disabled]:opacity-100";
+  "min-h-[30px] rounded-control px-2 py-1.5 text-body text-fg-1 focus:bg-subtle focus:text-fg-1 data-[disabled]:opacity-100";
 
 export interface PromptMoreItem {
   key: string;
@@ -137,7 +137,7 @@ export function PromptPageFrame({
                   >
                     <span>{item.label}</span>
                     {item.reason ? (
-                      <span className="text-[12.35px] leading-[1.3] text-fg-2">
+                      <span className="text-caption text-fg-2">
                         {renderSegs(item.reason)}
                       </span>
                     ) : null}
@@ -149,7 +149,7 @@ export function PromptPageFrame({
         }
       />
 
-      <div className="flex h-8 shrink-0 items-center gap-2 px-2">
+      <div className="flex min-h-14 shrink-0 flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3 lg:px-6">
         <PromptAppPicker
           app={app}
           apps={apps}
@@ -161,12 +161,10 @@ export function PromptPageFrame({
         {target ? (
           <span
             title={`${target.label} ${target.path}${target.meta ?? ""}`}
-            className="min-w-0 shrink truncate text-[12.35px] leading-[1.3] text-fg-2"
+            className="min-w-0 shrink truncate text-body text-fg-2"
           >
             {target.label}{" "}
-            <code className="font-mono text-[12.35px] leading-[1.3] text-fg-1">
-              {target.path}
-            </code>
+            <code className="font-mono text-body text-fg-1">{target.path}</code>
             {target.meta}
           </span>
         ) : null}
@@ -175,14 +173,19 @@ export function PromptPageFrame({
       </div>
 
       {notices ? (
-        <div role="status" className="flex shrink-0 flex-col gap-2 px-2 pb-2">
+        <div
+          role="status"
+          className="flex shrink-0 flex-col gap-2 px-4 pb-4 lg:px-6"
+        >
           {notices}
         </div>
       ) : (
         <div role="status" className="sr-only" />
       )}
 
-      <div className="flex min-h-0 flex-1 flex-col px-2 pb-2">{children}</div>
+      <div className="flex min-h-0 flex-1 flex-col px-4 pb-5 lg:px-6">
+        {children}
+      </div>
     </>
   );
 }
@@ -198,7 +201,7 @@ function PromptSearch({
   const { t } = useTranslation();
   const hasQuery = value.trim().length > 0;
   return (
-    <div className="relative shrink-0" style={{ width }}>
+    <div className="relative min-w-0 max-w-full shrink" style={{ width }}>
       <SearchField
         value={value}
         onValueChange={onChange}
@@ -251,7 +254,7 @@ function PromptAppPicker({
           <span className="sr-only">{t("prompts.appLabel")}</span>
           <AppGlyph app={app} size={16} badgeClassName="bg-surface" />
           <span>{APP_DISPLAY_NAME[app]}</span>
-          <span className="text-[12.35px] leading-[1.3] font-normal tabular-nums text-fg-2">
+          <span className="text-caption font-normal tabular-nums text-fg-2">
             {count}
           </span>
           <ChevronDown
@@ -263,7 +266,7 @@ function PromptAppPicker({
       <PopoverContent
         align="start"
         aria-label={t("prompts.appSelect")}
-        className="flex w-[300px] flex-col rounded-[8px] border-border bg-surface p-1 shadow-sm"
+        className="flex w-[300px] flex-col rounded-panel border-border bg-surface p-1 shadow-sm"
       >
         {apps.map((id, index) => {
           const selected = id === app;
@@ -283,7 +286,7 @@ function PromptAppPicker({
                 if (!selected) onAppChange(id);
               }}
               className={cn(
-                "flex min-h-6 w-full items-center gap-2 rounded-[4px] pe-2 ps-2 text-left text-[12.35px] leading-[1.3] text-fg-1 transition-colors hover:bg-subtle",
+                "flex min-h-[30px] w-full items-center gap-2 rounded-control px-2 text-left text-body text-fg-1 transition-colors hover:bg-subtle",
                 selected ? "font-medium" : "font-normal",
               )}
             >
@@ -293,7 +296,7 @@ function PromptAppPicker({
               </span>
               <span
                 className={cn(
-                  "text-[12.35px] leading-[1.3] font-normal tabular-nums",
+                  "text-caption font-normal tabular-nums",
                   n ? "text-fg-2" : "text-fg-3",
                 )}
               >
@@ -311,7 +314,7 @@ function PromptAppPicker({
           );
         })}
         <div aria-hidden="true" className="mx-1.5 my-1 h-px bg-border" />
-        <p className="m-0 px-2 pb-1 pt-1 text-[12.35px] leading-[1.3] text-fg-2">
+        <p className="m-0 space-y-1 px-2 py-1.5 text-caption text-fg-2">
           <span className="block">{t("prompts.appNoteDesktop")}</span>
           <span className="block">{t("prompts.appNoteOpenclaw")}</span>
         </p>

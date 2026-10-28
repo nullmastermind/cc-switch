@@ -170,7 +170,7 @@ export function McodeProviderForm({
     <Form {...form}>
       <form
         id="provider-form"
-        className="space-y-2 rounded-[8px] p-2 border border-border-default"
+        className="space-y-4 rounded-panel p-4 border border-border-default"
         onSubmit={form.handleSubmit(async (identity) => {
           if (!ready || busy) return;
           setBusy(true);
@@ -219,18 +219,18 @@ export function McodeProviderForm({
           />
         )}
         {error && (
-          <p role="alert" className="text-ui text-destructive">
+          <p role="alert" className="text-body text-destructive">
             {error}
           </p>
         )}
         <fieldset
           disabled={busy || !jsonValid}
-          className="min-w-0 space-y-6 border-0 p-0 disabled:opacity-50"
+          className="min-w-0 space-y-4 border-0 p-0 disabled:opacity-50"
         >
           <BasicFormFields
             form={form}
             beforeNameSlot={
-              <div className="space-y-2">
+              <div className="space-y-1.5">
                 <Label htmlFor="mcode-provider-key">
                   {t("opencode.providerKey")}
                   <span aria-hidden="true" className="text-destructive ml-1">
@@ -251,8 +251,8 @@ export function McodeProviderForm({
                 <p
                   className={
                     keyTaken || keyInvalid
-                      ? "text-ui text-destructive"
-                      : "text-ui text-muted-foreground"
+                      ? "text-caption text-destructive"
+                      : "text-caption text-muted-foreground"
                   }
                 >
                   {keyTaken
@@ -294,7 +294,7 @@ export function McodeProviderForm({
             }}
           />
         </fieldset>
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label htmlFor="mcode-settings-config">
             {t("provider.configJson")}
           </Label>

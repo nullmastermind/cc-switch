@@ -563,8 +563,8 @@ export function AddProviderDialog({
         step === "pick"
           ? "flex h-full flex-col space-y-0 p-0"
           : isPiFamilyApp(appId)
-            ? "pb-0 pt-2"
-            : "pt-2"
+            ? "pb-0"
+            : undefined
       }
     >
       <PresetStepContext.Provider value={stepState}>
@@ -573,7 +573,7 @@ export function AddProviderDialog({
         )}
         <div className={step === "pick" ? "hidden" : undefined}>
           {waitingForClaudeBase ? (
-            <div className="py-12 text-center text-[12.35px] leading-[1.3] text-muted-foreground">
+            <div className="py-12 text-center text-body text-muted-foreground">
               {t("common.loading")}
             </div>
           ) : (

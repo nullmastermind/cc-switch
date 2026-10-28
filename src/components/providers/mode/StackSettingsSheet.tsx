@@ -98,7 +98,7 @@ export function StackSettingsSheet({
           <SheetTitle>{t("mode.stackSettings.title")}</SheetTitle>
           <SheetDescription>{APP_DISPLAY_NAME.codex}</SheetDescription>
         </SheetHeader>
-        <SheetBody className="space-y-3">
+        <SheetBody className="space-y-4">
           <p className="text-caption text-fg-2">
             {t("mode.stackSettings.subagentDescription")}
           </p>
@@ -109,8 +109,8 @@ export function StackSettingsSheet({
             disabled={saving}
           />
 
-          <div className="space-y-1.5 border-t border-border pt-3">
-            <label className="text-caption font-semibold text-fg-2">
+          <div className="space-y-1.5 border-t border-border pt-4">
+            <label className="text-body font-medium text-fg-2">
               {autoReviewLabel}
             </label>
             <p className="text-caption text-fg-2">
@@ -126,7 +126,7 @@ export function StackSettingsSheet({
               }
               disabled={saving}
             >
-              <SelectTrigger className="h-6" aria-label={autoReviewLabel}>
+              <SelectTrigger aria-label={autoReviewLabel}>
                 <SelectValue />
               </SelectTrigger>
               <SelectContent className="z-[70]">

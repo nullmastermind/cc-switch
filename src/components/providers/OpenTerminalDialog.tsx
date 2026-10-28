@@ -211,7 +211,7 @@ export function OpenTerminalDialog({
         if (!open && !opening) onClose();
       }}
     >
-      <DialogContent className="max-w-md" zIndex="alert">
+      <DialogContent className="max-w-lg" zIndex="alert">
         <DialogHeader>
           <DialogTitle>{t("provider.openTerminalDialog.title")}</DialogTitle>
           <DialogDescription>
@@ -222,7 +222,7 @@ export function OpenTerminalDialog({
           </DialogDescription>
         </DialogHeader>
 
-        <div className="space-y-2 px-2 py-2">
+        <div className="space-y-4">
           {provider && terminalIsIsolated(provider, appId) && (
             <Notice title={t("provider.openTerminalDialog.isolationTitle")}>
               {/* Antigravity 没有「切换」，Claude Code 那句「之后切换不会影响它」对它不成立 */}
@@ -288,7 +288,7 @@ export function OpenTerminalDialog({
           </div>
 
           {otherRecent.length > 0 && (
-            <div className="space-y-1">
+            <div className="space-y-1.5">
               <div className="text-caption text-fg-3">
                 {t("provider.openTerminalDialog.recent")}
               </div>

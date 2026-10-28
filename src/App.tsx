@@ -159,7 +159,7 @@ interface SyncStatusUpdatedPayload {
 }
 
 const DEFAULT_DRAG_BAR_HEIGHT = isWindows() || isLinux() ? 0 : 28; // px
-const HEADER_HEIGHT = 48; // px — UI.md toolbar height (space 48)
+const HEADER_HEIGHT = 56; // px — comfortable toolbar (36 islands + 10 above/below)
 
 type OpenClawConfigTab = "env" | "tools" | "agents";
 
@@ -201,7 +201,7 @@ function HeaderNavButton({
       aria-label={title ?? label}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "relative h-7 min-w-0 rounded-[8px] px-2",
+        "relative h-[30px] min-w-0 rounded-[7px] px-3",
         active
           ? "bg-background text-foreground shadow-sm hover:bg-background"
           : "text-muted-foreground hover:text-foreground hover:bg-black/5 dark:hover:bg-white/5",
@@ -215,7 +215,7 @@ function HeaderNavButton({
       {dot ? (
         <span
           aria-hidden="true"
-          className="absolute right-0.5 top-0.5 h-1.5 w-1.5 rounded-full bg-green-500"
+          className="absolute right-1 top-1 h-1.5 w-1.5 rounded-full bg-green-500"
         />
       ) : null}
     </Button>
@@ -1534,7 +1534,7 @@ function App() {
   const renderAppSegments = () => {
     if (activeApp === "openclaw") {
       return (
-        <div className="shrink-0 px-6 pt-2">
+        <div className="shrink-0 px-4 pt-3 lg:px-6">
           <PageTabs
             aria-label={APP_DISPLAY_NAME.openclaw}
             idPrefix="openclaw-page"
@@ -1551,7 +1551,7 @@ function App() {
     }
     if (activeApp === "hermes") {
       return (
-        <div className="shrink-0 px-6 pt-2">
+        <div className="shrink-0 px-4 pt-3 lg:px-6">
           <PageTabs
             aria-label={APP_DISPLAY_NAME.hermes}
             idPrefix="hermes-page"
@@ -1627,7 +1627,7 @@ function App() {
       <div
         ref={providerScrollContainerRef}
         id="main-content"
-        className="min-h-0 flex-1 overflow-y-auto scroll-stable overflow-x-hidden px-6 pb-12 pt-4"
+        className="min-h-0 flex-1 overflow-y-auto scroll-stable overflow-x-hidden px-4 pb-12 pt-5 lg:px-6"
       >
         <div className="space-y-2">
           <ProviderList
@@ -1688,7 +1688,7 @@ function App() {
           return (
             <>
               {/* 二级页签：小一号、不画整行底线，挂在一级页签下面 */}
-              <div className="shrink-0 px-6 pt-1">
+              <div className="shrink-0 px-4 pt-2 lg:px-6">
                 <PageTabs
                   size="sm"
                   aria-label={t("appPage.openclawConfig")}
@@ -1767,10 +1767,7 @@ function App() {
                   <HelpTip title={t("authCenter.helpTitle")}>
                     {t("settings.authCenter.description")}
                   </HelpTip>
-                  <Badge
-                    variant="outline"
-                    className="ms-1 h-5 px-1.5 text-[12.35px] leading-[1.3] font-medium"
-                  >
+                  <Badge variant="outline" className="ms-1">
                     {t("settings.authCenter.beta", { defaultValue: "Beta" })}
                   </Badge>
                 </>
@@ -1780,7 +1777,7 @@ function App() {
               id="main-content"
               className="min-h-0 flex-1 overflow-y-auto scroll-stable"
             >
-              <div className="px-6 pb-10 pt-4">
+              <div className="px-4 pb-10 pt-5 lg:px-6">
                 <AuthCenterPanel showIntro={false} />
               </div>
             </div>
@@ -1885,11 +1882,11 @@ function App() {
         }
       >
         <div
-          className="flex h-full items-center justify-between gap-2 px-2"
+          className="flex h-full items-center justify-between gap-3 px-4 lg:px-6"
           {...DRAG_REGION_ATTR}
           style={{ ...DRAG_REGION_STYLE } as any}
         >
-          <div className="flex shrink-0 items-center gap-2" style={noDrag}>
+          <div className="flex shrink-0 items-center gap-3" style={noDrag}>
             {!inAppPage && (
               <Button
                 variant="outline"
@@ -1898,17 +1895,17 @@ function App() {
                 aria-label={t("common.back")}
                 title={t("common.back")}
                 onClick={goBack}
-                className={cn(
-                  "rounded-[3px]",
-                  managementBusy && "disabled:opacity-100",
-                )}
+                className={cn(managementBusy && "disabled:opacity-100")}
               >
                 <ArrowLeft className="h-4 w-4" />
               </Button>
             )}
             <div
               ref={headerBrandRef}
-              className={cn("flex items-center gap-2", !inAppPage && "hidden")}
+              className={cn(
+                "flex items-center gap-2.5",
+                !inAppPage && "hidden",
+              )}
             >
               <ViberSwitchLogo />
               {/* Always rendered so useHeaderBrandFit can measure it; hidden takes no space. */}
@@ -1917,7 +1914,7 @@ function App() {
                 data-brand-hidden={showBrand ? undefined : ""}
                 aria-hidden="true"
                 className={cn(
-                  "select-none whitespace-nowrap text-[12.35px] font-semibold leading-[1.3] text-foreground",
+                  "select-none whitespace-nowrap text-strong font-semibold text-foreground",
                   !showBrand && "pointer-events-none invisible absolute",
                 )}
               >
@@ -1928,7 +1925,7 @@ function App() {
 
           <div
             ref={headerRowRef}
-            className="flex min-w-0 flex-1 items-center gap-1.5 overflow-hidden"
+            className="flex min-w-0 flex-1 items-center gap-2 overflow-hidden"
           >
             {currentView === "providers" &&
               activeApp !== "mcode" &&
@@ -1955,12 +1952,12 @@ function App() {
             {/* 固定右端：页面导航 + 主题 / 设置，shrink-0，任何配置下不被挤出 */}
             <div
               ref={headerClusterRef}
-              className="flex shrink-0 items-center gap-1.5"
+              className="flex shrink-0 items-center gap-2"
               style={noDrag}
             >
               <div
                 data-header-nav
-                className="flex items-center gap-1 rounded-[8px] bg-muted p-1"
+                className="flex items-center gap-0.5 rounded-panel bg-muted p-[3px]"
               >
                 <HeaderNavButton
                   label={t("skills.manage")}
@@ -2010,7 +2007,7 @@ function App() {
                   onClick={() => openPageFromNav("apps")}
                 />
               </div>
-              <div className="inline-flex h-7 shrink-0 items-center gap-1 rounded-[8px] bg-muted/50 px-1.5">
+              <div className="inline-flex h-9 shrink-0 items-center gap-0.5 rounded-panel bg-muted/50 px-[3px]">
                 <ThemeToggle />
                 <Button
                   variant="ghost"
@@ -2018,7 +2015,7 @@ function App() {
                   onClick={() => openSettings("general")}
                   title={t("common.settings")}
                   aria-label={t("common.settings")}
-                  className="h-5 w-5 shrink-0 rounded-[4px] p-0 text-muted-foreground hover:bg-black/5 hover:text-foreground dark:hover:bg-white/5"
+                  className="h-[30px] w-[30px] shrink-0 rounded-[7px] p-0 text-muted-foreground hover:bg-black/5 hover:text-foreground dark:hover:bg-white/5"
                 >
                   <Settings className="h-4 w-4" />
                 </Button>
@@ -2058,7 +2055,7 @@ function App() {
           />
         )}
         {currentView === "settings" && (
-          <div className="shrink-0 px-2 pt-1">
+          <div className="shrink-0 px-4 pt-2 lg:px-6">
             <PageTabs
               aria-label={t("settings.title")}
               idPrefix="settings-section"

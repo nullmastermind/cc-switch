@@ -120,16 +120,14 @@ export function SkillImportDialog({
         if (!open && !isImporting) onClose();
       }}
     >
-      <div className="flex shrink-0 flex-col gap-1">
+      <div className="flex shrink-0 flex-col gap-1.5">
         <div className="flex items-center gap-0.5">
-          <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold">
-            {t("skillsPage.import.title")}
-          </DialogTitle>
+          <DialogTitle>{t("skillsPage.import.title")}</DialogTitle>
           <HelpTip title={t("skillsPage.import.helpTitle")}>
             {t("skillsPage.import.help")}
           </HelpTip>
         </div>
-        <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+        <DialogDescription className="text-body text-fg-2">
           {t("skillsPage.import.lead")}
         </DialogDescription>
       </div>
@@ -162,7 +160,7 @@ export function SkillImportDialog({
         </Button>
       </div>
 
-      <ul className="m-0 max-h-[212px] min-h-0 list-none overflow-y-auto rounded-[8px] border border-border p-0">
+      <ul className="m-0 max-h-[280px] min-h-0 list-none overflow-y-auto rounded-panel border border-border p-0">
         {visible.map((skill, index) => {
           const id = `sk-imp-${index}`;
           const showDir =
@@ -171,7 +169,7 @@ export function SkillImportDialog({
             <li
               key={skill.directory}
               className={cn(
-                "flex items-center gap-2 py-2 px-2",
+                "flex items-center gap-3 px-4 py-3",
                 index > 0 && "border-t border-border",
               )}
             >
@@ -184,19 +182,22 @@ export function SkillImportDialog({
                   toggle(skill.directory, event.target.checked)
                 }
               />
-              <label htmlFor={id} className="flex min-w-0 flex-1 flex-col">
-                <span className="flex min-w-0 items-center gap-1.5">
-                  <span className="truncate text-[12.35px] leading-[1.3] font-medium">
+              <label
+                htmlFor={id}
+                className="flex min-w-0 flex-1 flex-col gap-0.5"
+              >
+                <span className="flex min-w-0 items-center gap-2">
+                  <span className="truncate text-strong font-medium">
                     {skill.name}
                   </span>
                   {showDir && (
-                    <span className="truncate font-mono text-[12.35px] leading-[1.3] text-fg-3">
+                    <span className="truncate font-mono text-caption text-fg-3">
                       {skill.directory}
                     </span>
                   )}
                 </span>
                 <span
-                  className="truncate text-[12.35px] leading-[1.3] text-fg-2"
+                  className="truncate text-caption text-fg-2"
                   title={skill.path}
                 >
                   {t("skillsPage.import.foundIn", {
@@ -211,20 +212,20 @@ export function SkillImportDialog({
         })}
       </ul>
 
-      <section className="flex shrink-0 flex-col gap-2">
+      <section className="flex shrink-0 flex-col gap-3">
         <div className="flex items-center gap-0.5">
-          <h3 className="m-0 text-[12.35px] leading-[1.3] font-semibold">
+          <h3 className="m-0 text-strong font-semibold">
             {t("skillsPage.import.appsTitle")}
           </h3>
           <HelpTip title={t("skillsPage.import.appsHelpTitle")}>
             {t("skillsPage.import.appsHelp")}
           </HelpTip>
         </div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+        <div className="grid grid-cols-1 gap-x-4 gap-y-2 sm:grid-cols-2">
           {appChoices.map((app) => (
             <label
               key={app}
-              className="flex h-6 cursor-pointer items-center gap-2 text-[12.35px] leading-[1.3]"
+              className="flex h-7 cursor-pointer items-center gap-2 text-body"
             >
               <input
                 type="checkbox"
@@ -246,7 +247,7 @@ export function SkillImportDialog({
         </div>
       </section>
 
-      <div className="flex shrink-0 justify-end gap-2 pt-1">
+      <div className="flex shrink-0 flex-wrap justify-end gap-2">
         <Button
           type="button"
           variant="neutral"

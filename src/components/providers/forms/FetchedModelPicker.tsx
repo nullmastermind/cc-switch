@@ -89,9 +89,9 @@ export function FetchedModelPicker({
       <Button
         type="button"
         variant="outline"
+        size="sm"
         onClick={hasModels ? () => setOpen(true) : startFetch}
         disabled={isFetching}
-        className="h-6 gap-1"
       >
         {isFetching ? (
           <Loader2 className="h-3.5 w-3.5 animate-spin" />
@@ -220,7 +220,7 @@ function FetchedModelPickerBody({
   const showOwner = models.some((model) => model.ownedBy);
   const renderRow = (id: string, ownedBy: string | null, first: boolean) => (
     <li key={id} className={cn(!first && "border-t border-border")}>
-      <label className="flex cursor-pointer items-center gap-2 py-2 pe-3 ps-3.5 hover:bg-subtle">
+      <label className="flex min-h-10 cursor-pointer items-center gap-3 px-4 py-2 hover:bg-subtle">
         <input
           type="checkbox"
           className={CHECKBOX_CLASS}
@@ -228,20 +228,17 @@ function FetchedModelPickerBody({
           checked={draft.has(id)}
           onChange={(event) => setChecked([id], event.target.checked)}
         />
-        <span
-          className="min-w-0 flex-1 truncate text-[12.35px] leading-[1.3]"
-          title={id}
-        >
+        <span className="min-w-0 flex-1 truncate text-body" title={id}>
           {id}
         </span>
         {summaries.has(id) && (
-          <span className="shrink-0 text-[12.35px] leading-[1.3] tabular-nums text-fg-2">
+          <span className="shrink-0 text-caption tabular-nums text-fg-2">
             {summaries.get(id)}
           </span>
         )}
         {showOwner && (
           <span
-            className="w-20 shrink-0 truncate text-end text-[12.35px] leading-[1.3] text-fg-3"
+            className="w-20 shrink-0 truncate text-end text-caption text-fg-3"
             title={ownedBy ?? undefined}
           >
             {ownedBy}
@@ -252,7 +249,7 @@ function FetchedModelPickerBody({
   );
 
   const groupHeading = (label: string) => (
-    <li className="sticky top-0 z-[1] border-b border-border bg-subtle px-3.5 py-1.5 text-[12.35px] leading-[1.3] font-medium text-fg-2">
+    <li className="sticky top-0 z-[1] border-b border-border bg-subtle px-4 py-1.5 text-caption font-medium text-fg-2">
       {label}
     </li>
   );
@@ -261,10 +258,8 @@ function FetchedModelPickerBody({
     <>
       <div className="flex shrink-0 items-start justify-between gap-3">
         <div className="flex min-w-0 flex-col gap-1">
-          <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold">
-            {t("providerForm.modelPicker.title")}
-          </DialogTitle>
-          <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+          <DialogTitle>{t("providerForm.modelPicker.title")}</DialogTitle>
+          <DialogDescription className="text-fg-2">
             {t("providerForm.modelPicker.lead")}
           </DialogDescription>
         </div>
@@ -284,8 +279,8 @@ function FetchedModelPickerBody({
         </HoverTip>
       </div>
 
-      <div className="flex shrink-0 flex-col gap-2">
-        <div className="flex items-center gap-2">
+      <div className="flex shrink-0 flex-col gap-3">
+        <div className="flex flex-wrap items-center gap-2">
           <SearchField
             containerClassName="flex-1"
             value={query}
@@ -318,7 +313,7 @@ function FetchedModelPickerBody({
             {t("providerForm.modelPicker.selectNone")}
           </Button>
         </div>
-        <div className="flex items-center justify-between gap-3 text-[12.35px] leading-[1.3] text-fg-2">
+        <div className="flex items-center justify-between gap-3 text-caption text-fg-2">
           <span role="status">
             {t("providerForm.modelPicker.selectedCount", {
               selected: selectedCount,
@@ -337,14 +332,14 @@ function FetchedModelPickerBody({
         </div>
       </div>
 
-      <div className="h-80 max-h-[45vh] min-h-0 overflow-y-auto rounded-[8px] border border-border">
+      <div className="h-80 max-h-[45vh] min-h-0 overflow-y-auto rounded-panel border border-border">
         {isFetching ? (
-          <div className="flex h-full items-center justify-center gap-2 text-[12.35px] leading-[1.3] text-fg-2">
+          <div className="flex h-full items-center justify-center gap-2 text-body text-fg-2">
             <Loader2 className="h-4 w-4 animate-spin" />
             {t("providerForm.fetchingModels")}
           </div>
         ) : visibleIds.length === 0 ? (
-          <p className="flex h-full items-center justify-center text-[12.35px] leading-[1.3] text-fg-2">
+          <p className="flex h-full items-center justify-center text-body text-fg-2">
             {t("providerForm.searchModelEmpty")}
           </p>
         ) : (
@@ -362,7 +357,7 @@ function FetchedModelPickerBody({
         )}
       </div>
 
-      <div className="flex shrink-0 justify-end gap-2 pt-1">
+      <div className="flex shrink-0 justify-end gap-2">
         <Button
           type="button"
           variant="neutral"

@@ -116,14 +116,12 @@ export const ProviderIcon: React.FC<ProviderIconProps> = ({
       .toUpperCase()
       .slice(0, 2);
     const fallbackFontSize =
-      typeof size === "number"
-        ? Math.max(12.35, Math.round(size * 0.42))
-        : 12.35;
+      typeof size === "number" ? Math.max(13, Math.round(size * 0.42)) : 13;
     return (
       <span
         className={cn(
-          "inline-flex items-center justify-center flex-shrink-0 rounded-[4px] whitespace-nowrap",
-          "bg-muted leading-[1.3] font-semibold text-muted-foreground",
+          "inline-flex items-center justify-center flex-shrink-0 rounded-control whitespace-nowrap",
+          "bg-muted leading-5 font-semibold text-muted-foreground",
           className,
           fallbackClassName,
         )}

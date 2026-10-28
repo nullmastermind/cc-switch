@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 export interface SwitchProps extends React.ComponentPropsWithoutRef<
   typeof SwitchPrimitives.Root
 > {
-  /** default: 24x16 track; sm: 20x14 (for dense rows) */
+  /** default: 30x18 track; sm: 26x16 (for dense rows) */
   size?: "default" | "sm";
 }
 
@@ -17,18 +17,18 @@ const Switch = React.forwardRef<
     ref={ref}
     data-size={size}
     className={cn(
-      "peer inline-flex shrink-0 cursor-pointer items-center rounded-[9px] border-0 p-px transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-blue-500 dark:data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-muted",
-      size === "sm" ? "h-3.5 w-5" : "h-4 w-6",
+      "peer inline-flex shrink-0 cursor-pointer items-center rounded-full border-0 p-0.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 data-[state=checked]:bg-blue-500 dark:data-[state=checked]:bg-blue-600 data-[state=unchecked]:bg-muted",
+      size === "sm" ? "h-4 w-[26px]" : "h-[18px] w-[30px]",
       className,
     )}
     {...props}
   >
     <SwitchPrimitives.Thumb
       className={cn(
-        "pointer-events-none block rounded-[9px] shadow-none ring-0 transition-transform data-[state=checked]:bg-white data-[state=unchecked]:bg-muted-foreground data-[state=unchecked]:translate-x-0",
+        "pointer-events-none block rounded-full shadow-sm ring-0 transition-transform data-[state=checked]:bg-white data-[state=unchecked]:bg-muted-foreground data-[state=unchecked]:translate-x-0",
         size === "sm"
-          ? "h-2.5 w-2.5 data-[state=checked]:translate-x-2"
-          : "h-3 w-3 data-[state=checked]:translate-x-[10px]",
+          ? "h-3 w-3 data-[state=checked]:translate-x-[10px]"
+          : "h-3.5 w-3.5 data-[state=checked]:translate-x-3",
       )}
     />
   </SwitchPrimitives.Root>

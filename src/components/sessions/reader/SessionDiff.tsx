@@ -209,7 +209,7 @@ export const SessionDiff = memo(function SessionDiff({
     <div
       tabIndex={0}
       className={cn(
-        "max-h-[480px] overflow-auto rounded-[8px] border border-border bg-surface font-mono text-[12.35px] leading-[1.3] outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "max-h-[480px] overflow-auto rounded-panel border border-border bg-surface font-mono text-body outline-none focus-visible:ring-2 focus-visible:ring-ring",
         className,
       )}
     >
@@ -219,7 +219,7 @@ export const SessionDiff = memo(function SessionDiff({
             return (
               <div
                 key={index}
-                className="sticky left-0 border-b border-border bg-subtle px-3 py-1 text-fg-2 [&:not(:first-child)]:mt-1 [&:not(:first-child)]:border-t"
+                className="sticky left-0 border-b border-border bg-subtle px-3 py-1.5 text-fg-2 [&:not(:first-child)]:mt-1 [&:not(:first-child)]:border-t"
               >
                 {formatPath ? formatPath(line.path) : line.path}
               </div>

@@ -462,7 +462,7 @@ export function ProviderList({
         {[0, 1, 2].map((index) => (
           <div
             key={index}
-            className="h-12 w-full rounded-[8px] border border-dashed border-border bg-subtle"
+            className="h-[58px] w-full rounded-panel border border-dashed border-border bg-subtle"
           />
         ))}
       </div>
@@ -471,7 +471,7 @@ export function ProviderList({
 
   if (sortedProviders.length === 0) {
     return (
-      <div className="mt-2 space-y-2">
+      <div className="space-y-4">
         {piStateErrorNotice}
         <ProviderEmptyState
           appId={appId}
@@ -595,8 +595,8 @@ export function ProviderList({
   );
 
   const renderSectionTitle = (section: ProviderSection) => (
-    <div className="flex items-center gap-1 text-ui font-semibold text-muted-foreground">
-      <h2 className="m-0 text-ui font-semibold">{section.title}</h2>
+    <div className="flex items-center gap-1 text-body font-semibold text-muted-foreground">
+      <h2 className="m-0 text-body font-semibold">{section.title}</h2>
       {section.help && (
         <HelpTip title={section.help.title}>{section.help.body}</HelpTip>
       )}
@@ -616,14 +616,14 @@ export function ProviderList({
 
   // 卡片列表铺满主区域，和页头同宽
   return (
-    <div className="mt-2 space-y-3">
+    <div className="space-y-6">
       {piStateErrorNotice}
       {searchSlot && createPortal(searchField, searchSlot)}
       {showListHeader && (
         <div
           className={cn(
             "flex min-h-8 items-center gap-3",
-            liftLeadTitle && "-mb-2",
+            liftLeadTitle && "-mb-3",
           )}
         >
           <div className="min-w-0 flex-1">
@@ -634,7 +634,7 @@ export function ProviderList({
       )}
 
       {filteredProviders.length === 0 ? (
-        <div className="rounded-[8px] border border-dashed border-border px-2 py-2 text-center text-ui text-muted-foreground">
+        <div className="rounded-panel border border-dashed border-border px-4 py-12 text-center text-body text-muted-foreground">
           {t("provider.noSearchResults", {
             defaultValue: "No providers match your search.",
           })}
@@ -647,12 +647,12 @@ export function ProviderList({
           onDragEnd={handleDragEnd}
         >
           {sections.map((section, index) => (
-            <section key={section.key} className="space-y-2">
+            <section key={section.key} className="space-y-3">
               {section.title && !(index === 0 && liftLeadTitle) && (
-                <div className="pt-1">{renderSectionTitle(section)}</div>
+                <div>{renderSectionTitle(section)}</div>
               )}
               {section.items.length === 0 && section.emptyText ? (
-                <div className="rounded-[8px] border border-dashed border-border px-2 py-2 text-ui text-muted-foreground">
+                <div className="rounded-panel border border-dashed border-border px-4 py-3 text-body text-muted-foreground">
                   {section.emptyText}
                 </div>
               ) : (

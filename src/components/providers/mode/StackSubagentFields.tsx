@@ -123,17 +123,15 @@ export function StackSubagentFields({
       : MODEL_DEFAULT;
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-4">
       <div className="space-y-1.5">
-        <label className="text-caption font-semibold text-fg-2">
-          {modelLabel}
-        </label>
+        <label className="text-body font-medium text-fg-2">{modelLabel}</label>
         <Select
           value={model ?? FOLLOW_MAIN}
           onValueChange={handleModelChange}
           disabled={disabled}
         >
-          <SelectTrigger className="h-6" aria-label={modelLabel}>
+          <SelectTrigger aria-label={modelLabel}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="z-[70]">
@@ -160,15 +158,13 @@ export function StackSubagentFields({
       </div>
 
       <div className="space-y-1.5">
-        <label className="text-caption font-semibold text-fg-2">
-          {effortLabel}
-        </label>
+        <label className="text-body font-medium text-fg-2">{effortLabel}</label>
         <Select
           value={effortValue}
           onValueChange={handleEffortChange}
           disabled={disabled || selected === undefined}
         >
-          <SelectTrigger className="h-6" aria-label={effortLabel}>
+          <SelectTrigger aria-label={effortLabel}>
             <SelectValue />
           </SelectTrigger>
           <SelectContent className="z-[70]">

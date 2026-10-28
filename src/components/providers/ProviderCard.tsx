@@ -99,7 +99,7 @@ export function CardChipBadge({ chip }: { chip: CardChip }) {
     <span
       title={chip.title}
       className={cn(
-        "inline-flex h-5 shrink-0 items-center whitespace-nowrap rounded-full px-2 text-[12.35px] leading-[1.3]",
+        "inline-flex h-5 shrink-0 items-center whitespace-nowrap rounded-full px-2 text-badge",
         CHIP_CLASS[chip.tone],
         chip.title && "cursor-help",
       )}
@@ -357,21 +357,21 @@ export function ProviderCard({
   return (
     <div
       className={cn(
-        "group relative rounded-[8px] border transition-[border-color,box-shadow,background-color] duration-150",
+        "group relative rounded-panel border transition-[border-color,box-shadow,background-color] duration-150",
         presentation.tone
           ? TONE_CLASS[presentation.tone]
           : "border-border bg-surface hover:border-border-strong hover:shadow-sm",
         dragHandleProps?.isDragging && "cursor-grabbing shadow-sm",
       )}
     >
-      <div className="flex items-center gap-2 p-3">
+      <div className="flex min-h-[58px] items-center gap-3 py-2.5 pe-3 ps-2">
         {dragHandleProps ? (
           <Button
             type="button"
             variant="ghost"
-            size="icon"
+            size="icon-compact"
             className={cn(
-              "-ml-1.5 cursor-grab active:cursor-grabbing",
+              "w-4 cursor-grab hover:bg-transparent active:cursor-grabbing",
               dragHandleProps.isDragging && "cursor-grabbing",
             )}
             aria-label={t("provider.dragHandle")}
@@ -388,7 +388,7 @@ export function ProviderCard({
           icon={resolveProviderIcon(appId, provider.icon, provider.iconColor)}
           name={provider.name}
           color={provider.iconColor}
-          size={24}
+          size={32}
           className={cn(
             // 底色固定为白，图标颜色也要固定：单色（currentColor）图标和首字母
             // fallback 不能继承深色模式下的浅色文字
@@ -399,10 +399,10 @@ export function ProviderCard({
         />
 
         <div className="min-w-0 flex-1 space-y-0.5">
-          <div className="flex min-w-0 items-center gap-1">
+          <div className="flex min-w-0 items-center gap-1.5">
             <h3
               className={cn(
-                "m-0 min-w-0 truncate text-[12.35px] font-semibold leading-[1.3]",
+                "m-0 min-w-0 truncate text-strong font-medium",
                 presentation.dim ? "text-muted-foreground" : "text-foreground",
               )}
               title={provider.name}
@@ -421,7 +421,7 @@ export function ProviderCard({
           </div>
 
           {codexOfficialIdentity && codexOfficialIdentity !== "api_key" ? (
-            <div className="flex min-w-0 items-center gap-2 text-ui text-muted-foreground">
+            <div className="flex min-w-0 items-center gap-2 text-caption text-muted-foreground">
               {codexOfficialIdentity === "native_login" ? (
                 <span className="min-w-0 truncate" title={manualNote}>
                   {manualNote ??
@@ -444,14 +444,14 @@ export function ProviderCard({
                   </span>
                   {managedCodexAccount.reauth_required && (
                     <span className="inline-flex shrink-0 items-center gap-1 text-warning-text">
-                      <AlertTriangle className="h-4 w-4" />
+                      <AlertTriangle className="h-3.5 w-3.5" />
                       {t("codexOauth.reauthBadge", "需要重新登录")}
                     </span>
                   )}
                 </>
               ) : isCodexAuthStatusError ? (
                 <span className="inline-flex min-w-0 items-center gap-1 text-warning-text">
-                  <AlertTriangle className="h-4 w-4 shrink-0" />
+                  <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
                   <span className="truncate">
                     {t("codex.accountStatusUnavailable", {
                       defaultValue: "无法读取账号信息",
@@ -460,8 +460,8 @@ export function ProviderCard({
                 </span>
               ) : isCodexAuthStatusSuccess ? (
                 <>
-                  <span className="inline-flex min-w-0 items-center gap-1 text-ui text-warning-text">
-                    <AlertTriangle className="h-4 w-4 shrink-0" />
+                  <span className="inline-flex min-w-0 items-center gap-1 text-warning-text">
+                    <AlertTriangle className="h-3.5 w-3.5 shrink-0" />
                     <span className="truncate">
                       {t("codex.boundAccountUnavailable", {
                         defaultValue: "绑定的账号不可用",
@@ -471,7 +471,7 @@ export function ProviderCard({
                   <Button
                     type="button"
                     variant="link"
-                    className="h-auto min-w-0 px-0"
+                    className="h-auto min-w-0 px-0 text-caption"
                     onClick={() => onEdit(provider)}
                   >
                     {t("codex.chooseAccount", {
@@ -495,13 +495,13 @@ export function ProviderCard({
               showPlan={usageEnabled}
             />
           ) : agyModel ? (
-            <div className="mt-0.5 flex min-w-0 items-center gap-1.5 text-[12.35px] leading-[1.3] text-fg-2">
+            <div className="flex min-w-0 items-center gap-1.5 text-caption text-fg-2">
               <span className="min-w-0 truncate" title={agyModel}>
                 {agyModel}
               </span>
             </div>
           ) : displayUrl && claudeDefaultPlanLabel ? (
-            <div className="mt-0.5 flex min-w-0 items-center gap-2 text-[12.35px] leading-[1.3] text-fg-2">
+            <div className="flex min-w-0 items-center gap-2 text-caption text-fg-2">
               <button
                 type="button"
                 onClick={handleOpenWebsite}
@@ -524,8 +524,10 @@ export function ProviderCard({
               variant="link"
               onClick={handleOpenWebsite}
               className={cn(
-                "h-auto max-w-full min-w-0 overflow-hidden px-0 py-0 text-left leading-[1.3] whitespace-normal",
-                !isClickableUrl && "text-muted-foreground no-underline",
+                "h-auto max-w-full min-w-0 overflow-hidden px-0 py-0 text-left text-caption font-normal whitespace-normal",
+                isClickableUrl
+                  ? "text-fg-2 decoration-border-strong underline-offset-[3px] dark:text-fg-2"
+                  : "text-muted-foreground no-underline dark:text-muted-foreground",
               )}
               title={displayUrl}
               disabled={!isClickableUrl}
@@ -608,7 +610,7 @@ export function ProviderCard({
                   )
                 ) : null
               ) : hasMultiplePlans ? (
-                <span className="text-ui text-muted-foreground">
+                <span className="text-caption text-muted-foreground">
                   {t("usage.multiplePlans", {
                     count: usage?.data?.length || 0,
                     defaultValue: `${usage?.data?.length || 0} 个套餐`,
@@ -630,7 +632,7 @@ export function ProviderCard({
                   <Button
                     type="button"
                     variant="ghost"
-                    size="icon"
+                    size="icon-compact"
                     onClick={(e) => {
                       e.stopPropagation();
                       setIsExpanded(!isExpanded);
@@ -687,7 +689,7 @@ export function ProviderCard({
       </div>
 
       {isExpanded && hasMultiplePlans && (
-        <div className="mx-2 mb-2 border-t border-border-default pt-2">
+        <div className="mx-3 mb-3 border-t border-border-default pt-3">
           <UsageFooter
             provider={provider}
             providerId={provider.id}

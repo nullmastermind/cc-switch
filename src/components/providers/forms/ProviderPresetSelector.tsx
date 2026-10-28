@@ -202,7 +202,7 @@ export function ProviderPresetSelector({
     const versions = entry ? presetVersions(presetEntries, entry) : [];
     return (
       <div className="space-y-3" data-preset-selector="">
-        <div className="h-[420px] overflow-hidden rounded-[8px] border border-border-default">
+        <div className="h-[420px] overflow-hidden rounded-panel border border-border-default">
           <PresetPicker
             entries={presetEntries}
             onPick={onPresetChange}
@@ -268,7 +268,7 @@ function PresetIconBox({ preset }: { preset?: AnyPreset }) {
     inner = <Zap className="h-4 w-4 text-muted-foreground" strokeWidth={1.5} />;
   } else {
     inner = (
-      <span className="text-ui font-semibold text-muted-foreground">
+      <span className="text-body font-semibold text-muted-foreground">
         {presetDisplayName(preset, t).slice(0, 1).toUpperCase()}
       </span>
     );
@@ -276,7 +276,7 @@ function PresetIconBox({ preset }: { preset?: AnyPreset }) {
   return (
     <span
       aria-hidden="true"
-      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-[8px] border border-border-default bg-background"
+      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-panel border border-border-default bg-background"
     >
       {inner}
     </span>
@@ -312,16 +312,16 @@ function PresetBar({
   return (
     <div
       data-preset-selector=""
-      className="flex flex-col gap-2 rounded-[8px] bg-muted p-2"
+      className="flex flex-col gap-3 rounded-panel bg-muted px-4 py-3"
     >
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         <PresetIconBox preset={entry?.preset} />
         <div className="min-w-0 flex-1">
           {entry ? (
             <>
               <div className="flex min-w-0 items-center gap-1.5">
                 <span
-                  className="truncate text-ui font-medium text-foreground"
+                  className="truncate text-strong font-medium text-foreground"
                   title={name}
                 >
                   {name}
@@ -329,13 +329,13 @@ function PresetBar({
                 {presetNeedsRouting(appId, entry) && <NeedsRouteBadge />}
               </div>
               {domain && (
-                <div className="truncate text-ui text-muted-foreground">
+                <div className="truncate text-caption text-muted-foreground">
                   {domain}
                 </div>
               )}
             </>
           ) : (
-            <div className="truncate text-ui font-medium text-foreground">
+            <div className="truncate text-strong font-medium text-foreground">
               {t("providerPreset.customBar")}
             </div>
           )}
@@ -441,7 +441,7 @@ function VersionSwitch({
   };
 
   const segmentClass =
-    "h-auto min-w-0 flex-wrap gap-0.5 border border-border-default bg-transparent p-0.5";
+    "h-auto min-w-0 flex-wrap gap-0.5 border border-border-default bg-transparent p-[3px]";
 
   return (
     <div
@@ -460,7 +460,7 @@ function VersionSwitch({
             items={layout.plans.map((plan) => ({
               value: plan,
               label: presetPlanLabel(plan, t),
-              className: "h-6",
+              className: "h-7",
             }))}
             className={cn(segmentClass, "justify-self-start")}
           />
@@ -477,7 +477,7 @@ function VersionSwitch({
             items={layout.regions.map((region) => ({
               value: region,
               label: presetRegionLabel(region, t),
-              className: "h-6",
+              className: "h-7",
             }))}
             className={cn(segmentClass, "justify-self-start")}
           />
@@ -492,7 +492,7 @@ function VersionSwitch({
             items={versions.map((version) => ({
               value: version.id,
               label: presetVersionShortLabel(version, layout.dimension, t),
-              className: "h-6",
+              className: "h-7",
             }))}
             className={cn(segmentClass, "justify-self-start")}
           />
@@ -503,7 +503,7 @@ function VersionSwitch({
           <Select value={entry.id} onValueChange={request}>
             <SelectTrigger
               aria-label={t("providerPreset.versionLabel")}
-              className="h-9 w-auto min-w-[220px] max-w-full justify-self-start rounded-[4px] text-ui"
+              className="h-9 w-auto min-w-[220px] max-w-full justify-self-start rounded-control text-body"
             >
               <SelectValue />
             </SelectTrigger>
@@ -541,7 +541,7 @@ function DimensionLabel({ children }: { children: React.ReactNode }) {
   return (
     <span
       aria-hidden="true"
-      className="min-w-8 whitespace-nowrap text-center text-ui leading-[36px] text-muted-foreground"
+      className="min-w-8 whitespace-nowrap text-center text-body leading-[36px] text-muted-foreground"
     >
       {children}
     </span>
@@ -551,7 +551,7 @@ function DimensionLabel({ children }: { children: React.ReactNode }) {
 function NeedsRouteBadge() {
   const { t } = useTranslation();
   return (
-    <span className="inline-flex h-[18px] shrink-0 items-center whitespace-nowrap rounded-full border border-border-default px-1.5 text-ui text-muted-foreground">
+    <span className="inline-flex h-[18px] shrink-0 items-center whitespace-nowrap rounded-full border border-border-default px-1.5 text-badge text-muted-foreground">
       {t("providerCard.chip.needsRoute")}
     </span>
   );
@@ -699,11 +699,11 @@ function PresetPicker({
         >
           <h3
             id={`preset-section-${section.group}`}
-            className="px-0.5 text-ui font-medium text-muted-foreground"
+            className="px-0.5 text-caption font-medium text-muted-foreground"
           >
             {t(`providerPreset.group.${section.group}`)}
           </h3>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
             {section.items.map(renderRow)}
           </div>
         </section>
@@ -718,7 +718,7 @@ function PresetPicker({
 
   return (
     <div className="flex h-full min-h-0 flex-col">
-      <div className="shrink-0 p-2">
+      <div className="shrink-0 p-3">
         <div className="relative">
           <Search
             className="pointer-events-none absolute start-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground"
@@ -746,7 +746,7 @@ function PresetPicker({
                 searchRef.current?.focus();
               }}
               aria-label={t("providerPreset.clearSearch")}
-              className="absolute end-2 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-[4px] text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="absolute end-1.5 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center rounded-control text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <X className="h-3.5 w-3.5" />
             </button>
@@ -754,11 +754,11 @@ function PresetPicker({
         </div>
       </div>
 
-      <div className="flex min-h-0 flex-1 gap-2 px-2 pb-2">
+      <div className="flex min-h-0 flex-1 gap-3 px-3 pb-3">
         <div
           role="group"
           aria-label={t("providerPreset.categoriesLabel")}
-          className="flex w-[168px] shrink-0 flex-col gap-0.5 overflow-y-auto"
+          className="flex w-[152px] shrink-0 flex-col gap-0.5 overflow-y-auto lg:w-[168px]"
         >
           {navItems.map((key) => (
             <CategoryButton
@@ -773,7 +773,7 @@ function PresetPicker({
           {onUniversalPresetSelect && (
             <>
               <div className="my-2 border-t border-border-default" />
-              <div className="px-2 pb-1 text-ui text-muted-foreground">
+              <div className="px-2.5 pb-1 text-caption text-muted-foreground">
                 {t("providerPreset.crossApp")}
               </div>
               <CategoryButton
@@ -789,17 +789,17 @@ function PresetPicker({
 
         <div className="min-w-0 flex-1 overflow-y-auto">
           {category !== "all" && (
-            <p className="mb-2 text-ui text-muted-foreground">
+            <p className="mb-3 text-caption text-muted-foreground">
               {t(`providerPreset.groupHint.${category}`)}
             </p>
           )}
 
           {nothing ? (
-            <div className="flex flex-col items-center gap-2 py-12 text-center">
-              <p className="text-ui text-foreground">
+            <div className="flex flex-col items-center gap-1.5 py-12 text-center">
+              <p className="text-strong font-medium text-foreground">
                 {t("providerPreset.noResults", { query: query.trim() })}
               </p>
-              <p className="text-ui text-muted-foreground">
+              <p className="text-body text-muted-foreground">
                 {t("providerPreset.noResultsHint")}
               </p>
               <Button
@@ -813,7 +813,7 @@ function PresetPicker({
               </Button>
             </div>
           ) : category === "universal" ? (
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
               {matchingUniversal.map((preset) => (
                 <PresetRow
                   key={`universal-${preset.providerType}`}
@@ -834,7 +834,7 @@ function PresetPicker({
                 <button
                   type="button"
                   onClick={onManageUniversalProviders}
-                  className="col-span-2 justify-self-start text-ui text-foreground underline underline-offset-2 hover:text-muted-foreground"
+                  className="col-span-full justify-self-start text-body text-foreground underline underline-offset-2 hover:text-muted-foreground"
                 >
                   {t("providerPreset.manageUniversal")}
                 </button>
@@ -842,7 +842,7 @@ function PresetPicker({
             </div>
           ) : (
             <div className="flex flex-col gap-4">
-              <div className="grid grid-cols-2 gap-2">
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                 {customRow}
                 {category !== "all" && officialShown.map(renderRow)}
               </div>
@@ -857,7 +857,7 @@ function PresetPicker({
                       type="button"
                       aria-expanded={unofficialOpen}
                       aria-label={t("providerPreset.unofficialAriaLabel")}
-                      className="flex h-6 w-full min-w-0 items-center justify-start gap-1.5 rounded-[4px] px-2 text-start text-ui font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
+                      className="flex h-8 w-full min-w-0 items-center justify-start gap-1.5 rounded-control px-2 text-start text-body font-medium text-muted-foreground hover:bg-muted hover:text-foreground"
                     >
                       {unofficialOpen ? (
                         <ChevronDown className="h-3.5 w-3.5 shrink-0" />
@@ -871,11 +871,11 @@ function PresetPicker({
                     </button>
                   </CollapsibleTrigger>
                   <CollapsibleContent>
-                    <div className="pt-2">
+                    <div className="pt-3">
                       {category === "all" ? (
                         renderSections(unofficialShown)
                       ) : (
-                        <div className="grid grid-cols-2 gap-2">
+                        <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                           {unofficialShown.map(renderRow)}
                         </div>
                       )}
@@ -945,13 +945,13 @@ function CategoryButton({
       aria-pressed={active}
       onClick={onClick}
       className={cn(
-        "flex h-6 items-center justify-between gap-2 rounded-[4px] px-2 text-start text-[12.35px] leading-[1.3] transition-colors",
+        "flex h-[30px] shrink-0 items-center justify-between gap-2 rounded-control px-2.5 text-start text-body transition-colors",
         active ? "bg-selected font-medium text-foreground" : "hover:bg-muted",
         !active && (dim ? "text-muted-foreground" : "text-foreground"),
       )}
     >
       <span className="truncate">{label}</span>
-      <span className="shrink-0 text-ui tabular-nums text-muted-foreground">
+      <span className="shrink-0 text-caption tabular-nums text-muted-foreground">
         {count}
       </span>
     </button>
@@ -981,21 +981,21 @@ function PresetRow({
       aria-label={name}
       aria-description={detail}
       className={cn(
-        "flex h-12 min-w-0 items-center gap-2 rounded-[8px] border bg-background px-2 text-start text-[12.35px] leading-[1.3] transition-colors hover:bg-muted",
+        "flex min-h-[52px] min-w-0 items-center gap-3 rounded-panel border bg-background px-3 py-2.5 text-start text-body transition-colors hover:bg-muted",
         selected ? "border-border-default" : "border-border-default",
       )}
     >
       {icon}
-      <span className="min-w-0 flex-1 text-[12.35px] leading-[1.3]">
+      <span className="min-w-0 flex-1 text-body">
         <span
-          className="block truncate text-ui font-medium text-foreground"
+          className="block truncate text-strong font-medium text-foreground"
           title={name}
         >
           {name}
         </span>
         {detail && (
           <span
-            className="block truncate text-ui text-muted-foreground"
+            className="block truncate text-caption text-muted-foreground"
             title={detail}
           >
             {detail}

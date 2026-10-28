@@ -97,17 +97,17 @@ describe("SessionMarkdown", () => {
     );
 
     const root = container.querySelector("[data-session-markdown]");
-    expect(root).toHaveClass("text-[12.35px]", "text-fg-1");
+    expect(root).toHaveClass("text-body", "text-fg-1");
     expect(screen.getByRole("heading", { level: 1 })).toHaveClass(
-      "text-[12.35px]",
+      "text-section",
       "font-semibold",
     );
     expect(screen.getByRole("heading", { level: 2 })).toHaveClass(
-      "text-[12.35px]",
+      "text-strong",
       "font-semibold",
     );
     expect(screen.getByRole("heading", { level: 3 })).toHaveClass(
-      "text-[12.35px]",
+      "text-body",
       "font-semibold",
     );
     expect(screen.getByText("cargo test")).toHaveClass(
@@ -132,7 +132,7 @@ describe("SessionMarkdown", () => {
     );
 
     expect(container.querySelector("[data-session-markdown]")).toHaveClass(
-      "text-[12.35px]",
+      "text-body",
       "text-fg-2",
     );
   });

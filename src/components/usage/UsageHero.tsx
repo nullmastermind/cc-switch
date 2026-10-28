@@ -107,7 +107,7 @@ function MetricCell({
   onSelect: () => void;
 }) {
   return (
-    <div className="group relative min-w-0 px-2 pb-2 pt-2">
+    <div className="group relative min-w-0 p-4">
       <button
         type="button"
         aria-pressed={selected}
@@ -122,11 +122,11 @@ function MetricCell({
             : "group-hover:bg-sidebar",
         )}
       />
-      <div className="pointer-events-none relative flex min-w-0 flex-col gap-1">
+      <div className="pointer-events-none relative flex min-w-0 flex-col gap-1.5">
         <div className="flex h-[18px] min-w-0 items-center gap-1">
           <span
             className={cn(
-              "truncate text-[12.35px] leading-[1.3]",
+              "truncate text-caption",
               selected ? "text-fg-1" : "text-fg-2",
             )}
           >
@@ -148,7 +148,7 @@ function MetricCell({
             aria-hidden="true"
             onClick={onSelect}
             className={cn(
-              "max-w-full self-start truncate text-[12.35px] font-semibold leading-[1.3] tabular-nums",
+              "max-w-full self-start truncate text-page font-semibold tabular-nums",
               title && "pointer-events-auto",
               selected ? "text-fg-1" : "text-fg-2",
             )}
@@ -180,15 +180,15 @@ function SubMetric({
   help?: { title: string; body: string };
 }) {
   return (
-    <div className="flex min-w-0 flex-col gap-1 px-2 py-2">
-      <span className="flex h-[18px] items-center gap-1 whitespace-nowrap text-[12.35px] leading-[1.3] text-fg-3">
+    <div className="flex min-w-0 flex-col gap-1 px-4 py-3">
+      <span className="flex h-[18px] items-center gap-1 whitespace-nowrap text-caption text-fg-3">
         {label}
         {help && <HelpTip title={help.title}>{help.body}</HelpTip>}
       </span>
       <HoverTip content={title} side="right">
         <span
           className={cn(
-            "self-start whitespace-nowrap text-[12.35px] leading-[1.3] font-semibold tabular-nums",
+            "self-start whitespace-nowrap text-strong font-semibold tabular-nums",
             muted ? "font-medium text-fg-3" : "text-fg-2",
           )}
         >

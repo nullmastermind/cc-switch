@@ -60,7 +60,7 @@ export function LanguagePickerDialog() {
   return (
     <Dialog open={isOpen} onOpenChange={() => {}}>
       <DialogContent
-        className="max-w-md"
+        className="max-w-lg"
         zIndex="top"
         onEscapeKeyDown={(event) => event.preventDefault()}
       >
@@ -70,14 +70,13 @@ export function LanguagePickerDialog() {
             {t("languagePicker.title")}
           </DialogTitle>
         </DialogHeader>
-        <div className="space-y-4 px-6 py-5">
+        <div className="space-y-4">
           <DialogDescription>{t("languagePicker.hint")}</DialogDescription>
           <div className="flex flex-wrap gap-2">
             {LANGUAGE_OPTIONS.map((option) => (
               <Button
                 key={option.value}
                 type="button"
-                size="sm"
                 variant={
                   option.value === currentLanguage ? "default" : "outline"
                 }

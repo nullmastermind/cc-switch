@@ -16,8 +16,7 @@ import {
   type SessionAppId,
 } from "./utils";
 
-const dialogClass =
-  "max-w-[480px] gap-2 rounded-[8px] border-border bg-surface p-2 shadow-sm sm:rounded-[8px]";
+const dialogSurface = "border-border bg-surface shadow-sm";
 
 interface SessionDeleteDialogProps {
   targets: SessionMeta[] | null;
@@ -82,10 +81,10 @@ export function SessionDeleteDialog({
         <DialogContent
           role="alertdialog"
           zIndex="alert"
-          className={dialogClass}
+          className={`max-w-lg ${dialogSurface}`}
         >
           <div className="flex flex-col gap-1.5">
-            <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold text-fg-1 [overflow-wrap:anywhere]">
+            <DialogTitle className="text-fg-1 [overflow-wrap:anywhere]">
               {single
                 ? t("sessionManager.deleteOneTitle", {
                     defaultValue: "删除会话「{{title}}」？",
@@ -96,23 +95,20 @@ export function SessionDeleteDialog({
                     count: list.length,
                   })}
             </DialogTitle>
-            <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+            <DialogDescription className="text-body text-fg-2">
               {t("sessionManager.deleteLead", {
                 defaultValue: "会从磁盘上永久删除，不经过废纸篓，无法撤销。",
               })}
             </DialogDescription>
           </div>
-          <ul className="m-0 flex list-none flex-col gap-2 rounded-[8px] bg-subtle p-2">
+          <ul className="m-0 flex list-none flex-col gap-2 rounded-panel bg-subtle p-4">
             {apps.map((app) => {
               const name = isSessionAppId(app)
                 ? APP_DISPLAY_NAME[app as SessionAppId]
                 : app;
               return (
-                <li
-                  key={app}
-                  className="flex items-start gap-2 text-[12.35px] leading-[1.3]"
-                >
-                  <span className="flex h-4 w-4 shrink-0 items-center">
+                <li key={app} className="flex items-start gap-2 text-body">
+                  <span className="flex h-5 w-4 shrink-0 items-center">
                     {isSessionAppId(app) && (
                       <AppGlyph
                         app={app}
@@ -183,29 +179,26 @@ export function SessionSourcesDialog({
       {open && (
         <DialogContent
           zIndex="alert"
-          className={`${dialogClass} max-w-[520px]`}
+          className={`max-w-xl ${dialogSurface}`}
           onInteractOutside={() => onClose()}
         >
           <div className="flex flex-col gap-1.5">
-            <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold text-fg-1">
+            <DialogTitle className="text-fg-1">
               {t("sessionManager.whereTitle", {
                 defaultValue: "会话记录在哪里",
               })}
             </DialogTitle>
-            <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+            <DialogDescription className="text-body text-fg-2">
               {t("sessionManager.whereLead", {
                 defaultValue:
                   "Viber Switch 从这些位置读取会话。Claude Desktop 没有单独的会话记录。",
               })}
             </DialogDescription>
           </div>
-          <ul className="m-0 flex list-none flex-col gap-2 p-0">
+          <ul className="m-0 flex list-none flex-col gap-2.5 p-0">
             {SESSION_APP_IDS.map((app) => (
-              <li
-                key={app}
-                className="flex items-start gap-2 text-[12.35px] leading-[1.3]"
-              >
-                <span className="flex h-4 w-4 shrink-0 items-center">
+              <li key={app} className="flex items-start gap-2 text-body">
+                <span className="flex h-5 w-4 shrink-0 items-center">
                   <AppGlyph app={app} size={14} badgeClassName="bg-surface" />
                 </span>
                 <span className="w-[104px] shrink-0 font-medium text-fg-1">
@@ -215,7 +208,7 @@ export function SessionSourcesDialog({
                   {SESSION_SOURCE_PATHS[app].map((path) => (
                     <code
                       key={path}
-                      className="font-mono text-[12.35px] leading-[1.3] text-fg-2 [overflow-wrap:anywhere]"
+                      className="font-mono text-body text-fg-2 [overflow-wrap:anywhere]"
                     >
                       {path}
                     </code>
@@ -224,7 +217,7 @@ export function SessionSourcesDialog({
               </li>
             ))}
           </ul>
-          <p className="m-0 text-[12.35px] leading-[1.3] text-fg-2">
+          <p className="m-0 text-caption text-fg-2">
             {t("sessionManager.whereNote", {
               defaultValue: "在设置里改过配置目录的应用，按改过的目录读取。",
             })}

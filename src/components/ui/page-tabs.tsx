@@ -70,8 +70,8 @@ export function PageTabs<T extends string>({
     <div
       className={cn(
         small
-          ? "flex h-6 items-end gap-2"
-          : "flex h-7 items-end gap-2 border-b border-border",
+          ? "flex h-8 items-end gap-4"
+          : "flex h-10 items-end gap-4 border-b border-border",
         className,
       )}
     >
@@ -79,7 +79,10 @@ export function PageTabs<T extends string>({
         ref={indicator.ref}
         role="tablist"
         aria-label={rest["aria-label"]}
-        className={cn("relative flex h-full items-end", "gap-2")}
+        className={cn(
+          "relative flex h-full items-end",
+          small ? "gap-4" : "gap-5",
+        )}
       >
         {/* 下划线单独一条，切换时滑过去；一级页签压住整行底线 */}
         <TabUnderline
@@ -105,10 +108,10 @@ export function PageTabs<T extends string>({
               onClick={() => onValueChange(item.value)}
               onKeyDown={onKeyDown}
               className={cn(
-                "h-6 whitespace-nowrap border-b-2 px-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:text-fg-3",
+                "whitespace-nowrap border-b-2 px-0.5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:text-fg-3",
                 small
-                  ? "inline-flex items-center gap-1 text-[12.35px] leading-[1.3]"
-                  : "-mb-px text-[12.35px] leading-[1.3]",
+                  ? "inline-flex h-8 items-center gap-1.5 text-body"
+                  : "-mb-px h-10 text-body",
                 "border-transparent",
                 selected
                   ? "font-semibold text-fg-1"

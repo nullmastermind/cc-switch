@@ -61,10 +61,10 @@ export const CodexAuthSection: React.FC<CodexAuthSectionProps> = ({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <label
         htmlFor="codexAuth"
-        className="block text-ui font-medium text-foreground"
+        className="block text-body font-medium text-foreground"
       >
         {t("codexConfig.authJson")}
       </label>
@@ -80,11 +80,11 @@ export const CodexAuthSection: React.FC<CodexAuthSectionProps> = ({
       />
 
       {error && (
-        <p className="text-ui text-red-500 dark:text-red-400">{error}</p>
+        <p className="text-caption text-red-500 dark:text-red-400">{error}</p>
       )}
 
       {!error && (
-        <p className="text-ui text-muted-foreground">
+        <p className="text-caption text-muted-foreground">
           {t(
             isProxyTakeover
               ? "codexConfig.authJsonStorageHint"
@@ -246,15 +246,15 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <label
           htmlFor="codexConfig"
-          className="block text-ui font-medium text-foreground"
+          className="block text-body font-medium text-foreground"
         >
           {t("codexConfig.configToml")}
         </label>
 
-        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-1">
+        <div className="flex flex-wrap items-center justify-end gap-x-4 gap-y-2">
           {showRemoteCompaction && (
             <label
-              className="inline-flex cursor-pointer items-center gap-2 text-ui text-muted-foreground"
+              className="inline-flex cursor-pointer items-center gap-2 text-body text-muted-foreground"
               title={t("codexConfig.remoteCompactionHint")}
             >
               <input
@@ -269,15 +269,15 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
         </div>
       </div>
 
-      <p className="text-ui text-muted-foreground">
+      <p className="text-caption text-muted-foreground">
         {t("codexConfig.keyFieldsHint", {
           defaultValue:
             "地址、Key、模型、推理档位、上下文窗口和兼容开关随供应商切换；其余是 Codex 全局设置，保存后对所有供应商生效。",
         })}
       </p>
 
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-        <label className="inline-flex items-center gap-2 text-ui text-muted-foreground cursor-pointer">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+        <label className="inline-flex items-center gap-2 text-body text-muted-foreground cursor-pointer">
           <input
             type="checkbox"
             checked={toggleStates.contextWindow1M}
@@ -286,7 +286,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
           />
           <span>{t("codexConfig.contextWindow1M")}</span>
         </label>
-        <label className="inline-flex items-center gap-2 text-ui text-muted-foreground">
+        <label className="inline-flex items-center gap-2 text-body text-muted-foreground">
           <span>{t("codexConfig.autoCompactLimit")}:</span>
           <input
             type="text"
@@ -296,7 +296,7 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
             defaultValue={toggleStates.compactLimit}
             disabled={!toggleStates.contextWindow1M}
             onChange={(e) => handleCompactLimitChange(e.target.value)}
-            className="w-28 h-7 px-2 text-ui rounded-[8px] border border-border bg-background text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-28 h-8 px-2.5 text-body rounded-control border border-border bg-background text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
           />
         </label>
       </div>
@@ -326,11 +326,13 @@ export const CodexConfigSection: React.FC<CodexConfigSectionProps> = ({
       />
 
       {configError && (
-        <p className="text-ui text-red-500 dark:text-red-400">{configError}</p>
+        <p className="text-caption text-red-500 dark:text-red-400">
+          {configError}
+        </p>
       )}
 
       {!configError && (
-        <p className="text-ui text-muted-foreground">
+        <p className="text-caption text-muted-foreground">
           {t(
             isProxyTakeover
               ? "codexConfig.configTomlStorageHint"

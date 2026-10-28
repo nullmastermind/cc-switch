@@ -136,10 +136,10 @@ export function ClaudeStackModelsField({
   };
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-3">
       <div className="space-y-1">
-        <div className="flex items-center justify-between gap-3">
-          <div className="flex items-center gap-0.5">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-1">
             <FormLabel>
               {t("providerForm.stackModelsLabel", { defaultValue: "模型列表" })}
             </FormLabel>
@@ -168,10 +168,10 @@ export function ClaudeStackModelsField({
             <Button
               type="button"
               variant="outline"
+              size="sm"
               onClick={() =>
                 onRowsChange([...rows, createClaudeStackModelRow()])
               }
-              className="gap-2"
             >
               <Plus className="h-4 w-4" />
               {t("providerForm.addStackModel", { defaultValue: "手动添加" })}
@@ -181,7 +181,7 @@ export function ClaudeStackModelsField({
       </div>
 
       {rows.length === 0 ? (
-        <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+        <p className="text-caption text-muted-foreground">
           {t("providerForm.stackModelsEmpty", {
             defaultValue:
               "未配置模型：把这家加入聚合后，模型选择器里不会多出它的模型",
@@ -189,7 +189,7 @@ export function ClaudeStackModelsField({
         </p>
       ) : (
         <div className="space-y-2">
-          <div className="hidden grid-cols-[1fr_minmax(0,1fr)_64px_24px] gap-2 px-1 text-[12.35px] leading-[1.3] font-medium text-muted-foreground md:grid">
+          <div className="hidden grid-cols-[1fr_minmax(0,1fr)_64px_32px] gap-3 px-1 text-caption font-medium text-muted-foreground md:grid">
             <span>
               {t("providerForm.modelDisplayNameLabel", {
                 defaultValue: "显示名称",
@@ -210,7 +210,7 @@ export function ClaudeStackModelsField({
             return (
               <div
                 key={row.rowId}
-                className="grid grid-cols-1 gap-2 md:grid-cols-[1fr_minmax(0,1fr)_64px_24px]"
+                className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_minmax(0,1fr)_64px_32px]"
               >
                 <ImeSafeInput
                   value={row.displayName ?? ""}
@@ -228,7 +228,7 @@ export function ClaudeStackModelsField({
                   })}
                   autoComplete="off"
                 />
-                <div className="flex gap-1">
+                <div className="flex gap-2">
                   <Input
                     value={row.model}
                     onChange={(event) =>
@@ -250,7 +250,7 @@ export function ClaudeStackModelsField({
                     />
                   )}
                 </div>
-                <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+                <label className="flex h-8 items-center gap-2 text-body text-muted-foreground">
                   <Checkbox
                     checked={
                       row.oneM === true || hasClaudeOneMMarker(row.model)

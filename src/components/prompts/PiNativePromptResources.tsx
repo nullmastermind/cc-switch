@@ -128,10 +128,10 @@ function PromptDrawer({
     >
       <SheetPageContent title={title} closeLabel={t("common.back")}>
         <SheetDescription className="sr-only">{description}</SheetDescription>
-        <div className="flex min-h-0 flex-1 flex-col gap-5 overflow-y-auto scroll-stable overscroll-contain px-6 pb-6 pt-5">
+        <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto scroll-stable overscroll-contain px-4 pb-6 pt-5 lg:px-6">
           {children}
         </div>
-        <div className="flex h-14 shrink-0 items-center gap-2 border-t border-border px-6">
+        <div className="flex h-14 shrink-0 items-center gap-2 border-t border-border px-4 lg:px-6">
           {footer}
         </div>
       </SheetPageContent>
@@ -257,13 +257,13 @@ function PiInstructionFileEditor({
         }
       >
         {file.kind === "system_override" ? (
-          <div className="flex shrink-0 items-start gap-2 rounded-[8px] bg-warning-soft px-3 py-2">
+          <div className="flex shrink-0 items-start gap-2 rounded-panel bg-warning-soft px-4 py-3">
             <AlertTriangle
               aria-hidden="true"
               strokeWidth={1.5}
               className="mt-0.5 h-4 w-4 shrink-0 text-warning-text"
             />
-            <span className="min-w-0 text-[12.35px] leading-[1.3] text-fg-1">
+            <span className="min-w-0 text-body text-fg-1">
               {renderSegs(t("pi.prompts.systemOverrideWarning"))}
             </span>
           </div>
@@ -271,7 +271,7 @@ function PiInstructionFileEditor({
         <div className="flex min-h-[220px] flex-1 flex-col gap-1.5">
           <label
             htmlFor={`${baseId}-body`}
-            className="text-[12.35px] leading-[1.3] font-medium text-fg-1"
+            className="text-body font-medium text-fg-1"
           >
             {t("prompts.content")}
           </label>
@@ -289,7 +289,7 @@ function PiInstructionFileEditor({
             }
             className={cn(
               promptFieldClass,
-              "min-h-[180px] flex-1 resize-none px-3 py-2 font-mono text-[12.35px] leading-[1.3]",
+              "min-h-[180px] flex-1 resize-none px-3 py-2 font-mono text-body",
             )}
           />
           <div className="flex items-start gap-3">
@@ -300,7 +300,7 @@ function PiInstructionFileEditor({
             ) : null}
             <span
               id={countId}
-              className="ms-auto shrink-0 whitespace-nowrap text-[12.35px] leading-[1.3] tabular-nums text-fg-2"
+              className="ms-auto shrink-0 whitespace-nowrap text-caption tabular-nums text-fg-2"
             >
               {t("prompts.charCount", {
                 chars: charCount(draft).toLocaleString(),
@@ -395,7 +395,7 @@ export function PiSystemPromptFiles() {
   return (
     <ul
       aria-label={t("pi.prompts.systemFilesLabel")}
-      className="m-0 shrink-0 list-none rounded-[8px] border border-border bg-surface p-0"
+      className="m-0 shrink-0 list-none rounded-panel border border-border bg-surface p-0"
     >
       {EDITABLE_FILES.map((file, index) => {
         const query = files[index];
@@ -416,32 +416,32 @@ export function PiSystemPromptFiles() {
           <li
             key={file.kind}
             className={cn(
-              "flex min-h-[72px] items-center gap-4 py-3 pe-3 ps-4",
+              "flex min-h-[72px] items-center gap-4 px-4 py-3",
               index > 0 && "border-t border-border",
             )}
           >
             <div className="flex min-w-0 flex-1 flex-col gap-0.5">
               <div className="flex min-w-0 items-center gap-2">
-                <span className="whitespace-nowrap text-[12.35px] leading-[1.3] font-medium text-fg-1">
+                <span className="whitespace-nowrap text-strong font-medium text-fg-1">
                   {t(file.titleKey)}
                 </span>
-                <code className="whitespace-nowrap font-mono text-[12.35px] leading-[1.3] text-fg-2">
+                <code className="whitespace-nowrap font-mono text-caption text-fg-2">
                   {file.filename}
                 </code>
                 {file.recommended ? (
-                  <span className="inline-flex h-[18px] shrink-0 items-center whitespace-nowrap rounded-full border border-border-strong px-[7px] text-[12.35px] leading-[1.3] text-fg-2">
+                  <span className="inline-flex h-5 shrink-0 items-center whitespace-nowrap rounded-full border border-border-strong px-2 text-badge font-medium text-fg-2">
                     {t("pi.prompts.recommended")}
                   </span>
                 ) : null}
               </div>
-              <span className="text-[12.35px] leading-[1.3] text-fg-2">
+              <span className="text-caption text-fg-2">
                 {t(file.descriptionKey)}
               </span>
             </div>
             <span
               id={statusId}
               className={cn(
-                "shrink-0 whitespace-nowrap text-[12.35px] leading-[1.3] tabular-nums",
+                "shrink-0 whitespace-nowrap text-caption tabular-nums",
                 query.isError
                   ? "text-danger-text"
                   : data?.exists
@@ -645,7 +645,7 @@ function PiPromptTemplateEditor({
       <div className="flex shrink-0 flex-col gap-1.5">
         <label
           htmlFor={`${baseId}-slug`}
-          className="text-[12.35px] leading-[1.3] font-medium text-fg-1"
+          className="text-body font-medium text-fg-1"
         >
           {t("pi.prompts.templateCommand")}
           <span aria-hidden="true" className="ms-0.5 text-danger-text">
@@ -656,7 +656,7 @@ function PiPromptTemplateEditor({
         <div className="relative">
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute left-[11px] top-1.5 font-mono text-[12.35px] leading-[1.3] text-fg-2"
+            className="pointer-events-none absolute left-[11px] top-1.5 font-mono text-body text-fg-2"
           >
             /
           </span>
@@ -677,17 +677,14 @@ function PiPromptTemplateEditor({
             spellCheck={false}
             className={cn(
               promptFieldClass,
-              "h-8 ps-[19px] font-mono text-[12.35px] leading-[1.3]",
+              "h-8 ps-[19px] font-mono text-body",
             )}
           />
         </div>
         {showSlugError ? (
           <FieldError id={slugHintId}>{slugError}</FieldError>
         ) : slugHint ? (
-          <span
-            id={slugHintId}
-            className="text-[12.35px] leading-[1.3] text-fg-2"
-          >
+          <span id={slugHintId} className="text-caption text-fg-2">
             {renderSegs(slugHint)}
           </span>
         ) : null}
@@ -696,7 +693,7 @@ function PiPromptTemplateEditor({
       <div className="flex shrink-0 flex-col gap-1.5">
         <label
           htmlFor={`${baseId}-desc`}
-          className="text-[12.35px] leading-[1.3] font-medium text-fg-1"
+          className="text-body font-medium text-fg-1"
         >
           {t("pi.prompts.templateDescription")}
         </label>
@@ -716,7 +713,7 @@ function PiPromptTemplateEditor({
         <div className="flex items-center gap-0.5">
           <label
             htmlFor={`${baseId}-body`}
-            className="text-[12.35px] leading-[1.3] font-medium text-fg-1"
+            className="text-body font-medium text-fg-1"
           >
             {t("pi.prompts.templateContent")}
           </label>
@@ -735,10 +732,10 @@ function PiPromptTemplateEditor({
           placeholder={t("pi.prompts.templateContentPlaceholder")}
           className={cn(
             promptFieldClass,
-            "min-h-[180px] flex-1 resize-none px-3 py-2 font-mono text-[12.35px] leading-[1.3]",
+            "min-h-[180px] flex-1 resize-none px-3 py-2 font-mono text-body",
           )}
         />
-        <span className="ms-auto whitespace-nowrap text-[12.35px] leading-[1.3] tabular-nums text-fg-2">
+        <span className="ms-auto whitespace-nowrap text-caption tabular-nums text-fg-2">
           {t("prompts.charCount", {
             chars: charCount(content).toLocaleString(),
             size: formatSize(utf8Bytes(content)),
@@ -829,7 +826,7 @@ export const PiPromptTemplates = forwardRef<
   const body = (() => {
     if (templates.isLoading) {
       return (
-        <div className="flex min-h-48 items-center justify-center gap-2 text-[12.35px] leading-[1.3] text-fg-2">
+        <div className="flex min-h-48 items-center justify-center gap-2 text-body text-fg-2">
           <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
           {t("common.loading")}
         </div>
@@ -837,8 +834,8 @@ export const PiPromptTemplates = forwardRef<
     }
     if (templates.isError) {
       return (
-        <div className="flex min-h-48 flex-col items-center justify-center gap-3 rounded-[8px] border border-border bg-surface px-6 text-center">
-          <span className="text-[12.35px] leading-[1.3] text-fg-2">
+        <div className="flex min-h-48 flex-col items-center justify-center gap-3 rounded-panel border border-border bg-surface px-6 py-12 text-center">
+          <span className="text-body text-fg-2">
             {t("pi.prompts.templateLoadFailed")}
           </span>
           <Button
@@ -855,20 +852,20 @@ export const PiPromptTemplates = forwardRef<
     }
     if ((templates.data ?? []).length === 0) {
       return (
-        <div className="flex flex-1 flex-col items-center justify-center gap-2 px-10 pb-10 text-center">
-          <h2 className="m-0 text-[12.35px] leading-[1.3] font-semibold text-fg-1">
+        <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-4 py-12 text-center">
+          <h2 className="m-0 text-strong font-semibold text-fg-1">
             {t("pi.prompts.noTemplates")}
           </h2>
-          <p className="m-0 max-w-[460px] text-[12.35px] leading-[1.3] text-fg-2">
+          <p className="m-0 max-w-[460px] text-body text-fg-2">
             {renderSegs(t("pi.prompts.noTemplatesDescription"))}
           </p>
-          <div className="mt-2 flex gap-2">
+          <div className="mt-3 flex gap-2">
             <Button
               variant="neutral"
               size="regular"
               onClick={() => setEditor({ mode: "create" })}
             >
-              <Plus className="h-3.5 w-3.5" />
+              <Plus className="h-4 w-4" />
               {t("pi.prompts.newTemplate")}
             </Button>
           </div>
@@ -877,8 +874,8 @@ export const PiPromptTemplates = forwardRef<
     }
     if (filteredTemplates.length === 0) {
       return (
-        <div className="flex flex-col items-center gap-3 rounded-[8px] border border-border bg-surface px-6 py-10 text-center">
-          <span className="text-[12.35px] leading-[1.3] text-fg-2">
+        <div className="flex flex-col items-center gap-3 rounded-panel border border-border bg-surface px-6 py-12 text-center">
+          <span className="text-body text-fg-2">
             {t("pi.prompts.noTemplateResults", { query: search.trim() })}
           </span>
           {onClearSearch ? (
@@ -892,7 +889,7 @@ export const PiPromptTemplates = forwardRef<
     return (
       <ul
         aria-label={t("pi.prompts.templatesLabel")}
-        className="m-0 min-h-0 shrink list-none overflow-y-auto scroll-stable rounded-[8px] border border-border bg-surface p-0"
+        className="m-0 min-h-0 shrink list-none overflow-y-auto scroll-stable rounded-panel border border-border bg-surface p-0"
       >
         {filteredTemplates.map((template, index) => {
           const summary = getPiPromptTemplateSummary(template.content);
@@ -914,17 +911,17 @@ export const PiPromptTemplates = forwardRef<
                 setEditor({ mode: "edit", template });
               }}
               className={cn(
-                "flex h-[60px] cursor-pointer items-center gap-3 pe-2 ps-4 transition-colors duration-150 hover:bg-subtle",
+                "flex min-h-16 cursor-pointer items-center gap-3 px-4 py-3 transition-colors duration-150 hover:bg-subtle",
                 index > 0 && "border-t border-border",
               )}
             >
-              <div className="flex min-w-0 flex-1 flex-col">
+              <div className="flex min-w-0 flex-1 flex-col gap-0.5">
                 <div className="flex min-w-0 items-baseline gap-2">
-                  <code className="whitespace-nowrap font-mono text-[12.35px] leading-[1.3] font-medium text-fg-1">
+                  <code className="whitespace-nowrap font-mono text-strong font-medium text-fg-1">
                     /{template.slug}
                   </code>
                   {summary.argumentHint ? (
-                    <code className="truncate font-mono text-[12.35px] leading-[1.3] text-fg-2">
+                    <code className="truncate font-mono text-caption text-fg-2">
                       {summary.argumentHint}
                     </code>
                   ) : null}
@@ -932,7 +929,7 @@ export const PiPromptTemplates = forwardRef<
                 {desc ? (
                   <span
                     title={desc}
-                    className="min-w-0 truncate text-[12.35px] leading-[1.3] text-fg-2"
+                    className="min-w-0 truncate text-caption text-fg-2"
                   >
                     {desc}
                   </span>
@@ -949,7 +946,7 @@ export const PiPromptTemplates = forwardRef<
                     })}
                     onClick={() => setEditor({ mode: "edit", template })}
                   >
-                    <Pencil className="h-[15px] w-[15px]" strokeWidth={1.5} />
+                    <Pencil className="h-4 w-4" strokeWidth={1.5} />
                   </Button>
                 </HoverTip>
                 <DropdownMenu modal={false}>
@@ -963,10 +960,7 @@ export const PiPromptTemplates = forwardRef<
                           name: `/${template.slug}`,
                         })}
                       >
-                        <MoreHorizontal
-                          className="h-[15px] w-[15px]"
-                          strokeWidth={1.5}
-                        />
+                        <MoreHorizontal className="h-4 w-4" strokeWidth={1.5} />
                       </Button>
                     </DropdownMenuTrigger>
                   </HoverTip>

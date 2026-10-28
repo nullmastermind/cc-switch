@@ -113,7 +113,7 @@ export function ModeDialog(props: ModeDialogProps) {
       {state && (
         <DialogContent
           zIndex="alert"
-          className="max-w-[480px] gap-2 overflow-y-auto rounded-[8px] border-border bg-surface p-2 shadow-lg sm:rounded-[8px]"
+          className="max-w-lg overflow-y-auto border-border bg-surface shadow-lg"
         >
           {state.kind === "enter" ? (
             <EnterBody {...props} state={state} onCancel={cancel} />
@@ -271,20 +271,16 @@ function EnterBody({
       : provider.name;
 
   return (
-    <div className="space-y-2">
-      <div className="space-y-1">
-        <DialogTitle className="text-[12.35px] font-semibold leading-[1.3]">
-          {title}
-        </DialogTitle>
-        <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+    <div className="space-y-4">
+      <div className="space-y-1.5">
+        <DialogTitle>{title}</DialogTitle>
+        <DialogDescription className="text-body text-fg-2">
           {lead}
         </DialogDescription>
       </div>
 
-      <div className="space-y-1">
-        <label className="text-[12.35px] font-semibold leading-[1.3] text-fg-2">
-          {pickLabel}
-        </label>
+      <div className="space-y-1.5">
+        <label className="text-body font-medium text-fg-2">{pickLabel}</label>
         <Select value={pick} onValueChange={setPick} disabled={busy}>
           <SelectTrigger aria-label={pickLabel}>
             <SelectValue />
@@ -300,7 +296,7 @@ function EnterBody({
         {officialLeftOut && (
           <p
             data-testid="stack-official-note"
-            className="rounded-[4px] bg-warning-soft p-2 text-[12.35px] leading-[1.3] text-warning-text"
+            className="rounded-control bg-warning-soft px-3 py-2 text-body text-warning-text"
           >
             {t("mode.dialog.stackOfficialNote")}
           </p>
@@ -308,8 +304,8 @@ function EnterBody({
       </div>
 
       {showSubagent && subagent && (
-        <div className="space-y-2 border-t border-border pt-2">
-          <p className="text-[12.35px] leading-[1.3] text-fg-2">
+        <div className="space-y-3 border-t border-border pt-4">
+          <p className="text-body text-fg-2">
             {t("mode.dialog.stackSubagentLead")}
           </p>
           <StackSubagentFields
@@ -321,7 +317,7 @@ function EnterBody({
         </div>
       )}
 
-      <ul className="space-y-1 rounded-[8px] bg-subtle p-2 text-[12.35px] leading-[1.3] text-fg-2">
+      <ul className="space-y-1.5 rounded-panel bg-subtle px-4 py-3 text-body text-fg-2">
         {notes.map((note) => (
           <li key={note} className="flex gap-2">
             <span aria-hidden="true">·</span>
@@ -333,7 +329,7 @@ function EnterBody({
       {error && (
         <p
           role="alert"
-          className="rounded-[4px] bg-danger-soft p-2 text-[12.35px] leading-[1.3] text-danger-text"
+          className="rounded-control bg-danger-soft px-3 py-2 text-body text-danger-text"
         >
           {error}
         </p>
@@ -414,20 +410,20 @@ function ExitBody({
   };
 
   return (
-    <div className="space-y-2">
-      <div className="space-y-1">
-        <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold">
+    <div className="space-y-4">
+      <div className="space-y-1.5">
+        <DialogTitle>
           {t("mode.dialog.exitTitle", {
             app: appName,
             from: t(`mode.names.${active}`),
           })}
         </DialogTitle>
-        <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+        <DialogDescription className="text-body text-fg-2">
           {t("mode.dialog.exitLead", { app: appName, provider })}
         </DialogDescription>
       </div>
 
-      <ul className="space-y-1.5 rounded-[8px] bg-subtle px-4 py-3 text-[12.35px] leading-[1.3] text-fg-2">
+      <ul className="space-y-1.5 rounded-panel bg-subtle px-4 py-3 text-body text-fg-2">
         {notes.map((note) => (
           <li key={note} className="flex gap-2">
             <span aria-hidden="true">·</span>
@@ -439,13 +435,13 @@ function ExitBody({
       {error && (
         <p
           role="alert"
-          className="rounded-control bg-danger-soft px-3 py-2 text-[12.35px] leading-[1.3] text-danger-text"
+          className="rounded-control bg-danger-soft px-3 py-2 text-body text-danger-text"
         >
           {error}
         </p>
       )}
 
-      <div className="flex flex-wrap justify-end gap-2 pt-1">
+      <div className="flex flex-wrap justify-end gap-2">
         <Button
           variant="neutral"
           size="regular"
@@ -502,12 +498,12 @@ function NeedsRouteBody({
   };
 
   return (
-    <div className="space-y-2">
-      <div className="space-y-1">
-        <DialogTitle className="text-[12.35px] font-semibold leading-[1.3]">
+    <div className="space-y-4">
+      <div className="space-y-1.5">
+        <DialogTitle>
           {t("mode.dialog.needsRouteTitle", { provider: name })}
         </DialogTitle>
-        <DialogDescription className="text-[12.35px] leading-[1.3] text-fg-2">
+        <DialogDescription className="text-body text-fg-2">
           {t("mode.dialog.needsRouteLead", {
             provider: name,
             reason: state.reason,
@@ -518,7 +514,7 @@ function NeedsRouteBody({
       {error && (
         <p
           role="alert"
-          className="rounded-[4px] bg-danger-soft p-2 text-[12.35px] leading-[1.3] text-danger-text"
+          className="rounded-control bg-danger-soft px-3 py-2 text-body text-danger-text"
         >
           {error}
         </p>

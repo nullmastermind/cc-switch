@@ -119,11 +119,11 @@ type SessionListRow =
     }
   | { kind: "session"; key: string; session: SessionMeta; bordered: boolean };
 
-/** 虚拟列表每种行的固定高度：时间分组标题 h-7、项目分组标题 h-8、会话行 h-10 */
-const LIST_ROW_HEIGHT = { time: 28, project: 32, session: 40 } as const;
+/** 虚拟列表每种行的固定高度：时间分组标题 h-9、项目分组标题 h-10、会话行 h-14 */
+const LIST_ROW_HEIGHT = { time: 36, project: 40, session: 56 } as const;
 
 const linkButton =
-  "h-[22px] rounded-[4px] px-0.5 text-[12.35px] leading-[1.3] text-fg-1 underline decoration-border-strong underline-offset-[3px] hover:decoration-fg-2";
+  "h-[22px] rounded-control px-0.5 text-body text-fg-1 underline decoration-border-strong underline-offset-[3px] hover:decoration-fg-2";
 
 interface SessionManagerPageProps {
   appId: string;
@@ -803,17 +803,17 @@ export function SessionManagerPage({
     return (
       <div
         className={cn(
-          "flex h-8 items-center gap-2 bg-subtle pe-2 ps-2",
+          "flex h-10 items-center gap-3 bg-subtle px-3",
           !first && "border-t border-border",
         )}
       >
-        <h3 className="m-0 flex min-w-0 flex-1 text-[12.35px] leading-[1.3] font-semibold text-fg-1">
+        <h3 className="m-0 flex min-w-0 flex-1 text-body font-semibold text-fg-1">
           <button
             type="button"
             aria-expanded={open}
             onClick={() => toggleGroup(group.key)}
             title={group.projectDir ?? undefined}
-            className="flex h-6 w-full min-w-0 max-w-full items-center gap-2 rounded-[4px] pe-2 ps-1.5 text-left font-semibold transition-colors hover:bg-selected"
+            className="-ms-1.5 flex h-7 w-full min-w-0 max-w-full items-center gap-2 rounded-control pe-2 ps-1.5 text-left font-semibold transition-colors hover:bg-selected"
           >
             <ChevronDown
               aria-hidden="true"
@@ -825,7 +825,7 @@ export function SessionManagerPage({
             />
             <span className="shrink-0 whitespace-nowrap">{group.label}</span>
             {fullPath && (
-              <span className="flex min-w-0 whitespace-nowrap text-[12.35px] leading-[1.3] font-normal text-fg-3">
+              <span className="flex min-w-0 whitespace-nowrap text-caption font-normal text-fg-3">
                 <span className="min-w-0 truncate">{pathHead}</span>
                 <span className="shrink-0">{pathTail}</span>
               </span>
@@ -833,7 +833,7 @@ export function SessionManagerPage({
           </button>
         </h3>
         <span
-          className="min-w-0 max-w-[55%] truncate whitespace-nowrap text-[12.35px] leading-[1.3] tabular-nums text-fg-2"
+          className="min-w-0 max-w-[55%] truncate whitespace-nowrap text-caption tabular-nums text-fg-2"
           title={meta}
         >
           {meta}
@@ -865,7 +865,7 @@ export function SessionManagerPage({
             {row.kind === "time" ? (
               <h3
                 className={cn(
-                  "m-0 flex h-7 items-end px-2 pb-0.5 text-[12.35px] leading-[1.3] font-semibold text-fg-2",
+                  "m-0 flex h-9 items-end px-3 pb-1.5 text-caption font-semibold text-fg-2",
                   !row.first && "border-t border-border",
                 )}
               >
@@ -969,7 +969,7 @@ export function SessionManagerPage({
               </HoverTip>
               <DropdownMenuContent
                 align="end"
-                className="w-[196px] rounded-[8px] p-1 shadow-sm"
+                className="w-[196px] rounded-panel p-1 shadow-sm"
               >
                 <DropdownMenuItem
                   className={sessionMenuItemClass}
@@ -1054,13 +1054,13 @@ export function SessionManagerPage({
             readerSession && "hidden",
           )}
         >
-          <div className="flex shrink-0 items-center gap-2 px-6 pt-3">
+          <div className="flex shrink-0 flex-wrap items-center gap-2 px-4 pt-4 lg:px-6">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="neutral"
                   size="regular"
-                  className="shrink-0 gap-2 pe-2 ps-2"
+                  className="shrink-0 gap-2"
                 >
                   <span className="sr-only">
                     {t("sessionManager.appPrefix", { defaultValue: "应用：" })}
@@ -1085,7 +1085,7 @@ export function SessionManagerPage({
                         })
                       : appName(appFilter)}
                   </span>
-                  <span className="text-[12.35px] leading-[1.3] font-normal tabular-nums text-fg-2">
+                  <span className="text-body font-normal tabular-nums text-fg-2">
                     {currentCount || appFilter === "all"
                       ? currentCount
                       : noSessionsLabel}
@@ -1102,7 +1102,7 @@ export function SessionManagerPage({
                 aria-label={t("sessionManager.chooseApp", {
                   defaultValue: "选择应用",
                 })}
-                className="w-[240px] rounded-[8px] p-1 shadow-sm"
+                className="w-[240px] rounded-panel p-1 shadow-sm"
               >
                 <AppMenuItem
                   pressed={appFilter === "all"}
@@ -1143,7 +1143,7 @@ export function SessionManagerPage({
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <div className="relative min-w-0 flex-1">
+            <div className="relative min-w-[200px] flex-1">
               <SearchField
                 id="session-search"
                 ref={searchRef}
@@ -1176,7 +1176,7 @@ export function SessionManagerPage({
               })}
               value={groupMode}
               onValueChange={setGroupMode}
-              className="h-7 shrink-0"
+              className="shrink-0"
               items={[
                 {
                   value: "time",
@@ -1195,7 +1195,7 @@ export function SessionManagerPage({
           </div>
 
           {fromApp === "claude-desktop" && appFilter === "claude" && (
-            <p className="m-0 mx-6 mt-2 shrink-0 text-[12.35px] leading-[1.3] text-fg-2">
+            <p className="m-0 mx-4 mt-3 shrink-0 text-caption text-fg-2 lg:mx-6">
               {t("sessionManager.desktopNote", {
                 defaultValue:
                   "Claude Desktop 没有单独的会话记录，这里显示 Claude Code 的会话。",
@@ -1204,13 +1204,13 @@ export function SessionManagerPage({
           )}
 
           {appFilter === "pi" && piStatus === "requires_project_context" && (
-            <div role="status" className="mx-6 mt-3 shrink-0">
+            <div role="status" className="mx-4 mt-3 shrink-0 lg:mx-6">
               <Notice
                 tone="warning"
                 title={
                   <>
                     {t("sessionManager.piRelativeSessionDir")}{" "}
-                    <code className="font-mono text-[12.35px] leading-[1.3]">
+                    <code className="font-mono text-body">
                       {piSessionDiscovery.data?.status ===
                       "requires_project_context"
                         ? piSessionDiscovery.data.configuredPath
@@ -1223,7 +1223,7 @@ export function SessionManagerPage({
           )}
           {appFilter === "pi" &&
             (piStatus === "unavailable" || piSessionDiscovery.isError) && (
-              <div role="alert" className="mx-6 mt-3 shrink-0">
+              <div role="alert" className="mx-4 mt-3 shrink-0 lg:mx-6">
                 <Notice
                   tone="danger"
                   title={t("sessionManager.piDiscoveryUnavailable", {
@@ -1237,7 +1237,7 @@ export function SessionManagerPage({
             )}
 
           {selectionMode && (
-            <div className="flex shrink-0 items-center gap-1.5 whitespace-nowrap px-6 pt-2 text-[12.35px] leading-[1.3] text-fg-2">
+            <div className="flex shrink-0 flex-wrap items-center gap-1.5 px-4 pt-3 text-body text-fg-2 lg:px-6">
               <span className="tabular-nums">
                 {trimmedQuery
                   ? t("sessionManager.matchCount", {
@@ -1291,7 +1291,7 @@ export function SessionManagerPage({
           )}
 
           {isLoading ? (
-            <div className="flex flex-1 items-center justify-center text-[12.35px] leading-[1.3] text-fg-2">
+            <div className="flex flex-1 items-center justify-center text-body text-fg-2">
               {t("sessionManager.loadingSessions", {
                 defaultValue: "加载会话中...",
               })}
@@ -1306,13 +1306,13 @@ export function SessionManagerPage({
                   defaultValue: "会话列表",
                 })}
                 ref={listScrollRef}
-                className="mx-6 mt-3 min-h-0 shrink overflow-y-auto scroll-stable overscroll-contain rounded-[8px] border border-border bg-surface"
-                style={{ scrollPaddingTop: groupMode === "project" ? 44 : 8 }}
+                className="mx-4 mt-4 min-h-0 shrink overflow-y-auto scroll-stable overscroll-contain rounded-panel border border-border bg-surface lg:mx-6"
+                style={{ scrollPaddingTop: groupMode === "project" ? 52 : 8 }}
               >
                 {renderList()}
               </div>
               {appFilter === "hermes" && (
-                <p className="m-0 mx-6 mt-2 shrink-0 text-[12.35px] leading-[1.3] text-fg-3">
+                <p className="m-0 mx-4 mt-2 shrink-0 text-caption text-fg-3 lg:mx-6">
                   {t("sessionManager.hermesLimit", {
                     defaultValue: "Hermes 只显示最近 500 个会话",
                   })}
@@ -1321,13 +1321,13 @@ export function SessionManagerPage({
               <div className="flex-1" />
             </>
           )}
-          <div className="h-4 shrink-0" />
+          <div className="h-6 shrink-0" />
 
           {selectionMode && (
-            <div className="flex h-10 shrink-0 items-center gap-2 border-t border-border bg-surface px-2">
+            <div className="flex h-14 shrink-0 items-center gap-2 border-t border-border bg-surface px-4 lg:px-6">
               <span
                 role="status"
-                className="min-w-0 flex-1 truncate text-[12.35px] leading-[1.3] text-fg-1"
+                className="min-w-0 flex-1 truncate text-body text-fg-1"
               >
                 <span className="font-medium">
                   {selectedSessions.length
@@ -1340,7 +1340,7 @@ export function SessionManagerPage({
                       })}
                 </span>
                 {hiddenSelected > 0 && (
-                  <span className="text-[12.35px] leading-[1.3] text-fg-2">
+                  <span className="text-caption text-fg-2">
                     {t("sessionManager.hiddenSelected", {
                       defaultValue: " · 其中 {{count}} 个不在当前结果里",
                       count: hiddenSelected,
@@ -1420,7 +1420,7 @@ function AppMenuItem({
       <span className="min-w-0 flex-1 truncate">{label}</span>
       <span
         className={cn(
-          "text-[12.35px] leading-[1.3] font-normal tabular-nums",
+          "text-caption font-normal tabular-nums",
           dimmed ? "text-fg-3" : "text-fg-2",
         )}
       >
@@ -1447,17 +1447,15 @@ function EmptyState({
   onAction: () => void;
 }) {
   return (
-    <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-1.5 px-6 pb-10 text-center">
-      <p className="m-0 max-w-[560px] text-[12.35px] leading-[1.3] font-semibold text-fg-1">
+    <div className="flex min-h-0 flex-1 flex-col items-center justify-center gap-1.5 px-4 py-12 text-center lg:px-6">
+      <p className="m-0 max-w-[560px] text-strong font-semibold text-fg-1">
         {title}
       </p>
-      {hint && (
-        <p className="m-0 text-[12.35px] leading-[1.3] text-fg-2">{hint}</p>
-      )}
+      {hint && <p className="m-0 text-body text-fg-2">{hint}</p>}
       <Button
         variant="neutral"
         size="regular"
-        className="mt-2"
+        className="mt-3"
         onClick={onAction}
       >
         {action}

@@ -353,9 +353,7 @@ export function EditProviderDialog({
           liveFile ? (
             <>
               {t("provider.editCurrentNoticeFile")}{" "}
-              <code className="font-mono text-[12.35px] leading-[1.3]">
-                {liveFile}
-              </code>
+              <code className="font-mono text-body">{liveFile}</code>
               {t("provider.editCurrentNoticeFileEnd")}
             </>
           ) : (
@@ -382,7 +380,7 @@ export function EditProviderDialog({
       }
       backLabel={t("provider.backToList")}
       onClose={handlePanelClose}
-      contentClassName={appId === "pi" ? "pb-0 pt-4" : "pt-4"}
+      contentClassName={appId === "pi" ? "pb-0" : undefined}
       footer={
         <>
           <Button type="button" variant="neutral" onClick={closeDialog}>
@@ -402,7 +400,7 @@ export function EditProviderDialog({
     >
       {currentNotice}
       {waitingForEditorView ? (
-        <div className="py-8 text-center text-[12.35px] leading-[1.3] text-fg-2">
+        <div className="py-12 text-center text-body text-fg-2">
           {t("common.loading")}
         </div>
       ) : (

@@ -32,14 +32,14 @@ export function LocalProxyRequestOverridesField({
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-0.5">
+      <div className="flex items-center gap-1">
         <FormLabel>{label}</FormLabel>
         <HelpTip title={label}>{help}</HelpTip>
       </div>
 
-      <div className="grid gap-3 md:grid-cols-2">
-        <div className="space-y-2">
-          <FormLabel className="text-ui text-muted-foreground">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="space-y-1.5">
+          <FormLabel className="text-body text-muted-foreground">
             {t("providerForm.localProxyHeaderOverrides", {
               defaultValue: "Header 覆盖",
             })}
@@ -52,7 +52,7 @@ export function LocalProxyRequestOverridesField({
             aria-invalid={Boolean(headerError)}
           />
           {headerError && (
-            <p className="text-ui text-destructive">
+            <p className="text-caption text-destructive">
               {t("providerForm.localProxyHeaderOverridesInvalidDetail", {
                 error: headerError,
                 defaultValue: "Header 覆盖格式错误：{{error}}",
@@ -61,8 +61,8 @@ export function LocalProxyRequestOverridesField({
           )}
         </div>
 
-        <div className="space-y-2">
-          <FormLabel className="text-ui text-muted-foreground">
+        <div className="space-y-1.5">
+          <FormLabel className="text-body text-muted-foreground">
             {t("providerForm.localProxyBodyOverrides", {
               defaultValue: "Body 覆盖",
             })}
@@ -75,7 +75,7 @@ export function LocalProxyRequestOverridesField({
             aria-invalid={Boolean(bodyError)}
           />
           {bodyError && (
-            <p className="text-ui text-destructive">
+            <p className="text-caption text-destructive">
               {t("providerForm.localProxyBodyOverridesInvalidDetail", {
                 error: bodyError,
                 defaultValue: "Body 覆盖格式错误：{{error}}",

@@ -156,7 +156,7 @@ const UsageFooter: React.FC<UsageFooterProps> = ({
         loading={loading}
         onRefresh={refresh}
         footer={
-          <p className="text-[12.35px] leading-[1.3]">
+          <p className="text-caption">
             <span className="font-medium text-danger-text">
               {t("quota.failed")}
             </span>{" "}

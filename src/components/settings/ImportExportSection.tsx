@@ -43,28 +43,28 @@ export function ImportExportSection({
   }, [selectedFile]);
 
   return (
-    <section className="space-y-2">
-      <header className="space-y-2">
-        <h3 className="text-ui font-semibold text-foreground">
+    <section className="space-y-3">
+      <header className="space-y-1">
+        <h3 className="text-strong font-semibold text-foreground">
           {t("settings.importExport")}
         </h3>
-        <p className="text-ui text-muted-foreground">
+        <p className="text-caption text-muted-foreground">
           {t("settings.importExportHint")}
         </p>
       </header>
 
-      <div className="space-y-2 rounded-[8px] border border-border bg-muted/40 p-2">
+      <div className="space-y-3 rounded-panel border border-border bg-muted/40 p-4">
         {/* Import and Export Buttons Side by Side */}
-        <div className="grid grid-cols-2 items-stretch gap-2">
+        <div className="grid grid-cols-2 items-stretch gap-3">
           {/* Import Button */}
           <div className="relative">
             <Button
               type="button"
-              className={`w-full bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 ${selectedFile && !isImporting ? "flex-col items-start" : "items-center"}`}
+              className={`w-full bg-blue-500 text-white hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 ${selectedFile && !isImporting ? "h-auto min-h-8 flex-col items-start py-1.5" : "items-center"}`}
               onClick={!selectedFile ? onSelectFile : onImport}
               disabled={isImporting}
             >
-              <div className="flex w-full items-center justify-center gap-1">
+              <div className="flex w-full items-center justify-center gap-1.5">
                 {isImporting ? (
                   <Loader2 className="h-4 w-4 flex-shrink-0 animate-spin" />
                 ) : selectedFile ? (
@@ -81,8 +81,8 @@ export function ImportExportSection({
                 </span>
               </div>
               {selectedFile && !isImporting && (
-                <div className="mt-1 w-full text-left">
-                  <p className="truncate font-mono text-[12.35px] leading-[1.3] text-white/80">
+                <div className="mt-0.5 w-full text-left">
+                  <p className="truncate font-mono text-caption text-white/80">
                     {selectedFileName}
                   </p>
                 </div>
@@ -139,7 +139,7 @@ function ImportStatusMessage({
   }
 
   const baseClass =
-    "flex items-start gap-2 rounded-[8px] border p-2 text-[12.35px] leading-[1.3] backdrop-blur-sm";
+    "flex items-start gap-2 rounded-panel border px-4 py-3 text-body backdrop-blur-sm";
 
   if (status === "importing") {
     return (
@@ -166,7 +166,7 @@ function ImportStatusMessage({
         <div className="space-y-1.5">
           <p className="font-semibold">{t("settings.importSuccess")}</p>
           {backupId ? (
-            <p className="text-[12.35px] leading-[1.3] text-green-600/80 dark:text-green-400/80">
+            <p className="text-body text-green-600/80 dark:text-green-400/80">
               {t("settings.backupId")}: {backupId}
             </p>
           ) : null}
@@ -200,7 +200,7 @@ function ImportStatusMessage({
     <div
       className={`${baseClass} border-red-500/30 bg-red-500/10 text-red-600 dark:text-red-400`}
     >
-      <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
+      <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0" />
       <div className="space-y-1.5">
         <p className="font-semibold">{t("settings.importFailed")}</p>
         <p className="text-red-600/80 dark:text-red-400/80">{message}</p>

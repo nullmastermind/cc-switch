@@ -48,8 +48,8 @@ export function ProxyConnectDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[480px] gap-2 rounded-[8px] p-2 sm:rounded-[8px]">
-        <DialogHeader className="space-y-0 p-0">
+      <DialogContent className="max-w-lg">
+        <DialogHeader className="p-0">
           <DialogTitle>
             {t("provider.connect.title", { name: providerName })}
           </DialogTitle>
@@ -57,22 +57,22 @@ export function ProxyConnectDialog({
         </DialogHeader>
 
         {/* Header and footer stay put; only the islands scroll on short windows. */}
-        <div className="min-h-0 flex-1 space-y-2 overflow-y-auto">
-          <section className="space-y-2 rounded-[8px] border border-border-default p-2">
-            <h3 className="text-[12.35px] font-semibold leading-[1.3]">
+        <div className="min-h-0 flex-1 space-y-4 overflow-y-auto">
+          <section className="space-y-4 rounded-panel border border-border-default p-4">
+            <h3 className="text-strong font-medium">
               {t("provider.connect.proxyTitle")}
             </h3>
             <CopyField
               label={t("provider.connect.proxyUrl")}
               value={proxyUrl}
             />
-            <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+            <p className="text-caption text-muted-foreground">
               {t("provider.connect.proxyHint")}
             </p>
           </section>
 
-          <section className="space-y-2 rounded-[8px] border border-border-default p-2">
-            <h3 className="text-[12.35px] font-semibold leading-[1.3]">
+          <section className="space-y-4 rounded-panel border border-border-default p-4">
+            <h3 className="text-strong font-medium">
               {t("provider.connect.upstreamTitle")}
             </h3>
             <CopyField
@@ -221,7 +221,7 @@ function ManagedCredential({
       <InfoField label={label} value={`${providerName} · ${who}`}>
         {needsReauth && (
           <span className="mb-1 flex items-center gap-1 text-danger-text">
-            <AlertTriangle className="h-4 w-4 shrink-0" strokeWidth={1.5} />
+            <AlertTriangle className="h-3.5 w-3.5 shrink-0" strokeWidth={1.5} />
             {t("provider.connect.needsReauth")}
           </span>
         )}
@@ -302,7 +302,7 @@ function DirectTokenFields({
         />
       )}
       {token?.headers?.length ? (
-        <div className="space-y-1">
+        <div className="space-y-1.5">
           <CopyField
             label={t("provider.connect.requiredHeaders")}
             value={token.headers
@@ -310,20 +310,20 @@ function DirectTokenFields({
               .join("\n")}
             multiline
           />
-          <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+          <p className="text-caption text-muted-foreground">
             {t("provider.connect.requiredHeadersHint")}
           </p>
         </div>
       ) : null}
       <CopyField label={t("provider.connect.tokenUrl")} value={tokenUrl} />
-      <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+      <p className="text-caption text-muted-foreground">
         {t("provider.connect.tokenUrlHint")}
       </p>
     </>
   );
 }
 
-/** Read-only, non-copyable row (same 24px box as an Input) with an optional hint below. */
+/** Read-only, non-copyable row (same 32px box as an Input) with an optional hint below. */
 function InfoField({
   label,
   value,
@@ -334,19 +334,17 @@ function InfoField({
   children?: ReactNode;
 }) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
       <Label>{label}</Label>
       <div className="flex items-center gap-1">
-        <div className="flex h-6 min-w-0 flex-1 items-center rounded-[4px] border border-border-default px-2 text-[12.35px] leading-[1.3] text-foreground">
+        <div className="flex h-8 min-w-0 flex-1 items-center rounded-control border border-border-default px-2.5 text-body text-foreground">
           <span className="min-w-0 truncate">{value}</span>
         </div>
         {/* Same width as a CopyField's button so the boxes line up. */}
-        <span className="h-6 w-6 shrink-0" aria-hidden />
+        <span className="h-7 w-7 shrink-0" aria-hidden />
       </div>
       {children && (
-        <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
-          {children}
-        </p>
+        <p className="text-caption text-muted-foreground">{children}</p>
       )}
     </div>
   );
@@ -386,7 +384,7 @@ function CopyField({
   const copyLabel = t("provider.connect.copyField", { name: label });
 
   return (
-    <div className="space-y-1">
+    <div className="space-y-1.5">
       <Label>{label}</Label>
       <div className="flex items-center gap-1">
         {multiline ? (
@@ -394,7 +392,7 @@ function CopyField({
             readOnly
             value={value}
             rows={value.split("\n").length}
-            className="min-h-0 min-w-0 flex-1 resize-none whitespace-pre font-mono text-[12.35px] leading-[1.3]"
+            className="min-h-0 min-w-0 flex-1 resize-none whitespace-pre font-mono text-body"
             onClick={(event) => event.currentTarget.select()}
           />
         ) : (

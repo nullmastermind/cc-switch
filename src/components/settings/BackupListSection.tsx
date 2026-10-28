@@ -171,10 +171,10 @@ export function BackupListSection({
   const retainValue = String(backupRetainCount ?? 10);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-6">
       {/* Backup policy settings */}
-      <div className="grid grid-cols-2 gap-2">
-        <div className="space-y-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div className="space-y-1.5">
           <Label>
             {t("settings.backupManager.intervalLabel", {
               defaultValue: "Auto-backup Interval",
@@ -229,7 +229,7 @@ export function BackupListSection({
           </Select>
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-1.5">
           <Label>
             {t("settings.backupManager.retainLabel", {
               defaultValue: "Backup Retention",
@@ -257,8 +257,8 @@ export function BackupListSection({
 
       {/* Backup list */}
       <div>
-        <div className="flex items-center justify-between mb-2">
-          <h4 className="text-ui font-semibold">
+        <div className="mb-3 flex items-center justify-between gap-3">
+          <h4 className="text-strong font-semibold">
             {t("settings.backupManager.title", {
               defaultValue: "Database Backups",
             })}
@@ -296,19 +296,19 @@ export function BackupListSection({
         </div>
 
         {isLoading ? (
-          <div className="text-ui text-muted-foreground py-2">Loading...</div>
+          <div className="py-3 text-body text-muted-foreground">Loading...</div>
         ) : backups.length === 0 ? (
-          <div className="text-ui text-muted-foreground py-2">
+          <div className="py-3 text-body text-muted-foreground">
             {t("settings.backupManager.empty", {
               defaultValue: "No backups yet",
             })}
           </div>
         ) : (
-          <div className="space-y-1 max-h-48 overflow-y-auto">
+          <div className="max-h-64 space-y-2 overflow-y-auto">
             {backups.map((backup) => (
               <div
                 key={backup.filename}
-                className="flex items-center justify-between gap-2 rounded-[8px] bg-muted/30 px-2 py-2 text-[12.35px] leading-[1.3] transition-colors hover:bg-muted/50"
+                className="flex items-center justify-between gap-3 rounded-panel bg-muted/30 px-4 py-3 text-body transition-colors hover:bg-muted/50"
               >
                 <div className="flex-1 min-w-0">
                   {editingFilename === backup.filename ? (
@@ -329,29 +329,29 @@ export function BackupListSection({
                       />
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="h-6 w-6 shrink-0"
+                        size="icon-compact"
+                        className="shrink-0"
                         onClick={handleConfirmRename}
                         disabled={isRenaming || !editValue.trim()}
                       >
-                        <Check className="h-3.5 w-3.5" />
+                        <Check className="h-4 w-4" />
                       </Button>
                       <Button
                         variant="ghost"
-                        size="icon"
-                        className="h-6 w-6 shrink-0"
+                        size="icon-compact"
+                        className="shrink-0"
                         onClick={handleCancelRename}
                         disabled={isRenaming}
                       >
-                        <X className="h-3.5 w-3.5" />
+                        <X className="h-4 w-4" />
                       </Button>
                     </div>
                   ) : (
                     <>
-                      <div className="truncate font-mono text-[12.35px] leading-[1.3]">
+                      <div className="truncate font-mono text-body">
                         {getDisplayName(backup.filename)}
                       </div>
-                      <div className="text-ui text-muted-foreground">
+                      <div className="text-caption text-muted-foreground">
                         {formatBackupDate(backup.createdAt)} &middot;{" "}
                         {formatBytes(backup.sizeBytes)}
                       </div>
@@ -359,32 +359,33 @@ export function BackupListSection({
                   )}
                 </div>
                 {editingFilename !== backup.filename && (
-                  <div className="flex items-center gap-1 shrink-0">
+                  <div className="flex shrink-0 items-center gap-1">
                     <HoverTip content={renameLabel}>
                       <Button
                         variant="ghost"
-                        size="icon"
+                        size="icon-compact"
                         onClick={() => handleStartRename(backup.filename)}
                         disabled={isRestoring || isRenaming || isDeleting}
                         aria-label={renameLabel}
                       >
-                        <Pencil className="h-3 w-3" />
+                        <Pencil className="h-3.5 w-3.5" />
                       </Button>
                     </HoverTip>
                     <HoverTip content={deleteLabel}>
                       <Button
                         variant="ghost"
-                        size="icon"
+                        size="icon-compact"
                         className="text-destructive hover:text-destructive"
                         onClick={() => setDeleteFilename(backup.filename)}
                         disabled={isRestoring || isDeleting}
                         aria-label={deleteLabel}
                       >
-                        <Trash2 className="h-3 w-3" />
+                        <Trash2 className="h-3.5 w-3.5" />
                       </Button>
                     </HoverTip>
                     <Button
                       variant="ghost"
+                      size="sm"
                       disabled={isRestoring || isDeleting}
                       onClick={() => setConfirmFilename(backup.filename)}
                     >
@@ -412,17 +413,14 @@ export function BackupListSection({
         open={!!confirmFilename}
         onOpenChange={(open) => !open && setConfirmFilename(null)}
       >
-        <DialogContent
-          className="max-w-[480px] gap-2 rounded-[8px] p-2"
-          zIndex="alert"
-        >
+        <DialogContent zIndex="alert">
           <DialogHeader className="border-b-0 bg-transparent p-0">
-            <DialogTitle className="text-[12.35px] leading-[1.3]">
+            <DialogTitle>
               {t("settings.backupManager.confirmTitle", {
                 defaultValue: "Confirm Restore",
               })}
             </DialogTitle>
-            <DialogDescription className="text-[12.35px] leading-[1.3]">
+            <DialogDescription>
               {t("settings.backupManager.confirmMessage", {
                 defaultValue:
                   "Restoring this backup will overwrite the current database. A safety backup will be created first.",
@@ -455,17 +453,14 @@ export function BackupListSection({
         open={!!deleteFilename}
         onOpenChange={(open) => !open && setDeleteFilename(null)}
       >
-        <DialogContent
-          className="max-w-[480px] gap-2 rounded-[8px] p-2"
-          zIndex="alert"
-        >
+        <DialogContent zIndex="alert">
           <DialogHeader className="border-b-0 bg-transparent p-0">
-            <DialogTitle className="text-[12.35px] leading-[1.3]">
+            <DialogTitle>
               {t("settings.backupManager.deleteConfirmTitle", {
                 defaultValue: "Confirm Delete",
               })}
             </DialogTitle>
-            <DialogDescription className="text-[12.35px] leading-[1.3]">
+            <DialogDescription>
               {t("settings.backupManager.deleteConfirmMessage", {
                 defaultValue:
                   "This backup will be permanently deleted. This action cannot be undone.",

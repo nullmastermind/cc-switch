@@ -43,7 +43,7 @@ interface FullScreenPanelProps {
 }
 
 const DRAG_BAR_HEIGHT = isWindows() || isLinux() ? 0 : 28; // px - match App.tsx
-const HEADER_HEIGHT = 48; // px - match App.tsx (UI.md toolbar)
+const HEADER_HEIGHT = 56; // px - match App.tsx
 
 /** Shell content area (App's <main id="content-area">): when present, sub-pages cover only it */
 const CONTENT_AREA_ID = "content-area";
@@ -214,14 +214,14 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
             }
           >
             <div
-              className="px-2 w-full flex items-center gap-2"
+              className="px-4 lg:px-6 w-full flex items-center gap-3"
               {...DRAG_REGION_ATTR}
               style={{ ...DRAG_REGION_STYLE } as React.CSSProperties}
             >
               {/* Title area: takes the remaining width, drag region, truncates long titles */}
               <div
                 {...DRAG_REGION_ATTR}
-                className="flex min-w-0 flex-1 items-center gap-2"
+                className="flex min-w-0 flex-1 items-center gap-3"
               >
                 <HoverTip content={backLabel ?? t("common.back")}>
                   <Button
@@ -230,7 +230,7 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
                     size="icon"
                     onClick={onClose}
                     aria-label={backLabel ?? t("common.back")}
-                    className="rounded-[3px] select-none"
+                    className="select-none"
                     style={
                       { WebkitAppRegion: "no-drag" } as React.CSSProperties
                     }
@@ -240,14 +240,14 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
                 </HoverTip>
                 <h2
                   {...DRAG_REGION_ATTR}
-                  className="min-w-0 truncate text-[12.35px] leading-[1.3] font-semibold text-foreground select-none"
+                  className="min-w-0 truncate text-section font-semibold text-foreground select-none"
                 >
                   {title}
                 </h2>
                 {subtitle ? (
                   <span
                     {...DRAG_REGION_ATTR}
-                    className="whitespace-nowrap text-[12.35px] leading-[1.3] text-muted-foreground select-none"
+                    className="whitespace-nowrap text-section font-normal text-muted-foreground select-none"
                   >
                     {subtitle}
                   </span>
@@ -275,7 +275,10 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
           {/* Content */}
           <div className="flex-1 overflow-y-auto scroll-overlay">
             <div
-              className={cn("px-2 py-2 space-y-2 w-full", contentClassName)}
+              className={cn(
+                "px-4 lg:px-6 py-5 space-y-4 w-full",
+                contentClassName,
+              )}
               {...unsavedChangesHandlers}
             >
               {children}
@@ -284,10 +287,10 @@ export const FullScreenPanel: React.FC<FullScreenPanelProps> = ({
 
           {footer && (
             <div
-              className="flex-shrink-0 py-2 border-t border-border-default"
+              className="flex-shrink-0 py-3 border-t border-border-default"
               style={{ backgroundColor: "hsl(var(--background))" }}
             >
-              <div className="px-2 flex items-center justify-end gap-2">
+              <div className="px-4 lg:px-6 flex items-center justify-end gap-2">
                 {footer}
               </div>
             </div>

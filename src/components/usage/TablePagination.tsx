@@ -25,7 +25,7 @@ interface TablePaginationProps {
 }
 
 const NAV_BUTTON =
-  "inline-flex h-6 w-6 items-center justify-center rounded-[4px] text-muted-foreground transition-colors hover:bg-subtle hover:text-foreground disabled:pointer-events-none disabled:opacity-45";
+  "inline-flex h-7 w-7 items-center justify-center rounded-control text-muted-foreground transition-colors hover:bg-subtle hover:text-foreground disabled:pointer-events-none disabled:opacity-45";
 
 /**
  * 用量页表格共用的翻页条：总数、上一页、可输入的页码、下一页。
@@ -68,7 +68,7 @@ export function TablePagination({
   if (totalPages <= 1 && !resizable) return null;
 
   return (
-    <div className="flex h-8 items-center gap-2 border-t border-border bg-subtle px-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+    <div className="flex h-11 items-center gap-2 border-t border-border bg-subtle px-4 text-caption text-muted-foreground">
       <span className="tabular-nums">{t("usage.totalRecords", { total })}</span>
       {resizable && (
         <Select
@@ -82,7 +82,7 @@ export function TablePagination({
           }}
         >
           <SelectTrigger
-            className="h-6 w-auto gap-1 px-2 text-[12.35px] leading-[1.3] text-muted-foreground"
+            className="h-7 w-auto gap-1 px-2.5 text-caption text-muted-foreground"
             aria-label={t("usage.pageSizeLabel")}
           >
             <SelectValue />
@@ -108,12 +108,12 @@ export function TablePagination({
           <ChevronLeft className="h-4 w-4" />
         </button>
       </HoverTip>
-      <span className="flex items-center gap-1 tabular-nums text-muted-foreground">
+      <span className="flex items-center gap-1.5 tabular-nums text-muted-foreground">
         <input
           type="text"
           inputMode="numeric"
           aria-label={t("usage.pageInputPlaceholder")}
-          className="h-6 w-10 rounded-[4px] border border-border-strong bg-card text-center text-[12.35px] leading-[1.3] text-foreground transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/20"
+          className="h-7 w-12 rounded-control border border-border-strong bg-card text-center text-body text-foreground transition-[border-color,box-shadow] focus:border-ring focus:outline-none focus:ring-[3px] focus:ring-ring/20"
           value={pageDraft ?? String(page + 1)}
           onChange={(event) => setPageDraft(event.target.value)}
           onFocus={(event) => event.target.select()}

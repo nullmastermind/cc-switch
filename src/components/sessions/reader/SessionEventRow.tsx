@@ -148,7 +148,7 @@ export const SessionEventRow = memo(function SessionEventRow({
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex min-w-0 items-center gap-0.5 rounded-[4px] px-1 hover:bg-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="inline-flex min-w-0 items-center gap-0.5 rounded-control px-1 hover:bg-subtle focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <span className="truncate">{label}</span>
         <ChevronRight
@@ -166,7 +166,7 @@ export const SessionEventRow = memo(function SessionEventRow({
   const detail = open && display.detail && (
     <div
       className={cn(
-        "mt-1 rounded-[8px] bg-subtle px-3 py-2 text-left text-[12.35px] leading-[1.3]",
+        "mt-1.5 rounded-panel bg-subtle px-4 py-3 text-left text-body",
         tone,
       )}
     >
@@ -184,7 +184,7 @@ export const SessionEventRow = memo(function SessionEventRow({
         <SessionPlainText
           content={display.detail}
           searchQuery={searchQuery}
-          className="text-[12.35px] leading-[1.3] text-inherit"
+          className="text-body text-inherit"
         />
       )}
     </div>
@@ -192,12 +192,9 @@ export const SessionEventRow = memo(function SessionEventRow({
 
   if (variant === "inline") {
     return (
-      <div className="min-w-0 px-1.5 py-1">
+      <div className="min-w-0 px-2 py-0.5">
         <div
-          className={cn(
-            "flex h-6 min-w-0 items-center gap-2 text-[12.35px] leading-[1.3]",
-            tone,
-          )}
+          className={cn("flex h-8 min-w-0 items-center gap-2 text-body", tone)}
         >
           <GlyphCell glyph="·" className="text-fg-3" />
           {content}
@@ -208,11 +205,11 @@ export const SessionEventRow = memo(function SessionEventRow({
   }
 
   return (
-    <div className="min-w-0 py-2">
+    <div className="min-w-0 py-3">
       <div
         role="note"
         className={cn(
-          "flex min-w-0 items-center justify-center gap-2 text-[12.35px] leading-[1.3]",
+          "flex min-w-0 items-center justify-center gap-2 text-caption",
           tone,
         )}
       >
@@ -255,12 +252,12 @@ export const SessionInjectedRow = memo(function SessionInjectedRow({
   const partial = texts.some((block) => block.full);
   const chars = `${text.length.toLocaleString()}${partial ? "+" : ""}`;
   return (
-    <div className="min-w-0 px-1.5 py-1">
+    <div className="min-w-0 px-2 py-1">
       <button
         type="button"
         aria-expanded={open}
         onClick={() => setOpen((value) => !value)}
-        className="inline-flex h-6 max-w-full items-center gap-1 rounded-[4px] pe-1.5 ps-1 text-[12.35px] leading-[1.3] text-fg-3 transition-colors hover:bg-subtle hover:text-fg-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        className="inline-flex h-7 max-w-full items-center gap-1.5 rounded-control pe-2 ps-1.5 text-body text-fg-3 transition-colors hover:bg-subtle hover:text-fg-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
       >
         <ChevronRight
           aria-hidden
@@ -277,7 +274,7 @@ export const SessionInjectedRow = memo(function SessionInjectedRow({
         </span>
       </button>
       {open && (
-        <div className="mt-1 max-h-[480px] overflow-auto rounded-[8px] border border-border px-3 py-2">
+        <div className="mt-1.5 max-h-[480px] overflow-auto rounded-panel border border-border px-4 py-3">
           {partial ? (
             texts.map((block, index) => (
               <BlockText
@@ -294,7 +291,7 @@ export const SessionInjectedRow = memo(function SessionInjectedRow({
             <SessionPlainText
               content={text}
               searchQuery={searchQuery}
-              className="text-[12.35px] leading-[1.3] text-fg-2"
+              className="text-body text-fg-2"
             />
           )}
         </div>

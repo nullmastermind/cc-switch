@@ -229,16 +229,16 @@ export function CommonConfigEditor({
   return (
     <div className="space-y-2">
       <Label htmlFor="settingsConfig">{t("provider.configJson")}</Label>
-      <p className="text-ui text-muted-foreground">
+      <p className="text-caption text-muted-foreground">
         {t("claudeConfig.keyFieldsHint", {
           defaultValue:
             "地址、Key、模型、上下文窗口和兼容开关随供应商切换；其余字段是 Claude Code 全局设置，保存后对所有供应商生效。",
         })}
       </p>
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
         {QUICK_TOGGLES.map((key) => (
           <span key={key} className="inline-flex items-center gap-1">
-            <label className="inline-flex items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground cursor-pointer">
+            <label className="inline-flex items-center gap-2 text-body text-muted-foreground cursor-pointer">
               <Checkbox
                 checked={toggleStates[key]}
                 onCheckedChange={(checked) => handleToggle(key, checked)}

@@ -35,12 +35,12 @@ const ApiKeyInput: React.FC<ApiKeyInputProps> = ({
   const [showKey, setShowKey] = useState(false);
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <div className="flex items-center justify-between gap-2">
         <label
           htmlFor={id}
           className={cn(
-            "block text-[12.35px] leading-[1.3] font-medium text-foreground",
+            "block text-body font-medium text-foreground",
             required && REQUIRED_LABEL,
           )}
         >
@@ -82,7 +82,7 @@ const ApiKeyInput: React.FC<ApiKeyInputProps> = ({
           </Button>
         )}
       </div>
-      {hint && <p className="text-ui text-muted-foreground">{hint}</p>}
+      {hint && <p className="text-caption text-muted-foreground">{hint}</p>}
     </div>
   );
 };

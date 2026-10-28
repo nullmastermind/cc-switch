@@ -161,8 +161,8 @@ describe("PiProviderForm", () => {
     );
 
     expect(container.querySelector("#provider-form")).toHaveClass(
-      "rounded-[8px]",
-      "p-2",
+      "rounded-panel",
+      "p-4",
     );
     // 表单直接铺在添加页里，不再套一层卡片
     expect(container.querySelector("#provider-form")).not.toHaveClass("glass");

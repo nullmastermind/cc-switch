@@ -936,10 +936,11 @@ export function ClaudeDesktopProviderForm({
   };
 
   const renderActionButtons = (onAdd: () => void, addLabel: string) => (
-    <div className="flex gap-1">
+    <div className="flex gap-2">
       <Button
         type="button"
         variant="outline"
+        size="sm"
         onClick={handleFetchModels}
         disabled={isFetchingModels}
       >
@@ -950,7 +951,7 @@ export function ClaudeDesktopProviderForm({
         )}
         {t("providerForm.fetchModels", { defaultValue: "获取模型" })}
       </Button>
-      <Button type="button" variant="outline" onClick={onAdd}>
+      <Button type="button" variant="outline" size="sm" onClick={onAdd}>
         <Plus className="h-3.5 w-3.5" />
         {addLabel}
       </Button>
@@ -962,7 +963,7 @@ export function ClaudeDesktopProviderForm({
       <form
         id="provider-form"
         onSubmit={form.handleSubmit(handleSubmit)}
-        className="space-y-2 rounded-[8px] p-2 border border-border-default"
+        className="space-y-4 rounded-panel p-4 border border-border-default"
       >
         {!initialData && (
           <ProviderPresetSelector
@@ -977,7 +978,7 @@ export function ClaudeDesktopProviderForm({
         <BasicFormFields form={form} />
 
         {isOfficial && (
-          <div className="rounded-[8px] border border-border-default bg-muted/20 p-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+          <div className="rounded-panel border border-border-default bg-muted/20 px-4 py-3 text-body text-muted-foreground">
             {t("claudeDesktop.officialNotice", {
               defaultValue:
                 "Claude Desktop 官方供应商使用应用内置的 1P 登录，无需配置 API Key 和接口地址。",
@@ -988,7 +989,7 @@ export function ClaudeDesktopProviderForm({
         {!isOfficial && (
           <>
             {usesManagedOAuth ? (
-              <div className="rounded-[8px] border border-border-default bg-muted/20 p-2">
+              <div className="rounded-panel border border-border-default bg-muted/20 p-4">
                 {activeProviderType === "github_copilot" ? (
                   <CopilotAuthSection
                     mode="select"
@@ -1050,25 +1051,25 @@ export function ClaudeDesktopProviderForm({
               showManageButton={false}
             />
 
-            <div className="space-y-2 border-l border-border-default pl-2">
-              <div className="flex items-stretch justify-between gap-4">
-                <div className="min-w-0 flex-1 space-y-1 pr-3">
-                  <Label>
+            <div className="space-y-4 rounded-panel border border-border-default p-4">
+              <div className="flex flex-wrap items-center justify-between gap-4">
+                <div className="min-w-0 flex-1 space-y-1">
+                  <Label className="text-strong font-semibold">
                     {t("claudeDesktop.modelConfigTitle", {
                       defaultValue: "模型配置",
                     })}
                   </Label>
-                  <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+                  <p className="text-caption text-muted-foreground">
                     {t("claudeDesktop.modelModeHint", {
                       defaultValue:
                         "如果你的供应商提供原生 Claude 系列模型，可以使用直连；如果是 DeepSeek、Kimi 等第三方模型，请使用模型映射。",
                     })}
                   </p>
                 </div>
-                <div className="flex shrink-0 items-center gap-2 border-l border-border pl-4">
+                <div className="flex shrink-0 items-center gap-2">
                   <Label
                     htmlFor="claude-desktop-model-mode"
-                    className="text-[12.35px] leading-[1.3] font-normal text-muted-foreground"
+                    className="text-body font-normal text-muted-foreground"
                   >
                     {t("claudeDesktop.modelModeLabel", {
                       defaultValue: "接入方式",
@@ -1107,9 +1108,9 @@ export function ClaudeDesktopProviderForm({
               </div>
 
               {needsModelMapping && (
-                <div className="space-y-2 border-t border-border-default pt-2">
+                <div className="space-y-4 border-t border-border-default pt-4">
                   {activeProviderType !== "xai_oauth" && (
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <Label>
                         {t("providerForm.apiFormat", {
                           defaultValue: "上游格式",
@@ -1161,7 +1162,7 @@ export function ClaudeDesktopProviderForm({
                         </SelectContent>
                       </Select>
                       {usesAutomaticCopilotFormat && (
-                        <p className="text-[12.35px] leading-[1.3] text-fg-2">
+                        <p className="text-caption text-fg-2">
                           {t("copilot.automaticFormatHint")}
                         </p>
                       )}
@@ -1170,7 +1171,7 @@ export function ClaudeDesktopProviderForm({
 
                   <div className="space-y-3">
                     <div className="space-y-1 border-t border-border pt-4">
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-wrap items-center justify-between gap-2">
                         <Label>
                           {t("claudeDesktop.routeMapTitle", {
                             defaultValue: "模型映射",
@@ -1179,6 +1180,7 @@ export function ClaudeDesktopProviderForm({
                         <Button
                           type="button"
                           variant="outline"
+                          size="sm"
                           onClick={handleFetchModels}
                           disabled={isFetchingModels}
                         >
@@ -1192,7 +1194,7 @@ export function ClaudeDesktopProviderForm({
                           })}
                         </Button>
                       </div>
-                      <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+                      <p className="text-caption text-muted-foreground">
                         {t("claudeDesktop.routeMapHint", {
                           defaultValue:
                             "为 Sonnet、Opus、Haiku 三档分别填写实际请求模型；菜单显示名可写 DeepSeek、Kimi 等品牌名。留空的档会自动沿用 Sonnet（或第一个已填档）的模型，确保子 agent 调用的 Haiku 始终可用。",
@@ -1200,7 +1202,7 @@ export function ClaudeDesktopProviderForm({
                       </p>
                     </div>
 
-                    <div className="hidden grid-cols-[140px_1fr_1fr_116px] items-center gap-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground md:grid">
+                    <div className="hidden grid-cols-[140px_1fr_1fr_116px] items-center gap-3 text-caption font-medium text-muted-foreground md:grid">
                       <span>
                         {t("claudeDesktop.routeModelLabel", {
                           defaultValue: "模型角色",
@@ -1252,9 +1254,9 @@ export function ClaudeDesktopProviderForm({
                       return (
                         <div
                           key={route.rowId}
-                          className="grid grid-cols-1 items-center gap-2 md:grid-cols-[140px_1fr_1fr_116px]"
+                          className="grid grid-cols-1 items-center gap-3 md:grid-cols-[140px_1fr_1fr_116px]"
                         >
-                          <div className="flex h-6 items-center rounded-[4px] border border-border-default bg-muted px-2 text-[12.35px] leading-[1.3] font-medium text-muted-foreground">
+                          <div className="flex h-8 items-center rounded-control border border-border-default bg-muted px-2.5 text-body font-medium text-muted-foreground">
                             {roleLabel}
                           </div>
                           <Input
@@ -1266,7 +1268,7 @@ export function ClaudeDesktopProviderForm({
                             }
                             placeholder={labelPlaceholder}
                           />
-                          <div className="flex gap-1">
+                          <div className="flex gap-2">
                             <Input
                               value={route.model}
                               onChange={(event) =>
@@ -1289,7 +1291,7 @@ export function ClaudeDesktopProviderForm({
                               />
                             )}
                           </div>
-                          <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+                          <label className="flex h-8 items-center gap-2 text-body text-muted-foreground">
                             <Checkbox
                               checked={route.supports1m}
                               onCheckedChange={(checked) =>
@@ -1311,7 +1313,7 @@ export function ClaudeDesktopProviderForm({
 
               {!needsModelMapping && (
                 <div className="space-y-3 border-t border-border pt-4">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
                     <Label>
                       {t("claudeDesktop.directModelListTitle", {
                         defaultValue: "模型列表",
@@ -1334,7 +1336,7 @@ export function ClaudeDesktopProviderForm({
                     )}
                   </div>
 
-                  <p className="text-[12.35px] leading-[1.3] text-muted-foreground">
+                  <p className="text-caption text-muted-foreground">
                     {t("claudeDesktop.directModelListHint", {
                       defaultValue:
                         "配置 Claude Desktop 可用的 Sonnet、Opus、Haiku 模型。留空时 Claude Desktop 会自动读取 /v1/models；勾选 1M 会声明支持 1M 上下文。",
@@ -1346,9 +1348,9 @@ export function ClaudeDesktopProviderForm({
                       {routes.map((route, index) => (
                         <div
                           key={route.rowId}
-                          className="grid grid-cols-1 gap-2 md:grid-cols-[1fr_116px_36px]"
+                          className="grid grid-cols-1 gap-3 md:grid-cols-[1fr_116px_32px]"
                         >
-                          <div className="flex gap-1">
+                          <div className="flex gap-2">
                             <Input
                               value={route.route}
                               onChange={(event) =>
@@ -1368,7 +1370,7 @@ export function ClaudeDesktopProviderForm({
                               />
                             )}
                           </div>
-                          <label className="flex h-6 items-center gap-2 text-[12.35px] leading-[1.3] text-muted-foreground">
+                          <label className="flex h-8 items-center gap-2 text-body text-muted-foreground">
                             <Checkbox
                               checked={route.supports1m}
                               onCheckedChange={(checked) =>

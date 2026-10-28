@@ -149,7 +149,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
   const statusErrorBanner = isStatusError && (
     <div
       role="alert"
-      className="flex items-center gap-2 rounded-[4px] border border-destructive/40 bg-destructive/5 px-2 py-1 text-ui text-destructive"
+      className="flex items-center gap-2 rounded-panel border border-destructive/40 bg-destructive/5 px-4 py-3 text-body text-destructive"
     >
       <AlertTriangle className="h-4 w-4 shrink-0" />
       <span className="min-w-0 flex-1">
@@ -161,6 +161,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
       <Button
         type="button"
         variant="outline"
+        size="sm"
         className="shrink-0"
         onClick={() => void refetchStatus()}
       >
@@ -172,7 +173,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
 
   if (mode === "select") {
     const accountSelect = isStatusSuccess && onAccountSelect && (
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <Label className="text-muted-foreground">
           {t("copilot.githubAccount", "GitHub 账号")}
         </Label>
@@ -208,10 +209,10 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
     );
 
     return (
-      <div className={`space-y-2 ${className || ""}`}>
+      <div className={`space-y-3 ${className || ""}`}>
         {statusErrorBanner}
         {!isStatusSuccess && !isStatusError && (
-          <div className="flex items-center gap-2 text-ui text-muted-foreground">
+          <div className="flex items-center gap-2 text-body text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
             {t("copilot.statusLoading", "正在加载...")}
           </div>
@@ -292,9 +293,9 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
   });
 
   const chooser = choosing && (
-    <div className="mx-3 mb-3 flex flex-col gap-2 rounded-[8px] border border-border-default p-2">
+    <div className="mx-4 mb-4 flex flex-col gap-3 rounded-panel border border-border-default px-4 py-3">
       <div className="flex flex-wrap items-center gap-3">
-        <span className="text-ui font-medium text-muted-foreground">
+        <span className="text-body font-medium text-muted-foreground">
           {t("copilot.deploymentType", { defaultValue: "GitHub 部署类型" })}
         </span>
         <SegmentedControl<DeploymentType>
@@ -324,8 +325,8 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
         />
       </div>
       {deploymentType === "enterprise" && (
-        <div className="flex flex-col gap-1">
-          <label className="flex items-center gap-3 text-ui font-medium text-muted-foreground">
+        <div className="flex flex-col gap-1.5">
+          <label className="flex items-center gap-3 text-body font-medium text-muted-foreground">
             <span className="w-[88px] shrink-0">
               {t("authCenter.enterpriseDomain", { defaultValue: "企业域名" })}
             </span>
@@ -359,7 +360,7 @@ export const CopilotAuthSection: React.FC<CopilotAuthSectionProps> = ({
           {domainError && (
             <span
               id="auth-ghe-domain-hint"
-              className="flex items-center gap-1 ps-[100px] text-ui text-destructive"
+              className="flex items-center gap-1 ps-[100px] text-caption text-destructive"
             >
               <CircleAlert
                 aria-hidden="true"

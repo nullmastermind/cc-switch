@@ -270,7 +270,7 @@ export function QuotaLines({
   ));
 
   const className = cn(
-    "flex shrink-0 flex-col items-end text-[12.35px] leading-[1.3] tabular-nums whitespace-nowrap",
+    "flex shrink-0 flex-col items-end text-caption tabular-nums whitespace-nowrap",
     // 文字仍是 136 宽，倒计时那格（52 + 间距）另加；整列下拉的 ⌄ 那格（14）也另加
     showReset ? "w-[194px]" : "w-[136px]",
     breakdown && (showReset ? "w-[208px]" : "w-[150px]"),
@@ -371,7 +371,7 @@ export function QuotaLines({
       type="button"
       className={cn(
         className,
-        "group rounded-[4px] text-end transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+        "group rounded-control text-end transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
       )}
       title={title}
       {...refreshProps}
@@ -428,7 +428,7 @@ function DropdownQuotaColumn({
           type="button"
           title={title}
           aria-label={t("quota.clickToRefresh")}
-          className="group absolute end-full top-0 me-1 flex h-[18px] items-center rounded-[4px] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          className="group absolute end-full top-0 me-1 flex h-[18px] items-center rounded-control focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           {...refreshProps}
           // 悬停交给整列：移出这个小按钮、还在列上时 ↻ 不能消失
           onMouseEnter={undefined}
@@ -575,7 +575,7 @@ function SplitQuotaColumn({
                     type="button"
                     title={title}
                     aria-label={`${refreshText} · ${t("quota.clickToRefresh")}`}
-                    className="group flex min-w-0 items-center gap-1 rounded-[4px] text-end focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    className="group flex min-w-0 items-center gap-1 rounded-control text-end focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                     {...refreshProps}
                   >
                     {rowIndex === 0 && icon}
@@ -616,8 +616,7 @@ interface QuotaBarsProps {
   className?: string;
 }
 
-const BAR_ROW_CLASS =
-  "flex h-4 items-center gap-2 text-[12.35px] leading-[1.3]";
+const BAR_ROW_CLASS = "flex h-5 items-center gap-2 text-caption";
 
 /** 展开的额度条（授权中心、多套餐展开）：条长跟着数值（剩余或已用，见 barPercent） */
 export function QuotaBars({
@@ -637,12 +636,12 @@ export function QuotaBars({
   return (
     <div
       className={cn(
-        "rounded-[8px] border border-border bg-surface p-2",
+        "rounded-panel border border-border bg-surface px-4 py-3",
         className,
       )}
     >
       {(title || queriedAt || onRefresh) && (
-        <div className="mb-1 flex items-center justify-between gap-2 text-[12.35px] leading-[1.3]">
+        <div className="mb-2 flex items-center justify-between gap-2 text-caption">
           <span className="font-medium text-fg-2">{title}</span>
           <span className="flex items-center gap-1 text-fg-3">
             {queriedAt
@@ -656,7 +655,7 @@ export function QuotaBars({
                   type="button"
                   onClick={onRefresh}
                   disabled={loading}
-                  className="rounded-[4px] p-1 text-fg-3 hover:bg-subtle hover:text-fg-1 disabled:opacity-50"
+                  className="rounded-control p-1 text-fg-3 hover:bg-subtle hover:text-fg-1 disabled:opacity-50"
                   aria-label={t("subscription.refresh")}
                 >
                   <RefreshCw
@@ -668,7 +667,7 @@ export function QuotaBars({
           </span>
         </div>
       )}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1.5">
         {rows.map(({ label, line, note }) => {
           const width = barPercent(line);
           // 展开时地方够，重置时间直接写在数值后面（卡片上只在悬停说明里）

@@ -144,7 +144,7 @@ export function AppConfigSection({
         <SettingsBlock
           key={app}
           id={`app-config-${app}`}
-          className="rounded-[8px]"
+          className="rounded-panel"
           title={blockTitle(app)}
           actions={saveButton(app)}
         >

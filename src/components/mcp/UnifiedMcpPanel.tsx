@@ -655,9 +655,9 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
 
       <div id="main-content" className="flex min-h-0 flex-1 flex-col">
         {showList && (
-          <div className="flex h-14 shrink-0 items-center gap-3 px-6">
+          <div className="flex min-h-14 shrink-0 flex-wrap items-center gap-x-3 gap-y-2 px-4 py-3 lg:px-6">
             <MatrixSearch
-              className="w-[320px] min-w-[180px] shrink"
+              className="w-full min-w-[180px] shrink sm:w-[320px]"
               value={searchQuery}
               onValueChange={setSearchQuery}
               placeholder={t("mcpPage.searchPlaceholder")}
@@ -670,7 +670,7 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                   : ""
               }
             />
-            <span className="shrink-0 whitespace-nowrap text-[12.35px] leading-[1.3] tabular-nums text-fg-2">
+            <span className="shrink-0 whitespace-nowrap text-body tabular-nums text-fg-2">
               {normalizedSearchQuery
                 ? t("mcpPage.countFiltered", {
                     shown: filteredServerEntries.length,
@@ -678,13 +678,13 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                   })
                 : t("mcpPage.count", { count: serverEntries.length })}
             </span>
-            <span className="ms-auto min-w-0 truncate text-[12.35px] leading-[1.3] text-fg-2">
+            <span className="ms-auto min-w-0 truncate text-caption text-fg-2">
               {t("mcpPage.overwriteNote")}
             </span>
           </div>
         )}
 
-        <NoticeSlot className={cn(failedApps.size > 0 && "px-6 pb-3")}>
+        <NoticeSlot className={cn(failedApps.size > 0 && "px-4 pb-3 lg:px-6")}>
           {Array.from(failedApps.entries()).map(([app, error]) => (
             <Notice
               key={app}
@@ -709,46 +709,46 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
           ))}
         </NoticeSlot>
 
-        <div className="flex min-h-0 flex-1 flex-col px-6 pb-5">
+        <div className="flex min-h-0 flex-1 flex-col px-4 pb-5 lg:px-6">
           {isLoading ? (
-            <div className="py-12 text-center text-[12.35px] leading-[1.3] text-fg-2">
+            <div className="py-12 text-center text-body text-fg-2">
               {t("mcp.loading")}
             </div>
           ) : isError ? (
-            <div className="flex flex-1 flex-col items-center justify-center gap-2 px-4 pb-12 text-center">
-              <h2 className="m-0 text-[12.35px] leading-[1.3] font-semibold">
+            <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-4 py-12 text-center">
+              <h2 className="m-0 text-strong font-semibold">
                 {t("mcpPage.loadFailed")}
               </h2>
-              <code className="max-w-[520px] rounded-[8px] bg-subtle px-2 py-2 text-left font-mono text-[12.35px] leading-[1.3] text-fg-2 [overflow-wrap:anywhere]">
+              <code className="mt-1.5 max-w-[520px] rounded-panel bg-subtle px-3 py-2 text-left font-mono text-body text-fg-2 [overflow-wrap:anywhere]">
                 {extractErrorMessage(loadError) || String(loadError)}
               </code>
-              <p className="m-0 text-[12.35px] leading-[1.3] text-fg-2">
+              <p className="m-0 text-body text-fg-2">
                 {t("mcpPage.noFilesChanged")}
               </p>
               <Button
                 type="button"
                 variant="neutral"
                 size="regular"
-                className="mt-1"
+                className="mt-3"
                 onClick={() => void refetch()}
               >
                 {t("common.retry")}
               </Button>
             </div>
           ) : !hasServers ? (
-            <div className="flex flex-1 flex-col items-center justify-center gap-2 px-4 pb-12 text-center">
-              <h2 className="m-0 text-[12.35px] leading-[1.3] font-semibold">
+            <div className="flex flex-1 flex-col items-center justify-center gap-1.5 px-4 py-12 text-center">
+              <h2 className="m-0 text-strong font-semibold">
                 {t("mcpPage.emptyTitle")}
               </h2>
               <div className="flex items-center gap-0.5">
-                <p className="m-0 text-[12.35px] leading-[1.3] text-fg-2">
+                <p className="m-0 text-body text-fg-2">
                   {t("mcpPage.emptyBody")}
                 </p>
                 <HelpTip title={t("mcpPage.importHelpTitle")} align="end">
                   {t("mcpPage.importHelp")}
                 </HelpTip>
               </div>
-              <div className="mt-2 flex gap-2">
+              <div className="mt-3 flex flex-wrap justify-center gap-2">
                 <Button
                   type="button"
                   variant="neutral"
@@ -756,7 +756,7 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                   disabled={controlsDisabled}
                   onClick={() => void handleImport()}
                 >
-                  <Download className="h-3.5 w-3.5" strokeWidth={2} />
+                  <Download className="h-4 w-4" strokeWidth={2} />
                   {t("mcpPage.importFromApps")}
                 </Button>
                 <Button
@@ -766,7 +766,7 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                   disabled={controlsDisabled}
                   onClick={openAdd}
                 >
-                  <Plus className="h-3.5 w-3.5" strokeWidth={2} />
+                  <Plus className="h-4 w-4" strokeWidth={2} />
                   {t("mcpPage.add")}
                 </Button>
               </div>
@@ -774,12 +774,12 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
           ) : (
             <div
               data-testid="mcp-matrix"
-              className="min-h-0 overflow-auto scroll-stable rounded-[8px] border border-border bg-surface"
+              className="min-h-0 overflow-auto scroll-stable rounded-panel border border-border bg-surface"
             >
               <MatrixColumnHighlight>
                 <div className="min-w-[560px]">
-                  <div className="sticky top-0 z-10 flex h-8 items-center border-b border-border bg-subtle px-2">
-                    <span className="min-w-0 flex-1 text-[12.35px] leading-[1.3] font-semibold text-fg-2">
+                  <div className="sticky top-0 z-10 flex h-11 items-center gap-3 border-b border-border bg-subtle px-4">
+                    <span className="min-w-0 flex-1 text-caption font-semibold text-fg-2">
                       {t("mcpPage.columnName")}
                     </span>
                     <div className="flex shrink-0">
@@ -816,8 +816,8 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                   </div>
 
                   {filteredServerEntries.length === 0 ? (
-                    <div className="flex flex-col items-center gap-3 px-6 py-8 text-center">
-                      <span className="text-[12.35px] leading-[1.3] text-fg-2">
+                    <div className="flex flex-col items-center gap-3 px-6 py-12 text-center">
+                      <span className="text-body text-fg-2">
                         {t("mcpPage.noMatch", { query: searchQuery.trim() })}
                       </span>
                       <Button
@@ -859,22 +859,22 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                             key={id}
                             onClick={() => openEdit(id)}
                             className={cn(
-                              "flex min-h-10 cursor-pointer items-center px-2 py-1 transition-colors duration-150 hover:bg-subtle",
+                              "flex min-h-14 cursor-pointer items-center gap-3 px-4 py-3 transition-colors duration-150 hover:bg-subtle",
                               index > 0 && "border-t border-border",
                             )}
                           >
-                            <div className="flex min-w-0 flex-1 flex-col pe-2">
-                              <div className="flex min-w-0 items-center gap-1.5">
+                            <div className="flex min-w-0 flex-1 flex-col gap-0.5">
+                              <div className="flex min-w-0 items-center gap-2">
                                 <span
                                   title={displayName}
-                                  className="min-w-0 truncate text-[12.35px] leading-[1.3] font-medium"
+                                  className="min-w-0 truncate text-strong font-medium"
                                 >
                                   {displayName}
                                 </span>
                                 {hasCustomName && (
                                   <span
                                     title={id}
-                                    className="min-w-0 shrink truncate font-mono text-[12.35px] leading-[1.3] text-fg-3"
+                                    className="min-w-0 shrink truncate font-mono text-caption text-fg-3"
                                   >
                                     {id}
                                   </span>
@@ -888,7 +888,7 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                                   </NeutralBadge>
                                 )}
                               </div>
-                              <div className="flex min-w-0 items-center text-[12.35px] leading-[1.3] text-fg-2">
+                              <div className="flex min-w-0 items-center text-caption text-fg-2">
                                 <span
                                   title={summary}
                                   className="min-w-0 truncate font-mono"
@@ -965,7 +965,7 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                                   onClick={() => openEdit(id)}
                                 >
                                   <Pencil
-                                    className="h-[15px] w-[15px]"
+                                    className="h-4 w-4"
                                     strokeWidth={1.5}
                                   />
                                 </Button>
@@ -983,7 +983,7 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                                       disabled={controlsDisabled}
                                     >
                                       <MoreHorizontal
-                                        className="h-[15px] w-[15px]"
+                                        className="h-4 w-4"
                                         strokeWidth={1.5}
                                       />
                                     </Button>
@@ -1088,13 +1088,8 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
         {importReport && (
           <>
             <div className="flex shrink-0 flex-col gap-1.5">
-              <DialogTitle className="text-[12.35px] leading-[1.3] font-semibold">
-                {t("mcpPage.import.title")}
-              </DialogTitle>
-              <p
-                id="mcp-import-lead"
-                className="m-0 text-[12.35px] leading-[1.3]"
-              >
+              <DialogTitle>{t("mcpPage.import.title")}</DialogTitle>
+              <p id="mcp-import-lead" className="m-0 text-body">
                 {importReport.added.length
                   ? t("mcpPage.import.added", {
                       count: importReport.added.length,
@@ -1103,7 +1098,7 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                   : t("mcpPage.import.none")}
               </p>
               {importReport.hadExisting && (
-                <p className="m-0 text-[12.35px] leading-[1.3] text-fg-2">
+                <p className="m-0 text-body text-fg-2">
                   {t("mcpPage.import.sameName")}
                 </p>
               )}
@@ -1111,10 +1106,10 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
             <div className="flex min-h-0 flex-col gap-4 overflow-y-auto scroll-stable overscroll-contain">
               {importReport.error && (
                 <section className="flex flex-col gap-2">
-                  <h3 className="m-0 text-[12.35px] leading-[1.3] font-semibold">
+                  <h3 className="m-0 text-strong font-semibold">
                     {t("mcpPage.import.failedTitle")}
                   </h3>
-                  <code className="rounded-[8px] bg-subtle px-3 py-2 font-mono text-[12.35px] leading-[1.3] text-fg-2 [overflow-wrap:anywhere]">
+                  <code className="rounded-panel bg-subtle px-3 py-2 font-mono text-body text-fg-2 [overflow-wrap:anywhere]">
                     {importReport.error}
                   </code>
                 </section>
@@ -1130,12 +1125,12 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                 {importFilesOpen && (
                   <ul
                     id="mcp-import-files"
-                    className="m-0 flex list-none flex-col gap-1 rounded-[8px] bg-subtle px-2 py-2"
+                    className="m-0 flex list-none flex-col gap-1.5 rounded-panel bg-subtle px-4 py-3"
                   >
                     {appIds.map((app) => (
                       <li
                         key={app}
-                        className="flex min-w-0 items-baseline gap-3 text-[12.35px] leading-[1.3]"
+                        className="flex min-w-0 items-baseline gap-3 text-body"
                       >
                         <span className="w-[84px] shrink-0 text-fg-2">
                           {APP_DISPLAY_NAME[app]}
@@ -1156,7 +1151,7 @@ const UnifiedMcpPanel: React.FC<UnifiedMcpPanelProps> = ({
                 )}
               </div>
             </div>
-            <div className="flex shrink-0 justify-end pt-1">
+            <div className="flex shrink-0 justify-end">
               <Button
                 type="button"
                 variant="solid"

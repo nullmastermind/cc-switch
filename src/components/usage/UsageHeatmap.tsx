@@ -318,16 +318,16 @@ export function UsageHeatmap({
     <section
       ref={sectionRef}
       aria-labelledby="usage-heatmap-title"
-      className="relative px-2 pb-2 pt-2"
+      className="relative px-4 pb-4 pt-5"
     >
-      <div>
+      <div className="space-y-0.5">
         <h2
           id="usage-heatmap-title"
-          className="m-0 text-[12.35px] leading-[1.3] font-semibold text-fg-1"
+          className="m-0 text-body font-semibold text-fg-1"
         >
           {t("usage.heatmap.title")}
         </h2>
-        <p className="m-0 text-[12.35px] leading-[1.3] text-fg-3">
+        <p className="m-0 text-caption text-fg-3">
           {t("usage.heatmap.subtitle")}
         </p>
       </div>
@@ -340,13 +340,13 @@ export function UsageHeatmap({
         visibleSpans.map((span, index) => (
           <div
             key={dayKey(span.start)}
-            className={index === 0 ? "mt-2" : "mt-2"}
+            className={index === 0 ? "mt-4" : "mt-5"}
           >
             <div className="flex flex-wrap items-baseline gap-x-2">
-              <h3 className="m-0 text-ui font-semibold tabular-nums text-foreground">
+              <h3 className="m-0 text-body font-semibold tabular-nums text-foreground">
                 {`${formatDay(span.start)} – ${formatDay(span.end)}`}
               </h3>
-              <span className="text-ui tabular-nums text-muted-foreground">
+              <span className="text-caption tabular-nums text-muted-foreground">
                 {t("usage.heatmap.spanSummary", {
                   tokens: formatTokensShort(span.totals.tokens, language),
                   requests: formatTokensShort(span.totals.requests, language),
@@ -364,7 +364,7 @@ export function UsageHeatmap({
               {span.weeks.map((_, w) => (
                 <span
                   key={`m${w}`}
-                  className="h-4 overflow-visible whitespace-nowrap text-ui leading-4 text-muted-foreground"
+                  className="h-4 overflow-visible whitespace-nowrap text-caption leading-4 text-muted-foreground"
                 >
                   {span.monthLabels[w] != null
                     ? new Date(
@@ -377,7 +377,7 @@ export function UsageHeatmap({
               ))}
               {weekdayLabels.map((label, d) => (
                 <Fragment key={`r${d}`}>
-                  <span className="pe-2 text-ui leading-none text-muted-foreground">
+                  <span className="pe-2 text-caption leading-none text-muted-foreground">
                     {d % 2 === 0 ? label : ""}
                   </span>
                   {span.weeks.map((column) => {
@@ -393,7 +393,7 @@ export function UsageHeatmap({
                         }
                         onMouseLeave={() => setHover(null)}
                         className={cn(
-                          "aspect-square w-full rounded-[3px]",
+                          "aspect-square w-full rounded-[4px]",
                           !cell.future && level === 0 && "bg-subtle",
                         )}
                         style={cell.future ? undefined : cellStyle(level)}
@@ -439,7 +439,7 @@ export function UsageHeatmap({
         </div>
       )}
 
-      <div className="mt-2 flex items-center gap-2 text-ui text-muted-foreground">
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-caption text-muted-foreground">
         {!isLoading && earlierCount > 0 && (
           <Button
             type="button"
@@ -447,7 +447,7 @@ export function UsageHeatmap({
             size="compact"
             aria-expanded={showEarlier}
             onClick={() => setShowEarlier((open) => !open)}
-            className="-ms-2 gap-1 pe-2 ps-2 text-ui text-muted-foreground"
+            className="-ms-3 gap-1 text-body text-muted-foreground"
           >
             {showEarlier
               ? t("usage.heatmap.showLess")

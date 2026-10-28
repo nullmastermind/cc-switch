@@ -49,29 +49,25 @@ interface DetailRow {
 
 function DetailSection({ title, rows }: { title: string; rows: DetailRow[] }) {
   return (
-    <section className="flex flex-col gap-2">
-      <h3 className="m-0 text-[12.35px] leading-[1.3] font-semibold text-foreground">
-        {title}
-      </h3>
+    <section className="flex flex-col gap-3">
+      <h3 className="m-0 text-strong font-semibold text-foreground">{title}</h3>
       {/* 卡片外框已经把一组框住，行与行靠间距分开，不再每行画线；只有「合计」上方留一道 */}
-      <dl className="m-0 rounded-[8px] border border-border py-1">
+      <dl className="m-0 rounded-panel border border-border py-1.5">
         {rows.map((row) => (
           <div
             key={row.key}
             className={cn(
-              "flex min-h-8 items-center gap-2 px-2 py-1",
-              row.key === "total" && "mt-1 border-t border-border pt-2",
+              "flex min-h-9 items-center gap-3 px-4 py-1.5",
+              row.key === "total" && "mt-1.5 border-t border-border pt-2.5",
             )}
           >
-            <dt className="shrink-0 text-ui text-muted-foreground">
+            <dt className="shrink-0 text-body text-muted-foreground">
               {row.label}
             </dt>
             <dd
               className={cn(
                 "m-0 min-w-0 flex-1 truncate text-end tabular-nums",
-                row.mono
-                  ? "font-mono text-[12.35px] leading-[1.3]"
-                  : "text-[12.35px] leading-[1.3]",
+                row.mono ? "font-mono text-body" : "text-body",
                 row.strong && "font-semibold",
                 row.muted ? "text-muted-foreground" : "text-foreground",
               )}
@@ -327,7 +323,7 @@ function RequestDetailBody({ request }: { request: RequestLog }) {
   const { currency } = useMoneyFormat();
   const sections = useDetailSections(request);
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-6">
       <DetailSection title={t("usage.basicInfo")} rows={sections.basic} />
       <DetailSection
         title={t("usage.detail.tokensTitle")}
@@ -342,11 +338,11 @@ function RequestDetailBody({ request }: { request: RequestLog }) {
         rows={sections.performance}
       />
       {request.errorMessage && (
-        <section className="flex flex-col gap-2">
-          <h3 className="m-0 text-ui font-medium font-semibold text-danger-text">
+        <section className="flex flex-col gap-3">
+          <h3 className="m-0 text-strong font-semibold text-danger-text">
             {t("usage.errorMessage")}
           </h3>
-          <p className="m-0 whitespace-pre-wrap break-words rounded-[8px] bg-danger-soft px-2 py-2 font-mono text-ui text-foreground">
+          <p className="m-0 whitespace-pre-wrap break-words rounded-panel bg-danger-soft px-4 py-3 font-mono text-body text-foreground">
             {request.errorMessage}
           </p>
         </section>
@@ -387,7 +383,7 @@ export function RequestDetailPanel({
         </SheetHeader>
         <SheetBody className="border-t border-border">
           {isLoading ? (
-            <div className="h-[320px] animate-pulse rounded-[8px] bg-subtle" />
+            <div className="h-[320px] animate-pulse rounded-panel bg-subtle" />
           ) : request ? (
             <RequestDetailBody request={request} />
           ) : error ? (
@@ -408,7 +404,7 @@ export function RequestDetailPanel({
               {extractErrorMessage(error) || String(error)}
             </Notice>
           ) : (
-            <p className="py-2 text-center text-ui text-muted-foreground">
+            <p className="py-12 text-center text-body text-muted-foreground">
               {t("usage.requestNotFound")}
             </p>
           )}
