@@ -218,13 +218,13 @@ jobs:
           if [ -z "${APPLE_CERTIFICATE:-}" ]; then
             unset APPLE_ID APPLE_PASSWORD APPLE_TEAM_ID APPLE_SIGNING_IDENTITY
             echo "Unsigned macOS build (APPLE_CERTIFICATE not set)"
-            bun run tauri build --target universal-apple-darwin
+            bun run tauri build --target universal-apple-darwin --bundles app
             exit 0
           fi
           max_attempts=3
           for attempt in $(seq 1 "$max_attempts"); do
             echo "=== macOS build/notarization attempt ${attempt}/${max_attempts} ==="
-            if bun run tauri build --target universal-apple-darwin; then
+            if bun run tauri build --target universal-apple-darwin --bundles app; then
               echo "✅ macOS build/notarization succeeded"
               exit 0
             fi
