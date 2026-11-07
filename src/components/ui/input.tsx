@@ -17,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
         type={type}
         className={cn(
           fieldClass,
-          "flex h-8 py-1.5 file:border-0 file:bg-transparent file:text-body file:font-medium file:text-foreground",
+          "flex h-control py-1.5 file:border-0 file:bg-transparent file:text-body file:font-medium file:text-foreground",
           className,
         )}
         autoComplete="off"

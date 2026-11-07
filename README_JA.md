@@ -19,9 +19,9 @@
 
 **Cli-Switch** は、対応する AI ツールを 1 つのデスクトップアプリで一元管理できます。設定ファイルを手作業で編集する代わりに、ワンクリックでプロバイダをインポートし、瞬時に切り替えられるビジュアルインターフェースを提供します。50 以上の組み込みプリセット、統一 MCP・Skills 管理、システムトレイからの即時切り替え機能を搭載。すべてはアトミック書き込みによる信頼性の高い SQLite データベースに支えられており、設定の破損を防ぎます。
 
-[![Kimi K2.7 Code](https://gcdn.moonshot.cn/growth-cdn/sponsor/kimi-en.png)](https://platform.kimi.ai?track_id=track-674ed6e2af924a5682a87421f7cf753a&aff=cc-switch)
+[![Kimi K3.1 Pro](assets/partners/banners/kimi-banner-en.png)](https://platform.kimi.ai?track_id=track-674ed6e2af924a5682a87421f7cf753a&aff=cc-switch)
 
-Kimi K3 は Moonshot AI がこれまでに開発した中で最も高性能なモデルであり、世界初のオープンソース 3T クラスモデルです。2.8 兆パラメータ、ネイティブな視覚能力、100 万トークンのコンテキストウィンドウを備え、長期にわたるコーディング、ナレッジワーク、推論タスクにおいてフロンティア級の性能を発揮します。CC Switch を使えば、さまざまなエージェントツールで Kimi を手軽に設定・切り替えできます。
+Kimi K3.1 Pro は、Moonshot AI がこれまでに開発した中で最も高性能な 3T クラスのオープンウェイトモデルで、100 万トークンのコンテキストウィンドウに対応しています。Kimi K3 をベースに、より大規模な事後学習の計算資源を投入したことで、コーディング、エージェントワークフロー、3D 制作、推論の各分野で着実に性能が向上しています。CC Switch を使えば、さまざまなエージェントツールで Kimi K3.1 Pro を手軽に設定・切り替えできます。
 
 コーディング作業がメインですか？**Kimi Code プラン**（[中文站](https://www.kimi.com/code?aff=cc-switch) | [Global](https://www.kimi.ai/code?aff=cc-switch)）を試すか、Kimi オープンプラットフォームの **API**（[中文站](https://platform.kimi.com?track_id=track-7cf2b91dcde043eda6ef9a95951a042c&aff=cc-switch) | [Global](https://platform.kimi.ai?track_id=track-674ed6e2af924a5682a87421f7cf753a&aff=cc-switch)）をご利用ください。
 
@@ -53,9 +53,9 @@ Claude Code / Codex / Gemini 公式チャンネルが最安で元価格の 38% /
 
 <tr>
 <td width="180"><a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/"><img src="assets/partners/logos/pateway.png" alt="PatewayAI" width="150"></a></td>
-<td>PatewayAI のご支援に感謝します！PatewayAI はヘビーな AI 開発者向けに、公式直結の高品質モデル API 中継サービスを専門に提供するプロバイダーです。Claude シリーズ全モデルおよび Codex シリーズに対応し、100% 公式ソースから直接提供。混ぜ物・水増しは一切なく、検証も歓迎します。課金は透明で、トークン単位の請求書を 1 件ずつ照合可能です。
-エンタープライズ級の高同時接続にも対応し、法人のお客様には専用の管理プラットフォームを提供。正式契約および請求書発行に対応しており、詳細は公式サイトの連絡先よりお問い合わせください。
-現在、<a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/">このリンク</a>からご登録いただくと $3 のトライアルクレジットを進呈。チャージは最安で元価格の 60%、友達紹介は双方にボーナスが付与され、紹介報酬は最大 $150！</td>
+<td>PatewayAI のご支援に感謝します！PatewayAI は経験豊富な AI 開発者向けの API 中継サービスプロバイダーで、Claude、GPT シリーズ、そして中国の主要モデルを幅広くフルサポートしています。すべてのモデルは公式の高品質チャネルから提供され、希釈や偽装は一切なく、課金明細も透明で確認できます。
+エコノミーモードは最安で元価格の 5%。<a href="https://pateway.ai/?ch=etzpm8&aff=WB6M6F67#/">このリンク</a>から登録すると $1 の無料トライアルクレジットがもらえ、不定期のキャンペーンで無料クレジットを受け取ることもできます。
+企業向けの高並列処理、専用管理コンソール、正式な契約書とインボイスにも対応し、最大 $150 の双方向紹介チャージ報酬も用意しています。</td>
 </tr>
 
 <tr>
@@ -69,13 +69,40 @@ Claude Code / Codex / Gemini 公式チャンネルが最安で元価格の 38% /
 </tr>
 
 <tr>
-<td width="180"><a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF"><img src="assets/partners/logos/shengsuanyun.png" alt="Shengsuanyun" width="150"></a></td>
-<td>胜算雲（Shengsuanyun）のご支援に感謝します！胜算雲は AI ネイティブチーム向けのスーパーファクトリーであり、産業グレードの AI タスク並列実行プラットフォームです。モデルマーケットプレイスでは Claude、ChatGPT、Gemini をはじめとする国内外の LLM およびマルチメディアモデルの計算リソースを集約・直接提供。リバースエンジニアリングや品質低下は一切なく、プラットフォーム全体のモデル SLA 可用性は 99.7% に達し、<a href="https://watch.shengsuanyun.com/status/shengsuanyun">監視ダッシュボード</a>は常時グリーン表示です。さらにエンタープライズ向けカスタムゲートウェイを提供し、チームのきめ細かなコスト・権限管理、スマートルーティング、セキュリティ保護、BYOK（自社キー持ち込み）ホスティングを実現します。従量課金およびトークンプラン（近日公開）対応で、請求書発行にも対応。<a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF">このリンク</a>から新規登録すると 10 元分のクレジットと初回チャージ 10% ボーナスが付与されます。</td>
+<td width="180"><a href="https://www.openmodel.ai?ref=cc-switch"><img src="assets/partners/logos/openmodel-banner.jpg" alt="OpenModel" width="150"></a></td>
+<td>本プロジェクトのスポンサーである OpenModel に感謝いたします！OpenModel は Codex と Claude Code 向けにクライアント専用の割引を提供しており、対応モデルを Codex 経由で使うと最大 90% オフ、Claude Code 経由で使うと最大 60% オフになります。開発スタイルを変えることなく API コストを削減できます。OpenModel の API Key を設定するだけで、いつも通り Codex や Claude Code を使い続けられます。対応クライアントは自動で判別され、追加パラメータや手動でのルーティング設定なしに割引ルートが適用されます。さらに API Key ごとにフォールバック動作を設定でき、割引ルートが一時的に利用できない場合に標準価格で続行するか停止するかを選べます。CC Switch ユーザーは<a href="https://www.openmodel.ai?ref=cc-switch">こちらのリンク</a>から登録し、プロモコード <strong>"cc-switch"</strong> を使うと初回チャージが 10% オフになります！</td>
 </tr>
 
 <tr>
-<td width="180"><a href="https://aigocode.app/invite/CC-SWITCH"><img src="assets/partners/logos/aigocode.png" alt="AIGoCode" width="150"></a></td>
-<td>本プロジェクトは AIGoCode のスポンサー提供でお届けしています。AIGoCode は、Claude Code・Codex・最新の Gemini モデルを統合したオールインワンのAIコーディングプラットフォームで、安定性・高速性・コストパフォーマンスに優れた開発サービスを提供します。柔軟なサブスクリプションプランを備え、レスポンスも非常に高速です。さらに、CC Switch ユーザー向けの特典として、<a href="https://aigocode.app/invite/CC-SWITCH">このリンク</a>から登録すると、初回チャージ時に10％分のボーナスクレジットが付与されます！</td>
+<td width="180"><a href="https://grooroute.pro/sign-up?aff=qqm9"><img src="assets/partners/logos/grooroute-banner.jpg" alt="GrooRoute Pro" width="150"></a></td>
+<td>本プロジェクトのスポンサーである GrooRoute Pro に感謝いたします！GrooRoute Pro は信頼性が高くスムーズな AI API 中継サービスプラットフォームで、OpenAI、Claude、DeepSeek など多数の主要モデルに対応しています。海外サーバーで運用されており、料金倍率のプランを自由に選択でき、従量課金とサブスクリプションの 2 つの料金体系から柔軟に選べます。回線は安定しており応答も速く、さまざまな AI 機能をより手軽に利用できます。CC Switch ユーザー向けの特典として、<a href="https://grooroute.pro/sign-up?aff=qqm9">こちらのリンク</a>から登録すると 5 元分の無料お試しクレジットがもらえます！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://buytoken.work/sign-up?aff=cc-switch"><img src="assets/partners/logos/buytoken-banner.png" alt="BuyToken" width="150"></a></td>
+<td>本プロジェクトのスポンサーである BuyToken に感謝いたします！BuyToken は Claude Code / Codex / DeepSeek などの各種中継サービスを提供し、エンタープライズ級の同時実行と迅速な請求書発行に対応、安定して長く続くサービスを目指しています。CC Switch ユーザー向けの特別特典もご用意しています：<a href="https://buytoken.work/sign-up?aff=cc-switch">このリンク</a>から登録すると 3 元分のお試しクレジットを受け取れ、さらに初回チャージが 10% オフになります！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://gpt.ge/signup?aff=URNP"><img src="assets/partners/logos/vapi-banner.jpg" alt="V-API" width="150"></a></td>
+<td>本プロジェクトのスポンサーである V-API に感謝いたします！V-API は 3 年の実績を持つブランドで、個人・開発者・企業向けに安定・高速・安全な高品質 LLM API サービスプラットフォームを提供しており、契約締結と正規の請求書発行（普通 / 専用）に対応しています。CC Switch ユーザー向けの特別特典として、<a href="https://gpt.ge/signup?aff=URNP">このリンク</a>から登録すると初回注文が 2 元引きのうえ 10% オフになります！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans"><img src="assets/partners/logos/fluxa-banner.png" alt="FluxA TokenPlan" width="150"></a></td>
+<td>FluxA &amp; Baidu AI Cloud による本プロジェクトへのご支援に感謝します！FluxA と百度智能雲（Baidu AI Cloud）は共同で AgenticPlan を提供しています。AI エージェントがモデル・API・ツールを自ら購入し、管理し、利用できるようにするプランです。百度千帆 TokenPlan を最大 40% オフで含み、DeepSeek V4、GLM 5.2、Kimi などの主力モデルを利用できます。さらに FluxA AgentMarket の API 利用クレジットが特典として付き、検索・データ取得・ソーシャルメディア・金融・暗号資産・画像生成・動画など 13,000 以上の有料 API を利用できます。<br>ユーザーの承認のもとで、AI エージェントは公式の Visa カードで支払い、自らリソースを調達し、API キーを管理し、使用量を監視して更新を計画することもできます。エージェントは「タスクを自律的に完了する」段階から、真に「自ら予算を計画してタスクを完了する」段階へと進化します。<a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans">こちらのリンク</a>から購入してください！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://aigocode.net/invite/CC-SWITCH"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/partners/logos/aigocode-dark.png"><img src="assets/partners/logos/aigocode-light.png" alt="AIGoCode" width="150"></picture></a></td>
+<td>本プロジェクトは AIGoCode のスポンサー提供でお届けしています。AIGoCode はトークン従量課金だけではない、サブスクリプション型の AI コーディングプラットフォームです。1 つのアカウント・月額プランで Claude Code、Codex、Gemini を使い放題、中国本土から直接接続でき、レスポンスも高速です。<a href="https://aigocode.net/invite/CC-SWITCH">このリンク</a>からサブスクリプションすると 10% のクレジットが追加でもらえます！</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://teamorouter.com/?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory"><img src="assets/partners/logos/TeamoRouter-banner.png" alt="TeamoRouter" width="150"></a></td>
+<td>このプロジェクトをご支援いただいている TeamoRouter に感謝します！TeamoRouter は、開発者、AI チーム、企業向けに構築されたエンタープライズグレードの Agentic LLM ゲートウェイです。サブスクリプション不要で、単一の統合 API を通じて Claude Code、Codex、Gemini CLI、OpenAI Codex、その他の人気 AI エージェントにアクセスでき、API 料金は最大 90% オフで利用できます。
+一般的な API リレーサービスとは異なり、TeamoRouter は OpenAI、Anthropic、Vertex、Azure、AWS Bedrock など、数百の公式モデルプロバイダーと信頼できるインフラパートナーを集約しています。各プロバイダーは、Agent プロトコルとの 100% 互換性、キャッシュ性能、リクエストの追跡可能性について検証されており、リバースエンジニアリングされたものや品質が薄められたエンドポイントではなく、安定した品質を提供します。プラットフォームは公式に近い TTFT、99.6% の SLA、最大 5,000 QPM のエンタープライズ規模のスループット、そして業界トップクラスのキャッシュヒット率を提供し、長時間稼働するエージェントワークフローのトークンコストを大幅に削減します。
+TeamoRouter は、集中請求、チーム管理、BYOK、スマートルーティング、利用状況分析、動的なプロバイダー最適化、専任サポートなどのエンタープライズ機能も提供しています。さらにシンプルな体験を求める場合は、Teamo Desktop を使うことで、Claude Code、Codex、Gemini CLI、その他の人気 AI エージェントをワンクリックで利用できます。API キー管理や手動のゲートウェイ設定は不要です。新規ユーザーとして<a href="https://teamorouter.com/?utm_source=cc_switch&utm_medium=referral&utm_campaign=ai_directory">こちらのリンク</a>から登録すると、初回チャージが 10% オフになります。</td>
 </tr>
 
 <tr>
@@ -89,8 +116,13 @@ Claude Code / Codex / Gemini 公式チャンネルが最安で元価格の 38% /
 </tr>
 
 <tr>
-<td width="180"><a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans"><img src="assets/partners/logos/fluxa-banner.png" alt="FluxA TokenPlan" width="150"></a></td>
-<td>FluxA &amp; Baidu AI Cloud による本プロジェクトへのご支援に感謝します！FluxA と百度智能雲（Baidu AI Cloud）は共同で AgenticPlan を提供しています。AI エージェントがモデル・API・ツールを自ら購入し、管理し、利用できるようにするプランです。百度千帆 TokenPlan を最大 40% オフで含み、DeepSeek V4、GLM 5.2、Kimi などの主力モデルを利用できます。さらに FluxA AgentMarket の API 利用クレジットが特典として付き、検索・データ取得・ソーシャルメディア・金融・暗号資産・画像生成・動画など 13,000 以上の有料 API を利用できます。<br>ユーザーの承認のもとで、AI エージェントは公式の Visa カードで支払い、自らリソースを調達し、API キーを管理し、使用量を監視して更新を計画することもできます。エージェントは「タスクを自律的に完了する」段階から、真に「自ら予算を計画してタスクを完了する」段階へと進化します。<a href="https://agentmarket.fluxapay.xyz/marketplace/tokenplans">こちらのリンク</a>から購入してください！</td>
+<td width="180"><a href="https://open.ospreyai.cn"><img src="assets/partners/logos/ospreyai-banner.png" alt="OspreyAI" width="150"></a></td>
+<td>OspreyAI のご支援に感謝します！ACS OspreyAI は開発者と企業向けのワンストップ・マルチモデル API サービスプラットフォームです。1 つの API Key で Claude、Gemini、GPT、GLM、Kimi、Qwen、DeepSeek、Tencent Hunyuan など国内外の主要モデルを呼び出せます。OpenAI、Anthropic などの主要 API プロトコルに対応し、Claude Code、Codex、OpenCode、Pi、Hermes などの主要 AI ツールでも利用できます。海外モデルは公式価格より 20〜40%、中国国内モデルは 30〜50% お得です。チャージと請求の一元化、使用量の確認、モデルの柔軟な切り替えに対応し、AI アプリ開発、コンテンツ制作、自動化ワークフローなどに適しています。<a href="https://open.ospreyai.cn">このリンク</a>からアカウントを作成すると特典を受けられ、国内外の主要モデルにすぐ接続できます。</td>
+</tr>
+
+<tr>
+<td width="180"><a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF"><img src="assets/partners/logos/shengsuanyun.png" alt="Shengsuanyun" width="150"></a></td>
+<td>胜算雲（Shengsuanyun）のご支援に感謝します！胜算雲は AI ネイティブチーム向けのスーパーファクトリーであり、産業グレードの AI タスク並列実行プラットフォームです。モデルマーケットプレイスでは Claude、ChatGPT、Gemini をはじめとする国内外の LLM およびマルチメディアモデルの計算リソースを集約・直接提供。リバースエンジニアリングや品質低下は一切なく、プラットフォーム全体のモデル SLA 可用性は 99.7% に達し、<a href="https://watch.shengsuanyun.com/status/shengsuanyun">監視ダッシュボード</a>は常時グリーン表示です。さらにエンタープライズ向けカスタムゲートウェイを提供し、チームのきめ細かなコスト・権限管理、スマートルーティング、セキュリティ保護、BYOK（自社キー持ち込み）ホスティングを実現します。従量課金およびトークンプラン（近日公開）対応で、請求書発行にも対応。<a href="https://www.shengsuanyun.com/?from=CH_4HHXMRYF">このリンク</a>から新規登録すると 10 元分のクレジットと初回チャージ 10% ボーナスが付与されます。</td>
 </tr>
 
 <tr>
@@ -151,8 +183,8 @@ TeamoRouter は、集中請求、チーム管理、BYOK、スマートルーテ�
 </tr>
 
 <tr>
-<td width="180"><a href="https://a6api.com/register?aff=AqNr"><img src="assets/partners/logos/a6-banner-en.jpg" alt="A6API" width="150"></a></td>
-<td>本プロジェクトをご支援いただいている <a href="https://a6api.com/register?aff=AqNr">A6API</a> に感謝します！A6API は、Claude、GPT、Gemini、Codex などの主要モデルを網羅するワンストップの AI モデル API アグリゲーションプラットフォームです。複数のベンダーが出品でき、同じモデルを複数の上流プロバイダーが競争価格で提供します。スマートルーティングにより、より安定して安価な利用可能ルートを自動で選択し、失敗時には自動で切り替えるため、リクエストの失敗を減らし、コストを抑え、安定性を高められます。個人開発者でも、AI プロダクトチームでも、スタジオでも、統一されたインターフェースからすぐに接続でき、あらゆるフォーマットに対応、移行コストも低く抑えられます。<a href="https://a6api.com/register?aff=AqNr">こちらのリンク</a> から新規登録すると無料の体験クレジットがもらえます。まず試してから、低価格で使い始められます。</td>
+<td width="180"><a href="https://a6api.vip/register?aff=AqNr"><img src="assets/partners/logos/a6-banner-en.jpg" alt="A6API" width="150"></a></td>
+<td>本プロジェクトをご支援いただいている <a href="https://a6api.vip/register?aff=AqNr">A6API</a> に感謝します！A6API は、Claude、GPT、Gemini、Codex などの主要モデルを網羅するワンストップの AI モデル API アグリゲーションプラットフォームです。複数のベンダーが出品でき、同じモデルを複数の上流プロバイダーが競争価格で提供します。スマートルーティングにより、より安定して安価な利用可能ルートを自動で選択し、失敗時には自動で切り替えるため、リクエストの失敗を減らし、コストを抑え、安定性を高められます。個人開発者でも、AI プロダクトチームでも、スタジオでも、統一されたインターフェースからすぐに接続でき、あらゆるフォーマットに対応、移行コストも低く抑えられます。<a href="https://a6api.vip/register?aff=AqNr">こちらのリンク</a> から新規登録すると無料の体験クレジットがもらえます。まず試してから、低価格で使い始められます。</td>
 </tr>
 
 <tr>

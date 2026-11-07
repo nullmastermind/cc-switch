@@ -9,15 +9,8 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { ImeSafeInput } from "@/components/ui/ime-safe-input";
-import { Button } from "@/components/ui/button";
 import { HoverTip } from "@/components/ui/hover-tip";
-import { ArrowLeft } from "lucide-react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
+import { FullScreenPanel } from "@/components/common/FullScreenPanel";
 import { ProviderIconBox } from "@/components/ProviderIconBox";
 import { IconPicker } from "@/components/IconPicker";
 import { getIconMetadata } from "@/icons/extracted/metadata";
@@ -59,7 +52,7 @@ export function BasicFormFields({
   };
 
   const iconButton = (
-    <Dialog open={iconDialogOpen} onOpenChange={setIconDialogOpen}>
+    <>
       <HoverTip
         content={
           currentIcon
@@ -71,61 +64,36 @@ export function BasicFormFields({
               })
         }
       >
-        <DialogTrigger asChild>
-          <button
-            type="button"
-            aria-label={t("providerIcon.change", { defaultValue: "更换图标" })}
-            className="group shrink-0 rounded-control text-body"
-          >
-            <ProviderIconBox
-              size={24}
-              icon={currentIcon}
-              name={providerName}
-              color={effectiveIconColor}
-              className="bg-surface transition-colors group-hover:bg-subtle"
-            />
-          </button>
-        </DialogTrigger>
+        <button
+          type="button"
+          onClick={() => setIconDialogOpen(true)}
+          aria-label={t("providerIcon.change", { defaultValue: "更换图标" })}
+          className="group shrink-0 rounded-control text-body"
+        >
+          <ProviderIconBox
+            size={24}
+            icon={currentIcon}
+            name={providerName}
+            color={effectiveIconColor}
+            className="bg-surface transition-colors group-hover:bg-subtle"
+          />
+        </button>
       </HoverTip>
-      <DialogContent
-        variant="fullscreen"
-        zIndex="top"
-        overlayClassName="bg-[hsl(var(--background))] backdrop-blur-0"
-        className="p-0 sm:rounded-none"
+      <FullScreenPanel
+        isOpen={iconDialogOpen}
+        title={t("providerIcon.selectIcon", {
+          defaultValue: "选择图标",
+        })}
+        onClose={() => setIconDialogOpen(false)}
       >
-        <div className="flex h-full flex-col">
-          <div className="flex h-14 flex-shrink-0 items-center border-b border-border bg-subtle">
-            <div className="flex w-full items-center gap-3 px-4 lg:px-6">
-              <DialogClose asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  aria-label={t("common.back")}
-                >
-                  <ArrowLeft className="h-4 w-4" />
-                </Button>
-              </DialogClose>
-              <p className="text-section font-semibold">
-                {t("providerIcon.selectIcon", {
-                  defaultValue: "选择图标",
-                })}
-              </p>
-            </div>
-          </div>
-          <div className="flex-1 overflow-y-auto">
-            <div className="w-full space-y-4 px-4 py-5 lg:px-6">
-              <IconPicker
-                value={currentIcon}
-                onValueChange={handleIconSelect}
-                color={effectiveIconColor}
-                defaultName={form.watch("name") ?? ""}
-              />
-            </div>
-          </div>
-        </div>
-      </DialogContent>
-    </Dialog>
+        <IconPicker
+          value={currentIcon}
+          onValueChange={handleIconSelect}
+          color={effectiveIconColor}
+          defaultName={form.watch("name") ?? ""}
+        />
+      </FullScreenPanel>
+    </>
   );
 
   return (

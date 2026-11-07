@@ -163,6 +163,8 @@
     "editClaudeProvider": "Sửa Claude Code Provider",
     "editCodexProvider": "Sửa Codex Provider",
     "configError": "Lỗi config",
+    "liveConfigReadFailed": "Không đọc được file cấu hình của {{app}}",
+    "liveConfigReadFailedHint": "Thêm hoặc xóa provider sẽ thất bại cho đến khi file cấu hình được sửa.",
     "notConfigured": "Chưa cấu hình cho trang official",
     "applyToClaudePlugin": "Áp dụng cho Claude plugin",
     "removeFromClaudePlugin": "Gỡ khỏi Claude plugin",
@@ -300,6 +302,10 @@
       "recent": "Gần đây",
       "forget": "Xóa khỏi danh sách gần đây",
       "confirm": "Mở Terminal",
+      "skipPermissions": "Bỏ qua lời nhắc cấp quyền",
+      "extraArgs": "Tham số bổ sung (tùy chọn)",
+      "extraArgsPlaceholder": "ví dụ: --debug --append-system-prompt \"Trả lời ngắn gọn\"",
+      "extraArgsHint": "Được thêm sau lệnh khởi chạy, chỉ áp dụng cho terminal này. Phân tách bằng dấu cách; đặt giá trị có dấu cách trong dấu nháy.",
       "agySwitchTitle": "Thao tác này đổi đăng nhập của agy",
       "agySwitchBody": "Trước khi mở, đăng nhập của agy sẽ chuyển sang {{account}}, và các session agy mở sau đó dùng tài khoản này.",
       "agySwitchRunning": "agy đang chạy: các session agy đang mở vẫn giữ tài khoản cũ và có thể ghi đè lại. Nếu được, hãy thoát chúng trước."
@@ -379,6 +385,7 @@
     "grokBuildRestartRequired": "Đã chuyển. Restart Grok Build để áp dụng.",
     "claudeDesktopRestartRequired": "Đã chuyển. Restart Claude Desktop để áp dụng.",
     "claudeDesktopProxyRestartRequired": "Đã chuyển. Giữ Viber Switch chạy và restart Claude Desktop để áp dụng.",
+    "proxyLoopbackHijacked": "Request từ {{app}} tới route cục bộ {{origin}} sẽ bị proxy hệ thống chặn lại, khiến {{app}} báo lỗi 502. Hãy cho địa chỉ loopback kết nối trực tiếp trong công cụ proxy (ví dụ thêm IP-CIDR,127.0.0.0/8,DIRECT,no-resolve lên đầu rule Clash), rồi thoát hẳn và mở lại {{app}}.",
     "addToConfigSuccess": "Đã thêm vào config",
     "removeFromConfigSuccess": "Đã gỡ khỏi config",
     "removeFromConfigFailed": "Không gỡ được Provider",
@@ -468,6 +475,12 @@
       "quotaDisplay": "Hiển thị quota",
       "quotaDisplayLeft": "Còn lại",
       "quotaDisplayUsed": "Đã dùng",
+      "density": "Mật độ",
+      "densityHelp": "Thoải mái dùng chữ lớn hơn và control cao hơn. Gọn giữ nguyên kích thước gốc.",
+      "densityComfortable": "Thoải mái",
+      "densityCompact": "Gọn",
+      "zoom": "Thu phóng",
+      "zoomHelp": "Bạn cũng có thể nhấn {{shortcut}} + / {{shortcut}} −, và {{shortcut}} 0 để đặt lại.",
       "quotaDisplayHelp": "Mỗi khung quota trên card provider, trong Tài khoản và ở tray hiển thị phần còn lại hay phần đã dùng. Số dư và Credits luôn hiển thị phần còn lại.",
       "sidebarAndHeader": "Sidebar và header",
       "visibleApps": "App hiển thị trong sidebar",
@@ -769,6 +782,15 @@
       "saved": "Đã lưu",
       "unsavedChanges": "Lưu config trước",
       "saveBeforeSync": "Lưu config trước để bật upload/download.",
+      "clear": "Xóa cấu hình",
+      "clearing": "Đang xóa...",
+      "clearSuccess": "Đã xóa cấu hình WebDAV trên thiết bị này",
+      "clearFailed": "Xóa cấu hình thất bại: {{error}}",
+      "clearConfirm": {
+        "title": "Xóa cấu hình WebDAV",
+        "message": "Thao tác này xóa URL WebDAV, tên người dùng, mật khẩu và thư mục từ xa đã lưu trên thiết bị này, đồng thời dừng tự động đồng bộ. Dữ liệu đã tải lên server không bị xóa.",
+        "confirm": "Xóa"
+      },
       "fetchingRemote": "Đang lấy thông tin remote...",
       "fetchRemoteFailed": "Không lấy được thông tin remote. Kiểm tra config và mạng.",
       "confirmDownload": {
@@ -921,6 +943,17 @@
     "skipClaudeOnboarding": "Bỏ xác nhận first-run Claude Code",
     "skipClaudeOnboardingDescription": "Khi bật, Claude Code bỏ qua xác nhận first-run",
     "codexAuth": "Tùy chọn thêm cho Codex",
+    "codexQuotaProtection": {
+      "title": "Bảo vệ hạn mức chính thức",
+      "help": "Tạm dừng request chính thức mới khi chạm một trong hai ngưỡng sử dụng; model bên thứ ba vẫn dùng được. Chỉ áp dụng cho request Codex chính thức đi qua route cục bộ của Viber Switch. Mức sử dụng được đọc từ thông tin hạn mức có sẵn trong phản hồi chính thức, nên dùng bình thường không phát sinh request thêm; chỉ request đầu tiên, hoặc request sau khoảng 5 phút không hoạt động, mới kích hoạt một lần tra hạn mức riêng. Khi không xác định được mức sử dụng (lỗi mạng, phiên đăng nhập hết hạn, v.v.), request vẫn đi qua bình thường thay vì bị chặn. Các request đã được chấp nhận và ứng dụng khác vẫn có thể đẩy mức sử dụng vượt ngưỡng; trong lúc tạm dừng, việc cạn hạn mức thường sẽ không kích hoạt Luna Reserve.",
+      "thresholds": "Ngưỡng sử dụng cho request chính thức",
+      "fiveHour": "Mức dùng 5 giờ (%)",
+      "weekly": "Mức dùng hằng tuần (%)",
+      "save": "Lưu ngưỡng",
+      "reset": "Khôi phục mặc định",
+      "hint": "Tạm dừng khi chạm một trong hai ngưỡng. Mặc định: 95% / 98%. Thay đổi đã lưu áp dụng ngay cho request mới.",
+      "invalid": "Nhập số nguyên từ 1 đến 99."
+    },
     "preserveCodexOfficialAuthOnSwitch": "Giữ login official khi chuyển trực tiếp",
     "preserveCodexOfficialAuthOnSwitchDescription": "Khi local routing tắt, quyết định có chuyển third-party không. Takeover routing luôn giữ login official của Codex.",
     "unifyCodexSessionHistory": "Gộp session history Codex",
@@ -1062,6 +1095,7 @@
     "toolActionDone": "{{action}} xong cho {{count}} tool",
     "toolActionPartial": "{{action}} thành công {{succeeded}}, thất bại {{failed}}",
     "toolActionFailed": "Lệnh cài/update thất bại",
+    "toolActionBinCollision": "Đã có một file tại {{path}}, có thể từ cách cài đặt khác, và npm sẽ không ghi đè nó. Hãy kiểm tra đó là gì, đổi tên để sao lưu, rồi thử lại. Đừng dùng --force của npm: nó sẽ ghi đè thẳng file đó.",
     "toolActionInProgress": "Cài hoặc cập nhật vẫn đang chạy",
     "toolActionInProgressDetail": "Cài hoặc cập nhật {{tool}} đang được xử lý nền. Hãy đợi xong; không cần chạy lại.",
     "toolNotRunnable": "Đã cài nhưng không chạy được (không thấy version)",
@@ -1150,6 +1184,7 @@
     "languageOptionTurkish": "Türkçe",
     "ompConfigDir": "Thư mục config Oh My Pi",
     "browsePlaceholderOmp": "vd. /home/<your-username>/.omp/agent",
+    "browsePlaceholderDsh": "ví dụ: /home/<tên-người-dùng>/.dsh",
     "portableUpdateHint": "Chế độ portable: nút ở trên tải file zip mới. Giải nén rồi thay viber-switch.exe hiện có. Cài đặt và dữ liệu của bạn nằm trong .cc-switch ở thư mục user và không bị ảnh hưởng.",
     "manualUninstallCommands": "Lệnh gỡ cài đặt thủ công",
     "manualUninstallHint": "Mặc định môi trường của từng app được tự động phát hiện, và bạn có thể tự chọn môi trường khác. Chọn đúng cách cài đặt ban đầu, rồi sao chép lệnh của app muốn gỡ và chạy trong terminal. Sau đó bấm “Kiểm tra cập nhật” để làm mới trạng thái.",
@@ -1369,6 +1404,14 @@
   "sessionManager": {
     "title": "Quản lý session",
     "searchPlaceholder": "Tìm theo nội dung, thư mục hoặc ID",
+    "searchPlaceholderContent": "Tìm theo tiêu đề, thư mục, nội dung tin nhắn hoặc ID phiên",
+    "emptySearchContent": "Không có tiêu đề phiên, thư mục hay nội dung tin nhắn nào chứa “{{query}}”",
+    "contentSearchToggle": "Tìm trong nội dung tin nhắn",
+    "contentSearchToggleFailed": "Không đổi được cài đặt tìm nội dung tin nhắn: {{error}}",
+    "contentIndexing": "Đang lập chỉ mục nội dung tin nhắn ({{processed}}/{{total}}). Kết quả khớp nội dung có thể chưa đầy đủ",
+    "contentHitPrefix": "Nội dung: ",
+    "contentHitMore": " ({{count}} tin nhắn khớp)",
+    "moreContentHits": "Thêm kết quả khớp nội dung",
     "searchSessions": "Tìm session",
     "providerFilterAll": "Tất cả",
     "providerFilterTooltip": "Lọc Provider",
@@ -1447,6 +1490,7 @@
     "groupByTime": "Theo thời gian",
     "groupByProject": "Theo project",
     "desktopNote": "Claude Desktop không có bản ghi session riêng. Đang hiện session của Claude Code.",
+    "dshMergedNote": "DeepSeek Harness Web và Desktop dùng chung một bộ bản ghi phiên, được hiển thị cùng nhau ở đây.",
     "matchCount": "{{count}} session khớp",
     "totalCount": "{{count}} session",
     "selectAllMatches": "Chọn tất cả kết quả khớp",
@@ -1481,6 +1525,8 @@
     "emptyAppHint": "Viber Switch đọc dữ liệu session từ {{path}}",
     "emptySearch": "Không có tiêu đề session, thư mục hay tin nhắn đầu/cuối nào khớp “{{query}}”",
     "clearSearchAction": "Xóa tìm kiếm",
+    "emptySearchEnableContent": "Tìm trong nội dung tin nhắn",
+    "emptySearchEnableContentHint": "Bật tính năng này sẽ tạo chỉ mục cục bộ cho nội dung tin nhắn",
     "backToList": "Quay lại danh sách session",
     "back": "Quay lại",
     "sessionOf": "Session {{app}}",
@@ -1687,6 +1733,13 @@
     "getDefaultConfigDirFailed": "Không lấy được thư mục config mặc định:"
   },
   "providerForm": {
+    "nativeConfig": {
+      "title": "File cấu hình {{path}} (chỉ provider này)",
+      "hint": "Hiển thị phần của provider này trong file theo định dạng gốc của ứng dụng và ghi vào đó khi lưu. Cài đặt toàn cục như model mặc định không nằm ở đây. Chú thích nhập ở đây sẽ không được lưu.",
+      "invalid": "{{format}} không hợp lệ: {{error}}",
+      "scope": "Chỉ node {{section}} thuộc về đây. Đổi Provider Key ở trường phía trên.",
+      "schema": "Một số trường sai kiểu dữ liệu. Hãy đối chiếu với form phía trên."
+    },
     "supplierName": "Tên Provider",
     "supplierNameRequired": "Tên Provider *",
     "supplierNamePlaceholder": "ví dụ Anthropic Official",
@@ -1871,6 +1924,11 @@
     "customUserAgentHelp": "Thay User-Agent của request được chuyển tiếp tới provider.",
     "localProxyRequestOverridesHelp": "Áp vào request upstream sau khi chuyển format.",
     "apiFormatHelp": "Chọn protocol mà provider hỗ trợ native: Anthropic Messages được chuyển tiếp nguyên bản, không chuyển đổi; routing chuyển ba loại còn lại sang Anthropic Messages.",
+    "reasoningEffort": "Mức suy luận",
+    "reasoningEffortHelp": "Cách mức suy nghĩ chọn trong client được gửi lên upstream khi route chuyển request sang định dạng OpenAI. Tự động: gửi ở mức upstream hỗ trợ; upstream không nhận diện được sẽ nhận tối đa high, và không gửi gì khi tắt suy nghĩ. Gửi nguyên trạng: client chọn mức nào thì gửi mức đó, nên upstream không hỗ trợ xhigh hoặc max sẽ báo lỗi. Không gửi: dùng khi upstream từ chối tham số này.",
+    "reasoningEffortAuto": "Tự động (khuyến nghị)",
+    "reasoningEffortOff": "Không gửi",
+    "reasoningEffortPassthrough": "Gửi nguyên trạng",
     "directModeFormatInUse": "Card này đang được dùng ở chế độ direct: lưu với format này sẽ làm request thất bại. Hãy chuyển sang routing hoặc Tổng hợp trước.",
     "directModeFormatSwitch": "Format này không chạy ở chế độ direct; hãy chuyển sang routing hoặc Tổng hợp để dùng card này."
   },
@@ -2123,11 +2181,17 @@
     "subagentReasoningEffortDefault": "Effort mặc định",
     "subagentModelHint": "Model và reasoning effort mà sub-agent của Codex dùng mặc định. Để trống thì theo agent chính; chỉ đặt model thì dùng effort mặc định của model đó. Bị bỏ qua ở chế độ Tổng hợp, khi đó model sub-agent trong cài đặt của tab Tổng hợp được áp dụng.",
     "subagentModelNotInCatalog": "Model này không có trong danh sách model: Codex không lấy được context window của nó, và khi routing chuyển request sang Chat / Anthropic, nó sẽ bị thay bằng model mặc định.",
+    "agentMaxThreadsLabel": "Giới hạn sub-agent chạy đồng thời",
+    "agentMaxThreadsHint": "Số sub-agent (không tính agent chính) một phiên Codex có thể chạy cùng lúc; giá trị giữ nguyên khi đổi provider. Để trống để dùng mặc định của Codex (6 với bộ công cụ sub-agent cổ điển, 3 với bộ mới); tối thiểu là 1 và không có tùy chọn không giới hạn. Áp dụng cho hội thoại mới.",
+    "agentMaxThreadsPlaceholder": "Để trống để dùng mặc định của Codex",
+    "agentMaxThreadsV2Override": "[features.multi_agent_v2] trong config.toml đặt tổng cộng {{total}} (gồm cả agent chính), áp dụng khi dùng bộ công cụ sub-agent mới.",
     "autoReviewModelLabel": "Model Auto Review",
     "autoReviewModelHint": "Model mà Codex dùng để quyết định một thao tác có được thực hiện hay không khi bật duyệt tự động (Approve for me). Request duyệt được gửi tới cùng provider với cuộc trò chuyện, nên chỉ chọn được model trong danh sách model của card này. Bị bỏ qua ở chế độ Tổng hợp, khi đó model Auto Review trong cài đặt của tab Tổng hợp được áp dụng. Restart Codex sau khi thay đổi.",
     "autoReviewModelCodexDefault": "Mặc định của Codex (codex-auto-review)",
     "autoReviewModelMainDefault": "Model chính tự duyệt (mặc định)",
     "autoReviewModelNoList": "Card này chưa có danh sách model: Codex duyệt bằng codex-auto-review official, chỉ một số relay chuyển tiếp tới tài khoản ChatGPT chấp nhận; số còn lại trả về 404. Thêm model vào danh sách ở trên để chọn.",
+    "officialSpeedTiersLabel": "Giữ tier Fast chính thức",
+    "officialSpeedTiersHint": "Giữ tier tốc độ Fast chính thức cho các model GPT trong danh sách model, nên chọn Fast trong Codex sẽ gửi service_tier=priority. Chỉ relay chuyển tiếp tới tài khoản ChatGPT chính thức (như CPA) chấp nhận, và nó tiêu hạn mức nhanh hơn; upstream khác có thể từ chối hoặc tính giá cao hơn. Sau khi bật, lựa chọn Fast bạn đã đặt ở thẻ chính thức sẽ có hiệu lực ngay trên provider này. Không dùng ở chế độ tổng hợp. Khởi động lại Codex sau khi thay đổi.",
     "modelListHint": "Restart Codex sau khi thay đổi.",
     "modelListDefaultHelp": "Các model này hiện trong menu /model của Codex; dòng đầu tiên là model mặc định. Dòng mang tên một model GPT official sẽ dùng entry official, nên tên hiển thị, window và mức reasoning của dòng đó bị bỏ qua.",
     "stackModelDefaultHelp": "Các model này hiện trong menu /model của Codex, chọn model nào thì request gửi thẳng tới provider này. Dòng đầu tiên là model mặc định, được dùng khi provider này là provider mặc định.",
@@ -2190,9 +2254,6 @@
     "extraOptionValuePlaceholder": "600000",
     "noExtraOptions": "Chưa cấu hình tùy chọn thêm",
     "noModelOptions": "Tùy chọn model, bấm + để thêm",
-    "modelLimits": "Giới hạn token",
-    "limitContext": "Context",
-    "limitOutput": "Output",
     "modelExtraFields": "Thuộc tính model",
     "noModelExtraFields": "Thuộc tính model (variants, cost, ...), bấm + để thêm",
     "modelExtraFieldKeyPlaceholder": "variants",
@@ -2246,6 +2307,7 @@
     "universalDetail": "Đồng bộ sang Claude Code, Codex, Gemini CLI",
     "manageUniversal": "Quản lý provider universal hiện có ›",
     "loginWith": {
+      "deepseek": "Đăng nhập bằng tài khoản DeepSeek",
       "claude": "Đăng nhập bằng tài khoản Claude",
       "chatgpt": "Đăng nhập bằng tài khoản ChatGPT",
       "github": "Đăng nhập bằng tài khoản GitHub",
@@ -2332,6 +2394,11 @@
       "short": "Log session",
       "label": "{{app}} · Log session",
       "hint": "Đọc từ log session của client khi routing tắt, nên không phân biệt được provider"
+    },
+    "sessionAccountProvider": {
+      "short": "Tài khoản DeepSeek",
+      "label": "{{app}} · Tài khoản DeepSeek (OAuth)",
+      "hint": "Đọc từ log phiên cho các request dùng đăng nhập tài khoản DeepSeek; Web và Desktop dùng chung đăng nhập này nên mức sử dụng được gộp lại"
     },
     "stream": "Stream",
     "nonStream": "Không stream",
@@ -2633,6 +2700,9 @@
       "byRequest": "Tính giá theo model của request",
       "edit": "Đổi",
       "tableTitle": "Giá model · {{count}}",
+      "searchPlaceholder": "Tìm theo ID hoặc tên model",
+      "noSearchMatch": "Không có model nào khớp \"{{query}}\"",
+      "addForQuery": "Thêm giá cho {{query}}",
       "costHelpTitle": "Cách tính chi phí",
       "costHelp": "Mỗi request được tính giá theo model của nó: input mới, output, cache hit và cache write được nhân với đơn giá tương ứng rồi cộng lại.",
       "unit": "USD / 1M token",
@@ -2648,6 +2718,17 @@
       "title": "Hiển thị",
       "currency": "Tiền tệ",
       "rate": "Tỷ giá",
+      "rateSource": "Nguồn tỷ giá",
+      "rateSources": {
+        "auto": "Tự động (hằng ngày)",
+        "manual": "Thủ công"
+      },
+      "rateAutoHint": "Tự động lấy mỗi ngày một lần và chỉ dùng để hiển thị; chi phí vẫn được ghi bằng USD.",
+      "rateAutoUpdated": "Cập nhật lần cuối: {{time}}",
+      "rateAutoNever": "Chưa lấy được tỷ giá nào",
+      "rateAutoFailed": "Không lấy được tỷ giá mới; giữ tỷ giá trước đó.",
+      "rateAttribution": "Tỷ giá từ {{provider}}.",
+      "rateRefresh": "Cập nhật ngay",
       "rateHint": "Nhập tay và chỉ dùng để hiển thị; cost vẫn được ghi bằng USD.",
       "rateInvalid": "Nhập số lớn hơn 0",
       "approxNote": "Rê chuột lên số tiền đã quy đổi để xem giá trị USD.",
@@ -2921,6 +3002,9 @@
       "tomlInvalid": "TOML sai format",
       "commandRequired": "Nhập command",
       "singleServerObjectRequired": "Dán một object MCP server (đừng kèm mcpServers ở ngoài)",
+      "piSseUnsupported": "Pi không hỗ trợ MCP server SSE. Hãy dùng HTTP (streamable HTTP)",
+      "piInvalidName": "Tên MCP server của Pi chỉ được chứa chữ cái, chữ số, _ và -: {{id}}",
+      "piNameConflict": "Pi coi các tên server chỉ khác nhau ở - và _ là cùng một server: {{id}} xung đột với {{other}} đã có",
       "saveFailed": "Lưu thất bại",
       "deleteFailed": "Xóa thất bại"
     },
@@ -4278,11 +4362,16 @@
     "monthly": "Tháng",
     "credits": "Credits",
     "copilotPremium": "Premium",
+    "copilotCompletions": "Completions",
+    "copilotChat": "Chat",
+    "copilotCount": "Còn {{remaining}} / {{total}}",
+    "copilotNotIncluded": "Không có trong gói của bạn",
     "utilization": "{{value}}%",
     "resetsIn": "Reset sau {{time}}",
     "extraUsage": "Usage thêm",
     "expired": "Session hết hạn",
     "expiredHint": "Chạy lệnh {{tool}} để làm mới login",
+    "expiredHintAccounts": "Đăng nhập lại tài khoản này trong mục Tài khoản",
     "queryFailed": "Query thất bại",
     "refresh": "Làm mới",
     "agyGemini": "Gemini",
@@ -4702,6 +4791,16 @@
     }
   },
   "mcpPage": {
+    "checkConnectivity": "Kiểm tra kết nối",
+    "testConnection": "Thử kết nối",
+    "connection": {
+      "unchecked": "Chưa kiểm tra",
+      "connected": "Kết nối thành công",
+      "authRequired": "Server truy cập được nhưng yêu cầu đăng nhập (ví dụ OAuth). Viber Switch kiểm tra mà không dùng đăng nhập riêng của client: nếu bạn đã đăng nhập từ client thì ở đó vẫn hoạt động; nếu bạn đặt token trong header, hãy chắc chắn nó còn hiệu lực",
+      "disconnected": "Kết nối thất bại",
+      "checking": "Đang kiểm tra kết nối",
+      "disabled": "Chưa bật"
+    },
     "noun": "MCP server",
     "listSeparator": ", ",
     "helpTitle": "MCP đồng bộ thế nào",
@@ -4761,6 +4860,7 @@
       "failedTitle": "Một số app không đọc được",
       "filesTitle": "Các file đã đọc",
       "claudeNote": " (mcpServers cấp cao nhất)",
+      "dshNote": " (ghi vào mọi profile đã khởi tạo: web, desktop, headless, acp)",
       "ok": "Đã hiểu"
     },
     "templateLabels": {
@@ -4923,6 +5023,7 @@
     "rowFail": "Bật trong {{app}} thất bại: {{error}}",
     "fixSync": "Đổi cách đồng bộ",
     "rowMoreAria": "Thêm thao tác cho {{name}}",
+    "rowUpdateAria": "Cập nhật {{name}}",
     "copyDir": "Sao chép tên thư mục",
     "uninstallEllipsis": "Gỡ cài đặt",
     "listLabel": "Skills đã cài",
@@ -5031,9 +5132,6 @@
       "discoverBody": "Danh sách có thể chưa đầy đủ.",
       "updatesBody": "Skills từ các repo này chưa được kiểm tra nên kết quả có thể chưa đầy đủ."
     },
-    "headerUpdates": "{{count}} bản cập nhật",
-    "headerUpdatesShow": "Chỉ hiện Skills có bản cập nhật",
-    "headerUpdatesClear": "Hiện tất cả Skills",
     "updateAllCount": "Cập nhật tất cả ({{count}})",
     "updatingProgress": "Đang cập nhật {{done}}/{{total}}…",
     "openDir": "Mở thư mục"
@@ -5101,7 +5199,11 @@
       "open": "Mở trang cấp quyền",
       "note": "Trang cấp quyền đã mở trong trình duyệt; mục này tự cập nhật khi bạn hoàn tất. Lưu ý điều khoản sử dụng của {{service}}.",
       "browserNote": "Trang đăng nhập {{service}} đã mở trong trình duyệt. Đăng nhập và cấp quyền, mục này sẽ tự cập nhật.",
-      "reopen": "Mở lại trang đăng nhập"
+      "reopen": "Mở lại trang đăng nhập",
+      "copyLink": "Sao chép link đăng nhập",
+      "linkCopied": "Đã sao chép link đăng nhập.",
+      "linkNote": "Đã sao chép link đăng nhập. Mở link trong trình duyệt bạn muốn dùng, đăng nhập và cấp quyền, mục này sẽ tự cập nhật.",
+      "linkCodeNote": "Đã sao chép link đăng nhập. Mở link trong trình duyệt bạn muốn dùng và nhập mã; mục này tự cập nhật khi bạn hoàn tất. Lưu ý điều khoản sử dụng của {{service}}."
     },
     "toast": {
       "added": "Đã thêm tài khoản {{service}}.",
@@ -5111,7 +5213,8 @@
       "updating": "Đang cập nhật…",
       "loading": "Đang kiểm tra quota…",
       "refresh": "Làm mới quota",
-      "refreshAria": "Làm mới quota của {{login}}"
+      "refreshAria": "Làm mới quota của {{login}}",
+      "refreshAll": "Làm mới tất cả"
     },
     "agy": {
       "reauthNote": "Đăng nhập đã hết hạn, không chuyển sang được",
@@ -5138,6 +5241,10 @@
       "empty": "Chưa có tài khoản Claude nào. Đăng nhập ở đây để chuyển qua lại giữa nhiều tài khoản gói đăng ký.",
       "removeNote": "Chỉ xóa đăng nhập mà Viber Switch đã lưu cho tài khoản này; tài khoản không bị đăng xuất ở nơi khác, và đăng nhập hiện tại của Claude Code (~/.claude) không bị đụng tới. Các card gắn với tài khoản này sẽ chuyển sang đăng nhập hiện tại của Claude Code.",
       "wslUnsupported": "Thư mục config Claude nằm trong WSL. Chưa hỗ trợ thêm và chuyển tài khoản Claude ở đó."
+    },
+    "openBrowser": {
+      "title": "Mở trình duyệt khi đăng nhập",
+      "description": "Tắt để chỉ sao chép link đăng nhập và tự mở bằng trình duyệt bạn chọn — tiện khi bạn quản lý tài khoản trong các profile trình duyệt riêng."
     }
   },
   "kimi": {
@@ -5172,6 +5279,8 @@
     },
     "modelSelectionHint": "Dùng nút chuyển trên card provider để chọn. Muốn chọn model khác, hãy dùng /model trong Kimi Code.",
     "contextSize": "Kích thước context",
+    "configTomlScope": "Chỉ [providers.{{key}}] và các bảng [models.*] của nó thuộc về đây. Đổi Provider Key ở trường phía trên.",
+    "configTomlSchema": "Cấu hình chưa đầy đủ: kiểm tra type của provider, cùng model và max_context_size (số nguyên dương) của từng model.",
     "capabilities": {
       "image_in": "Input ảnh",
       "thinking": "Thinking",
@@ -5187,7 +5296,6 @@
       "title": "Thêm Provider Kimi Code",
       "description": "Cấu hình endpoint, API key và model. Cấu hình Kimi có sẵn được import tự động."
     },
-    "deleteSessionHint": "Xóa session này trong Kimi Code để cập nhật index và lịch sử cùng lúc.",
     "error": {
       "defaultModelInUse": "Kimi Code đang dùng một model của provider này. Hãy chuyển sang model khác bằng /model trong Kimi Code trước.",
       "secondaryModelInUse": "Model subagent của Kimi Code đang dùng một model của provider này. Hãy đổi nó bằng /secondary-model trong Kimi Code trước."
@@ -5239,6 +5347,31 @@
     "empty": {
       "title": "Thêm Provider DeepSeek Harness",
       "description": "Cấu hình endpoint, API key và model. Provider tùy chỉnh có sẵn sẽ tự hiện ở đây."
+    },
+    "sharedProviders": "Provider đã thêm được ghi vào cả cấu hình Web và Desktop của DeepSeek Harness (cùng mọi profile headless hoặc acp đã khởi tạo); chọn model ngay trong DeepSeek Harness.",
+    "sharedProvidersNote": "Web và Desktop dùng chung",
+    "account": {
+      "help": "Tài khoản DeepSeek đăng nhập qua trình duyệt (OAuth), tại đây hoặc trong DeepSeek Harness. Phiên đăng nhập lưu ở $DSH_HOME/.credentials.yaml (mặc định ~/.dsh/.credentials.yaml) và được DeepSeek Harness Web và Desktop dùng chung: đăng nhập hay đăng xuất ở đâu cũng áp dụng cho cả hai, và DeepSeek Harness đang chạy sẽ tự tải lại. Mức sử dụng các model của tài khoản hiển thị riêng trên trang Usage với tên \"Tài khoản DeepSeek (OAuth)\".",
+      "statusFailed": "Không đọc được trạng thái đăng nhập tài khoản DeepSeek",
+      "empty": "Chưa đăng nhập tài khoản DeepSeek",
+      "unnamed": "Tài khoản DeepSeek",
+      "expired": "Phiên đăng nhập đã hết hạn. Hãy đăng nhập lại",
+      "shared": "Web và Desktop dùng chung",
+      "signOut": "Đăng xuất",
+      "signOutConfirm": "Đăng xuất tài khoản DeepSeek \"{{name}}\"? Cả DeepSeek Harness Web và Desktop đều sẽ bị đăng xuất. Provider dùng API key không bị ảnh hưởng.",
+      "signOutFailed": "Không đăng xuất được tài khoản DeepSeek",
+      "balance": "Số dư {{amount}}",
+      "bonus": "Thưởng {{amount}}",
+      "balanceFailed": "Hiện không lấy được số dư",
+      "signedIn": "Đã đăng nhập tài khoản DeepSeek cho cả Web và Desktop",
+      "signInFailed": "Không đăng nhập được tài khoản DeepSeek",
+      "presetName": "Đăng nhập chính thức DeepSeek",
+      "presetDescription": "Sau khi đăng nhập tài khoản DeepSeek trên trình duyệt, DeepSeek Harness phục vụ trực tiếp các model của tài khoản; không cần thêm provider. Web và Desktop dùng chung phiên đăng nhập này. Đăng nhập và đăng xuất trong Tài khoản; sau khi đăng nhập, tài khoản sẽ xuất hiện trong mục Đã thêm.",
+      "manageAccounts": "Quản lý tài khoản DeepSeek",
+      "cardSubtitle": "Tài khoản chính thức · Web và Desktop dùng chung",
+      "expiredChip": "Phiên đăng nhập hết hạn",
+      "editDisabled": "DeepSeek Harness tự cung cấp các model của tài khoản này; không có gì để chỉnh sửa.",
+      "managedHint": "Tài khoản này được quản lý trong Tài khoản; thẻ sẽ biến mất sau khi bạn đăng xuất."
     },
     "deleteSessionHint": "Xóa session này trong DeepSeek Harness để giữ lịch sử nhất quán."
   }

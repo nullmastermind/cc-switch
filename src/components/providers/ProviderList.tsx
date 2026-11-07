@@ -56,6 +56,11 @@ import { usePiCurrentState } from "@/lib/query/pi";
 import { isPiFamilyApp } from "@/config/appConfig";
 import { isHermesReadOnlyProvider } from "@/config/hermesProviderPresets";
 import {
+  DshAccountCard,
+  accountName as dshAccountName,
+  useDshAccountStatus,
+} from "@/components/providers/DshAccount";
+import {
   buildAdditiveSections,
   buildLaunchSections,
   buildSwitchSections,
@@ -143,21 +148,30 @@ export function ProviderList({
     appId,
   );
 
-  const { data: opencodeLiveIds, isPending: isOpencodeLiveIdsPending } =
-    useQuery({
-      queryKey: ["opencodeLiveProviderIds"],
-      queryFn: () => providersApi.getOpenCodeLiveProviderIds(),
-      enabled: appId === "opencode",
-    });
+  const {
+    data: opencodeLiveIds,
+    isPending: isOpencodeLiveIdsPending,
+    error: opencodeLiveIdsError,
+  } = useQuery({
+    queryKey: ["opencodeLiveProviderIds"],
+    queryFn: () => providersApi.getOpenCodeLiveProviderIds(),
+    enabled: appId === "opencode",
+  });
   const { data: opencodeDefaultModel } = useQuery({
     queryKey: ["opencodeDefaultModel"],
     queryFn: () => providersApi.getOpenCodeDefaultModel(),
     enabled: appId === "opencode",
   });
-  const { data: openclawLiveIds, isPending: isOpenclawLiveIdsPending } =
-    useOpenClawLiveProviderIds(appId === "openclaw");
-  const { data: hermesLiveIds, isPending: isHermesLiveIdsPending } =
-    useHermesLiveProviderIds(appId === "hermes");
+  const {
+    data: openclawLiveIds,
+    isPending: isOpenclawLiveIdsPending,
+    error: openclawLiveIdsError,
+  } = useOpenClawLiveProviderIds(appId === "openclaw");
+  const {
+    data: hermesLiveIds,
+    isPending: isHermesLiveIdsPending,
+    error: hermesLiveIdsError,
+  } = useHermesLiveProviderIds(appId === "hermes");
   const { data: hermesModelConfig } = useHermesModelConfig(appId === "hermes");
   const { data: openclawDefaultModel } = useOpenClawDefaultModel(
     appId === "openclaw",
@@ -332,14 +346,29 @@ export function ProviderList({
     [sortedProviders],
   );
 
+  const searchKeyword = isSearchOpen ? searchTerm.trim().toLowerCase() : "";
+
+  // DSH 登录了 DeepSeek 账号时，「已添加」最前面画一张官方账号卡（不是供应商行，见 DshAccountCard）
+  const { data: dshAccount } = useDshAccountStatus(appId === "dsh");
+  const dshAccountCard =
+    appId === "dsh" && dshAccount?.signedIn ? dshAccount : null;
+  const showDshAccountCard = Boolean(
+    dshAccountCard &&
+    (!searchKeyword ||
+      ["deepseek", dshAccountName(dshAccountCard, "")]
+        .join("\n")
+        .toLowerCase()
+        .includes(searchKeyword)),
+  );
+
   // 搜索框关着（由页头控制时）就不再过滤：搜索词留着，下次打开还在，但列表不会悄悄少几家
   const filteredProviders = useMemo(() => {
-    const keyword = isSearchOpen ? searchTerm.trim().toLowerCase() : "";
+    const keyword = searchKeyword;
     if (!keyword) return sortedProviders;
     return searchIndex
       .filter((entry) => entry.text.includes(keyword))
       .map((entry) => entry.provider);
-  }, [isSearchOpen, searchTerm, searchIndex, sortedProviders]);
+  }, [searchKeyword, searchIndex, sortedProviders]);
 
   const sections = useMemo<ProviderSection[]>(() => {
     if (switchMode) {
@@ -401,6 +430,7 @@ export function ProviderList({
         isHermesReadOnlyProvider(provider.settingsConfig),
       piStateUnavailable: isPiFamilyApp(appId) && !isPiStateReady,
       kimiCurrentId: currentProviderId,
+      extraAdded: showDshAccountCard ? 1 : 0,
       actions: {
         add: onSwitch,
         remove: (provider) =>
@@ -430,6 +460,7 @@ export function ProviderList({
     hermesModelConfig?.provider,
     isPiStateReady,
     currentProviderId,
+    showDshAccountCard,
     onRemoveFromConfig,
     onDelete,
     onDisableOmo,
@@ -456,6 +487,34 @@ export function ProviderList({
       </Notice>
     ) : null;
 
+  // 累加式应用读不了 live 配置（如 YAML 写坏了）时，列表和空状态看起来跟没配置过一样，
+  // 添加 / 移除又会报错，所以在顶部说清楚
+  const liveIdsError =
+    appId === "opencode"
+      ? opencodeLiveIdsError
+      : appId === "openclaw"
+        ? openclawLiveIdsError
+        : appId === "hermes"
+          ? hermesLiveIdsError
+          : null;
+  const liveIdsErrorMessage = liveIdsError
+    ? extractErrorMessage(liveIdsError)
+    : "";
+  const liveConfigErrorNotice = liveIdsError ? (
+    <Notice
+      tone="warning"
+      title={t("provider.liveConfigReadFailed", {
+        app: t(`apps.${appId}`),
+        defaultValue: "无法读取 {{app}} 配置文件",
+      })}
+    >
+      {t("provider.liveConfigReadFailedHint", {
+        defaultValue: "修好配置文件之前，添加、移除供应商都会失败。",
+      })}
+      {liveIdsErrorMessage ? ` ${liveIdsErrorMessage}` : ""}
+    </Notice>
+  ) : null;
+
   if (isLoading || (isLiveMembershipPending && sortedProviders.length > 0)) {
     return (
       <div className="space-y-2">
@@ -469,10 +528,11 @@ export function ProviderList({
     );
   }
 
-  if (sortedProviders.length === 0) {
+  if (sortedProviders.length === 0 && !dshAccountCard) {
     return (
       <div className="space-y-4">
         {piStateErrorNotice}
+        {liveConfigErrorNotice}
         <ProviderEmptyState
           appId={appId}
           onCreate={onCreate}
@@ -489,7 +549,7 @@ export function ProviderList({
     );
   }
 
-  // 「当前」只用来决定额度显示和自动刷新：Pi 没有当前项，OMO / Hermes 各看自己的当前项；
+  // 「当前」只用来决定官方订阅 / OAuth 额度自动刷新：Pi 没有当前项，OMO / Hermes 各看自己的当前项；
   // Antigravity 没有「启用」，每张卡都随时能打开，额度一律照常显示
   const isCurrentFor = (provider: Provider) => {
     if (isPiFamilyApp(appId)) return false;
@@ -521,7 +581,6 @@ export function ProviderList({
       appId={appId}
       presentation={presentation}
       isCurrent={isCurrentFor(provider)}
-      isInConfig={isInConfig(provider)}
       onEdit={onEdit}
       onDelete={onDelete}
       onDuplicate={onDuplicate}
@@ -600,6 +659,9 @@ export function ProviderList({
       {section.help && (
         <HelpTip title={section.help.title}>{section.help.body}</HelpTip>
       )}
+      {section.note && (
+        <span className="ms-1 font-normal text-fg-3">{section.note}</span>
+      )}
     </div>
   );
 
@@ -610,7 +672,7 @@ export function ProviderList({
   const liftLeadTitle =
     !hostedSearch &&
     Boolean(leadSection?.title) &&
-    filteredProviders.length > 0;
+    (filteredProviders.length > 0 || showDshAccountCard);
   const showListHeader =
     !hostedSearch && (Boolean(leadSection?.title) || isSearchOpen);
 
@@ -618,6 +680,7 @@ export function ProviderList({
   return (
     <div className="space-y-6">
       {piStateErrorNotice}
+      {liveConfigErrorNotice}
       {searchSlot && createPortal(searchField, searchSlot)}
       {showListHeader && (
         <div
@@ -633,7 +696,7 @@ export function ProviderList({
         </div>
       )}
 
-      {filteredProviders.length === 0 ? (
+      {filteredProviders.length === 0 && !showDshAccountCard ? (
         <div className="rounded-panel border border-dashed border-border px-4 py-12 text-center text-body text-muted-foreground">
           {t("provider.noSearchResults", {
             defaultValue: "No providers match your search.",
@@ -651,7 +714,12 @@ export function ProviderList({
               {section.title && !(index === 0 && liftLeadTitle) && (
                 <div>{renderSectionTitle(section)}</div>
               )}
-              {section.items.length === 0 && section.emptyText ? (
+              {section.key === "added" &&
+                showDshAccountCard &&
+                dshAccountCard && <DshAccountCard status={dshAccountCard} />}
+              {section.items.length === 0 &&
+              section.emptyText &&
+              !(section.key === "added" && showDshAccountCard) ? (
                 <div className="rounded-panel border border-dashed border-border px-4 py-3 text-body text-muted-foreground">
                   {section.emptyText}
                 </div>
@@ -680,7 +748,6 @@ interface SortableProviderCardProps {
   appId: AppId;
   presentation: CardPresentation;
   isCurrent: boolean;
-  isInConfig: boolean;
   onEdit: (provider: Provider) => void;
   onDelete: (provider: Provider) => void;
   onDuplicate: (provider: Provider) => void;

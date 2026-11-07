@@ -37,6 +37,8 @@ pub const BRIDGED_EVENTS: &[&str] = &[
     // read it (`peek_pending_deeplink` / `ack_pending_deeplink`).
     "deeplink-pending",
     "skill-auto-update-status",
+    // Background progress of the session full-text index (FTS5).
+    "session-index-status",
 ];
 
 /// Buffered events per connection. Generous enough to absorb a burst (a sync

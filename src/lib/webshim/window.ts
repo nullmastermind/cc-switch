@@ -38,6 +38,25 @@ class BrowserWindow {
     return typeof window === "undefined" ? 1 : window.devicePixelRatio || 1;
   }
 
+  /** A tab is "visible" exactly when the page is not hidden. */
+  async isVisible(): Promise<boolean> {
+    return typeof document === "undefined"
+      ? true
+      : document.visibilityState !== "hidden";
+  }
+
+  async isFocused(): Promise<boolean> {
+    return typeof document === "undefined" ? true : document.hasFocus();
+  }
+
+  /**
+   * Window-scoped events (e.g. `main-window-visibility-changed`) come from the
+   * native window manager; a tab has none, so nothing ever fires.
+   */
+  async listen(): Promise<UnlistenFn> {
+    return () => {};
+  }
+
   async onResized(): Promise<UnlistenFn> {
     return () => {};
   }

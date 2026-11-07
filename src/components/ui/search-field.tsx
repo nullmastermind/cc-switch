@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Search, X } from "lucide-react";
+import { Loader2, Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { HoverTip } from "@/components/ui/hover-tip";
 import { cn } from "@/lib/utils";
@@ -14,6 +14,8 @@ export interface SearchFieldProps extends Omit<
   clearLabel: string;
   /** 外层容器（定宽、外边距）；输入框本身的样式跟 Input 走 */
   containerClassName?: string;
+  /** 正在查询：放大镜换成转圈 */
+  busy?: boolean;
 }
 
 /**
@@ -27,6 +29,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
       onValueChange,
       clearLabel,
       containerClassName,
+      busy = false,
       className,
       onKeyDown,
       ...props
@@ -37,11 +40,19 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
     React.useImperativeHandle(ref, () => inputRef.current as HTMLInputElement);
     return (
       <div role="search" className={cn("relative min-w-0", containerClassName)}>
-        <Search
-          aria-hidden="true"
-          strokeWidth={1.5}
-          className="pointer-events-none absolute start-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-3"
-        />
+        {busy ? (
+          <Loader2
+            aria-hidden="true"
+            strokeWidth={1.5}
+            className="pointer-events-none absolute start-2.5 top-1/2 h-4 w-4 -translate-y-1/2 animate-spin text-fg-3 motion-reduce:animate-none"
+          />
+        ) : (
+          <Search
+            aria-hidden="true"
+            strokeWidth={1.5}
+            className="pointer-events-none absolute start-2.5 top-1/2 h-4 w-4 -translate-y-1/2 text-fg-3"
+          />
+        )}
         <Input
           ref={inputRef}
           type="text"
@@ -57,6 +68,7 @@ export const SearchField = React.forwardRef<HTMLInputElement, SearchFieldProps>(
             onKeyDown?.(event);
           }}
           spellCheck={false}
+          aria-busy={busy || undefined}
           className={cn("pe-8 ps-8", className)}
           {...props}
         />

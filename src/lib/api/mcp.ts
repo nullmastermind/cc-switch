@@ -1,4 +1,4 @@
-import { invoke } from "@tauri-apps/api/core";
+import { Channel, invoke, isTauri } from "@tauri-apps/api/core";
 import type {
   McpConfigResponse,
   McpServer,
@@ -8,7 +8,42 @@ import type {
 } from "@/types";
 import type { AppId } from "./types";
 
+export interface McpConnectivityResult {
+  serverId: string;
+  /** `authRequired`: the server answered 401 and wants the client's own sign-in. */
+  status: "connected" | "authRequired" | "failed";
+}
+
 export const mcpApi = {
+  async startConnectivityChecks(
+    serverIds: string[],
+    onResult: (result: McpConnectivityResult) => void,
+  ): Promise<string> {
+    if (!isTauri()) {
+      // Browser (server) mode has no IPC Channel: check each server with its
+      // own request so rows still settle one by one. Cancelling is handled by
+      // the caller ignoring late results; the batch id is never registered.
+      for (const serverId of serverIds) {
+        void invoke<McpConnectivityResult[]>("check_mcp_connectivity", {
+          serverIds: [serverId],
+        })
+          .then((results) => results.forEach(onResult))
+          .catch(() => onResult({ serverId, status: "failed" }));
+      }
+      return "web";
+    }
+    const channel = new Channel<McpConnectivityResult>();
+    channel.onmessage = onResult;
+    return await invoke("start_mcp_connectivity_checks", {
+      serverIds,
+      onResult: channel,
+    });
+  },
+
+  async cancelConnectivityChecks(batchId: string): Promise<void> {
+    await invoke("cancel_mcp_connectivity_checks", { batchId });
+  },
+
   async getStatus(): Promise<McpStatus> {
     return await invoke("get_claude_mcp_status");
   },

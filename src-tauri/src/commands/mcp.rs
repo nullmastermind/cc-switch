@@ -6,10 +6,60 @@ use std::collections::HashMap;
 use serde::Serialize;
 use tauri::State;
 
+use super::run_db_task;
 use crate::app_config::AppType;
 use crate::claude_mcp;
 use crate::services::McpService;
 use crate::store::AppState;
+
+/// Start a bounded, one-shot batch only while the MCP page is mounted.
+#[tauri::command]
+pub async fn start_mcp_connectivity_checks(
+    state: State<'_, AppState>,
+    server_ids: Vec<String>,
+    on_result: tauri::ipc::Channel<crate::services::mcp_connectivity::ConnectivityResult>,
+) -> Result<String, String> {
+    let servers = run_db_task(&state, |state| {
+        McpService::get_all_servers(state).map_err(|e| e.to_string())
+    })
+    .await?;
+    Ok(crate::services::mcp_connectivity::start_checks(
+        // Use the page's enabled selection: app toggles update it optimistically,
+        // so the database's enablement flags can still lag behind the UI.
+        servers
+            .into_iter()
+            .filter(|(id, _)| server_ids.contains(id))
+            .map(|(_, server)| server)
+            .collect(),
+        move |result| on_result.send(result).is_ok(),
+    ))
+}
+
+/// Browser-mode fallback for `start_mcp_connectivity_checks`: same checks, but
+/// the results come back as the return value instead of over a Channel.
+#[tauri::command]
+pub async fn check_mcp_connectivity(
+    state: State<'_, AppState>,
+    server_ids: Vec<String>,
+) -> Result<Vec<crate::services::mcp_connectivity::ConnectivityResult>, String> {
+    let servers = run_db_task(&state, |state| {
+        McpService::get_all_servers(state).map_err(|e| e.to_string())
+    })
+    .await?;
+    Ok(crate::services::mcp_connectivity::check_servers(
+        servers
+            .into_iter()
+            .filter(|(id, _)| server_ids.contains(id))
+            .map(|(_, server)| server)
+            .collect(),
+    )
+    .await)
+}
+
+#[tauri::command]
+pub fn cancel_mcp_connectivity_checks(batch_id: String) {
+    crate::services::mcp_connectivity::cancel_checks(&batch_id);
+}
 
 /// 获取 Claude MCP 状态
 #[tauri::command]

@@ -66,6 +66,11 @@ import { resolveManagedAccountId } from "@/lib/authBinding";
 import type { ManagedAuthProvider } from "@/lib/api";
 import { useCopilotAuth, useCodexOauth, useXaiOauth } from "./hooks";
 import { isOAuthProviderType } from "@/config/constants";
+import {
+  ClaudeReasoningEffortField,
+  toClaudeReasoningEffortChoice,
+  type ClaudeReasoningEffortChoice,
+} from "./ClaudeReasoningEffortField";
 
 export type ClaudeDesktopProviderFormValues = ProviderFormData & {
   presetId?: string;
@@ -262,6 +267,10 @@ export function ClaudeDesktopProviderForm({
   const [apiFormat, setApiFormat] = useState<ClaudeApiFormat>(
     initialData?.meta?.apiFormat ?? "anthropic",
   );
+  const [reasoningEffort, setReasoningEffort] =
+    useState<ClaudeReasoningEffortChoice>(() =>
+      toClaudeReasoningEffortChoice(initialData?.meta?.claudeReasoningEffort),
+    );
   const [baseUrl, setBaseUrl] = useState(
     envString(initialData?.settingsConfig, "ANTHROPIC_BASE_URL"),
   );
@@ -437,6 +446,7 @@ export function ClaudeDesktopProviderForm({
     setApiKey("");
     setApiKeyField(preset.apiKeyField ?? "ANTHROPIC_AUTH_TOKEN");
     setApiFormat(preset.apiFormat ?? "anthropic");
+    setReasoningEffort("auto");
 
     const presetMode =
       preset.requiresOAuth === true || isOAuthProviderType(preset.providerType)
@@ -485,6 +495,7 @@ export function ClaudeDesktopProviderForm({
       setApiKey("");
       setApiKeyField("ANTHROPIC_AUTH_TOKEN");
       setApiFormat("anthropic");
+      setReasoningEffort("auto");
       didSeedDefaultProxyRoutes.current = false;
       setMode("direct");
       setDirectRoutes([]);
@@ -508,6 +519,30 @@ export function ClaudeDesktopProviderForm({
   const updateRoute = (index: number, patch: Partial<RouteRowValues>) => {
     setRoutes((current) =>
       current.map((row, i) => (i === index ? { ...row, ...patch } : row)),
+    );
+  };
+
+  // 菜单显示名仍等于原来的实际请求模型（保存时自动回落出来的）就跟着模型走，
+  // 否则编辑已有映射卡只换模型，Desktop 菜单和 profile 里仍是旧模型名（#9203）。
+  // 从下拉选模型时，留空的显示名也一并填上。
+  const updateRouteModel = (
+    index: number,
+    model: string,
+    fillEmptyLabel = false,
+  ) => {
+    setRoutes((current) =>
+      current.map((row, i) => {
+        if (i !== index) return row;
+        const label = row.labelOverride.trim();
+        const labelFollowsModel = label
+          ? label === row.model.trim()
+          : fillEmptyLabel;
+        return {
+          ...row,
+          model,
+          labelOverride: labelFollowsModel ? model : row.labelOverride,
+        };
+      }),
     );
   };
 
@@ -690,6 +725,7 @@ export function ClaudeDesktopProviderForm({
       delete meta.claudeDesktopMode;
       delete meta.claudeDesktopModelRoutes;
       delete meta.apiFormat;
+      delete meta.claudeReasoningEffort;
       delete meta.endpointAutoSelect;
       delete meta.isFullUrl;
       await onSubmit({
@@ -895,6 +931,18 @@ export function ClaudeDesktopProviderForm({
     };
 
     meta.claudeDesktopModelRoutes = routeMap;
+    if (
+      effectiveMode === "proxy" &&
+      (meta.apiFormat === "openai_chat" ||
+        meta.apiFormat === "openai_responses") &&
+      !isOAuthProviderType(activeProviderType) &&
+      !usesAutomaticCopilotFormat &&
+      reasoningEffort !== "auto"
+    ) {
+      meta.claudeReasoningEffort = reasoningEffort;
+    } else {
+      delete meta.claudeReasoningEffort;
+    }
     meta.providerType = activeProviderType;
     meta.authBinding =
       activeProviderType === "github_copilot"
@@ -1169,6 +1217,17 @@ export function ClaudeDesktopProviderForm({
                     </div>
                   )}
 
+                  {!isOAuthProviderType(activeProviderType) &&
+                    !usesAutomaticCopilotFormat &&
+                    (apiFormat === "openai_chat" ||
+                      apiFormat === "openai_responses") && (
+                      <ClaudeReasoningEffortField
+                        id="claudeDesktopReasoningEffort"
+                        value={reasoningEffort}
+                        onChange={setReasoningEffort}
+                      />
+                    )}
+
                   <div className="space-y-3">
                     <div className="space-y-1 border-t border-border pt-4">
                       <div className="flex flex-wrap items-center justify-between gap-2">
@@ -1272,9 +1331,7 @@ export function ClaudeDesktopProviderForm({
                             <Input
                               value={route.model}
                               onChange={(event) =>
-                                updateRoute(index, {
-                                  model: event.target.value,
-                                })
+                                updateRouteModel(index, event.target.value)
                               }
                               placeholder={modelPlaceholder}
                               className="flex-1"
@@ -1283,10 +1340,7 @@ export function ClaudeDesktopProviderForm({
                               <ModelDropdown
                                 models={fetchedModels}
                                 onSelect={(id) =>
-                                  updateRoute(index, {
-                                    model: id,
-                                    labelOverride: route.labelOverride || id,
-                                  })
+                                  updateRouteModel(index, id, true)
                                 }
                               />
                             )}

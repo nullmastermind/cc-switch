@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { ModalDragStrip } from "@/components/shell/AppPageHeader";
 import { cn } from "@/lib/utils";
 
 const Dialog = DialogPrimitive.Root;
@@ -32,7 +33,9 @@ const DialogOverlay = React.forwardRef<
         className,
       )}
       {...props}
-    />
+    >
+      <ModalDragStrip />
+    </DialogPrimitive.Overlay>
   );
 });
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
@@ -64,9 +67,11 @@ const DialogContent = React.forwardRef<
     };
 
     // max-h keeps 56px free above and below: the fixed app header (48px, z-50) paints over base dialogs.
+    // Centered with inset-0 + m-auto instead of translate(-50%): an odd content height puts translate
+    // on a half pixel and WebKit resamples the whole dialog blurry on 1x displays (upstream #9238).
     const variantClass = {
       default:
-        "fixed left-1/2 top-1/2 flex flex-col w-[calc(100vw-32px)] max-w-lg max-h-[calc(100vh-112px)] translate-x-[-50%] translate-y-[-50%] border border-border-default bg-background text-foreground shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%] rounded-dialog p-5 gap-4",
+        "fixed inset-0 m-auto flex h-fit flex-col w-[calc(100vw-32px)] max-w-lg max-h-[calc(100vh-112px)] border border-border-default bg-background text-foreground shadow-lg duration-200 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 rounded-dialog p-5 gap-4",
       fullscreen:
         "fixed inset-0 flex flex-col w-screen h-screen translate-x-0 translate-y-0 bg-surface text-fg-1 p-0 sm:rounded-none shadow-none",
     }[variant];

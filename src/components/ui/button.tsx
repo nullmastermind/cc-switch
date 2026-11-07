@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap font-medium transition-[color,background-color,border-color,transform] active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-50 text-body",
+  "inline-flex items-center justify-center gap-1.5 whitespace-nowrap font-medium transition-[color,background-color,border-color,transform] active:scale-[0.97] [&[aria-haspopup]]:active:scale-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/60 disabled:pointer-events-none disabled:opacity-50 text-body",
   {
     variants: {
       variant: {
@@ -38,14 +38,16 @@ const buttonVariants = cva(
       size: {
         // Comfortable scale (docs/design-system.html): 32 page/toolbar,
         // 28 inside cards / dialogs / rows, 36 for prominent actions.
-        default: "h-8 min-w-[64px] px-3.5 rounded-control",
-        sm: "h-7 min-w-[56px] px-3 rounded-control",
+        // Heights follow the density tokens (--h-control / --h-control-sm):
+        // compact density = 32 / 28 (the fork's scale), comfortable = 36 / 32.
+        default: "h-control min-w-[64px] px-3.5 rounded-control",
+        sm: "h-control-sm min-w-[56px] px-3 rounded-control",
         lg: "h-9 min-w-[72px] px-4 rounded-control",
-        icon: "h-8 w-8 min-w-0 p-0 rounded-control",
-        compact: "h-7 min-w-[56px] px-3 rounded-control",
-        regular: "h-8 min-w-[64px] px-3.5 rounded-control",
+        icon: "h-control w-control min-w-0 p-0 rounded-control",
+        compact: "h-control-sm min-w-[56px] px-3 rounded-control",
+        regular: "h-control min-w-[64px] px-3.5 rounded-control",
         "icon-compact":
-          "h-7 w-7 min-w-0 p-0 rounded-control text-muted-foreground hover:text-foreground",
+          "h-control-sm w-control-sm min-w-0 p-0 rounded-control text-muted-foreground hover:text-foreground",
       },
     },
     defaultVariants: {

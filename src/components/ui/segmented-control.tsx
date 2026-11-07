@@ -50,7 +50,7 @@ export function SegmentedControl<T extends string>({
       aria-label={rest["aria-label"]}
       className={cn(
         "relative inline-flex items-stretch bg-subtle p-[3px]",
-        size === "md" ? "h-9 rounded-panel" : "h-7 rounded-panel",
+        size === "md" ? "h-9 rounded-panel" : "h-control-sm rounded-panel",
         className,
       )}
     >

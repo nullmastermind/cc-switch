@@ -39,7 +39,7 @@ export function SkillPreviewDialog({
       }}
     >
       <DialogContent
-        className="!top-4 !bottom-4 !max-h-none !translate-y-0 w-[calc(100vw-16px)] max-w-2xl overflow-hidden"
+        className="!top-4 !bottom-4 !h-auto !max-h-none w-[calc(100vw-16px)] max-w-2xl overflow-hidden"
         zIndex="nested"
       >
         <DialogHeader className="space-y-0">

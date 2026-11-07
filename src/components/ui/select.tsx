@@ -19,7 +19,7 @@ const SelectTrigger = React.forwardRef<
     className={cn(
       // Same look as Input (fieldClass); stays in the focused state while open
       fieldClass,
-      "flex h-8 items-center justify-between gap-2 whitespace-nowrap py-1.5 text-start data-[placeholder]:text-muted-foreground data-[state=open]:border-blue-500 data-[state=open]:ring-[3px] data-[state=open]:ring-blue-500/20 [&>span]:truncate",
+      "flex h-control items-center justify-between gap-2 whitespace-nowrap py-1.5 text-start data-[placeholder]:text-muted-foreground data-[state=open]:border-blue-500 data-[state=open]:ring-[3px] data-[state=open]:ring-blue-500/20 [&>span]:truncate",
       className,
     )}
     {...props}

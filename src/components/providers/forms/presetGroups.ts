@@ -538,6 +538,8 @@ export function loginAccountKey(
       return "xai";
     case "kimi":
       return "kimi";
+    case "dsh":
+      return "deepseek";
     default:
       return "claude";
   }
