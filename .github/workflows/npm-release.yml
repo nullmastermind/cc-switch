@@ -111,11 +111,11 @@ jobs:
             target: aarch64-pc-windows-msvc
             pkg: win32-arm64
             binary: server.exe
-          - os: macos-14
+          - os: macos-15
             target: x86_64-apple-darwin
             pkg: darwin-x64
             binary: server
-          - os: macos-14
+          - os: macos-15
             target: aarch64-apple-darwin
             pkg: darwin-arm64
             binary: server
