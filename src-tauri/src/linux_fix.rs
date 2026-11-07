@@ -40,7 +40,7 @@ use tauri::{LogicalSize, PhysicalSize, WebviewWindow};
 /// Apply the existing Linux software-rendering workaround to every newly created
 /// WebView, including the tray panel and the main window recreated after lightweight
 /// mode. WebKit settings belong to a WebView, not to the application (#9216).
-pub(crate) fn configure_webview(view: &tauri::Webview) {
+pub(crate) fn configure_webview<R: tauri::Runtime>(view: &tauri::Webview<R>) {
     let label = view.label().to_owned();
     if let Err(error) = view.with_webview(move |webview| {
         use webkit2gtk::{HardwareAccelerationPolicy, SettingsExt, WebViewExt};
